@@ -32,6 +32,7 @@ public class BookService {
 
     // https://docs.oracle.com/javase/7/docs/api/java/math/BigDecimal.html#compareTo(java.math.BigDecimal)
     private boolean reachLimit(BigDecimal price, BigDecimal limit) {
+
         if (price.compareTo(limit) == 1) {
             return true;
         } else {
@@ -40,6 +41,7 @@ public class BookService {
     }
 
     public List<Book> search(BigDecimal priceLimit) {
+
         List<Book> books = loadBooks();
         List<Book> newList = new ArrayList<>();
 
@@ -54,8 +56,7 @@ public class BookService {
 
     public List<Book> searchNew(BigDecimal priceLimit) {
 
-        return loadBooks()
-                .stream()
+        return loadBooks().stream()
                 .filter(x -> reachLimit(x.getPrice(), priceLimit))
                 .collect(Collectors.toList());
     }
