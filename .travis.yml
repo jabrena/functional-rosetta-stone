@@ -1,0 +1,16 @@
+
+language: java
+jdk:
+- openjdk11
+before_install:
+- chmod +x mvnw
+notifications:
+  email:
+    on_success: always
+    on_failure: always
+    recipients:
+    - bren@juanantonio.info
+script:
+- ./mvnw test
+after_success:
+- bash <(curl -s https://codecov.io/bash)
