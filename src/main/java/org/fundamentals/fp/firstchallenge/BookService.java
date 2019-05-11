@@ -53,9 +53,9 @@ public class BookService {
     }
 
     public List<Book> searchNew(BigDecimal priceLimit) {
-        List<Book> books = loadBooks();
 
-        return books.stream()
+        return loadBooks()
+                .stream()
                 .filter(x -> reachLimit(x.getPrice(), priceLimit))
                 .collect(Collectors.toList());
     }
