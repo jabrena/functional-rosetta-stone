@@ -1,5 +1,7 @@
 # functional-rosetta-stone
 
+[![Build Status](https://travis-ci.org/jabrena/functional-rosetta-stone.svg?branch=master)](https://travis-ci.org/jabrena/functional-rosetta-stone)
+
 ## Concepts
 
  - Side effects
