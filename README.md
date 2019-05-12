@@ -1,5 +1,17 @@
 # functional-rosetta-stone
 
+## Concepts
+
+ - Side effects
+ - Pure functions
+ - Higher-order functions
+ - Lazy evaluation
+ - Closures
+ - Currying
+ - Lamdas 
+ - Functional interfaces
+ - Monads
+
 ## Monads
 
 ### Java Streams
@@ -38,16 +50,8 @@
 
 ### CompletableFuture
 
-## Concepts
-
- - Side effects
- - Pure functions
- - Higher-order functions
- - Lazy evaluation
- - Closures
- - Currying
- - Lamdas 
- 
+---
+  
 ## Data sets
  
  - https://github.com/jdorfman/awesome-json-datasets#nobel-prize
