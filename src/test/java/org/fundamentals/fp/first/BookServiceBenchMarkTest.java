@@ -1,4 +1,4 @@
-package org.fundamentals.fp.firstchallenge;
+package org.fundamentals.fp.first;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import org.openjdk.jmh.runner.options.TimeValue;
 import org.openjdk.jmh.runner.options.VerboseMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.fundamentals.fp.firstchallenge.BookServiceBenchMarkTest.St.AVERAGE_EXPECTED_TIME;
+import static org.fundamentals.fp.first.BookServiceBenchMarkTest.St.AVERAGE_EXPECTED_TIME;
 
 public class BookServiceBenchMarkTest {
 

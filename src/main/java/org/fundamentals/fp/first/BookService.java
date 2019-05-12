@@ -1,4 +1,4 @@
-package org.fundamentals.fp.firstchallenge;
+package org.fundamentals.fp.first;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,7 @@ public class BookService {
         return Try.of(() -> {
             ObjectMapper objectMapper = new ObjectMapper();
             String readContent = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader()
-                    .getResource("books.json")
+                    .getResource("data/books.json")
                     .toURI())));
 
             List<Book> deserializedData = objectMapper.readValue(readContent, new TypeReference<List<Book>>() {});

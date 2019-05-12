@@ -1,4 +1,4 @@
-package org.fundamentals.fp.firstchallenge;
+package org.fundamentals.fp.first;
 
 import java.math.BigDecimal;
 import java.util.List;

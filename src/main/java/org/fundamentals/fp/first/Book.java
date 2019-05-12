@@ -1,10 +1,9 @@
-package org.fundamentals.fp.firstchallenge;
+package org.fundamentals.fp.first;
 
-import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import lombok.Data;
-import lombok.Value;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)

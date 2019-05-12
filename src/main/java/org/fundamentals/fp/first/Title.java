@@ -1,4 +1,4 @@
-package org.fundamentals.fp.firstchallenge;
+package org.fundamentals.fp.first;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
