@@ -22,7 +22,12 @@
 
 ![](https://pbs.twimg.com/media/D6U9cu-WAAMOOGM?format=jpg)
 
+Java 8 docs: https://docs.oracle.com/javase/8/docs/api/?java/util/stream/Stream.html
+Java 9 docs: https://docs.oracle.com/javase/9/docs/api/?java/util/stream/Stream.html
+
 #### Intermediate Operations
+
+Java 8
 
 - filter Ok
 - map Ok
@@ -32,6 +37,11 @@
 - peek Ok
 - limit Ok
 - skip Ok
+
+Java 9
+
+- takeWhile
+- dropWhile
 
 #### Terminal Operations
 
@@ -47,6 +57,7 @@
 - noneMatch
 - findFirst Ok
 - findAny
+
 
 ### Option
 
@@ -71,8 +82,7 @@
  - https://www.freecodeformat.com/json2pojo.php
 
 
-## References
-
+## References
 
  - https://rxmarbles.com/
  - https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html
