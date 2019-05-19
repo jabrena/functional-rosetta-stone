@@ -4,6 +4,8 @@
 
 ## Concepts
 
+ - Equational reasoning
+ - Referential Transparency
  - Side effects
  - Pure functions
  - Higher-order functions
@@ -25,18 +27,18 @@
 - filter Ok
 - map Ok
 - flatMap Ok
-- distinct 
+- distinct Ok
 - sorted Ok
-- peek
-- limit
-- skip
+- peek Ok
+- limit Ok
+- skip Ok
 
 #### Terminal Operations
 
-- forEach
+- forEach Ok
 - toArray
 - reduce
-- collect
+- collect OK
 - min
 - max
 - count Ok
@@ -56,6 +58,8 @@
   
 ## Data sets
  
+ - https://github.com/tsevdos/greek-in-tech/blob/master/data/entries.json
+ - https://gist.github.com/cdtweb/27f001287c82c913e7a344d7b71141f8
  - https://github.com/jdorfman/awesome-json-datasets#nobel-prize
  - http://api.nobelprize.org/v1/prize.json
  - https://www.w3schools.com/xml/books.xml

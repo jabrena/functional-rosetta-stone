@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -53,6 +54,17 @@ public class NovelService {
                 .findFirst()
                 .get()
                 .getYear());
+    }
+
+    public List<String> getNovelNamesStartingWithJ() {
+
+        return loadData().stream()
+                .flatMap(prizes -> prizes.getLaureates().stream())
+                .map(laureates -> laureates.getFirstname())
+                .filter(name -> name.toLowerCase().startsWith("j"))
+                .sorted()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
 }

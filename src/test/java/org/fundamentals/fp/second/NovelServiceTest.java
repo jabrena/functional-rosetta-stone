@@ -33,4 +33,11 @@ class NovelServiceTest {
         assertThat(result).isGreaterThan(0);
     }
 
+    @Test
+    public void getNovelNamesStaringWithJTest() {
+
+        NovelService novelService = new NovelService();
+        assertThat(novelService.getNovelNamesStartingWithJ().size()).isGreaterThan(0);
+    }
+
 }
