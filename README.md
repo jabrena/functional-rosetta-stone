@@ -202,7 +202,9 @@ public int sum(int a, int b) {
 
 Source: https://www.geeksforgeeks.org/pure-functions/
 
-###Higher-order functions
+### Higher-order functions
+
+
 
 Source: https://dzone.com/articles/higher-order-functions
 
