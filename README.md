@@ -115,6 +115,11 @@ https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html
 
 ### Functional Interfaces
 
+**Java +**
+
+
+**VAVR**
+
 ``` java
 
 //VAVR
@@ -130,7 +135,7 @@ assertThat(trim
 
 ## Functional Programming concepts
 
-### Equational reasoning
+###Equational reasoning
 
 ```
 2*x + x/y
@@ -151,7 +156,7 @@ compact and readable for many cases.
 
 Source: https://link.springer.com/chapter/10.1007%2F1-84628-598-4_2
 
-### Referential Transparency
+###Referential Transparency
 
 Referential transparency means that a function call can be replaced by its value 
 or another referentially transparent call with the same result.
@@ -159,7 +164,7 @@ or another referentially transparent call with the same result.
 Source: https://www.sitepoint.com/what-is-referential-transparency/#referentialtransparencyinprogramming
 
 
-### Side effects
+###Side effects
 
 A side effect is anything a method does besides computing and returning a value. 
 Any change of instance or class field values is a side effect, as is drawing something on the screen, 
@@ -178,7 +183,7 @@ public class SideEffectClass{
 
 Source: https://stackoverflow.com/questions/1073909/side-effect-whats-this
 
-### Pure functions
+###Pure functions
 
 A function is called pure function if it always returns the same result for same argument values 
 and it has no side effects like modifying an argument (or global variable) or outputting something. 
@@ -191,7 +196,7 @@ public int sum(int a, int b) {
 
 Source: https://www.geeksforgeeks.org/pure-functions/
 
-### Higher-order functions
+###Higher-order functions
 
 Source: https://dzone.com/articles/higher-order-functions
 
@@ -203,6 +208,13 @@ Source: https://dzone.com/articles/higher-order-functions
  - Memoization
  - Lifting
  - Partial application
+
+### Monads
+
+ - Try
+ - Option
+ - Either
+ - Lazy
 
 ---
   
