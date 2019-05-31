@@ -3,6 +3,7 @@ package org.fundamentals.fp.first;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Mode;
@@ -34,6 +35,7 @@ public class BookServiceBenchMarkTest {
      * Benchmark run with Junit
      * @throws Exception
      */
+    @Tag("performance")
     @Test
     public void runTest() throws Exception {
         Options opt = initBench();

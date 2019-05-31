@@ -116,9 +116,29 @@ https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html
 
 ### Functional Interfaces
 
-**Java +**
+**Java 8+**
+
+In Java 8, the language added the features to use Functional Interfaces.
+I recommend to read the Java docs for the package `java.util.function`:
+https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+
+Some examples using:
+
+- @FunctionalInterface
+- Consumer
+- Function
+- Supplier
+- Predicate
 
 ``` java
+
+@FunctionalInterface
+interface Square {
+    Integer calculate(Integer x);
+}
+
+Square power = x -> x * x;
+IntStream.rangeClosed(1, 10).boxed().map(power::calculate).forEach(System.out::println);
 
 Consumer<Integer> header = System.out::println;
 Consumer<Integer> multiplicationTable = x -> IntStream.rangeClosed(1, 10).boxed().skip(1).forEach(y -> System.out.println(y * x));
@@ -137,6 +157,9 @@ IntStream.rangeClosed(1, 10).boxed().filter(isPair).forEach(header);
 
 **VAVR**
 
+https://www.vavr.io/vavr-docs/#_functions
+
+
 ``` java
 
 //VAVR
@@ -148,6 +171,9 @@ assertThat(trim
         .andThen(toUpper)
         .andThen(cheers)
         .apply("   john")).isEqualTo("Hello JOHN");
+        
+        
+
 ```
 
 ## Functional Programming concepts

@@ -37,6 +37,10 @@ public class WebAddressService {
 
     }
 
+    public List<String> getRawData() {
+        return loadData();
+    }
+
     public List<String> search() {
 
         return loadData().stream()
