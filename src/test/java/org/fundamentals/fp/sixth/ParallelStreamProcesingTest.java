@@ -130,6 +130,18 @@ public class ParallelStreamProcesingTest {
                 .isEqualTo(4);
     }
 
+    @Test
+    public void fetchAddressSequentialAsyncTest() {
+
+        Consumer<Tuple2<URL, String>> print = System.out::println;
+
+        assertThat(this.getValidAddressList().stream()
+                .map(x -> curlAsync2((URL) x))
+                .peek(print)
+                .collect(toList()).size())
+                .isEqualTo(4);
+    }
+
     private Tuple2<URL, String> curlAsync2(URL address) {
 
         Function1<String, String> getTitle = this::getTitle;
