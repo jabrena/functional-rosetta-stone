@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -131,6 +132,24 @@ public class ParallelStreamProcesingTest {
     }
 
     @Test
+    public void fetchAddressAsync3Test() throws Exception {
+
+        LOGGER.info("Thread: {}", Thread.currentThread().getName());
+
+        Consumer<Tuple2<URL, String>> print = System.out::println;
+
+        ForkJoinPool customThreadPool = new ForkJoinPool(4);
+
+        List<Tuple2<URL, String>> result = customThreadPool.submit(() -> this.getValidAddressList().stream()
+                .parallel()
+                .map(x -> curlAsync2((URL) x))
+                .peek(print)
+                .collect(toList())).get();
+
+        assertThat(result.size()).isEqualTo(4);
+    }
+
+    @Test
     public void fetchAddressSequentialAsyncTest() {
 
         Consumer<Tuple2<URL, String>> print = System.out::println;
@@ -144,6 +163,7 @@ public class ParallelStreamProcesingTest {
 
     private Tuple2<URL, String> curlAsync2(URL address) {
 
+        LOGGER.info("Thread: {}", Thread.currentThread().getName());
         Function1<String, String> getTitle = this::getTitle;
         ExecutorService executor = Executors.newFixedThreadPool(20);
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> SimpleCurl.fetch(address), executor);
