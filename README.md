@@ -178,7 +178,7 @@ assertThat(trim
 
 ### Completable Future
 
-**Java 9:**
+**Java 9+:**
 
 ``` java 
 
