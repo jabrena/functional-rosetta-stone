@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.fifth.WebAddressService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static io.vavr.API.$;
@@ -51,7 +51,7 @@ public class ParallelStreamProcesingTest {
         assertThat(this.getValidAddressList().size()).isGreaterThan(0);
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void fetchAddressInSequenceTest() {
 
@@ -72,7 +72,7 @@ public class ParallelStreamProcesingTest {
         LOGGER.info("Process time: {} ms", endTime);
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void fetchAddressParallelTest() {
 
