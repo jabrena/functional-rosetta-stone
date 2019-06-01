@@ -178,32 +178,38 @@ assertThat(trim
 
 ### Completable Future
 
+**Java 9:**
+
 ``` java 
 
 @Test
-public void fetchAddressAsync2Test() {
+public void fetchAddressParallelAsyncTest() {
 
-    Consumer<Tuple2<URL, String>> print = System.out::println;
-
+    Consumer<String> print = System.out::println;
+    
     assertThat(this.getValidAddressList().stream()
             .parallel()
-            .map(x -> curlAsync2((URL) x))
+            .map(this::curlAsync3)
+            .map(CompletableFuture::join)
+            .map(this::getTitle)
             .peek(print)
             .collect(toList()).size())
             .isEqualTo(4);
 }
 
-private Tuple2<URL, String> curlAsync2(URL address) {
+private CompletableFuture<String> curlAsync3(URL address) {
 
-    Function1<String, String> getTitle = this::getTitle;
+    LOGGER.info("Thread: {}", Thread.currentThread().getName());
     ExecutorService executor = Executors.newFixedThreadPool(20);
-    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> SimpleCurl.fetch(address), executor);
+    CompletableFuture<String> future = CompletableFuture
+            .supplyAsync(() -> SimpleCurl.fetch(address), executor)
+            .exceptionally(ex -> {
+                LOGGER.error(ex.getLocalizedMessage(), ex);
+                return "FETCH_BAD_RESULT";
+            })
+            .completeOnTimeout("FETCH_BAD_RESULT",5, TimeUnit.SECONDS);
 
-    Either<Throwable, String> result = Try.of(() -> future.get(5, TimeUnit.SECONDS)).toEither();
-    return Match(result).of(
-            Case($Right($()), Tuple.of(address, getTitle.apply(result.toString()))),
-            Case($Left($()),  Tuple.of(address, "FETCH_BAD_RESULT"))
-    );
+    return future;
 }
 
 ```
