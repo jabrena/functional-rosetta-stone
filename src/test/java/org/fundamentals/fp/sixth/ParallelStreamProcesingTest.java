@@ -117,15 +117,29 @@ public class ParallelStreamProcesingTest {
         return Try.of(() -> future.get(5, TimeUnit.SECONDS)).toEither();
     }
 
-    private Tuple2<String, String> curlAsync2(URL address) {
+    @Test
+    public void fetchAddressAsync2Test() {
 
-        ExecutorService executor = Executors.newFixedThreadPool(100);
+        Consumer<Tuple2<URL, String>> print = System.out::println;
+
+        assertThat(this.getValidAddressList().stream()
+                .parallel()
+                .map(x -> curlAsync2((URL) x))
+                .peek(print)
+                .collect(toList()).size())
+                .isEqualTo(4);
+    }
+
+    private Tuple2<URL, String> curlAsync2(URL address) {
+
+        Function1<String, String> getTitle = this::getTitle;
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> SimpleCurl.fetch(address), executor);
 
         Either<Throwable, String> result = Try.of(() -> future.get(5, TimeUnit.SECONDS)).toEither();
         return Match(result).of(
-                Case($Right($()), Tuple.of(address.toString(), result.get())),
-                Case($Left($()), Tuple.of(address.toString(), "FETCH_BAD_ERROR"))
+                Case($Right($()), Tuple.of(address, getTitle.apply(result.toString()))),
+                Case($Left($()),  Tuple.of(address, "FETCH_BAD_RESULT"))
         );
     }
 
