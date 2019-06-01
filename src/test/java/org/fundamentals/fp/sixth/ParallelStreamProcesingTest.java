@@ -178,31 +178,34 @@ public class ParallelStreamProcesingTest {
     @Test
     public void fetchAddressParallelAsyncTest() {
 
-        Consumer<String> print = System.out::println;
+        Consumer<Tuple2<URL,String>> print = System.out::println;
 
         assertThat(this.getValidAddressList().stream()
                 .parallel()
                 .map(this::curlAsync3)
                 .map(CompletableFuture::join)
-                .map(this::getTitle)
                 .peek(print)
                 .collect(toList()).size())
                 .isEqualTo(4);
     }
 
-    private CompletableFuture<String> curlAsync3(URL address) {
+    private CompletableFuture<Tuple2<URL,String>> curlAsync3(URL address) {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         ExecutorService executor = Executors.newFixedThreadPool(20);
-        CompletableFuture<String> future = CompletableFuture
-                .supplyAsync(() -> SimpleCurl.fetch(address), executor)
+        CompletableFuture<Tuple2<URL,String>> future = CompletableFuture
+                .supplyAsync(() -> fetchWrapper(address), executor)
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
-                    return "FETCH_BAD_RESULT";
+                    return Tuple.of(address, "FETCH_BAD_RESULT");
                 })
-                .completeOnTimeout("FETCH_BAD_RESULT",5, TimeUnit.SECONDS);
+                .completeOnTimeout(Tuple.of(address, "FETCH_BAD_RESULT"),5, TimeUnit.SECONDS);
 
         return future;
+    }
+
+    private Tuple2<URL, String> fetchWrapper(URL address) {
+        return Tuple.of(address, getTitle(SimpleCurl.fetch(address)));
     }
 
     private String getTitle(String html) {
