@@ -176,10 +176,41 @@ assertThat(trim
 
 ```
 
+### Completable Future
+
+``` java 
+
+@Test
+public void fetchAddressAsync2Test() {
+
+    Consumer<Tuple2<URL, String>> print = System.out::println;
+
+    assertThat(this.getValidAddressList().stream()
+            .parallel()
+            .map(x -> curlAsync2((URL) x))
+            .peek(print)
+            .collect(toList()).size())
+            .isEqualTo(4);
+}
+
+private Tuple2<URL, String> curlAsync2(URL address) {
+
+    Function1<String, String> getTitle = this::getTitle;
+    ExecutorService executor = Executors.newFixedThreadPool(20);
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> SimpleCurl.fetch(address), executor);
+
+    Either<Throwable, String> result = Try.of(() -> future.get(5, TimeUnit.SECONDS)).toEither();
+    return Match(result).of(
+            Case($Right($()), Tuple.of(address, getTitle.apply(result.toString()))),
+            Case($Left($()),  Tuple.of(address, "FETCH_BAD_RESULT"))
+    );
+}
+
+```
+
 ## Functional Programming concepts
 
 ### Equational reasoning
-
 
 
 ```
