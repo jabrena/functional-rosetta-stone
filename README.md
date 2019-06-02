@@ -6,7 +6,10 @@
 
 Improve the functional programming skills for Java Developers
 
+
 ## Test project
+
+
 
 ```
 ./mvnw clean test -DexcludedGroups=performance
