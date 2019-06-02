@@ -2,6 +2,10 @@ package org.fundamentals.fp.euler.problem2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * https://projecteuler.net/problem=2
@@ -15,6 +19,9 @@ import java.util.List;
  *
  * By considering the terms in the Fibonacci sequence whose values
  * do not exceed four million, find the sum of the even-valued terms.
+ *
+ * Further information about a Fibonacci serie:
+ * https://en.wikipedia.org/wiki/Fibonacci_number
  *
  * Scenario 100:
  *
@@ -64,12 +71,21 @@ public class EulerProblem2 {
 
     public List<Long> getJavaStreamFibonaccyTerms(long limit) {
 
-        return new ArrayList<>();
+        return Stream.iterate(new Long[]{1L, 2L}, i -> new Long[]{i[1], i[0] + i[1]})
+                .limit(limit)
+                .map(i -> i[0])
+                .collect(Collectors.toList());
     }
 
     public Long javaStreamSolutionFibonacciEvenSum(long limit) {
 
-        return 0L;
+        Consumer<Long> print = System.out::println;
+        Predicate<Long> isEven = number -> (number % 2) == 0;
+
+        return this.getJavaStreamFibonaccyTerms(limit).stream()
+                .filter(isEven)
+                //.peek(print)
+                .collect(Collectors.summingLong(Long::longValue));
     }
 
 }

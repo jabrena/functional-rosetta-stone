@@ -3,6 +3,7 @@ package org.fundamentals.fp.euler.problem2;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +15,9 @@ public class EulerProblem2Test {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
-        final List<Integer> expectedFibonacci10 = List.of(1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
+        final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
 
-        assertThat(problem2.getJavaFibonaccyTerms(10))
+        assertThat(problem2.getJavaFibonaccyTerms(10L))
                 .isEqualTo(expectedFibonacci10);
     }
 
@@ -25,17 +26,18 @@ public class EulerProblem2Test {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
-        Consumer<Integer> print = System.out::println;
-        Predicate<Integer> isEven = number -> (number % 2) == 0;
+        Consumer<Long> print = System.out::println;
+        Predicate<Long> isEven = number -> (number % 2) == 0;
 
-        final List<Integer> expectedFibonacci10 = List.of(1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
+        final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
 
         final long expectedFibonnaciEvenSum10 = expectedFibonacci10.stream()
                 .filter(isEven)
-                .peek(print)
-                .reduce(0, Integer::sum);
+                //.peek(print)
+                .collect(Collectors.summingLong(Long::longValue));
 
-        assertThat(problem2.javaSolutionFibonacciEvenSum(10)).isEqualTo(44);
+        assertThat(problem2.javaSolutionFibonacciEvenSum(10L)).isEqualTo(44L);
+        assertThat(problem2.javaSolutionFibonacciEvenSum(10L)).isEqualTo(expectedFibonnaciEvenSum10);
     }
 
     @Test
@@ -43,9 +45,9 @@ public class EulerProblem2Test {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
-        final List<Integer> expectedFibonacci10 = List.of(1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
+        final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
 
-        assertThat(problem2.getJavaStreamFibonaccyTerms(10))
+        assertThat(problem2.getJavaStreamFibonaccyTerms(10L))
                 .isEqualTo(expectedFibonacci10);
     }
 
@@ -54,9 +56,9 @@ public class EulerProblem2Test {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
-        assertThat(problem2.javaStreamSolutionFibonacciEvenSum(10)).isEqualTo(44);
-
+        assertThat(problem2.javaStreamSolutionFibonacciEvenSum(10L)).isEqualTo(44L);
+        assertThat(problem2.javaStreamSolutionFibonacciEvenSum(4_000_000L))
+                .isEqualTo(problem2.javaSolutionFibonacciEvenSum(4_000_000L));
     }
-
 
 }
