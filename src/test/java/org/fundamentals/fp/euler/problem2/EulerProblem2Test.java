@@ -61,4 +61,14 @@ public class EulerProblem2Test {
                 .isEqualTo(problem2.javaSolutionFibonacciEvenSum(4_000_000L));
     }
 
+    @Test
+    public void given_JavaVAVRSolutionProblem2_when_generateFibonacciSequence_then_returnExpectedSequenceTest() {
+
+        EulerProblem2 problem2 = new EulerProblem2();
+
+        final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
+
+        assertThat(problem2.getJavaVAVRFibonaccyTerms(10L))
+                .isEqualTo(expectedFibonacci10);
+    }
 }

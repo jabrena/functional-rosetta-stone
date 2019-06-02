@@ -88,4 +88,8 @@ public class EulerProblem2 {
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
+    public List<Long> getJavaVAVRFibonaccyTerms(long l) {
+
+        return new ArrayList<>();
+    }
 }
