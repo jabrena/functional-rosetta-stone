@@ -14,6 +14,7 @@ Improve the functional programming skills for Java Developers
 How to test the project?
 
 ```
+export MAVEN_OPTS="-Xms4048m -Xmx4048m"
 ./mvnw clean test -DexcludedGroups=performance
 ```
 

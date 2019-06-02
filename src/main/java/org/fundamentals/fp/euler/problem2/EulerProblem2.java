@@ -1,11 +1,15 @@
 package org.fundamentals.fp.euler.problem2;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.math.MathFlux;
+import reactor.util.function.Tuples;
 
 /**
  * https://projecteuler.net/problem=2
@@ -53,15 +57,52 @@ public class EulerProblem2 {
         return fibonacciList;
     }
 
+    public List<BigInteger> getJavaFibonaccyTerms2(long limit) {
+
+        List<BigInteger> fibonacciList = new ArrayList<>();
+
+        BigInteger previousNumber = new BigInteger("1");
+        BigInteger nextNumber = new BigInteger("2");
+        BigInteger sum = BigInteger.ZERO;
+
+        for (long i = 1; i <= limit; i++) {
+
+            fibonacciList.add(previousNumber);
+
+            sum = previousNumber.add(nextNumber);
+            previousNumber = nextNumber;
+            nextNumber = sum;
+        }
+
+        return fibonacciList;
+    }
+
     public Long javaSolutionFibonacciEvenSum(long limit) {
 
         List<Long> fibonacciList = this.getJavaFibonaccyTerms(limit);
         long sum = 0L;
 
-        for(long number : fibonacciList) {
+        for (long number : fibonacciList) {
 
-            if((number % 2) == 0) {
+            if ((number % 2) == 0) {
                 sum += number;
+            }
+
+        }
+
+        return sum;
+    }
+
+    public BigInteger javaSolutionFibonacciEvenSum2(long limit) {
+
+        List<BigInteger> fibonacciList = this.getJavaFibonaccyTerms2(limit);
+        BigInteger sum = BigInteger.ZERO;
+        BigInteger TWO = new BigInteger("2");
+
+        for(BigInteger number : fibonacciList) {
+
+            if(number.remainder(TWO).compareTo(BigInteger.ZERO) == 0 ) {
+                sum = sum.add(number);
             }
 
         }
@@ -114,6 +155,49 @@ public class EulerProblem2 {
 
     public Flux<Long> getReactorFibonaccyTerms(long limit) {
 
-        return Flux.just(0L);
+        Flux<Long> sequence = Flux.generate(
+                () -> Tuples.of(1L, 2L),
+                (state, sink) -> {
+                    sink.next(state.getT1());
+                    return Tuples.of(state.getT2(), state.getT1() + state.getT2());
+                }
+        );
+
+        return sequence.take(limit);
     }
+
+    public Flux<BigInteger> getReactorFibonaccyTerms2(long limit) {
+
+        Flux<BigInteger> generate = Flux.generate(
+                () -> Tuples.of(new BigInteger("1"), new BigInteger("2")),
+                (state, sink) -> {
+                    sink.next(state.getT1());
+                    return Tuples.of(state.getT2(), state.getT1().add(state.getT2()));
+                }
+        );
+
+        return generate.take(limit);
+    }
+
+    public Mono<Long> ReactorSolutionFibonacciEvenSum(long limit) {
+
+        Predicate<Long> isEven = number -> (number % 2) == 0;
+
+        return MathFlux.sumLong(this.getReactorFibonaccyTerms(limit)
+                .filter(isEven));
+    }
+
+    public Mono<BigInteger> ReactorSolutionFibonacciEvenSum2(long limit) {
+
+        Predicate<BigInteger> isEven2 = number -> {
+            BigInteger TWO = new BigInteger("2");
+            return number.remainder(TWO).compareTo(BigInteger.ZERO) == 0;
+        };
+
+        //return MathFlux.sumLong(this.getReactorFibonaccyTerms2(limit)
+        //        .filter(isEven2));
+
+        return Mono.just(new BigInteger("0"));
+    }
+
 }
