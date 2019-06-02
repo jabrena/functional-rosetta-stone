@@ -61,4 +61,15 @@ public class EulerProblem2 {
 
         return sum;
     }
+
+    public List<Long> getJavaStreamFibonaccyTerms(long limit) {
+
+        return new ArrayList<>();
+    }
+
+    public Long javaStreamSolutionFibonacciEvenSum(long limit) {
+
+        return 0L;
+    }
+
 }

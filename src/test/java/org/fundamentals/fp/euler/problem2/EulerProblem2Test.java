@@ -20,7 +20,8 @@ public class EulerProblem2Test {
                 .isEqualTo(expectedFibonacci10);
     }
 
-    @Test void given_JavaSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+    @Test
+    public void given_JavaSolutionProblem_when_sumEven_then_returnsExpectedValue() {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
@@ -36,5 +37,26 @@ public class EulerProblem2Test {
 
         assertThat(problem2.javaSolutionFibonacciEvenSum(10)).isEqualTo(44);
     }
+
+    @Test
+    public void given_JavaStreamSolutionProblem2_when_generateFibonacciSequence_then_returnExpectedSequenceTest() {
+
+        EulerProblem2 problem2 = new EulerProblem2();
+
+        final List<Integer> expectedFibonacci10 = List.of(1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
+
+        assertThat(problem2.getJavaStreamFibonaccyTerms(10))
+                .isEqualTo(expectedFibonacci10);
+    }
+
+    @Test
+    public void given_JavaStreamSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+
+        EulerProblem2 problem2 = new EulerProblem2();
+
+        assertThat(problem2.javaStreamSolutionFibonacciEvenSum(10)).isEqualTo(44);
+
+    }
+
 
 }
