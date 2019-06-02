@@ -6,6 +6,12 @@
 
 Improve the functional programming skills for Java Developers
 
+## Test project
+
+```
+./mvnw clean test -DexcludedGroups=performance
+```
+
 ## Introduction
 
 Functional programming for Java developers offer new possibilities in the daily job
@@ -181,51 +187,6 @@ assertThat(trim
 **Java 9+:**
 
 ``` java 
-
-@Test
-public void fetchAddressParallelAsyncTest() {
-
-    Consumer<Tuple2<URL,String>> print = System.out::println;
-
-    assertThat(this.getValidAddressList().stream()
-            .parallel()
-            .map(this::curlAsync3)
-            .map(CompletableFuture::join)
-            .peek(print)
-            .collect(toList()).size())
-            .isEqualTo(4);
-}
-
-private CompletableFuture<Tuple2<URL,String>> curlAsync3(URL address) {
-
-    LOGGER.info("Thread: {}", Thread.currentThread().getName());
-    ExecutorService executor = Executors.newFixedThreadPool(20);
-    CompletableFuture<Tuple2<URL,String>> future = CompletableFuture
-            .supplyAsync(() -> fetchWrapper(address), executor)
-            .exceptionally(ex -> {
-                LOGGER.error(ex.getLocalizedMessage(), ex);
-                return Tuple.of(address, "FETCH_BAD_RESULT");
-            })
-            .completeOnTimeout(Tuple.of(address, "FETCH_BAD_RESULT"),5, TimeUnit.SECONDS);
-
-    return future;
-}
-
-private Tuple2<URL, String> fetchWrapper(URL address) {
-    return Tuple.of(address, getTitle(SimpleCurl.fetch(address)));
-}
-
-private String getTitle(String html) {
-
-    Pattern p = Pattern.compile("<title>(.*?)</title>");
-    Matcher m = p.matcher(html);
-
-    if (m.find()) {
-        return m.group(1);
-    }else {
-        return "No title";
-    }
-}
 
 ```
 
