@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import reactor.core.publisher.Flux;
 
 /**
  * https://projecteuler.net/problem=2
@@ -88,7 +89,7 @@ public class EulerProblem2 {
     }
 
     //Original code: https://github.com/vavr-io/vavr/blob/master/vavr/src/test/java/io/vavr/collection/euler/Utils.java
-    public List<Long> getJavaVAVRFibonaccyTerms(long limit) {
+    public List<Long> getVAVRFibonaccyTerms(long limit) {
 
         Consumer<Long> print = System.out::println;
 
@@ -100,14 +101,19 @@ public class EulerProblem2 {
                 .collect(Collectors.toList());
     }
 
-    public Long javaVAVRSolutionFibonacciEvenSum(long limit) {
+    public Long VAVRSolutionFibonacciEvenSum(long limit) {
 
         Consumer<Long> print = System.out::println;
         Predicate<Long> isEven = number -> (number % 2) == 0;
 
-        return this.getJavaVAVRFibonaccyTerms(limit).stream()
+        return this.getVAVRFibonaccyTerms(limit).stream()
                 .filter(isEven)
                 //.peek(print)
                 .collect(Collectors.summingLong(Long::longValue));
+    }
+
+    public Flux<Long> getReactorFibonaccyTerms(long limit) {
+
+        return Flux.just(0L);
     }
 }

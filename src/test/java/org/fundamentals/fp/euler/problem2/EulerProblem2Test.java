@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,23 +63,37 @@ public class EulerProblem2Test {
     }
 
     @Test
-    public void given_JavaVAVRSolutionProblem2_when_generateFibonacciSequence_then_returnExpectedSequenceTest() {
+    public void given_VAVRSolutionProblem2_when_generateFibonacciSequence_then_returnExpectedSequenceTest() {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
         final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
 
-        assertThat(problem2.getJavaVAVRFibonaccyTerms(10L))
+        assertThat(problem2.getVAVRFibonaccyTerms(10L))
                 .isEqualTo(expectedFibonacci10);
     }
 
     @Test
-    public void given_JavaVAVRSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+    public void given_VAVRSolutionProblem_when_sumEven_then_returnsExpectedValue() {
 
         EulerProblem2 problem2 = new EulerProblem2();
 
-        assertThat(problem2.javaVAVRSolutionFibonacciEvenSum(10L)).isEqualTo(44L);
-        assertThat(problem2.javaVAVRSolutionFibonacciEvenSum(4_000_000L))
+        assertThat(problem2.VAVRSolutionFibonacciEvenSum(10L)).isEqualTo(44L);
+        assertThat(problem2.VAVRSolutionFibonacciEvenSum(4_000_000L))
                 .isEqualTo(problem2.javaSolutionFibonacciEvenSum(4_000_000L));
+    }
+
+    @Test
+    public void given_ReactorSolutionProblem2_when_generateFibonacciSequence_then_returnExpectedSequenceTest() {
+
+        EulerProblem2 problem2 = new EulerProblem2();
+
+        final List<Long> expectedFibonacci10 = List.of(1L, 2L, 3L, 5L, 8L, 13L, 21L, 34L, 55L, 89L);
+
+        StepVerifier
+                .create(problem2.getReactorFibonaccyTerms(10))
+                .expectNext(expectedFibonacci10.get(0))
+                .expectComplete()
+                .verify();
     }
 }
