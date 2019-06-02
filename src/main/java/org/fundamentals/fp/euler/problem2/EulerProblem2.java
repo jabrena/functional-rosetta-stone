@@ -45,4 +45,9 @@ public class EulerProblem2 {
 
         return fibonacciList;
     }
+
+    public long javaSolutionFibonacciEvenSum(int i) {
+
+        return 0L;
+    }
 }
