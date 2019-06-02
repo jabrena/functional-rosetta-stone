@@ -34,8 +34,7 @@ public class EulerProblem2Test {
                 .peek(print)
                 .reduce(0, Integer::sum);
 
-        assertThat(problem2.javaSolutionFibonacciEvenSum(10))
-                .isEqualTo(expectedFibonnaciEvenSum10);
+        assertThat(problem2.javaSolutionFibonacciEvenSum(10)).isEqualTo(44);
     }
 
 }

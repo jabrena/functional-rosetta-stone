@@ -27,18 +27,18 @@ import java.util.List;
  */
 public class EulerProblem2 {
 
-    public List<Integer> getJavaFibonaccyTerms(long limit) {
+    public List<Long> getJavaFibonaccyTerms(long limit) {
 
-        List<Integer> fibonacciList = new ArrayList<>();
+        List<Long> fibonacciList = new ArrayList<>();
 
-        int previousNumber = 1;
-        int nextNumber = 2;
+        long previousNumber = 1;
+        long nextNumber = 2;
 
-        for (int i = 1; i <= limit; i++) {
+        for (long i = 1; i <= limit; i++) {
 
             fibonacciList.add(previousNumber);
 
-            int sum = previousNumber + nextNumber;
+            long sum = previousNumber + nextNumber;
             previousNumber = nextNumber;
             nextNumber = sum;
         }
@@ -46,8 +46,19 @@ public class EulerProblem2 {
         return fibonacciList;
     }
 
-    public long javaSolutionFibonacciEvenSum(int i) {
+    public Long javaSolutionFibonacciEvenSum(long limit) {
 
-        return 0L;
+        List<Long> fibonacciList = this.getJavaFibonaccyTerms(limit);
+        long sum = 0L;
+
+        for(long number : fibonacciList) {
+
+            if((number % 2) == 0) {
+                sum += number;
+            }
+
+        }
+
+        return sum;
     }
 }
