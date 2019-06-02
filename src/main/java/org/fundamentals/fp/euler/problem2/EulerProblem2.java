@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * https://projecteuler.net/problem=2
@@ -71,7 +70,7 @@ public class EulerProblem2 {
 
     public List<Long> getJavaStreamFibonaccyTerms(long limit) {
 
-        return Stream.iterate(new Long[]{1L, 2L}, i -> new Long[]{i[1], i[0] + i[1]})
+        return java.util.stream.Stream.iterate(new Long[]{1L, 2L}, i -> new Long[]{i[1], i[0] + i[1]})
                 .limit(limit)
                 .map(i -> i[0])
                 .collect(Collectors.toList());
@@ -88,8 +87,27 @@ public class EulerProblem2 {
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
-    public List<Long> getJavaVAVRFibonaccyTerms(long l) {
+    //Original code: https://github.com/vavr-io/vavr/blob/master/vavr/src/test/java/io/vavr/collection/euler/Utils.java
+    public List<Long> getJavaVAVRFibonaccyTerms(long limit) {
 
-        return new ArrayList<>();
+        Consumer<Long> print = System.out::println;
+
+        return io.vavr.collection.Stream.of(1L, 2L)
+                .appendSelf(self -> self.zip(self.tail())
+                .map(t -> t._1 + (t._2)))
+                .take((int)limit)
+                //.peek(print)
+                .collect(Collectors.toList());
+    }
+
+    public Long javaVAVRSolutionFibonacciEvenSum(long limit) {
+
+        Consumer<Long> print = System.out::println;
+        Predicate<Long> isEven = number -> (number % 2) == 0;
+
+        return this.getJavaVAVRFibonaccyTerms(limit).stream()
+                .filter(isEven)
+                //.peek(print)
+                .collect(Collectors.summingLong(Long::longValue));
     }
 }

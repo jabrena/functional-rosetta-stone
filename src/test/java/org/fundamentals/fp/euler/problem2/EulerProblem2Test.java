@@ -71,4 +71,14 @@ public class EulerProblem2Test {
         assertThat(problem2.getJavaVAVRFibonaccyTerms(10L))
                 .isEqualTo(expectedFibonacci10);
     }
+
+    @Test
+    public void given_JavaVAVRSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+
+        EulerProblem2 problem2 = new EulerProblem2();
+
+        assertThat(problem2.javaVAVRSolutionFibonacciEvenSum(10L)).isEqualTo(44L);
+        assertThat(problem2.javaVAVRSolutionFibonacciEvenSum(4_000_000L))
+                .isEqualTo(problem2.javaSolutionFibonacciEvenSum(4_000_000L));
+    }
 }
