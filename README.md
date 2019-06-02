@@ -11,8 +11,7 @@ Improve the functional programming skills for Java Developers
 
 ## Test project
 
-
-
+How to test the project?
 
 ```
 ./mvnw clean test -DexcludedGroups=performance
