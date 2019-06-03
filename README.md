@@ -244,6 +244,10 @@ private CompletableFuture<Tuple2<URL,String>> curlAsync4(URL address) {
     return future;
 }
 
+private Tuple2<URL, String> fetchWrapper(URL address) {
+    return Tuple.of(address, getTitle(SimpleCurl.fetch(address)));
+}
+
 ```
 
 ## Functional Programming concepts
