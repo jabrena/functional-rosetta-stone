@@ -174,7 +174,6 @@ https://www.vavr.io/vavr-docs/#_functions
 
 ``` java
 
-//VAVR
 Function1<String, String> toUpper = String::toUpperCase;
 Function1<String, String> trim = String::trim;
 Function1<String, String> cheers = (s) -> String.format("Hello %s", s);
@@ -193,6 +192,55 @@ assertThat(trim
 **Java 9+:**
 
 ``` java 
+
+@Test
+public void fetchAddressAsync3Test() {
+
+    LOGGER.info("Thread: {}", Thread.currentThread().getName());
+
+    Consumer<Tuple2<URL, String>> print = System.out::println;
+
+    List<Tuple2<URL, String>> result = this.getValidAddressList().stream()
+            .map(this::curlAsync4)
+            .map(CompletableFuture::join)
+            .peek(print)
+            .collect(toList());
+
+    assertThat(result.size()).isEqualTo(4);
+}
+
+@Test
+public void fetchAddressAsync4Test() throws Exception {
+
+    LOGGER.info("Thread: {}", Thread.currentThread().getName());
+
+    Consumer<Tuple2<URL, String>> print = System.out::println;
+
+    List<CompletableFuture<Tuple2<URL, String>>> futureRequests = this.getValidAddressList().stream()
+            .map(x -> curlAsync4(x))
+            .collect(toList());
+
+    List<Tuple2<URL, String>> result2 = futureRequests.stream()
+            .map(CompletableFuture::join)
+            .peek(print)
+            .collect(toList());
+
+    assertThat(result2.size()).isEqualTo(4);
+}
+
+private CompletableFuture<Tuple2<URL,String>> curlAsync4(URL address) {
+
+    LOGGER.info("Thread: {}", Thread.currentThread().getName());
+    CompletableFuture<Tuple2<URL,String>> future = CompletableFuture
+            .supplyAsync(() -> fetchWrapper(address), executor)
+            .exceptionally(ex -> {
+                LOGGER.error(ex.getLocalizedMessage(), ex);
+                return Tuple.of(address, "FETCH_BAD_RESULT");
+            })
+            .completeOnTimeout(Tuple.of(address, "FETCH_BAD_RESULT"),5, TimeUnit.SECONDS);
+
+    return future;
+}
 
 ```
 
