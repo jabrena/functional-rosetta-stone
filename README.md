@@ -193,6 +193,8 @@ assertThat(trim
 
 ``` java 
 
+private static ExecutorService executor = Executors.newFixedThreadPool(10);
+
 @Test
 public void fetchAddressAsync3Test() {
 
