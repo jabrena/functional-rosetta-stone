@@ -3,7 +3,7 @@ package org.fundamentals.fp.euler.problem1;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -55,34 +55,35 @@ public class EulerProblem1 {
 
     public long javaStreamSolution(int limit) {
 
-        Consumer<Integer> print = System.out::println;
-        Predicate<Integer> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Integer> isMultiple5 = number -> number % 5 == 0;
+        Consumer<Long> print = System.out::println;
+        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
+        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
-        return IntStream.range(1, limit).boxed()
+        return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))
                 //.peek(print)
-                .reduce(0, Integer::sum);
+                .reduce(0L, Long::sum);
     }
 
     public long javaStreamSolution2(int limit) {
 
-        Consumer<Integer> print = System.out::println;
-        Predicate<Integer> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Integer> isMultiple5 = number -> number % 5 == 0;
+        Consumer<Long> print = System.out::println;
+        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
+        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
-        return IntStream.range(1, limit).boxed()
+        return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))
                 //.peek(print)
-                .collect(Collectors.summingLong(Integer::intValue));
+                .collect(Collectors.summingLong(Long::longValue));
     }
 
     public Mono<Long> reactorSolution(int limit) {
 
-        Predicate<Integer> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Integer> isMultiple5 = number -> number % 5 == 0;
+        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
+        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
         return MathFlux.sumLong(Flux.range(0, limit)
+                    .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
                     //.log()
                 );
