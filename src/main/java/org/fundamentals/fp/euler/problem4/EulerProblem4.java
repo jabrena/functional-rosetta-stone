@@ -28,15 +28,11 @@ public class EulerProblem4 {
         throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
 
-    private Function<Long, Long> multiplyByValue(Long value) {
-        return element -> element * value;
-    }
-
     private Function<Long, java.util.List<Long>> multipliedList(long min, long max) {
 
         return value -> LongStream.rangeClosed(min, max)
             .boxed()
-            .map(multiplyByValue(value))
+            .map(element -> element * value)
             .collect(toList());
     }
 
@@ -66,6 +62,7 @@ public class EulerProblem4 {
 
     Mono<Long> getReactorSolution(int min, int max) {
 
+        //TODO Use better Flux.generate
         Function<Long, Flux<Long>> crossProduct = element ->
             Flux.range(min, max - min + 1).map(element2 -> element * element2);
 
