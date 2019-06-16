@@ -4,6 +4,7 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import reactor.test.StepVerifier;
 
 public class EulerProblem4Test extends BaseEulerProblemTest {
 
@@ -13,18 +14,17 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.javaSolution(10, 99)).isEqualTo(9009);
-        AssertionsForClassTypes.assertThat(problem4.javaSolution(100, 999)).isEqualTo(euler.getAnswerToLong(4));
+        AssertionsForClassTypes.assertThat(problem4.javaSolution(10L, 99L)).isEqualTo(9009L);
+        AssertionsForClassTypes.assertThat(problem4.javaSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
-    @Disabled
     @Test
     public void given_palindromicStream_when_2digits_then_expectedResultsTest(){
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(10, 99)).isEqualTo(9009);
-        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(100, 999)).isEqualTo(euler.getAnswerToLong(4));
+        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(10L, 99L)).isEqualTo(9009L);
+        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
     @Test
@@ -32,8 +32,26 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(10, 99)).isEqualTo(9009);
-        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(100, 999)).isEqualTo(euler.getAnswerToInt(4));
+        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(10L, 99L)).isEqualTo(9009L);
+        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
+    }
+
+    @Test
+    public void given_ReactorSolution_when_2digits_then_expectdResultsTest() {
+
+        EulerProblem4 problem4 = new EulerProblem4();
+
+        StepVerifier
+                .create(problem4.getReactorSolution(10L, 99L))
+                .expectNext(9090L)
+                .expectComplete()
+                .verify();
+
+        StepVerifier
+                .create(problem4.getReactorSolution(100L, 999L))
+                .expectNext(euler.getAnswerToLong(4))
+                .expectComplete()
+                .verify();
     }
 
 }
