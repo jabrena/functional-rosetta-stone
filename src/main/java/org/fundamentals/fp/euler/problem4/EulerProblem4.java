@@ -11,6 +11,8 @@ import java.util.stream.LongStream;
 
 import static java.util.stream.Collectors.toList;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 public class EulerProblem4 {
 
     private String reverse(Long number) {
@@ -23,7 +25,7 @@ public class EulerProblem4 {
 
     Long javaSolution(long min, long max) {
 
-        return null;
+        throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
 
     private Function<Long, Long> multiplyByValue(Long value) {
