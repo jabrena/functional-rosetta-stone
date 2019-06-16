@@ -47,6 +47,15 @@ public class AnswerLoader {
                 .get();
     }
 
+    public int getAnswerToInt(int index) {
+
+        return Integer.parseInt(loadFile().stream()
+                .skip(index - 1)
+                .findFirst()
+                .map(getAnswer)
+                .get());
+    }
+
     public long getAnswerToLong(int index) {
 
         return Long.parseLong(loadFile().stream()
