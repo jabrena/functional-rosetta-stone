@@ -36,19 +36,20 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
         AssertionsForClassTypes.assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
+    //@Disabled
     @Test
     public void given_ReactorSolution_when_2digits_then_expectdResultsTest() {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
         StepVerifier
-                .create(problem4.getReactorSolution(10L, 99L))
-                .expectNext(9090L)
+                .create(problem4.getReactorSolution(10, 99))
+                .expectNext(9009L)
                 .expectComplete()
                 .verify();
 
         StepVerifier
-                .create(problem4.getReactorSolution(100L, 999L))
+                .create(problem4.getReactorSolution(100, 999))
                 .expectNext(euler.getAnswerToLong(4))
                 .expectComplete()
                 .verify();

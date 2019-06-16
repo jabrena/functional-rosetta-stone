@@ -5,7 +5,9 @@ import io.vavr.collection.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.LongStream;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.math.MathFlux;
 
 import static java.util.stream.Collectors.toList;
 
@@ -52,8 +54,20 @@ public class EulerProblem4 {
                 .get();
     }
 
-    public Mono<Long> getReactorSolution(long min, long max) {
+    public Mono<Long> getReactorSolution(int min, int max) {
 
-        return Mono.just(0L);
+        Function<Long, String> reverse = number -> new StringBuilder().append(number).reverse().toString();
+        Predicate<Long> isPalindrome = element -> element.toString().equals(reverse.apply(element));
+
+        Function<Long, Flux<Long>> crossProduct = element ->
+                Flux.range(min, max - min + 1).map(element2 -> element * element2);
+
+        //TODO Flux.range doesn´t support Long values
+        return MathFlux.max(Flux.range(min, max - min + 1)
+                .map(element -> Long.valueOf(element))
+                .flatMap(crossProduct)
+                .filter(isPalindrome)
+                //.log()
+        );
     }
 }
