@@ -1,73 +1,78 @@
 package org.fundamentals.fp.euler.problem4;
 
-import io.vavr.Function1;
 import io.vavr.collection.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.LongStream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.math.MathFlux;
+
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.stream.LongStream;
 
 import static java.util.stream.Collectors.toList;
 
 public class EulerProblem4 {
 
-    public Long javaSolution(long min, long max) {
-        
+    private String reverse(Long number) {
+        return new StringBuilder().append(number).reverse().toString();
+    }
+
+    private boolean isPalindrome(Long value) {
+        return value.toString().equals(reverse(value));
+    }
+
+    Long javaSolution(long min, long max) {
+
         return null;
     }
 
-    public Long javaStreamSolution(long min, long max) {
+    private Function<Long, Long> multiplyByValue(Long value) {
+        return element -> element * value;
+    }
 
-        Function<Long, String> reverse = number -> new StringBuilder().append(number).reverse().toString();
-        Predicate<Long> isPalindrome = element -> element.toString().equals(reverse.apply(element));
+    private Function<Long, java.util.List<Long>> multipliedList(long min, long max) {
 
-        Function<Long, java.util.List<Long>> crossProduct = element ->
-                LongStream.rangeClosed(min, max)
-                    .boxed()
-                    .map(element2 -> element * element2)
-                    .collect(toList());
+        return value -> LongStream.rangeClosed(min, max)
+            .boxed()
+            .map(multiplyByValue(value))
+            .collect(toList());
+    }
 
-        return LongStream.rangeClosed(min,max)
-                .boxed()
-                .map(crossProduct)
-                .flatMap(element -> element.stream())
-                .filter(isPalindrome)
-                .mapToLong(x -> x)
-                .max()
-                .getAsLong();
+    Long javaStreamSolution(long min, long max) {
+
+        return LongStream.rangeClosed(min, max)
+            .boxed()
+            .map(multipliedList(min, max))
+            .flatMap(Collection::stream)
+            .filter(this::isPalindrome)
+            .mapToLong(x -> x)
+            .max()
+            .getAsLong();
     }
 
 
-    public Long VAVRSolution(long min, long max) {
-
-        Function1<Long, String> reverse = number -> new StringBuilder().append(number).reverse().toString();
-        Predicate<Long> isPalindrome = element -> element.toString().equals(reverse.apply(element));
+    Long VAVRSolution(long min, long max) {
 
         return List.rangeClosed(min, max)
-                .crossProduct()
-                .filter(t -> t._1 <= t._2)
-                .map(t -> t._1 * t._2)
-                .filter(isPalindrome)
-                .max()
-                .get();
+            .crossProduct()
+            .filter(t -> t._1 <= t._2)
+            .map(t -> t._1 * t._2)
+            .filter(this::isPalindrome)
+            .max()
+            .get();
     }
 
-    public Mono<Long> getReactorSolution(int min, int max) {
-
-        Function<Long, String> reverse = number -> new StringBuilder().append(number).reverse().toString();
-        Predicate<Long> isPalindrome = element -> element.toString().equals(reverse.apply(element));
+    Mono<Long> getReactorSolution(int min, int max) {
 
         Function<Long, Flux<Long>> crossProduct = element ->
-                Flux.range(min, max - min + 1).map(element2 -> element * element2);
+            Flux.range(min, max - min + 1).map(element2 -> element * element2);
 
         //TODO Flux.range doesn´t support Long values
         return MathFlux.max(Flux.range(min, max - min + 1)
-                .map(element -> Long.valueOf(element))
+                .map(Long::valueOf)
                 .flatMap(crossProduct)
-                .filter(isPalindrome)
-                //.log()
+                .filter(this::isPalindrome)
+            //.log()
         );
     }
 }
