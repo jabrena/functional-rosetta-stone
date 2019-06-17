@@ -43,13 +43,13 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
         EulerProblem4 problem4 = new EulerProblem4();
 
         StepVerifier
-                .create(problem4.getReactorSolution(10, 99))
+                .create(problem4.reactorSolution(10, 99))
                 .expectNext(9009L)
                 .expectComplete()
                 .verify();
 
         StepVerifier
-                .create(problem4.getReactorSolution(100, 999))
+                .create(problem4.reactorSolution(100, 999))
                 .expectNext(euler.getAnswerToLong(4))
                 .expectComplete()
                 .verify();

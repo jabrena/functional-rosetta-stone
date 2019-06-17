@@ -15,17 +15,17 @@ import org.apache.commons.lang3.NotImplementedException;
 
 public class EulerProblem4 {
 
+    public Long javaSolution(long min, long max) {
+
+        throw new NotImplementedException("¯\\_(ツ)_/¯");
+    }
+
     private String reverse(Long number) {
         return new StringBuilder().append(number).reverse().toString();
     }
 
     private boolean isPalindrome(Long value) {
         return value.toString().equals(reverse(value));
-    }
-
-    Long javaSolution(long min, long max) {
-
-        throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
 
     private Function<Long, java.util.List<Long>> multipliedList(long min, long max) {
@@ -36,7 +36,7 @@ public class EulerProblem4 {
             .collect(toList());
     }
 
-    Long javaStreamSolution(long min, long max) {
+    public Long javaStreamSolution(long min, long max) {
 
         return LongStream.rangeClosed(min, max)
             .boxed()
@@ -49,7 +49,7 @@ public class EulerProblem4 {
     }
 
 
-    Long VAVRSolution(long min, long max) {
+    public Long VAVRSolution(long min, long max) {
 
         return List.rangeClosed(min, max)
             .crossProduct()
@@ -60,7 +60,7 @@ public class EulerProblem4 {
             .get();
     }
 
-    Mono<Long> getReactorSolution(int min, int max) {
+    public Mono<Long> reactorSolution(int min, int max) {
 
         //TODO Use better Flux.generate
         Function<Long, Flux<Long>> crossProduct = element ->
@@ -73,5 +73,10 @@ public class EulerProblem4 {
                 .filter(this::isPalindrome)
             //.log()
         );
+    }
+
+    public Long kotlinSolution(long min, long max) {
+
+        throw new NotImplementedException("Coming soon");
     }
 }
