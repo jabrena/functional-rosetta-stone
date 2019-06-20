@@ -2,6 +2,7 @@ package org.fundamentals.fp.euler;
 
 import java.util.function.Function;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class EulerProblem6 {
 
@@ -19,13 +20,13 @@ public class EulerProblem6 {
             , 2)).longValue();
 
     public Long javaStreamsDiffsumSquare(long limit) {
-        /*
+
         return Stream.of(javaStreamsSquareSum, javaStreamsSumSquare)
+                    .parallel()
                     .map(fx -> fx.apply(limit))
                     .reduce((f1, f2) -> f1 - f2)
                     .get();
-         */
 
-        return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
+        //return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
     }
 }
