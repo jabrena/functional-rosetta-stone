@@ -3,7 +3,9 @@ package org.fundamentals.fp.euler;
 import java.util.function.Function;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.math.MathFlux;
 
 public class EulerProblem6 {
 
@@ -31,7 +33,26 @@ public class EulerProblem6 {
         //return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
     }
 
-    public Mono<Long> reactorSolution(long l) {
-        return Mono.just(0L);
+    private Flux<Long> getSequence(int limit) {
+        return Flux.range(1, limit)
+                .map(number -> Long.valueOf(number));
+    }
+
+    Mono<Long> reactorSumSquare(int limit) {
+        return MathFlux.sumLong(getSequence(limit)
+                .map(number -> number * number));
+    }
+
+    Function<Long, Long> square = number -> Double.valueOf(Math.pow(number, 2)).longValue();
+
+    Mono<Long> reactorSquareSum(int limit) {
+        return MathFlux.sumLong(getSequence(limit)).map(square);
+    }
+
+    public Mono<Long> reactorSolution(int limit) {
+        return Mono.zip(
+                reactorSumSquare(limit),
+                reactorSquareSum(limit),
+                (f1, f2) -> f2 - f1);
     }
 }

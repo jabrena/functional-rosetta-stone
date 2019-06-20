@@ -1,11 +1,11 @@
 package org.fundamentals.fp.euler;
 
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.fundamentals.fp.euler.EulerProblem4;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class EulerProblem4Test extends BaseEulerProblemTest {
 
@@ -15,8 +15,8 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.javaSolution(10L, 99L)).isEqualTo(9009L);
-        AssertionsForClassTypes.assertThat(problem4.javaSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
+        assertThat(problem4.javaSolution(10L, 99L)).isEqualTo(9009L);
+        assertThat(problem4.javaSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
     @Test
@@ -24,8 +24,8 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(10L, 99L)).isEqualTo(9009L);
-        AssertionsForClassTypes.assertThat(problem4.javaStreamSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
+        assertThat(problem4.javaStreamSolution(10L, 99L)).isEqualTo(9009L);
+        assertThat(problem4.javaStreamSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
     @Test
@@ -33,8 +33,8 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
 
         EulerProblem4 problem4 = new EulerProblem4();
 
-        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(10L, 99L)).isEqualTo(9009L);
-        AssertionsForClassTypes.assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
+        assertThat(problem4.VAVRSolution(10L, 99L)).isEqualTo(9009L);
+        assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
     @Test

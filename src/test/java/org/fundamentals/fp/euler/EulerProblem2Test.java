@@ -1,8 +1,6 @@
 package org.fundamentals.fp.euler;
 
 import java.util.List;
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.fundamentals.fp.euler.EulerProblem2;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -26,8 +24,8 @@ public class EulerProblem2Test extends BaseEulerProblemTest {
     public void given_JavaSolutionProblem2_WhenFibonacciSerie_ThenValueExpectedTest() {
 
         EulerProblem2 problem2 = new EulerProblem2();
-        AssertionsForClassTypes.assertThat(problem2.javaSolution(100)).isEqualTo(2 + 8 + 34);
-        AssertionsForClassTypes.assertThat(problem2.javaSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
+        assertThat(problem2.javaSolution(100)).isEqualTo(2 + 8 + 34);
+        assertThat(problem2.javaSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
     }
 
     @Test

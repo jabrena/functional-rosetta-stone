@@ -1,17 +1,15 @@
 package org.fundamentals.fp.euler;
 
 import io.vavr.collection.List;
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.stream.LongStream;
+import org.apache.commons.lang3.NotImplementedException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.math.MathFlux;
 
-import java.util.Collection;
-import java.util.function.Function;
-import java.util.stream.LongStream;
-
 import static java.util.stream.Collectors.toList;
-
-import org.apache.commons.lang3.NotImplementedException;
 
 public class EulerProblem4 {
 
