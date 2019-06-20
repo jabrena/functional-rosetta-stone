@@ -3,6 +3,7 @@ package org.fundamentals.fp.euler;
 import java.util.function.Function;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import reactor.core.publisher.Mono;
 
 public class EulerProblem6 {
 
@@ -19,7 +20,7 @@ public class EulerProblem6 {
                         .sum()
             , 2)).longValue();
 
-    public Long javaStreamsDiffsumSquare(long limit) {
+    public Long javaStreamsSolution(long limit) {
 
         return Stream.of(javaStreamsSquareSum, javaStreamsSumSquare)
                     .parallel()
@@ -28,5 +29,9 @@ public class EulerProblem6 {
                     .get();
 
         //return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
+    }
+
+    public Mono<Long> reactorSolution(long l) {
+        return Mono.just(0L);
     }
 }
