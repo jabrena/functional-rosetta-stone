@@ -13,8 +13,8 @@ public class EulerProblem6Test extends BaseEulerProblemTest {
 
         EulerProblem6 problem6 = new EulerProblem6();
 
-        AssertionsForClassTypes.assertThat(problem6.javaStreamsSumSquare(10L)).isEqualTo(385);
-        AssertionsForClassTypes.assertThat(problem6.javaStreamsSquareSum(10L)).isEqualTo(3025);
+        AssertionsForClassTypes.assertThat(problem6.javaStreamsSumSquare.apply(10L)).isEqualTo(385);
+        AssertionsForClassTypes.assertThat(problem6.javaStreamsSquareSum.apply(10L)).isEqualTo(3025);
         AssertionsForClassTypes.assertThat(problem6.javaStreamsDiffsumSquare(10L)).isEqualTo(2640);
         AssertionsForClassTypes.assertThat(problem6.javaStreamsDiffsumSquare(100L)).isEqualTo(euler.getAnswerToLong(6));
     }

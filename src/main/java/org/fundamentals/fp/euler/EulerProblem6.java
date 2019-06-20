@@ -1,16 +1,31 @@
 package org.fundamentals.fp.euler;
 
+import java.util.function.Function;
+import java.util.stream.LongStream;
+
 public class EulerProblem6 {
 
-    public long javaStreamsSumSquare(long l) {
-        return 0;
-    }
+    Function<Long, Long> javaStreamsSumSquare = limit -> LongStream.rangeClosed(0, limit)
+            .boxed()
+            .mapToLong(number -> number * number)
+            .sum();
 
-    public long javaStreamsSquareSum(long l) {
-        return 0;
-    }
+    Function<Long, Long> javaStreamsSquareSum = limit -> Double.valueOf(
+            Math.pow(
+                    LongStream.rangeClosed(0, limit)
+                        .boxed()
+                        .mapToLong(x -> x)
+                        .sum()
+            , 2)).longValue();
 
-    public long javaStreamsDiffsumSquare(long limit) {
-        return 0;
+    public Long javaStreamsDiffsumSquare(long limit) {
+        /*
+        return Stream.of(javaStreamsSquareSum, javaStreamsSumSquare)
+                    .map(fx -> fx.apply(limit))
+                    .reduce((f1, f2) -> f1 - f2)
+                    .get();
+         */
+
+        return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
     }
 }
