@@ -1,7 +1,8 @@
-package org.fundamentals.fp.euler.problem2;
+package org.fundamentals.fp.euler;
 
 import java.util.List;
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.fundamentals.fp.euler.EulerProblem2;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;

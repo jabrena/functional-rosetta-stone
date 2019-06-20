@@ -1,5 +1,6 @@
-package org.fundamentals.fp.euler.problem1;
+package org.fundamentals.fp.euler;
 
+import org.fundamentals.fp.euler.EulerProblem1;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;

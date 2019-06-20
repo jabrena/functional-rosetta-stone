@@ -1,4 +1,4 @@
-package org.fundamentals.fp.euler.problem4;
+package org.fundamentals.fp.euler;
 
 import io.vavr.collection.List;
 import reactor.core.publisher.Flux;

@@ -1,4 +1,4 @@
-package org.fundamentals.fp.euler.problem1;
+package org.fundamentals.fp.euler;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

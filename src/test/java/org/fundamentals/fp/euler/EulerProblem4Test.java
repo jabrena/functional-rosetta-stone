@@ -1,6 +1,7 @@
-package org.fundamentals.fp.euler.problem4;
+package org.fundamentals.fp.euler;
 
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.fundamentals.fp.euler.EulerProblem4;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

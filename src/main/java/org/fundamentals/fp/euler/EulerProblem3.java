@@ -1,4 +1,4 @@
-package org.fundamentals.fp.euler.problem3;
+package org.fundamentals.fp.euler;
 
 import java.util.ArrayList;
 import java.util.Comparator;

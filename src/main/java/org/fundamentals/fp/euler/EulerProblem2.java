@@ -1,4 +1,4 @@
-package org.fundamentals.fp.euler.problem2;
+package org.fundamentals.fp.euler;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
