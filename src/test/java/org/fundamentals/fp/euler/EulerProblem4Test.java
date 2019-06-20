@@ -37,7 +37,6 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
         AssertionsForClassTypes.assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
     }
 
-    //@Disabled
     @Test
     public void given_ReactorSolution_when_2digits_then_expectdResultsTest() {
 
