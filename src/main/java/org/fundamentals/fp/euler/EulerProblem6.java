@@ -3,11 +3,17 @@ package org.fundamentals.fp.euler;
 import java.util.function.Function;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.NotImplementedException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.math.MathFlux;
 
 public class EulerProblem6 {
+
+    public Long javaSolution(long limit) {
+
+        throw new NotImplementedException("¯\\_(ツ)_/¯");
+    }
 
     Function<Long, Long> javaStreamsSumSquare = limit -> LongStream.rangeClosed(0, limit)
             .boxed()
@@ -33,6 +39,11 @@ public class EulerProblem6 {
         //return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
     }
 
+    public Long VAVRSolution(long limit) {
+
+        throw new NotImplementedException("VAVR in this problem doesn´t offer a significant advantage in relation to Java");
+    }
+
     private Flux<Long> getSequence(int limit) {
         return Flux.range(1, limit)
                 .map(number -> Long.valueOf(number));
@@ -55,4 +66,10 @@ public class EulerProblem6 {
                 reactorSquareSum(limit),
                 (f1, f2) -> f2 - f1);
     }
+
+    public Long kotlinSolution(long limit) {
+
+        throw new NotImplementedException("Coming soon");
+    }
+
 }
