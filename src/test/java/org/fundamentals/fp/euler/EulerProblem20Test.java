@@ -1,7 +1,6 @@
 package org.fundamentals.fp.euler;
 
 import java.math.BigInteger;
-import org.assertj.core.api.BigIntegerAssert;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
 
