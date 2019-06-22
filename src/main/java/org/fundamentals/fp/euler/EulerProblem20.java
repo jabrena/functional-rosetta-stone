@@ -26,16 +26,16 @@ public class EulerProblem20 {
             .reduce((n1, n2) -> n1.multiply(n2))
             .get();
 
-    Function<BigInteger, List<String>> toChars = value -> value.toString().chars()
-            .mapToObj(c -> String.valueOf((char) c))
-            .collect(Collectors.toList());
+    Function<BigInteger, List<Long>> toDigits = value -> value.toString().chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .map(s -> Long.valueOf(s))
+                .collect(Collectors.toList());
 
-    Function<List<String>, Long> sum = chars -> chars.stream()
-            .mapToLong(s -> Long.valueOf(s))
+    Function<List<Long>, Long> sumDigits = digits -> digits.stream()
             .reduce((l1, l2) -> l1 + l2)
-            .getAsLong();
+            .get();
 
     public long javaStreamSolution(long limit) {
-        return factorial.andThen(toChars).andThen(sum).apply(limit);
+        return factorial.andThen(toDigits).andThen(sumDigits).apply(limit);
     }
 }
