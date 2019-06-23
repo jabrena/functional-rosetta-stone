@@ -33,7 +33,7 @@ public class EulerProblem25 {
 
     private Stream<Pair<BigInteger, Integer>> fibonaccyWithIndex() {
         AtomicInteger index = new AtomicInteger(0);
-        return Utils.fibonacciSJavatream()
+        return Utils.JavaStreams.fibonacci()
                 .map(l -> Pair.of(l, index.incrementAndGet()));
     }
 
@@ -46,7 +46,7 @@ public class EulerProblem25 {
     }
 
     public long VAVRSolution(long limit) {
-        return Utils.fibonacciVAVRStream()
+        return Utils.VARV.fibonacci()
                 .zipWithIndex()
                 .find(t -> t._1.toString().length() == limit)
                 .get()._2;
