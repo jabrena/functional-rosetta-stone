@@ -1,13 +1,12 @@
 package org.fundamentals.fp.euler;
 
+import java.math.BigInteger;
 
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.LongSupplier;
 import java.util.stream.LongStream;
-
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Problem 25: 1000­digit Fibonacci number
@@ -48,29 +47,36 @@ public class EulerProblem25 {
         }
     }
 
-    private LongStream getJavaStreamFibonaccyTerms() {
+    private LongStream generateFibonaccyStream() {
 
         return LongStream.generate(new EulerProblem25.FibonacciSupplier());
     }
 
-    private List<Long> getFibonaccyWithNumberOfDigits(long limit) {
-        return getJavaStreamFibonaccyTerms()
-                .takeWhile(l -> String.valueOf(l).length() <= limit)
-                .mapToObj(l -> Long.valueOf(l))
-                .collect(toList());
-    }
-
-    private Map<Integer, List<String>> getFibonnacyGroupByDigits(long limit) {
-        return getFibonaccyWithNumberOfDigits(limit).stream()
-                .map(l -> String.valueOf(l))
-                .collect(groupingBy(s -> s.length()));
+    private Stream<Pair<Long, Integer>> fibonaccyWithIndex() {
+        AtomicInteger index = new AtomicInteger(0);
+        return generateFibonaccyStream()
+                .mapToObj(l -> Pair.of(l, index.incrementAndGet()));
     }
 
     public long javaStreamSolution(long limit) {
-        return getFibonnacyGroupByDigits(limit)
-                .get((int) limit).stream()
-                .mapToLong(s -> Long.valueOf(s))
+        return fibonaccyWithIndex()
+                //.peek(System.out::println)
+                .filter(p -> String.valueOf(p.getLeft()).length() == limit)
                 .findFirst()
-                .getAsLong();
+                .get()
+                .getRight();
+    }
+
+    io.vavr.collection.Stream<BigInteger> fibonacci() {
+        return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)
+                .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
+    }
+
+    public int VAVRSolution(int digits) {
+        return fibonacci()
+                .zipWithIndex()
+                //.peek(System.out::println)
+                .find(t -> t._1.toString().length() == digits)
+                .get()._2;
     }
 }
