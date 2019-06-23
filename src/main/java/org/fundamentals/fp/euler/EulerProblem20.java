@@ -31,11 +31,10 @@ public class EulerProblem20 {
                 .map(s -> Long.valueOf(s))
                 .collect(Collectors.toList());
 
-    Function<List<Long>, Long> sumDigits = digits -> digits.stream()
-            .reduce((l1, l2) -> l1 + l2)
-            .get();
+    Function<List<Long>, Long> sum = digits -> digits.stream()
+            .reduce(0L, Long::sum);
 
     public long javaStreamSolution(long limit) {
-        return factorial.andThen(toDigits).andThen(sumDigits).apply(limit);
+        return factorial.andThen(toDigits).andThen(sum).apply(limit);
     }
 }

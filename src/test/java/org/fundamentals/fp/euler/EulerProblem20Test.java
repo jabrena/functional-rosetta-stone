@@ -18,5 +18,4 @@ public class EulerProblem20Test extends BaseEulerProblemTest {
         assertThat(problem.javaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(20));
     }
 
-
 }
