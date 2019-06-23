@@ -45,10 +45,10 @@ public class EulerProblem25 {
                 .getRight();
     }
 
-    public int VAVRSolution(int digits) {
+    public long VAVRSolution(long limit) {
         return Utils.fibonacciVAVRStream()
                 .zipWithIndex()
-                .find(t -> t._1.toString().length() == digits)
+                .find(t -> t._1.toString().length() == limit)
                 .get()._2;
     }
 }
