@@ -3,8 +3,6 @@ package org.fundamentals.fp.euler;
 import java.math.BigInteger;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.LongSupplier;
-import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -33,49 +31,23 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class EulerProblem25 {
 
-    private class FibonacciSupplier implements LongSupplier {
-
-        long current = 1;
-        long previous = 0;
-
-        @Override
-        public long getAsLong() {
-            long result = current;
-            current = previous + current;
-            previous = result;
-            return result;
-        }
-    }
-
-    private LongStream generateFibonaccyStream() {
-
-        return LongStream.generate(new EulerProblem25.FibonacciSupplier());
-    }
-
-    private Stream<Pair<Long, Integer>> fibonaccyWithIndex() {
+    private Stream<Pair<BigInteger, Integer>> fibonaccyWithIndex() {
         AtomicInteger index = new AtomicInteger(0);
-        return generateFibonaccyStream()
-                .mapToObj(l -> Pair.of(l, index.incrementAndGet()));
+        return Utils.fibonacciSJavatream()
+                .map(l -> Pair.of(l, index.incrementAndGet()));
     }
 
     public long javaStreamSolution(long limit) {
         return fibonaccyWithIndex()
-                //.peek(System.out::println)
                 .filter(p -> String.valueOf(p.getLeft()).length() == limit)
                 .findFirst()
                 .get()
                 .getRight();
     }
 
-    io.vavr.collection.Stream<BigInteger> fibonacci() {
-        return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)
-                .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
-    }
-
     public int VAVRSolution(int digits) {
-        return fibonacci()
+        return Utils.fibonacciVAVRStream()
                 .zipWithIndex()
-                //.peek(System.out::println)
                 .find(t -> t._1.toString().length() == digits)
                 .get()._2;
     }
