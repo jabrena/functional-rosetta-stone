@@ -21,7 +21,7 @@ public class Utils {
 
     }
 
-    public static class VARV {
+    public static class VAVR {
 
         public static io.vavr.collection.Stream<BigInteger> fibonacci() {
             return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)

@@ -46,7 +46,7 @@ public class EulerProblem25 {
     }
 
     public long VAVRSolution(long limit) {
-        return Utils.VARV.fibonacci()
+        return Utils.VAVR.fibonacci()
                 .zipWithIndex()
                 .find(t -> t._1.toString().length() == limit)
                 .get()._2;
