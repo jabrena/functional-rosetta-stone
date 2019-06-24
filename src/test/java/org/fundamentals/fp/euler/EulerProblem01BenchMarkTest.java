@@ -94,7 +94,7 @@ public class EulerProblem01BenchMarkTest {
 
     @Tag("performance")
     @Test
-    public void runTest() throws Exception {
+    public void given_eulerProblem01Solutions_when_runMethods_then_receiveExpectedResultsTest() throws Exception {
         Options opt = initBench();
         Collection<RunResult> results = runBench(opt);
         assertOutputs(results);
