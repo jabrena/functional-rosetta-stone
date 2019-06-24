@@ -30,90 +30,29 @@ public class EulerProblem01BenchMarkTest {
         static final double AVERAGE_EXPECTED_TIME = 100; // expected max 100 milliseconds
     }
 
-    /**
-     * Benchmark run with Junit
-     * @throws Exception
-     */
-    @Tag("performance")
-    @Test
-    public void runTest() throws Exception {
-        Options opt = initBench();
-        Collection<RunResult> results = runBench(opt);
-        assertOutputs(results);
-    }
-
-    /**
-     * JMH benchmark
-     * @param st
-     */
     @Benchmark
     public void javaSolution(St st) {
         st.problem.javaSolution(st.limit);
     }
 
-    /**
-     * JMH benchmark
-     * @param st
-     */
     @Benchmark
     public void javaStreamSolution(St st) {
         st.problem.javaStreamSolution(st.limit);
     }
 
-    /**
-     * JMH benchmark
-     * @param st
-     */
     @Benchmark
     public void VAVRSolution(St st) {
         st.problem.VAVRSolution(st.limit);
     }
 
-    /**
-     * JMH benchmark
-     * @param st
-     */
     @Benchmark
     public void ReactorSolution(St st) {
         st.problem.ReactorSolution(st.limit);
     }
 
-    /**
-     * JMH benchmark
-     * @param st
-     */
     @Benchmark
     public void KotlinSolution(St st) {
         st.problem.KotlinSolution(st.limit);
-    }
-
-    /**
-     *
-     * @param opt
-     * @return
-     * @throws RunnerException
-     */
-    private Collection<RunResult> runBench(Options opt) throws RunnerException {
-        return new Runner(opt).run();
-    }
-
-    /**
-     * Assert benchmark results that are interesting for us
-     * Asserting test mode and average test time
-     * @param results
-     */
-    private void assertOutputs(Collection<RunResult> results) {
-        for (RunResult r : results) {
-            for (BenchmarkResult rr : r.getBenchmarkResults()) {
-
-                Mode mode = rr.getParams().getMode();
-                double score = rr.getPrimaryResult().getScore();
-                String methodName = rr.getPrimaryResult().getLabel();
-
-                assertThat(mode).isEqualTo(Mode.AverageTime);
-                assertThat(score).isLessThan(AVERAGE_EXPECTED_TIME);
-            }
-        }
     }
 
     private Options initBench() {
@@ -133,6 +72,32 @@ public class EulerProblem01BenchMarkTest {
                 .shouldDoGC(true)
                 .forks(1)
                 .build();
+    }
+
+    private Collection<RunResult> runBench(Options opt) throws RunnerException {
+        return new Runner(opt).run();
+    }
+
+    private void assertOutputs(Collection<RunResult> results) {
+        for (RunResult r : results) {
+            for (BenchmarkResult rr : r.getBenchmarkResults()) {
+
+                Mode mode = rr.getParams().getMode();
+                double score = rr.getPrimaryResult().getScore();
+                String methodName = rr.getPrimaryResult().getLabel();
+
+                assertThat(mode).isEqualTo(Mode.AverageTime);
+                assertThat(score).isLessThan(AVERAGE_EXPECTED_TIME);
+            }
+        }
+    }
+
+    @Tag("performance")
+    @Test
+    public void runTest() throws Exception {
+        Options opt = initBench();
+        Collection<RunResult> results = runBench(opt);
+        assertOutputs(results);
     }
 
 }
