@@ -35,6 +35,7 @@ import reactor.math.MathFlux;
  * Find the sum of all the multiples of 3 or 5 below 1000.
  *
  */
+@Solved
 @Slf4j
 public class EulerProblem1 {
 
