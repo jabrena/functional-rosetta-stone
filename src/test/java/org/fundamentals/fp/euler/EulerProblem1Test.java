@@ -53,4 +53,13 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
                 .verify();
     }
 
+    @Test
+    public void given_KotlinSolution_whenExecute_then_expectedResultTest() {
+
+        EulerProblem1 problem1 = new EulerProblem1();
+
+        assertThat(problem1.KotlinSolution(10)).isEqualTo(3 + 5 + 6 + 9);
+        assertThat(problem1.KotlinSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
+    }
+
 }

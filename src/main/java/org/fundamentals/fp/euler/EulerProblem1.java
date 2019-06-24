@@ -1,9 +1,8 @@
 package org.fundamentals.fp.euler;
 
+import io.vavr.collection.List;
 import java.util.function.Predicate;
 import java.util.stream.LongStream;
-
-import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -76,6 +75,10 @@ public class EulerProblem1 {
                     .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
         );
+    }
+
+    public Long KotlinSolution(long limit) {
+        return EulerProblem1Kt.KotlinSolution(limit);
     }
 
 }
