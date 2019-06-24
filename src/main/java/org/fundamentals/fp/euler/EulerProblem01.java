@@ -3,7 +3,6 @@ package org.fundamentals.fp.euler;
 import io.vavr.collection.List;
 import java.util.function.Predicate;
 import java.util.stream.LongStream;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.math.MathFlux;
@@ -36,7 +35,6 @@ import reactor.math.MathFlux;
  *
  */
 @Solved
-@Slf4j
 public class EulerProblem01 {
 
     public long javaSolution(long limit) {
@@ -80,7 +78,7 @@ public class EulerProblem01 {
 
     public Long KotlinSolution(long limit) {
 
-        return EulerProblem01Kt.KotlinSolution(limit);
+        return EulerProblem01Kt.KotlinSolution01(limit);
     }
 
 }

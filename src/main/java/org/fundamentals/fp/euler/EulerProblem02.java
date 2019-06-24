@@ -1,8 +1,5 @@
 package org.fundamentals.fp.euler;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import reactor.core.publisher.Mono;
@@ -33,42 +30,17 @@ import reactor.math.MathFlux;
  * Then find the sum of the even-valued terms
  *
  */
+@Solved
 public class EulerProblem02 {
-
-    public List<Long> getJavaFibonaccyTerms(long limit) {
-
-        List<Long> fibonacciList = new ArrayList<>();
-
-        long previousNumber = 1;
-        long nextNumber = 2;
-
-        while(true) {
-
-            if(previousNumber > limit) {
-                break;
-            }
-
-            fibonacciList.add(previousNumber);
-
-            long sum = previousNumber + nextNumber;
-            previousNumber = nextNumber;
-            nextNumber = sum;
-        }
-
-        return fibonacciList;
-    }
 
     public Long javaSolution(long limit) {
 
-        List<Long> fibonacciList = this.getJavaFibonaccyTerms(limit);
         long sum = 0L;
-
-        for (long number : fibonacciList) {
+        for (long number : Utils.Java.fibonacci(limit)) {
 
             if ((number % 2) == 0) {
                 sum += number;
             }
-
         }
 
         return sum;
@@ -78,30 +50,26 @@ public class EulerProblem02 {
 
     public Long javaStreamSolution(long limit) {
 
-        return Utils.JavaStreams.fibonacci()
-                .skip(1)
-                .mapToLong(BigInteger::longValue)
-                .takeWhile(x -> x <= limit)
-                .mapToObj(x -> Long.parseLong(String.valueOf(x)))
+        return Utils.JavaStreams.fibonacci(limit)
                 .filter(isEven)
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
     public Long VAVRSolution(long limit) {
 
-        return Utils.VAVR.fibonacci()
-                .map(BigInteger::longValue)
-                .drop(2)
-                .takeWhile(f -> f <= limit)
+        return Utils.VAVR.fibonacci(limit)
                 .filter(isEven)
-                .collect(Collectors.summingLong(Long::longValue));
+                .reduce(Long::sum);
     }
 
     public Mono<Long> ReactorSolution(long limit) {
 
-        return MathFlux.sumLong(Utils.Reactor.fibonacci()
-                .takeWhile(x-> x <= limit)
+        return MathFlux.sumLong(Utils.Reactor.fibonacci(limit)
                 .filter(isEven));
     }
 
+    public Long KotlinSolution(long limit) {
+
+        return EulerProblem02Kt.KotlinSolution02(limit);
+    }
 }

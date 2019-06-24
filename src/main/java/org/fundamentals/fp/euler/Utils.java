@@ -1,6 +1,8 @@
 package org.fundamentals.fp.euler;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,6 +10,28 @@ import reactor.core.publisher.Flux;
 import reactor.util.function.Tuples;
 
 public class Utils {
+
+    public static class Java {
+
+        public static List<Long> fibonacci(long limit) {
+
+            List<Long> fibonacciList = new ArrayList<>();
+
+            long previousNumber = 1;
+            long nextNumber = 2;
+
+            while(previousNumber <= limit) {
+
+                fibonacciList.add(previousNumber);
+
+                long sum = previousNumber + nextNumber;
+                previousNumber = nextNumber;
+                nextNumber = sum;
+            }
+
+            return fibonacciList;
+        }
+    }
 
     public static class JavaStreams {
 
@@ -21,6 +45,15 @@ public class Utils {
                     .map(p -> p.getRight());
         }
 
+        public static Stream<Long> fibonacci(long limit) {
+
+            return fibonacci()
+                    .skip(1)
+                    .mapToLong(BigInteger::longValue)
+                    .takeWhile(l -> l <= limit)
+                    .mapToObj(l -> l);
+        }
+
     }
 
     public static class VAVR {
@@ -28,6 +61,14 @@ public class Utils {
         public static io.vavr.collection.Stream<BigInteger> fibonacci() {
             return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)
                     .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
+        }
+
+        public static io.vavr.collection.Stream<Long> fibonacci(long limit) {
+
+            return fibonacci()
+                    .map(BigInteger::longValue)
+                    .drop(2)
+                    .takeWhile(f -> f <= limit);
         }
 
     }
@@ -43,6 +84,11 @@ public class Utils {
                         return Tuples.of(state.getT2(), state.getT1() + state.getT2());
                     }
             );
+        }
+
+        public static Flux<Long> fibonacci(long limit) {
+
+            return fibonacci().takeWhile(x-> x <= limit);
         }
 
     }
