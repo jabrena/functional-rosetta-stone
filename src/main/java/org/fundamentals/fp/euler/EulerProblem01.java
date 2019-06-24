@@ -39,7 +39,7 @@ import reactor.math.MathFlux;
 @Slf4j
 public class EulerProblem01 {
 
-    public long javaSolution(int limit) {
+    public long javaSolution(long limit) {
 
         long sum = 0;
 
@@ -55,7 +55,7 @@ public class EulerProblem01 {
     Predicate<Long> isMultiple3 = number -> number % 3 == 0;
     Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
-    public long javaStreamSolution(int limit) {
+    public long javaStreamSolution(long limit) {
 
         return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))
@@ -70,9 +70,9 @@ public class EulerProblem01 {
                 .longValue();
     }
 
-    public Mono<Long> ReactorSolution(int limit) {
+    public Mono<Long> ReactorSolution(long limit) {
 
-        return MathFlux.sumLong(Flux.range(0, limit)
+        return MathFlux.sumLong(Flux.range(0, (int) limit)
                     .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
         );

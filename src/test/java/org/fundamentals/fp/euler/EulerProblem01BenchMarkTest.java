@@ -1,6 +1,5 @@
-package org.fundamentals.fp.training.first;
+package org.fundamentals.fp.euler;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Tag;
@@ -22,13 +21,13 @@ import org.openjdk.jmh.runner.options.VerboseMode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fundamentals.fp.training.first.BookServiceBenchMarkTest.St.AVERAGE_EXPECTED_TIME;
 
-public class BookServiceBenchMarkTest {
+public class EulerProblem01BenchMarkTest {
 
     @State(Scope.Benchmark)
     public static class St {
-        final BigDecimal priceLimit = new BigDecimal("30.00");
-        BookService bookStore = new BookService();
-        public static final double AVERAGE_EXPECTED_TIME = 100; // expected max 100 milliseconds
+        EulerProblem01 problem = new EulerProblem01();
+        Long limit = 1000l;
+        static final double AVERAGE_EXPECTED_TIME = 100; // expected max 100 milliseconds
     }
 
     /**
@@ -48,8 +47,8 @@ public class BookServiceBenchMarkTest {
      * @param st
      */
     @Benchmark
-    public void classicSearch(St st) {
-        st.bookStore.search(st.priceLimit);
+    public void javaSolution(St st) {
+        st.problem.javaSolution(st.limit);
     }
 
     /**
@@ -57,8 +56,35 @@ public class BookServiceBenchMarkTest {
      * @param st
      */
     @Benchmark
-    public void newSearch(St st) {
-        st.bookStore.searchNew(st.priceLimit);
+    public void javaStreamSolution(St st) {
+        st.problem.javaStreamSolution(st.limit);
+    }
+
+    /**
+     * JMH benchmark
+     * @param st
+     */
+    @Benchmark
+    public void VAVRSolution(St st) {
+        st.problem.VAVRSolution(st.limit);
+    }
+
+    /**
+     * JMH benchmark
+     * @param st
+     */
+    @Benchmark
+    public void ReactorSolution(St st) {
+        st.problem.ReactorSolution(st.limit);
+    }
+
+    /**
+     * JMH benchmark
+     * @param st
+     */
+    @Benchmark
+    public void KotlinSolution(St st) {
+        st.problem.KotlinSolution(st.limit);
     }
 
     /**
@@ -92,7 +118,7 @@ public class BookServiceBenchMarkTest {
 
     private Options initBench() {
         return new OptionsBuilder()
-                .include(BookServiceBenchMarkTest.class.getSimpleName() + ".*") //
+                .include(EulerProblem01BenchMarkTest.class.getSimpleName() + ".*") //
                 .mode(Mode.AverageTime)
                 .resultFormat(ResultFormatType.JSON)
                 .result("target/jmh-results.json")
