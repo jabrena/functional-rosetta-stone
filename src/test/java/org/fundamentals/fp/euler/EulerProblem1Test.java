@@ -27,12 +27,12 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_JavaStream2SolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
+    public void given_VAVRSolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
 
         EulerProblem1 problem1 = new EulerProblem1();
 
-        assertThat(problem1.javaStreamSolution2(10)).isEqualTo(3 + 5 + 6 + 9);
-        assertThat(problem1.javaStreamSolution2(1000)).isEqualTo(euler.getAnswerToLong(1));
+        assertThat(problem1.VAVRSolution(10)).isEqualTo(3 + 5 + 6 + 9);
+        assertThat(problem1.VAVRSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
     }
 
     @Test
@@ -41,13 +41,13 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
         EulerProblem1 problem1 = new EulerProblem1();
 
         StepVerifier
-                .create(problem1.reactorSolution(10))
+                .create(problem1.ReactorSolution(10))
                 .expectNext(23L)
                 .expectComplete()
                 .verify();
 
         StepVerifier
-                .create(problem1.reactorSolution(1000))
+                .create(problem1.ReactorSolution(1000))
                 .expectNext(euler.getAnswerToLong(1))
                 .expectComplete()
                 .verify();

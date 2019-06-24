@@ -1,9 +1,9 @@
 package org.fundamentals.fp.euler;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
+
+import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -45,7 +45,6 @@ public class EulerProblem1 {
 
         for(int counter = 1; counter < limit; counter++) {
             if ((counter % 3 ==0) || (counter % 5 ==0)) {
-                //System.out.println(counter);
                 sum += counter;
             }
         }
@@ -53,40 +52,30 @@ public class EulerProblem1 {
         return sum;
     }
 
-    public long javaStreamSolution(int limit) {
+    Predicate<Long> isMultiple3 = number -> number % 3 == 0;
+    Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
-        Consumer<Long> print = System.out::println;
-        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
+    public long javaStreamSolution(int limit) {
 
         return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))
-                //.peek(print)
                 .reduce(0L, Long::sum);
     }
 
-    public long javaStreamSolution2(int limit) {
+    public long VAVRSolution(long limit) {
 
-        Consumer<Long> print = System.out::println;
-        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
-
-        return LongStream.range(1, limit).boxed()
+         return List.range(1, limit)
                 .filter(isMultiple3.or(isMultiple5))
-                //.peek(print)
-                .collect(Collectors.summingLong(Long::longValue));
+                .sum()
+                .longValue();
     }
 
-    public Mono<Long> reactorSolution(int limit) {
-
-        Predicate<Long> isMultiple3 = number -> number % 3 == 0;
-        Predicate<Long> isMultiple5 = number -> number % 5 == 0;
+    public Mono<Long> ReactorSolution(int limit) {
 
         return MathFlux.sumLong(Flux.range(0, limit)
                     .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
-                    //.log()
-                );
+        );
     }
 
 }
