@@ -25,6 +25,7 @@
 		<assertj-core.version>3.12.2</assertj-core.version>
 		<jmh.version>1.21</jmh.version>
 		<equalsverifier.version>2.2.1</equalsverifier.version>
+		<asm.version>7.1</asm.version>
 	</properties>
 
 	<dependencyManagement>
@@ -214,10 +215,13 @@
 						<goals> <goal>testCompile</goal> </goals>
 					</execution>
 				</executions>
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.ow2.asm</groupId>
+						<artifactId>asm</artifactId>
+						<version>${asm.version}</version> <!-- Use newer version of ASM -->
+					</dependency>
+				</dependencies>
 			</plugin>
 
 
