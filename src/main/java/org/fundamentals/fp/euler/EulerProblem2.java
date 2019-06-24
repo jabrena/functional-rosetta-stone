@@ -79,86 +79,33 @@ public class EulerProblem2 {
         return sum;
     }
 
-    private static class FibonacciSupplier implements LongSupplier {
-
-        long current = 1;
-        long previous = 0;
-
-        @Override
-        public long getAsLong() {
-            long result = current;
-            current = previous + current;
-            previous = result;
-            return result;
-        }
-    }
-
-    public List<Long> getJavaStreamFibonaccyTerms(long limit) {
-
-        Consumer<Long> print = System.out::println;
-
-        return LongStream.generate(new FibonacciSupplier())
-                .skip(1)
-                .takeWhile(x -> x <= limit)
-                .mapToObj(x -> Long.parseLong(String.valueOf(x)))
-                //.peek(print)
-                .collect(Collectors.toList());
-    }
+    Predicate<Long> isEven = number -> (number % 2) == 0;
 
     public Long javaStreamSolution(long limit) {
 
-        Consumer<Long> print = System.out::println;
-        Predicate<Long> isEven = number -> (number % 2) == 0;
-
-        return this.getJavaStreamFibonaccyTerms(limit).stream()
+        return Utils.JavaStreams.fibonacci()
+                .skip(1)
+                .mapToLong(BigInteger::longValue)
+                .takeWhile(x -> x <= limit)
+                .mapToObj(x -> Long.parseLong(String.valueOf(x)))
                 .filter(isEven)
-                //.peek(print)
                 .collect(Collectors.summingLong(Long::longValue));
-    }
-
-    //Original code: https://github.com/vavr-io/vavr/blob/master/vavr/src/test/java/io/vavr/collection/euler/Utils.java
-    public List<Long> getVAVRFibonaccyTerms(long limit) {
-
-        Consumer<Long> print = System.out::println;
-
-        return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)
-                .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)))
-                .map(BigInteger::longValue)
-                .drop(2)
-                .takeWhile(f -> f <= limit)
-                //.peek(print)
-                .collect(Collectors.toList());
     }
 
     public Long VAVRSolution(long limit) {
 
-        Consumer<Long> print = System.out::println;
-        Predicate<Long> isEven = number -> (number % 2) == 0;
-
-        return this.getVAVRFibonaccyTerms(limit).stream()
+        return Utils.VAVR.fibonacci()
+                .map(BigInteger::longValue)
+                .drop(2)
+                .takeWhile(f -> f <= limit)
                 .filter(isEven)
-                //.peek(print)
                 .collect(Collectors.summingLong(Long::longValue));
-    }
-
-    public Flux<Long> getReactorFibonaccyTerms(long limit) {
-
-        Flux<Long> sequence = Flux.generate(
-                () -> Tuples.of(1L, 2L),
-                (state, sink) -> {
-                    sink.next(state.getT1());
-                    return Tuples.of(state.getT2(), state.getT1() + state.getT2());
-                }
-        );
-
-        return sequence.takeWhile(x-> x <= limit);
     }
 
     public Mono<Long> ReactorSolution(long limit) {
 
-        Predicate<Long> isEven = number -> (number % 2) == 0;
-
-        return MathFlux.sumLong(this.getReactorFibonaccyTerms(limit)
+        return MathFlux.sumLong(Utils.Reactor.fibonacci()
+                .takeWhile(x-> x <= limit)
                 .filter(isEven));
     }
 
