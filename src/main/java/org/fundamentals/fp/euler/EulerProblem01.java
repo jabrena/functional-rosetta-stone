@@ -79,6 +79,7 @@ public class EulerProblem01 {
     }
 
     public Long KotlinSolution(long limit) {
+
         return EulerProblem01Kt.KotlinSolution(limit);
     }
 
