@@ -33,7 +33,7 @@ import reactor.math.MathFlux;
  * Then find the sum of the even-valued terms
  *
  */
-public class EulerProblem2 {
+public class EulerProblem02 {
 
     public List<Long> getJavaFibonaccyTerms(long limit) {
 

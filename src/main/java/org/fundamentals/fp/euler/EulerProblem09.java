@@ -17,7 +17,7 @@ import java.util.stream.LongStream;
  * Find the product abc.
  *
  */
-public class EulerProblem9 {
+public class EulerProblem09 {
 
     public long javaStreamSolution(long limit) {
         return LongStream.iterate(1, i -> i + 1)

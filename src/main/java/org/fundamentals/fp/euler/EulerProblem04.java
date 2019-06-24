@@ -11,7 +11,7 @@ import reactor.math.MathFlux;
 
 import static java.util.stream.Collectors.toList;
 
-public class EulerProblem4 {
+public class EulerProblem04 {
 
     public Long javaSolution(long min, long max) {
 

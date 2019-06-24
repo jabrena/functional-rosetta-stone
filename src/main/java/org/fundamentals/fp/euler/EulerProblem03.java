@@ -32,7 +32,7 @@ import static java.util.stream.Collectors.toList;
  * When 600851475143
  * Then ?
  */
-public class EulerProblem3 {
+public class EulerProblem03 {
 
     private List<Long> primeFactors(long number) {
         long n = number;

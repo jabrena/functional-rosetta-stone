@@ -7,13 +7,13 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem4Test extends BaseEulerProblemTest {
+public class EulerProblem04Test extends BaseEulerProblemTest {
 
     @Disabled
     @Test
     public void given_palindromic_when_2digits_then_expectedResultsTest(){
 
-        EulerProblem4 problem4 = new EulerProblem4();
+        EulerProblem04 problem4 = new EulerProblem04();
 
         assertThat(problem4.javaSolution(10L, 99L)).isEqualTo(9009L);
         assertThat(problem4.javaSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
@@ -22,7 +22,7 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
     @Test
     public void given_palindromicStream_when_2digits_then_expectedResultsTest(){
 
-        EulerProblem4 problem4 = new EulerProblem4();
+        EulerProblem04 problem4 = new EulerProblem04();
 
         assertThat(problem4.javaStreamSolution(10L, 99L)).isEqualTo(9009L);
         assertThat(problem4.javaStreamSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
@@ -31,7 +31,7 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
     @Test
     public void given_palindromicVAVR_when_2digits_then_expectedResultsTest(){
 
-        EulerProblem4 problem4 = new EulerProblem4();
+        EulerProblem04 problem4 = new EulerProblem04();
 
         assertThat(problem4.VAVRSolution(10L, 99L)).isEqualTo(9009L);
         assertThat(problem4.VAVRSolution(100L, 999L)).isEqualTo(euler.getAnswerToLong(4));
@@ -40,7 +40,7 @@ public class EulerProblem4Test extends BaseEulerProblemTest {
     @Test
     public void given_ReactorSolution_when_2digits_then_expectdResultsTest() {
 
-        EulerProblem4 problem4 = new EulerProblem4();
+        EulerProblem04 problem4 = new EulerProblem04();
 
         StepVerifier
                 .create(problem4.reactorSolution(10, 99))

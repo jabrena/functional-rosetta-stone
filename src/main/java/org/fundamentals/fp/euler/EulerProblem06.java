@@ -21,7 +21,7 @@ import reactor.math.MathFlux;
  * Find the difference between the sum of the squares of the first one hundred natural numbers
  * and the square of the sum.
  */
-public class EulerProblem6 {
+public class EulerProblem06 {
 
     public Long javaSolution(long limit) {
 

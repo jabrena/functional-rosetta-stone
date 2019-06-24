@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem7Test extends BaseEulerProblemTest {
+public class EulerProblem07Test extends BaseEulerProblemTest {
 
     @Test
     public void given_problem6_when_10_then_expectedResultsTest(){
 
-        EulerProblem7 problem7 = new EulerProblem7();
+        EulerProblem07 problem7 = new EulerProblem07();
 
         assertThat(problem7.isPrime(7)).isEqualTo(true);
         assertThat(problem7.isPrime(9)).isEqualTo(false);

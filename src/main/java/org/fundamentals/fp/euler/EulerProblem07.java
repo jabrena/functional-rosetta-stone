@@ -9,7 +9,7 @@ import org.apache.commons.lang3.NotImplementedException;
  *
  * What is the 10 001st prime number?
  */
-public class EulerProblem7 {
+public class EulerProblem07 {
 
     public Long javaSolution(long limit) {
 

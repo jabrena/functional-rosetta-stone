@@ -37,7 +37,7 @@ import reactor.math.MathFlux;
  */
 @Solved
 @Slf4j
-public class EulerProblem1 {
+public class EulerProblem01 {
 
     public long javaSolution(int limit) {
 
@@ -79,7 +79,7 @@ public class EulerProblem1 {
     }
 
     public Long KotlinSolution(long limit) {
-        return EulerProblem1Kt.KotlinSolution(limit);
+        return EulerProblem01Kt.KotlinSolution(limit);
     }
 
 }

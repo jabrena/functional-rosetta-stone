@@ -6,12 +6,12 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem6Test extends BaseEulerProblemTest {
+public class EulerProblem06Test extends BaseEulerProblemTest {
 
     @Test
     public void given_problem6_when_10_then_expectedResultsTest(){
 
-        EulerProblem6 problem6 = new EulerProblem6();
+        EulerProblem06 problem6 = new EulerProblem06();
 
         assertThat(problem6.javaStreamsSumSquare.apply(10L)).isEqualTo(385);
         assertThat(problem6.javaStreamsSquareSum.apply(10L)).isEqualTo(3025);
@@ -22,7 +22,7 @@ public class EulerProblem6Test extends BaseEulerProblemTest {
     @Test
     public void given_problem6_when_reactor10_then_expectedResultsTest(){
 
-        EulerProblem6 problem6 = new EulerProblem6();
+        EulerProblem06 problem6 = new EulerProblem06();
 
         assertThat(problem6.square.apply(2L)).isEqualTo(4L);
 

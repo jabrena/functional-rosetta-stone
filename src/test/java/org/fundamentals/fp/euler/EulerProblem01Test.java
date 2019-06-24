@@ -6,12 +6,12 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem1Test extends BaseEulerProblemTest {
+public class EulerProblem01Test extends BaseEulerProblemTest {
 
     @Test
     public void given_JavaSolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
 
-        EulerProblem1 problem1 = new EulerProblem1();
+        EulerProblem01 problem1 = new EulerProblem01();
 
         assertThat(problem1.javaSolution(10)).isEqualTo(3 + 5 + 6 + 9);
         assertThat(problem1.javaSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
@@ -20,7 +20,7 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
     @Test
     public void given_JavaStreamSolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
 
-        EulerProblem1 problem1 = new EulerProblem1();
+        EulerProblem01 problem1 = new EulerProblem01();
 
         assertThat(problem1.javaStreamSolution(10)).isEqualTo(3 + 5 + 6 + 9);
         assertThat(problem1.javaStreamSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
@@ -29,7 +29,7 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
     @Test
     public void given_VAVRSolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
 
-        EulerProblem1 problem1 = new EulerProblem1();
+        EulerProblem01 problem1 = new EulerProblem01();
 
         assertThat(problem1.VAVRSolution(10)).isEqualTo(3 + 5 + 6 + 9);
         assertThat(problem1.VAVRSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
@@ -38,7 +38,7 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
     @Test
     public void given_ReactorSolutionProblem1_WhenLimit10_ThenSumIsExpectedTest() {
 
-        EulerProblem1 problem1 = new EulerProblem1();
+        EulerProblem01 problem1 = new EulerProblem01();
 
         StepVerifier
                 .create(problem1.ReactorSolution(10))
@@ -56,7 +56,7 @@ public class EulerProblem1Test extends BaseEulerProblemTest {
     @Test
     public void given_KotlinSolution_whenExecute_then_expectedResultTest() {
 
-        EulerProblem1 problem1 = new EulerProblem1();
+        EulerProblem01 problem1 = new EulerProblem01();
 
         assertThat(problem1.KotlinSolution(10)).isEqualTo(3 + 5 + 6 + 9);
         assertThat(problem1.KotlinSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
