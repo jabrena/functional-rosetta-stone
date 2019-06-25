@@ -16,7 +16,7 @@ public class EulerProblem29Test extends BaseEulerProblemTest {
         EulerProblem29 problem = new EulerProblem29();
 
         List<Long> expectedList = Stream.of(4, 8, 9, 16, 25, 27, 32, 64, 81, 125, 243, 256, 625, 1024, 3125)
-                .map(i -> Long.valueOf(i))
+                .map(Long::valueOf)
                 .collect(toList());
 
         assertThat(problem.generateSerie.apply(5L).collect(toList())).isEqualTo(expectedList);
