@@ -33,10 +33,10 @@ public class EulerProblem29 {
     Function<Long, Stream<Long>> generateSerie = limit ->
             IntStream.rangeClosed(2, limit.intValue()).boxed()
                 .map(BigInteger::valueOf)
-                .flatMap(i -> square.apply(limit, i))
+                .flatMap(bi -> square.apply(limit, bi))
                 .distinct()
                 .sorted()
-                .map(bi -> bi.longValue());
+                .map(BigInteger::longValue);
 
     public long javaStreamSolution(long limit) {
 
