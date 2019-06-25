@@ -45,10 +45,9 @@ public class EulerProblem29 {
 
     public long VAVRSolution(long limit) {
 
-        int max = (int) limit;
-        return io.vavr.collection.Stream.rangeClosed(2, max)
+        return io.vavr.collection.Stream.rangeClosed(2, limit)
                 .map(BigInteger::valueOf)
-                .flatMap(a -> io.vavr.collection.Stream.rangeClosed(2, max).map(a::pow))
+                .flatMap(a -> io.vavr.collection.Stream.rangeClosed(2, (int) limit).map(a::pow))
                 .distinct()
                 .length();
     }
