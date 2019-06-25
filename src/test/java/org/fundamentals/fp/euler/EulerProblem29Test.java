@@ -21,7 +21,7 @@ public class EulerProblem29Test extends BaseEulerProblemTest {
 
         assertThat(problem.generateSerie.apply(5L).collect(toList())).isEqualTo(expectedList);
         assertThat(problem.javaStreamSolution(5L)).isEqualTo(15L);
-        //assertThat(problem.javaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(29));
+        assertThat(problem.javaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(29));
     }
 
     @Test
