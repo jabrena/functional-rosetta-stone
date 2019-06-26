@@ -24,6 +24,12 @@ How to visualize the JMH reports?
 ./mvnw clean test -Dgroups=performance
 ```
 
+Check plugin versions:
+
+```
+mvn versions:display-plugin-updates
+```
+
 https://jmh.morethan.io/
 
 

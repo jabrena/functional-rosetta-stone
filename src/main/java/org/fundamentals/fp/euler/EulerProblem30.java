@@ -1,5 +1,12 @@
 package org.fundamentals.fp.euler;
 
+import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
 /**
  * Problem 30: Digit fifth powers
  * Surprisingly there are only three numbers that can be
@@ -18,8 +25,29 @@ package org.fundamentals.fp.euler;
  */
 public class EulerProblem30 {
 
+    Function<Long, Long> from = limit -> Long.valueOf("1" + IntStream.rangeClosed(1, limit.intValue() -1).boxed()
+            .map(i -> "0")
+            .collect(Collectors.joining("")));
+
+    Function<Long, Long> to = limit -> Long.valueOf(IntStream.rangeClosed(1, limit.intValue()).boxed()
+            .map(i -> "9")
+            .collect(Collectors.joining("")));
+
+    Function<Long, List<Long>> toDigits = value -> value.toString().chars()
+            .mapToObj(c -> String.valueOf((char) c))
+            .map(s -> Long.valueOf(s))
+            .collect(Collectors.toList());
+
+    BiPredicate<Long, Long> isTheSame = (limit, l) ->  toDigits.apply(l).stream()
+            .map(bi -> Math.round(Math.pow(bi,limit)))
+            .reduce((bi1, bi2) -> bi1 + (bi2))
+            .get().longValue() == l;
+
     public long javaStreamSolution(long limit) {
 
-        return 0L;
+        return LongStream.rangeClosed(from.apply(limit).intValue(), to.apply(limit).intValue()).boxed()
+                .filter(l -> isTheSame.test(limit, l))
+                .reduce((l1, l2) -> l1 + l2).get();
     }
+
 }

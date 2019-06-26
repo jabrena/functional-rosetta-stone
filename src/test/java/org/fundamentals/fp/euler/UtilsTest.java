@@ -1,9 +1,10 @@
 package org.fundamentals.fp.euler;
 
-import java.math.BigInteger;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
+
+import java.math.BigInteger;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +22,11 @@ public class UtilsTest {
                 .takeWhile(x -> x <= 100)
                 .mapToObj(x -> Long.parseLong(String.valueOf(x))))
                 .isEqualTo(expectedFibonacci100);
+    }
+
+    @Test void give_JavaStreamFactorialTest() {
+
+        assertThat(Utils.JavaStreams.factorial.apply(10L)).isEqualTo(BigInteger.valueOf(3628800));
     }
 
     @Test

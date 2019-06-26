@@ -1,13 +1,17 @@
 package org.fundamentals.fp.euler;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import reactor.core.publisher.Flux;
 import reactor.util.function.Tuples;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -53,6 +57,17 @@ public class Utils {
                     .takeWhile(l -> l <= limit)
                     .mapToObj(l -> l);
         }
+
+        static Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
+                .limit(limit)
+                .mapToObj(BigInteger::valueOf)
+                .reduce((n1, n2) -> n1.multiply(n2))
+                .get();
+
+        static Function<BigInteger, List<Long>> toDigits = value -> value.toString().chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .map(s -> Long.valueOf(s))
+                .collect(Collectors.toList());
 
     }
 
