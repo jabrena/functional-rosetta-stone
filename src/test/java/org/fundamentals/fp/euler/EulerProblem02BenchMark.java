@@ -13,13 +13,13 @@ public class EulerProblem02BenchMark {
     }
 
     @Benchmark
-    public void javaSolution(St st) {
-        st.problem.javaSolution(st.limit);
+    public void JavaSolution(St st) {
+        st.problem.JavaSolution(st.limit);
     }
 
     @Benchmark
-    public void javaStreamSolution(St st) {
-        st.problem.javaStreamSolution(st.limit);
+    public void JavaStreamSolution(St st) {
+        st.problem.JavaStreamSolution(st.limit);
     }
 
     @Benchmark

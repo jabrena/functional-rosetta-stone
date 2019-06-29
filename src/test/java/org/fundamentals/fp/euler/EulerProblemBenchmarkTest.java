@@ -27,7 +27,7 @@ public class EulerProblemBenchmarkTest {
                 .timeUnit(TimeUnit.MILLISECONDS)
                 .warmupTime(TimeValue.seconds(5))
                 .measurementTime(TimeValue.milliseconds(1))
-                .measurementIterations(10)
+                .measurementIterations(20)
                 .threads(Runtime.getRuntime().availableProcessors())
                 .warmupIterations(1)
                 //.shouldFailOnError(true)

@@ -37,7 +37,7 @@ import reactor.math.MathFlux;
 @Solved
 public class EulerProblem01 {
 
-    public long javaSolution(long limit) {
+    public long JavaSolution(long limit) {
 
         long sum = 0;
 
@@ -53,7 +53,7 @@ public class EulerProblem01 {
     Predicate<Long> isMultiple3 = number -> number % 3 == 0;
     Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
-    public long javaStreamSolution(long limit) {
+    public long JavaStreamSolution(long limit) {
 
         return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))

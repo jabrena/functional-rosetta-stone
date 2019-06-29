@@ -12,8 +12,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
     public void given_JavaSolutionProblem2_WhenFibonacciSerie_ThenValueExpectedTest() {
 
         EulerProblem02 problem2 = new EulerProblem02();
-        assertThat(problem2.javaSolution(100)).isEqualTo(2 + 8 + 34);
-        assertThat(problem2.javaSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
+        assertThat(problem2.JavaSolution(100)).isEqualTo(2 + 8 + 34);
+        assertThat(problem2.JavaSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
     }
 
     @Test
@@ -21,8 +21,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem2 = new EulerProblem02();
 
-        assertThat(problem2.javaStreamSolution(100)).isEqualTo(2 + 8 + 34);
-        assertThat(problem2.javaStreamSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
+        assertThat(problem2.JavaStreamSolution(100)).isEqualTo(2 + 8 + 34);
+        assertThat(problem2.JavaStreamSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
     }
 
 

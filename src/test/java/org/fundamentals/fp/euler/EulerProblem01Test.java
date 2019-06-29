@@ -13,8 +13,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
 
         EulerProblem01 problem1 = new EulerProblem01();
 
-        assertThat(problem1.javaSolution(10)).isEqualTo(3 + 5 + 6 + 9);
-        assertThat(problem1.javaSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
+        assertThat(problem1.JavaSolution(10)).isEqualTo(3 + 5 + 6 + 9);
+        assertThat(problem1.JavaSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
     }
 
     @Test
@@ -22,8 +22,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
 
         EulerProblem01 problem1 = new EulerProblem01();
 
-        assertThat(problem1.javaStreamSolution(10)).isEqualTo(3 + 5 + 6 + 9);
-        assertThat(problem1.javaStreamSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
+        assertThat(problem1.JavaStreamSolution(10)).isEqualTo(3 + 5 + 6 + 9);
+        assertThat(problem1.JavaStreamSolution(1000)).isEqualTo(euler.getAnswerToLong(1));
     }
 
     @Test

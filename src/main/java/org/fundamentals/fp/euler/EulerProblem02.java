@@ -33,7 +33,7 @@ import reactor.math.MathFlux;
 @Solved
 public class EulerProblem02 {
 
-    public Long javaSolution(long limit) {
+    public Long JavaSolution(long limit) {
 
         long sum = 0L;
         for (long number : Utils.Java.fibonacci(limit)) {
@@ -48,7 +48,7 @@ public class EulerProblem02 {
 
     Predicate<Long> isEven = number -> (number % 2) == 0;
 
-    public Long javaStreamSolution(long limit) {
+    public Long JavaStreamSolution(long limit) {
 
         return Utils.JavaStreams.fibonacci(limit)
                 .filter(isEven)
