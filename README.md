@@ -32,6 +32,9 @@ mvn versions:display-plugin-updates
 
 **JMH Charts**
 
+- Use the [jmh-results.json](https://github.com/jabrena/functional-rosetta-stone/blob/master/docs/jmh-results.json) in 
+the following websites: 
+
 - https://jmh.morethan.io/
 - https://nilskp.github.io/jmh-charts/
 
