@@ -9,7 +9,7 @@ public interface IEulerType2 {
     long JavaStreamSolution(long min, long max);
     long VAVRSolution(long min, long max);
     Mono<Long> ReactorSolution(long min, long max);
-    long KotlinSolution(long min, long max);
     Single<Long> RxJavaSolution(long min, long max);
+    long KotlinSolution(long min, long max);
 
 }

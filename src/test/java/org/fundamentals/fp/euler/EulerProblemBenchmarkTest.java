@@ -15,7 +15,7 @@ public class EulerProblemBenchmarkTest {
 
     @Tag("performance")
     @Test
-    public void given_eulerProblemSolutions_when_runMethods_then_receiveExpectedResultsTest() throws RunnerException {
+    public void given_eulerProblemSolutions_when_runMethods_then_expectedBehavioursTest() throws RunnerException {
 
         Options options = new OptionsBuilder()
                 .include(EulerProblem01BenchMark.class.getSimpleName())

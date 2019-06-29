@@ -9,7 +9,7 @@ public class EulerProblem01BenchMark {
     @State(Scope.Thread)
     public static class St {
         EulerProblem01 problem = new EulerProblem01();
-        Long limit = 1000l;
+        int limit = 1000;
     }
 
     @Benchmark
@@ -33,13 +33,13 @@ public class EulerProblem01BenchMark {
     }
 
     @Benchmark
-    public void KotlinSolution(St st) {
-        st.problem.KotlinSolution(st.limit);
+    public void RXJavaSolution(St st) {
+        st.problem.RxJavaSolution(st.limit);
     }
 
     @Benchmark
-    public void RXJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.limit);
+    public void KotlinSolution(St st) {
+        st.problem.KotlinSolution(st.limit);
     }
 
 

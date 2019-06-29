@@ -13,8 +13,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        assertThat(problem.JavaSolution(100)).isEqualTo(2 + 8 + 34);
-        assertThat(problem.JavaSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
+        assertThat(problem.JavaSolution(100L)).isEqualTo(2 + 8 + 34);
+        assertThat(problem.JavaSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
     }
 
     @Test
@@ -22,8 +22,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        assertThat(problem.JavaStreamSolution(100)).isEqualTo(2 + 8 + 34);
-        assertThat(problem.JavaStreamSolution(4_000_000)).isEqualTo(euler.getAnswerToLong(2));
+        assertThat(problem.JavaStreamSolution(100L)).isEqualTo(2 + 8 + 34);
+        assertThat(problem.JavaStreamSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
     }
 
     @Test
@@ -31,7 +31,7 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        assertThat(problem.VAVRSolution(100)).isEqualTo(2 + 8 + 34);
+        assertThat(problem.VAVRSolution(100L)).isEqualTo(2 + 8 + 34);
         assertThat(problem.VAVRSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
     }
 
@@ -41,13 +41,13 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
         EulerProblem02 problem = new EulerProblem02();
 
         StepVerifier
-                .create(problem.ReactorSolution(100))
+                .create(problem.ReactorSolution(100L))
                 .expectNext(44L)
                 .expectComplete()
                 .verify();
 
         StepVerifier
-                .create(problem.ReactorSolution(4_000_000))
+                .create(problem.ReactorSolution(4_000_000L))
                 .expectNext(euler.getAnswerToLong(2))
                 .expectComplete()
                 .verify();
@@ -58,7 +58,7 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        assertThat(problem.KotlinSolution(100)).isEqualTo(2 + 8 + 34);
+        assertThat(problem.KotlinSolution(100L)).isEqualTo(2 + 8 + 34);
         assertThat(problem.KotlinSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
     }
 
@@ -67,7 +67,7 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        assertThat(problem.RxJavaSolution(100).test()
+        assertThat(problem.RxJavaSolution(100L).test()
                 .assertComplete()
                 .assertNoErrors()
                 .assertValueCount(1)
