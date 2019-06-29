@@ -1,6 +1,5 @@
 package org.fundamentals.fp.euler;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -68,13 +67,13 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
 
         EulerProblem02 problem = new EulerProblem02();
 
-        AssertionsForClassTypes.assertThat(problem.RxJavaSolution(100).test()
+        assertThat(problem.RxJavaSolution(100).test()
                 .assertComplete()
                 .assertNoErrors()
                 .assertValueCount(1)
                 .values().get(0)).isEqualTo(2 + 8 + 34);
 
-        AssertionsForClassTypes.assertThat(problem.RxJavaSolution(4_000_000L).test()
+        assertThat(problem.RxJavaSolution(4_000_000L).test()
                 .assertComplete()
                 .assertNoErrors()
                 .assertValueCount(1)
