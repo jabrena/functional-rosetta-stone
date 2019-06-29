@@ -4,6 +4,7 @@ import io.vavr.Tuple;
 import io.vavr.Tuple3;
 import io.vavr.collection.List;
 import java.util.stream.LongStream;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Problem 9: Special Pythagorean triplet
@@ -19,7 +20,12 @@ import java.util.stream.LongStream;
  */
 public class EulerProblem09 {
 
-    public long javaStreamSolution(long limit) {
+    public Long JavaSolution(long limit) {
+
+        throw new NotImplementedException("¯\\_(ツ)_/¯");
+    }
+
+    public long JavaStreamSolution(long limit) {
         return LongStream.iterate(1, i -> i + 1)
                 .mapToObj(i -> new Tuple3<>(i, i, i))
                 .filter(t3 -> {
@@ -33,11 +39,12 @@ public class EulerProblem09 {
 
     }
 
-    public int VAVRSolution(int sum) {
-        return List.rangeClosed(1, sum)
+    public int VAVRSolution(long sum) {
+
+        return List.rangeClosed(1, (int) sum)
                 .crossProduct()
-                .filter(t -> t._1 + t._2 < sum)
-                .map(t -> Tuple.of(t._1, t._2, sum - t._1 - t._2))
+                .filter(t -> t._1 + t._2 < (int) sum)
+                .map(t -> Tuple.of(t._1, t._2, (int) sum - t._1 - t._2))
                 .filter(t -> t._1 * t._1 + t._2 * t._2 == t._3 * t._3)
                 .map(t -> t._1 * t._2 * t._3)
                 .head();

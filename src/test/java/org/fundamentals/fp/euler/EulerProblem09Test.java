@@ -14,7 +14,7 @@ public class EulerProblem09Test extends BaseEulerProblemTest {
 
         EulerProblem09 problem = new EulerProblem09();
 
-        assertThat(problem.javaStreamSolution(1000L)).isEqualTo(euler.getAnswerToLong(9));
+        assertThat(problem.JavaStreamSolution(1000L)).isEqualTo(euler.getAnswerToLong(9));
     }
 
     @Test

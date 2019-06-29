@@ -31,7 +31,7 @@ import static java.util.stream.Collectors.toList;
  * When 600851475143
  * Then ?
  */
-public class EulerProblem03 {
+public class EulerProblem03 implements IEulerType1 {
 
     private List<Long> primeFactors(long limit) {
 
@@ -45,6 +45,7 @@ public class EulerProblem03 {
         return listOfFactors;
     }
 
+    @Override
     public long JavaSolution(long number) {
 
         List<Long> factorList = primeFactors(number);
@@ -60,14 +61,17 @@ public class EulerProblem03 {
                 .orElse(LongStream.of(num));
     }
 
+    @Override
     public long JavaStreamSolution(long limit) {
 
         return factors(2, limit)
                 .mapToObj(l -> Long.valueOf(l))
                 .collect(toList()).stream()
-                .sorted(Comparator.reverseOrder()).findFirst().get();
+                .sorted(Comparator.reverseOrder()).findFirst()
+                .orElseThrow(() -> new RuntimeException("¯\\_(ツ)_/¯"));
     }
 
+    @Override
     public long VAVRSolution(long limit) {
 
         return PrimeNumbers.primeFactors(limit).max().get();
@@ -84,6 +88,7 @@ public class EulerProblem03 {
 
     }
 
+    @Override
     public Mono<Long> ReactorSolution(long limit) {
 
         reactorFactors(2, limit).subscribe(System.out::println);
@@ -91,11 +96,13 @@ public class EulerProblem03 {
         return Mono.just(0L);
     }
 
-    public Long KotlinSolution(long limit) {
+    @Override
+    public long KotlinSolution(long limit) {
 
         return EulerProblem03Kt.KotlinSolution03(limit);
     }
 
+    @Override
     public Single<Long> RxJavaSolution(long l) {
 
         return Single.just(0l);

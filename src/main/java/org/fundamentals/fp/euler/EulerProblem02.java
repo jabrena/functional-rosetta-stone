@@ -33,9 +33,10 @@ import reactor.math.MathFlux;
  *
  */
 @Solved
-public class EulerProblem02 {
+public class EulerProblem02 implements IEulerType1 {
 
-    public Long JavaSolution(long limit) {
+    @Override
+    public long JavaSolution(long limit) {
 
         long sum = 0L;
         for (long number : Utils.Java.fibonacci(limit)) {
@@ -50,33 +51,38 @@ public class EulerProblem02 {
 
     Predicate<Long> isEven = number -> (number % 2) == 0;
 
-    public Long JavaStreamSolution(long limit) {
+    @Override
+    public long JavaStreamSolution(long limit) {
 
         return Utils.JavaStreams.fibonacci(limit)
                 .filter(isEven)
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
-    public Long VAVRSolution(long limit) {
+    @Override
+    public long VAVRSolution(long limit) {
 
         return Utils.VAVR.fibonacci(limit)
                 .filter(isEven)
                 .reduce(Long::sum);
     }
 
+    @Override
     public Mono<Long> ReactorSolution(long limit) {
 
         return MathFlux.sumLong(Utils.Reactor.fibonacci(limit)
                 .filter(isEven));
     }
 
-    public Long KotlinSolution(long limit) {
+    @Override
+    public long KotlinSolution(long limit) {
 
         return EulerProblem02Kt.KotlinSolution02(limit);
     }
 
     io.reactivex.functions.Predicate<Long> RxIsEven = number -> (number % 2) == 0;
 
+    @Override
     public Single<Long> RxJavaSolution(long limit) {
 
         return Observable.fromArray(0L)

@@ -37,8 +37,9 @@ import reactor.math.MathFlux;
  *
  */
 @Solved
-public class EulerProblem01 {
+public class EulerProblem01 implements IEulerType1 {
 
+    @Override
     public long JavaSolution(long limit) {
 
         long sum = 0;
@@ -55,6 +56,7 @@ public class EulerProblem01 {
     Predicate<Long> isMultiple3 = number -> number % 3 == 0;
     Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
+    @Override
     public long JavaStreamSolution(long limit) {
 
         return LongStream.range(1, limit).boxed()
@@ -62,6 +64,7 @@ public class EulerProblem01 {
                 .reduce(0L, Long::sum);
     }
 
+    @Override
     public long VAVRSolution(long limit) {
 
          return List.range(1, limit)
@@ -70,6 +73,7 @@ public class EulerProblem01 {
                  .longValue();
     }
 
+    @Override
     public Mono<Long> ReactorSolution(long limit) {
 
         return MathFlux.sumLong(Flux.range(0, (int) limit)
@@ -78,7 +82,8 @@ public class EulerProblem01 {
         );
     }
 
-    public Long KotlinSolution(long limit) {
+    @Override
+    public long KotlinSolution(long limit) {
 
         return EulerProblem01Kt.KotlinSolution01(limit);
     }
@@ -86,6 +91,7 @@ public class EulerProblem01 {
     io.reactivex.functions.Predicate<Long> RxIsMultiple3 = number -> number % 3 == 0;
     io.reactivex.functions.Predicate<Long> RxIsMultiple5 = number -> number % 5 == 0;
 
+    @Override
     public Single<Long> RxJavaSolution(long limit) {
 
         return Observable.rangeLong(1, limit - 1)

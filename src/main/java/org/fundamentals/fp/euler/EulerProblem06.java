@@ -23,17 +23,17 @@ import reactor.math.MathFlux;
  */
 public class EulerProblem06 {
 
-    public Long javaSolution(long limit) {
+    public Long JavaSolution(long limit) {
 
         throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
 
-    Function<Long, Long> javaStreamsSumSquare = limit -> LongStream.rangeClosed(0, limit)
+    Function<Long, Long> JavaStreamSumSquare = limit -> LongStream.rangeClosed(0, limit)
             .boxed()
             .mapToLong(number -> number * number)
             .sum();
 
-    Function<Long, Long> javaStreamsSquareSum = limit -> Double.valueOf(
+    Function<Long, Long> JavaStreamSquareSum = limit -> Double.valueOf(
             Math.pow(
                     LongStream.rangeClosed(0, limit)
                         .boxed()
@@ -41,9 +41,9 @@ public class EulerProblem06 {
                         .sum()
             , 2)).longValue();
 
-    public Long javaStreamsSolution(long limit) {
+    public Long JavaStreamSolution(long limit) {
 
-        return Stream.of(javaStreamsSquareSum, javaStreamsSumSquare)
+        return Stream.of(JavaStreamSquareSum, JavaStreamSumSquare)
                     .parallel()
                     .map(fx -> fx.apply(limit))
                     .reduce((f1, f2) -> f1 - f2)
@@ -73,14 +73,14 @@ public class EulerProblem06 {
         return MathFlux.sumLong(getSequence(limit)).map(square);
     }
 
-    public Mono<Long> reactorSolution(int limit) {
+    public Mono<Long> ReactorSolution(long limit) {
         return Mono.zip(
-                reactorSumSquare(limit),
-                reactorSquareSum(limit),
+                reactorSumSquare((int) limit),
+                reactorSquareSum((int) limit),
                 (f1, f2) -> f2 - f1);
     }
 
-    public Long kotlinSolution(long limit) {
+    public Long KotlinSolution(long limit) {
 
         throw new NotImplementedException("Coming soon");
     }

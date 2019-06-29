@@ -17,7 +17,6 @@ public class EulerProblem03Test extends BaseEulerProblemTest {
 
         assertThat(problem.JavaSolution(13195L)).isEqualTo(29);
         assertThat(problem.JavaSolution(600851475143L)).isEqualTo(euler.getAnswerToLong(3));
-
     }
 
     @Test
@@ -27,7 +26,6 @@ public class EulerProblem03Test extends BaseEulerProblemTest {
 
         assertThat(problem.JavaStreamSolution(13195L)).isEqualTo(29);
         assertThat(problem.JavaStreamSolution(600851475143L)).isEqualTo(euler.getAnswerToLong(3));
-
     }
 
     @Test
@@ -56,7 +54,6 @@ public class EulerProblem03Test extends BaseEulerProblemTest {
                 .expectNext(euler.getAnswerToLong(3))
                 .expectComplete()
                 .verify();
-
     }
 
     @Disabled
