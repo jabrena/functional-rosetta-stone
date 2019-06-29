@@ -36,10 +36,10 @@ import reactor.core.publisher.Mono;
  *
  */
 @Solved
-public class EulerProblem01 implements IEulerType1 {
+public class EulerProblem01 implements IEulerType1<Long, Long> {
 
     @Override
-    public long JavaSolution(long limit) {
+    public Long JavaSolution(Long limit) {
 
         long sum = 0;
 
@@ -56,7 +56,7 @@ public class EulerProblem01 implements IEulerType1 {
     Predicate<Long> isMultiple5 = number -> number % 5 == 0;
 
     @Override
-    public long JavaStreamSolution(long limit) {
+    public Long JavaStreamSolution(Long limit) {
 
         return LongStream.range(1, limit).boxed()
                 .filter(isMultiple3.or(isMultiple5))
@@ -64,7 +64,7 @@ public class EulerProblem01 implements IEulerType1 {
     }
 
     @Override
-    public long VAVRSolution(long limit) {
+    public Long VAVRSolution(Long limit) {
 
          return List.range(1, limit)
                  .filter(isMultiple3.or(isMultiple5))
@@ -73,28 +73,25 @@ public class EulerProblem01 implements IEulerType1 {
     }
 
     @Override
-    public Mono<Long> ReactorSolution(long limit) {
+    public Mono<Long> ReactorSolution(Long limit) {
 
-        return Flux.range(0, (int) limit)
+        return Flux.range(0, limit.intValue())
                     .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
                     .reduce(0l, (l1, l2) -> l1 + l2);
     }
 
     @Override
-    public long KotlinSolution(long limit) {
+    public Long KotlinSolution(Long limit) {
 
         return EulerProblem01Kt.KotlinSolution01(limit);
     }
 
-    io.reactivex.functions.Predicate<Long> RxIsMultiple3 = number -> number % 3 == 0;
-    io.reactivex.functions.Predicate<Long> RxIsMultiple5 = number -> number % 5 == 0;
-
     @Override
-    public Single<Long> RxJavaSolution(long limit) {
+    public Single<Long> RxJavaSolution(Long limit) {
 
         return Observable.rangeLong(1, limit - 1)
-                .filter(l -> RxIsMultiple3.test(l) || RxIsMultiple5.test(l))
+                .filter(l -> isMultiple3.test(l) || isMultiple5.test(l))
                 .reduce(0L, (a, b) -> a + b);
     }
 

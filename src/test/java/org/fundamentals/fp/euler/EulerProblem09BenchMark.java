@@ -17,7 +17,7 @@ public class EulerProblem09BenchMark {
         st.problem.JavaSolution(st.limit);
     }
 
-    @Benchmark
+    //@Benchmark
     public void JavaStreamSolution(St st) {
         st.problem.JavaStreamSolution(st.limit);
     }

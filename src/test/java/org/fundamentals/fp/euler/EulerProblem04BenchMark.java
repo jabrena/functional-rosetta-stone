@@ -13,7 +13,7 @@ public class EulerProblem04BenchMark {
         Long max = 999l;
     }
 
-    @Benchmark
+    //@Benchmark
     public void JavaSolution(St st) {
         st.problem.JavaSolution(st.min, st.max);
     }

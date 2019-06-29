@@ -31,7 +31,7 @@ import static java.util.stream.Collectors.toList;
  * When 600851475143
  * Then ?
  */
-public class EulerProblem03 implements IEulerType1 {
+public class EulerProblem03 implements IEulerType1<Long, Long> {
 
     private List<Long> primeFactors(long limit) {
 
@@ -46,7 +46,7 @@ public class EulerProblem03 implements IEulerType1 {
     }
 
     @Override
-    public long JavaSolution(long number) {
+    public Long JavaSolution(Long number) {
 
         List<Long> factorList = primeFactors(number);
         return primeFactors(number).get(factorList.size() -1);
@@ -62,7 +62,7 @@ public class EulerProblem03 implements IEulerType1 {
     }
 
     @Override
-    public long JavaStreamSolution(long limit) {
+    public Long JavaStreamSolution(Long limit) {
 
         return factors(2, limit)
                 .mapToObj(l -> Long.valueOf(l))
@@ -72,7 +72,7 @@ public class EulerProblem03 implements IEulerType1 {
     }
 
     @Override
-    public long VAVRSolution(long limit) {
+    public Long VAVRSolution(Long limit) {
 
         return PrimeNumbers.primeFactors(limit).max().get();
     }
@@ -89,7 +89,7 @@ public class EulerProblem03 implements IEulerType1 {
     }
 
     @Override
-    public Mono<Long> ReactorSolution(long limit) {
+    public Mono<Long> ReactorSolution(Long limit) {
 
         //reactorFactors(2, limit).subscribe(System.out::println);
 
@@ -97,13 +97,13 @@ public class EulerProblem03 implements IEulerType1 {
     }
 
     @Override
-    public long KotlinSolution(long limit) {
+    public Long KotlinSolution(Long limit) {
 
         return EulerProblem03Kt.KotlinSolution03(limit);
     }
 
     @Override
-    public Single<Long> RxJavaSolution(long l) {
+    public Single<Long> RxJavaSolution(Long l) {
 
         return Single.just(0l);
     }

@@ -32,10 +32,10 @@ import reactor.core.publisher.Mono;
  *
  */
 @Solved
-public class EulerProblem02 implements IEulerType1 {
+public class EulerProblem02 implements IEulerType1<Long, Long> {
 
     @Override
-    public long JavaSolution(long limit) {
+    public Long JavaSolution(Long limit) {
 
         long sum = 0L;
         for (long number : Utils.Java.fibonacci(limit)) {
@@ -51,7 +51,7 @@ public class EulerProblem02 implements IEulerType1 {
     Predicate<Long> isEven = number -> (number % 2) == 0;
 
     @Override
-    public long JavaStreamSolution(long limit) {
+    public Long JavaStreamSolution(Long limit) {
 
         return Utils.JavaStreams.fibonacci(limit)
                 .filter(isEven)
@@ -59,7 +59,7 @@ public class EulerProblem02 implements IEulerType1 {
     }
 
     @Override
-    public long VAVRSolution(long limit) {
+    public Long VAVRSolution(Long limit) {
 
         return Utils.VAVR.fibonacci(limit)
                 .filter(isEven)
@@ -67,7 +67,7 @@ public class EulerProblem02 implements IEulerType1 {
     }
 
     @Override
-    public Mono<Long> ReactorSolution(long limit) {
+    public Mono<Long> ReactorSolution(Long limit) {
 
         return Utils.Reactor.fibonacci(limit)
                 .filter(isEven)
@@ -75,7 +75,7 @@ public class EulerProblem02 implements IEulerType1 {
     }
 
     @Override
-    public long KotlinSolution(long limit) {
+    public Long KotlinSolution(Long limit) {
 
         return EulerProblem02Kt.KotlinSolution02(limit);
     }
@@ -83,7 +83,7 @@ public class EulerProblem02 implements IEulerType1 {
     io.reactivex.functions.Predicate<Long> RxIsEven = number -> (number % 2) == 0;
 
     @Override
-    public Single<Long> RxJavaSolution(long limit) {
+    public Single<Long> RxJavaSolution(Long limit) {
 
         return Observable.fromArray(0L)
                 .repeat()

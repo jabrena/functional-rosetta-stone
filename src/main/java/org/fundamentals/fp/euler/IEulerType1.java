@@ -3,13 +3,13 @@ package org.fundamentals.fp.euler;
 import io.reactivex.Single;
 import reactor.core.publisher.Mono;
 
-public interface IEulerType1 {
+public interface IEulerType1<T,U> {
 
-    long JavaSolution(long limit);
-    long JavaStreamSolution(long limit);
-    long VAVRSolution(long limit);
-    Mono<Long> ReactorSolution(long limit);
-    long KotlinSolution(long limit);
-    Single<Long> RxJavaSolution(long limit);
+    U JavaSolution(T limit);
+    U JavaStreamSolution(T limit);
+    U VAVRSolution(T limit);
+    Mono<U> ReactorSolution(T limit);
+    U KotlinSolution(T limit);
+    Single<U> RxJavaSolution(T limit);
 
 }

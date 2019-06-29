@@ -26,17 +26,13 @@ public class EulerProblem09 {
     }
 
     public long JavaStreamSolution(long limit) {
+
         return LongStream.iterate(1, i -> i + 1)
                 .mapToObj(i -> new Tuple3<>(i, i, i))
-                .filter(t3 -> {
-                    return t3._1 + t3._2 + t3._3 == limit;
-                })
-                //.mapToLong(t3 -> t3._1 * t3._2 * t3._3)
+                .filter(t3 -> t3._1 + t3._2 + t3._3 == limit)
                 .peek(System.out::println)
                 .limit(1)
                 .count();
-                //.reduce(0, t3 -> t3._1 * t3._2 * t3._3);
-
     }
 
     public int VAVRSolution(long sum) {

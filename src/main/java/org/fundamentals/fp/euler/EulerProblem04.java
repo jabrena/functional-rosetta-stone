@@ -13,7 +13,7 @@ import reactor.math.MathFlux;
 
 import static java.util.stream.Collectors.toList;
 
-public class EulerProblem04 implements IEulerType2{
+public class EulerProblem04 implements IEulerType2 {
 
     @Override
     public long JavaSolution(long min, long max) {
