@@ -14,7 +14,6 @@ Improve the functional programming skills for Java Developers
 How to test the project?
 
 ```
-export MAVEN_OPTS="-Xms4048m -Xmx4048m"
 ./mvnw clean test -DexcludedGroups=performance
 ```
 
@@ -22,12 +21,6 @@ How to visualize the JMH reports?
 
 ```
 ./mvnw clean test -Dgroups=performance
-```
-
-Check plugin versions:
-
-```
-mvn versions:display-plugin-updates
 ```
 
 **JMH Charts**
