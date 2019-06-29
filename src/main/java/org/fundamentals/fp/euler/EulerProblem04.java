@@ -69,7 +69,6 @@ public class EulerProblem04 {
                 .map(Long::valueOf)
                 .flatMap(crossProduct)
                 .filter(this::isPalindrome)
-            //.log()
         );
     }
 
