@@ -1,5 +1,7 @@
 package org.fundamentals.fp.euler;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.vavr.collection.List;
 import java.util.function.Predicate;
 import java.util.stream.LongStream;
@@ -63,9 +65,9 @@ public class EulerProblem01 {
     public long VAVRSolution(long limit) {
 
          return List.range(1, limit)
-                .filter(isMultiple3.or(isMultiple5))
-                .sum()
-                .longValue();
+                 .filter(isMultiple3.or(isMultiple5))
+                 .sum()
+                 .longValue();
     }
 
     public Mono<Long> ReactorSolution(long limit) {
@@ -79,6 +81,16 @@ public class EulerProblem01 {
     public Long KotlinSolution(long limit) {
 
         return EulerProblem01Kt.KotlinSolution01(limit);
+    }
+
+    io.reactivex.functions.Predicate<Long> RxisMultiple3 = number -> number % 3 == 0;
+    io.reactivex.functions.Predicate<Long> RxisMultiple5 = number -> number % 5 == 0;
+
+    public Single<Long> RxJavaSolution(long limit) {
+
+        return Observable.rangeLong(1, limit - 1)
+                .filter(l -> RxisMultiple3.test(l) || RxisMultiple5.test(l))
+                .reduce(0L, (a, b) -> a + b);
     }
 
 }

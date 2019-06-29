@@ -68,6 +68,7 @@ What libraries could help you to enrich your #FP experience with Java?
  - VAVR
  - Lombok
  - Reactor
+ - RxJava
 
 ## Functional programming features with Java 8+?
 

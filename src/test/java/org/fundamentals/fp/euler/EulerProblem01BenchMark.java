@@ -37,4 +37,10 @@ public class EulerProblem01BenchMark {
         st.problem.KotlinSolution(st.limit);
     }
 
+    @Benchmark
+    public void RXJavaSolution(St st) {
+        st.problem.RxJavaSolution(st.limit);
+    }
+
+
 }

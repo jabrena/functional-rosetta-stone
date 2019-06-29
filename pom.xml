@@ -27,6 +27,7 @@
 		<jmh.version>1.21</jmh.version>
 		<equalsverifier.version>2.2.1</equalsverifier.version>
 		<asm.version>7.1</asm.version>
+		<rxjava.version>2.2.10</rxjava.version>
 	</properties>
 
 	<dependencyManagement>
@@ -104,6 +105,12 @@
 		<dependency>
 			<groupId>io.projectreactor.addons</groupId>
 			<artifactId>reactor-extra</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.reactivex.rxjava2</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>${rxjava.version}</version>
 		</dependency>
 
 		<dependency>
