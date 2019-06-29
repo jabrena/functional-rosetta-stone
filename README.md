@@ -30,7 +30,10 @@ Check plugin versions:
 mvn versions:display-plugin-updates
 ```
 
-https://jmh.morethan.io/
+**JMH Charts**
+
+- https://jmh.morethan.io/
+- https://nilskp.github.io/jmh-charts/
 
 
 

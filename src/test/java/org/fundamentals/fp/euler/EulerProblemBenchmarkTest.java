@@ -32,7 +32,7 @@ public class EulerProblemBenchmarkTest {
                 .warmupIterations(1)
                 //.shouldFailOnError(true)
                 .shouldDoGC(true)
-                .forks(3)
+                .forks(5)
                 .build();
 
         new Runner(options).run();
