@@ -83,13 +83,13 @@ public class EulerProblem01 {
         return EulerProblem01Kt.KotlinSolution01(limit);
     }
 
-    io.reactivex.functions.Predicate<Long> RxisMultiple3 = number -> number % 3 == 0;
-    io.reactivex.functions.Predicate<Long> RxisMultiple5 = number -> number % 5 == 0;
+    io.reactivex.functions.Predicate<Long> RxIsMultiple3 = number -> number % 3 == 0;
+    io.reactivex.functions.Predicate<Long> RxIsMultiple5 = number -> number % 5 == 0;
 
     public Single<Long> RxJavaSolution(long limit) {
 
         return Observable.rangeLong(1, limit - 1)
-                .filter(l -> RxisMultiple3.test(l) || RxisMultiple5.test(l))
+                .filter(l -> RxIsMultiple3.test(l) || RxIsMultiple5.test(l))
                 .reduce(0L, (a, b) -> a + b);
     }
 

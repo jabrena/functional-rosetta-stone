@@ -1,9 +1,5 @@
 package org.fundamentals.fp.euler;
 
-import org.apache.commons.lang3.tuple.Pair;
-import reactor.core.publisher.Flux;
-import reactor.util.function.Tuples;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +8,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.tuple.Pair;
+import reactor.core.publisher.Flux;
+import reactor.util.function.Tuples;
 
 public class Utils {
 

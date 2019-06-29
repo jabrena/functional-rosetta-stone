@@ -3,7 +3,6 @@ package org.fundamentals.fp.euler;
 import io.vavr.Tuple;
 import io.vavr.collection.CharSeq;
 import io.vavr.collection.Stream;
-
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;

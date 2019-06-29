@@ -20,6 +20,7 @@ public class EulerProblemBenchmarkTest {
         Options options = new OptionsBuilder()
                 .include(EulerProblem01BenchMark.class.getSimpleName())
                 .include(EulerProblem02BenchMark.class.getSimpleName())
+                //.include(EulerProblem03BenchMark.class.getSimpleName())
                 .resultFormat(ResultFormatType.JSON)
                 .result("target/jmh-results.json")
                 //.verbosity(VerboseMode.EXTRA)
