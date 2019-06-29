@@ -1,5 +1,9 @@
 package org.fundamentals.fp.euler;
 
+import io.vavr.Tuple;
+import io.vavr.collection.CharSeq;
+import io.vavr.collection.Stream;
+
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -48,6 +52,26 @@ public class EulerProblem30 {
         return LongStream.rangeClosed(from.apply(limit).intValue(), to.apply(limit).intValue()).boxed()
                 .filter(l -> isTheSame.test(limit, l))
                 .reduce((l1, l2) -> l1 + l2).get();
+    }
+
+    public long VAVRSolution(long powers) {
+        return io.vavr.collection.List.rangeClosed(10, maximalSumForPowers(powers))
+                .filter(i -> sumOfPowersOfDigits(powers, i) == i)
+                .sum().longValue();
+    }
+
+    private long maximalSumForPowers(long powers) {
+        return Stream.from(1)
+                .map(i -> Tuple.of((long) Math.pow(10, i) - 1, io.vavr.collection.List.fill(i, () -> Math.pow(9, powers)).sum().longValue()))
+                .find(t -> t._1 > t._2)
+                .map(t -> t._1).get();
+    }
+
+    private long sumOfPowersOfDigits(long powers, long num) {
+        return CharSeq.of(Long.toString(num))
+                .map(c -> Character.digit(c, 10))
+                .map(d -> (long) Math.pow(d, powers))
+                .sum().longValue();
     }
 
 }

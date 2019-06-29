@@ -119,6 +119,12 @@ Java 9
 - takeWhile
 - dropWhile
 
+In VAVR, you can use new intermediate operators like:
+
+- fold
+
+![](https://pbs.twimg.com/media/D-DAIyQW4AUzh2P?format=png&name=small)
+
 **Terminal Operations**
 
 - forEach Ok
