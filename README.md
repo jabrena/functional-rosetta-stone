@@ -62,9 +62,9 @@ What concepts from Functional programming ecosystem, you should review?
 What libraries could help you to enrich your #FP experience with Java?
 
  - VAVR
- - Lombok
  - Reactor
  - RxJava
+ - Parallel Collectors
 
 ## Functional programming features with Java 8+?
 
@@ -205,8 +205,6 @@ assertThat(trim
         .andThen(cheers)
         .apply("   john")).isEqualTo("Hello JOHN");
         
-        
-
 ```
 
 ### Completable Future
