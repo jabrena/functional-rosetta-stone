@@ -91,7 +91,7 @@ public class EulerProblem03 implements IEulerType1 {
     @Override
     public Mono<Long> ReactorSolution(long limit) {
 
-        reactorFactors(2, limit).subscribe(System.out::println);
+        //reactorFactors(2, limit).subscribe(System.out::println);
 
         return Mono.just(0L);
     }

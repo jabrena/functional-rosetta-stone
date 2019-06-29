@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import java.util.stream.LongStream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.math.MathFlux;
 
 /**
  * https://projecteuler.net/problem=1
@@ -76,10 +75,10 @@ public class EulerProblem01 implements IEulerType1 {
     @Override
     public Mono<Long> ReactorSolution(long limit) {
 
-        return MathFlux.sumLong(Flux.range(0, (int) limit)
+        return Flux.range(0, (int) limit)
                     .map(x -> Long.valueOf(x))
                     .filter(isMultiple3.or(isMultiple5))
-        );
+                    .reduce(0l, (l1, l2) -> l1 + l2);
     }
 
     @Override

@@ -5,7 +5,6 @@ import io.reactivex.Single;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import reactor.core.publisher.Mono;
-import reactor.math.MathFlux;
 
 /**
  * https://projecteuler.net/problem=2
@@ -70,8 +69,9 @@ public class EulerProblem02 implements IEulerType1 {
     @Override
     public Mono<Long> ReactorSolution(long limit) {
 
-        return MathFlux.sumLong(Utils.Reactor.fibonacci(limit)
-                .filter(isEven));
+        return Utils.Reactor.fibonacci(limit)
+                .filter(isEven)
+                .reduce(0L, (l1, l2) -> l1 + l2);
     }
 
     @Override
