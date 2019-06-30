@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.profile.GCProfiler;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -41,6 +42,13 @@ public class EulerProblemBenchmarkTest {
                 //.shouldFailOnError(true)
                 .shouldDoGC(true)
                 .forks(5)
+                .jvmArgs("-Xmx6144m", "-Xms6144m")
+                //.addProfiler(StackProfiler.class)
+                .addProfiler(GCProfiler.class)
+                //.addProfiler(LinuxPerfProfiler.class)
+                //.addProfiler(ClassloaderProfiler.class)
+                //.addProfiler(CompilerProfiler.class)
+                .addProfiler(JmhFlightRecorderProfiler.class)
                 .build();
 
         new Runner(options).run();
