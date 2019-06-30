@@ -1,11 +1,11 @@
 package org.fundamentals.fp.euler;
 
 import io.reactivex.Single;
+import io.vavr.Function3;
 import io.vavr.collection.Seq;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 import reactor.core.publisher.Mono;
 
@@ -60,25 +60,28 @@ public class EulerProblem08 implements IEulerType1<Integer, Long> {
         return list.stream().sorted(Comparator.reverseOrder()).findFirst().get();
     }
 
-    BiFunction<Integer, Integer, Long> calculateNumber = (i, limit) ->
+    Function3<String, Integer, Integer, Long> calculateNumber = (data, i, limit) ->
             IntStream.range(i, i + limit).boxed()
-                .map(j -> Long.parseLong(DATASOURCE.substring(j, j + 1)))
+                .map(j -> Long.parseLong(data.substring(j, j + 1)))
                 .reduce(1L, (l1, l2) -> l1 * l2);
 
     @Override
     public Long JavaStreamSolution(Integer limit) {
+
         return IntStream.rangeClosed(0, DATASOURCE.length() - limit).boxed()
-                .mapToLong(i -> calculateNumber.apply(i, limit))
+                .mapToLong(i -> calculateNumber.apply(DATASOURCE, i, limit))
                 .max().getAsLong();
     }
 
     private static io.vavr.collection.List<Integer> digits(String num) {
+
         return io.vavr.collection.List.of(num.split(""))
                 .map(s -> Character.digit(s.charAt(0), 10));
     }
 
     @Override
     public Long VAVRSolution(Integer limit) {
+
         return digits(DATASOURCE)
                 .sliding(limit)
                 .map(Seq::product)
