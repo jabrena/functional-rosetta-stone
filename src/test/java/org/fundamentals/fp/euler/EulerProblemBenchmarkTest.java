@@ -25,7 +25,7 @@ public class EulerProblemBenchmarkTest {
                 //.include(EulerProblem05BenchMark.class.getSimpleName())
                 //.include(EulerProblem06BenchMark.class.getSimpleName())
                 //.include(EulerProblem07BenchMark.class.getSimpleName())
-                //.include(EulerProblem08BenchMark.class.getSimpleName())
+                .include(EulerProblem08BenchMark.class.getSimpleName())
                 //.include(EulerProblem09BenchMark.class.getSimpleName())
                 //.include(EulerProblem10BenchMark.class.getSimpleName())
                 .resultFormat(ResultFormatType.JSON)

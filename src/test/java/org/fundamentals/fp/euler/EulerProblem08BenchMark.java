@@ -1,27 +1,28 @@
 package org.fundamentals.fp.euler;
 
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
-public class EulerProblem09BenchMark {
+public class EulerProblem08BenchMark {
 
     @State(Scope.Thread)
     public static class St {
-        EulerProblem09 problem = new EulerProblem09();
-        Long limit = 20l;
+        EulerProblem08 problem = new EulerProblem08();
+        Integer limit = 13;
     }
 
-    //@Benchmark
+    @Benchmark
     public void JavaSolution(St st) {
         st.problem.JavaSolution(st.limit);
     }
 
-    //@Benchmark
+    @Benchmark
     public void JavaStreamSolution(St st) {
         st.problem.JavaStreamSolution(st.limit);
     }
 
-    //@Benchmark
+    @Benchmark
     public void VAVRSolution(St st) {
         st.problem.VAVRSolution(st.limit);
     }
@@ -32,15 +33,14 @@ public class EulerProblem09BenchMark {
         st.problem.ReactorSolution(st.limit);
     }
 
+    @Benchmark
+    public void RxJavaSolution(St st) {
+        st.problem.RxJavaSolution(st.limit);
+    }
 
     @Benchmark
     public void KotlinSolution(St st) {
         st.problem.KotlinSolution(st.limit);
-    }
-
-    @Benchmark
-    public void RxJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.limit);
     }
     */
 }
