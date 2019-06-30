@@ -61,7 +61,7 @@ public class Utils {
         static Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
                 .limit(limit)
                 .mapToObj(BigInteger::valueOf)
-                .reduce(BigInteger.ZERO, (n1, n2) -> n1.multiply(n2));
+                .reduce((n1, n2) -> n1.multiply(n2)).get();
 
         static Function<BigInteger, List<Long>> toDigits = value -> value.toString().chars()
                 .mapToObj(c -> String.valueOf((char) c))

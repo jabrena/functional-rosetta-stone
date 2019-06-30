@@ -1,5 +1,6 @@
 package org.fundamentals.fp.euler;
 
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
@@ -21,7 +22,7 @@ public class EulerProblem09BenchMark {
         st.problem.JavaStreamSolution(st.limit);
     }
 
-    //@Benchmark
+    @Benchmark
     public void VAVRSolution(St st) {
         st.problem.VAVRSolution(st.limit);
     }

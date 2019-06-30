@@ -29,10 +29,9 @@ public class EulerProblem05 {
 
     public long JavaStreamSolution(long limit) {
 
-        return LongStream.iterate(1, i -> i + 1)
+        return LongStream.rangeClosed(1, Long.MAX_VALUE).boxed()
                 .filter(i -> checkDivisible.test(i, limit))
-                .findFirst()
-                .getAsLong();
+                .findFirst().get();
     }
 
     public long VAVRSolution(long limit) {

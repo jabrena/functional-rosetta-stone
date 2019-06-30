@@ -12,7 +12,7 @@ public class EulerProblem10Test extends BaseEulerProblemTest {
 
         EulerProblem10 problem = new EulerProblem10();
 
-        assertThat(problem.javaStreamSolution(10L)).isEqualTo(17);
+        assertThat(problem.JavaStreamSolution(10L)).isEqualTo(17);
         //Working but very slow in execution
         //assertThat(problem.javaStreamSolution(2_000_000L)).isEqualTo(euler.getAnswerToLong(10));
     }
