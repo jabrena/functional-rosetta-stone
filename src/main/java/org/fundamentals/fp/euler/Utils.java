@@ -1,5 +1,6 @@
 package org.fundamentals.fp.euler;
 
+import io.reactivex.Observable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +61,7 @@ public class Utils {
         static Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
                 .limit(limit)
                 .mapToObj(BigInteger::valueOf)
-                //.peek(System.out::println)
-                .reduce((n1, n2) -> n1.multiply(n2))
-                .orElse(BigInteger.ZERO);
+                .reduce(BigInteger.ZERO, (n1, n2) -> n1.multiply(n2));
 
         static Function<BigInteger, List<Long>> toDigits = value -> value.toString().chars()
                 .mapToObj(c -> String.valueOf((char) c))
@@ -102,6 +101,23 @@ public class Utils {
         }
 
         public static Flux<Long> fibonacci(long limit) {
+
+            return fibonacci().takeWhile(x-> x <= limit);
+        }
+
+    }
+
+    public static class RxJava {
+
+        public static Observable<Long> fibonacci() {
+
+            return Observable.fromArray(0L)
+                    .repeat()
+                    .scan(new long[]{0, 1}, (a, b) -> new long[]{a[1], a[0] + a[1]})
+                    .map(a -> a[1]);
+        }
+
+        public static Observable<Long> fibonacci(long limit) {
 
             return fibonacci().takeWhile(x-> x <= limit);
         }

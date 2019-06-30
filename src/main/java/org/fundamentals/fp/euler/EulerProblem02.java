@@ -1,6 +1,5 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -71,7 +70,15 @@ public class EulerProblem02 implements IEulerType1<Long, Long> {
 
         return Utils.Reactor.fibonacci(limit)
                 .filter(isEven)
-                .reduce(0L, (l1, l2) -> l1 + l2);
+                .reduce(Long::sum);
+    }
+
+    @Override
+    public Single<Long> RxJavaSolution(Long limit) {
+
+        return Utils.RxJava.fibonacci(limit)
+                .filter(l -> isEven.test(l))
+                .reduce(0L, (a, b) -> a + b);
     }
 
     @Override
@@ -79,18 +86,5 @@ public class EulerProblem02 implements IEulerType1<Long, Long> {
 
         return EulerProblem02Kt.KotlinSolution02(limit);
     }
-
-    io.reactivex.functions.Predicate<Long> RxIsEven = number -> (number % 2) == 0;
-
-    @Override
-    public Single<Long> RxJavaSolution(Long limit) {
-
-        return Observable.fromArray(0L)
-                .repeat()
-                .scan(new long[]{0, 1}, (a, b) -> new long[]{a[1], a[0] + a[1]})
-                .map(a -> a[1])
-                .takeWhile(x-> x <= limit)
-                .filter(RxIsEven)
-                .reduce(0L, (a, b) -> a + b);
-    }
+    
 }

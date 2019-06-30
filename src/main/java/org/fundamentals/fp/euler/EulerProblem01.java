@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
 /**
  * Problem 1: Multiples of 3 and 5
  * https://projecteuler.net/problem=1
@@ -64,7 +63,7 @@ public class EulerProblem01 implements IEulerType1<Integer, Integer> {
 
         return Flux.range(0, limit)
                     .filter(isMultiple3.or(isMultiple5))
-                    .reduce(0, (l1, l2) -> l1 + l2);
+                    .reduce(0, Integer::sum);
     }
 
     @Override
