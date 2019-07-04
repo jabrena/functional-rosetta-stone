@@ -11,7 +11,7 @@ import org.apache.commons.lang3.NotImplementedException;
  */
 public class EulerProblem07 {
 
-    public Long javaSolution(long limit) {
+    public Long JavaSolution(long limit) {
 
         throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
@@ -21,7 +21,7 @@ public class EulerProblem07 {
                 .noneMatch(i -> number % i == 0);
     }
 
-    public long javaStreamsSolution(long limit) {
+    public long JavaStreamSolution(long limit) {
 
         return LongStream.iterate(1, i -> i + 1)
                 .filter(this::isPrime)

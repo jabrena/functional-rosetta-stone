@@ -14,8 +14,8 @@ public class EulerProblem07Test extends BaseEulerProblemTest {
 
         assertThat(problem7.isPrime(7)).isEqualTo(true);
         assertThat(problem7.isPrime(9)).isEqualTo(false);
-        assertThat(problem7.javaStreamsSolution(6L)).isEqualTo(13);
-        assertThat(problem7.javaStreamsSolution(10001)).isEqualTo(euler.getAnswerToLong(7));
+        assertThat(problem7.JavaStreamSolution(6L)).isEqualTo(13);
+        assertThat(problem7.JavaStreamSolution(10001)).isEqualTo(euler.getAnswerToLong(7));
     }
 
 }

@@ -1,9 +1,9 @@
 package org.fundamentals.fp.euler;
 
+import io.reactivex.Single;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import reactor.core.publisher.Mono;
-import reactor.math.MathFlux;
 
 /**
  * https://projecteuler.net/problem=2
@@ -31,9 +31,10 @@ import reactor.math.MathFlux;
  *
  */
 @Solved
-public class EulerProblem02 {
+public class EulerProblem02 implements IEulerType1<Long, Long> {
 
-    public Long javaSolution(long limit) {
+    @Override
+    public Long JavaSolution(Long limit) {
 
         long sum = 0L;
         for (long number : Utils.Java.fibonacci(limit)) {
@@ -48,28 +49,42 @@ public class EulerProblem02 {
 
     Predicate<Long> isEven = number -> (number % 2) == 0;
 
-    public Long javaStreamSolution(long limit) {
+    @Override
+    public Long JavaStreamSolution(Long limit) {
 
         return Utils.JavaStreams.fibonacci(limit)
                 .filter(isEven)
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
-    public Long VAVRSolution(long limit) {
+    @Override
+    public Long VAVRSolution(Long limit) {
 
         return Utils.VAVR.fibonacci(limit)
                 .filter(isEven)
                 .reduce(Long::sum);
     }
 
-    public Mono<Long> ReactorSolution(long limit) {
+    @Override
+    public Mono<Long> ReactorSolution(Long limit) {
 
-        return MathFlux.sumLong(Utils.Reactor.fibonacci(limit)
-                .filter(isEven));
+        return Utils.Reactor.fibonacci(limit)
+                .filter(isEven)
+                .reduce(Long::sum);
     }
 
-    public Long KotlinSolution(long limit) {
+    @Override
+    public Single<Long> RxJavaSolution(Long limit) {
+
+        return Utils.RxJava.fibonacci(limit)
+                .filter(l -> isEven.test(l))
+                .reduce(0L, (a, b) -> a + b);
+    }
+
+    @Override
+    public Long KotlinSolution(Long limit) {
 
         return EulerProblem02Kt.KotlinSolution02(limit);
     }
+    
 }

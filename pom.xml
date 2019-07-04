@@ -17,6 +17,9 @@
 		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<vavr.version>0.10.0</vavr.version>
+		<arrow.version>0.8.2</arrow.version>
+		<rxjava.version>2.2.10</rxjava.version>
+		<parallel-collectors.version>1.1.0</parallel-collectors.version>
 		<lombok.version>1.18.8</lombok.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
 		<logback-classic.version>1.2.3</logback-classic.version>
@@ -25,8 +28,6 @@
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
 		<assertj-core.version>3.12.2</assertj-core.version>
 		<jmh.version>1.21</jmh.version>
-		<equalsverifier.version>2.2.1</equalsverifier.version>
-		<asm.version>7.1</asm.version>
 	</properties>
 
 	<dependencyManagement>
@@ -107,6 +108,24 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.reactivex.rxjava2</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>${rxjava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.arrow-kt</groupId>
+			<artifactId>arrow-core</artifactId>
+			<version>${arrow.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pivovarit</groupId>
+			<artifactId>parallel-collectors</artifactId>
+			<version>${parallel-collectors.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit.jupiter.version}</version>
@@ -139,12 +158,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>nl.jqno.equalsverifier</groupId>
-			<artifactId>equalsverifier</artifactId>
-			<version>${equalsverifier.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.openjdk.jmh</groupId>
 			<artifactId>jmh-core</artifactId>
 			<version>${jmh.version}</version>
@@ -157,7 +170,6 @@
 			<version>${jmh.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

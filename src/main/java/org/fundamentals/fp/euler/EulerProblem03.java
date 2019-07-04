@@ -1,13 +1,12 @@
 package org.fundamentals.fp.euler;
 
+import io.reactivex.Single;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
-import java.util.stream.StreamSupport;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,59 +31,80 @@ import static java.util.stream.Collectors.toList;
  * When 600851475143
  * Then ?
  */
-public class EulerProblem03 {
+public class EulerProblem03 implements IEulerType1<Long, Long> {
 
-    private List<Long> primeFactors(long number) {
-        long n = number;
-        List<Long> factors = new ArrayList<>();
-        for (long i = 2; i <= n; i++) {
-            while (n % i == 0) {
-                factors.add(i);
-                n /= i;
+    private List<Long> primeFactors(long limit) {
+
+        List<Long> listOfFactors = new ArrayList<>();
+        for (long i = 2; i <= limit; i++) {
+            while (limit % i == 0) {
+                listOfFactors.add(i);
+                limit /= i;
             }
         }
-        return factors;
+        return listOfFactors;
     }
 
-    public long javaSolution(long number) {
+    @Override
+    public Long JavaSolution(Long number) {
 
         List<Long> factorList = primeFactors(number);
-        return factorList.get(factorList.size() -1);
+        return primeFactors(number).get(factorList.size() -1);
     }
 
-    static private LongStream primeFactorsIntStream(long n) {
-        int characteristics = Spliterator.ORDERED | Spliterator.SORTED | Spliterator.IMMUTABLE | Spliterator.NONNULL;
-        Spliterator.OfLong spliterator = new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE, characteristics) {
-            long val = n;
-            int div = 2;
+    LongStream factors(long lastFactor, long num) {
 
-            @Override
-            public boolean tryAdvance(LongConsumer action) {
-                while (div <= val) {
-                    if (val % div == 0) {
-                        action.accept(div);
-                        val /= div;
-                        return true;
-                    }
-                    div += div == 2 ? 1 : 2;
-                }
-                return false;
-            }
-
-            @Override
-            public Comparator<? super Long> getComparator() {
-                return null;
-            }
-        };
-        return StreamSupport.longStream(spliterator, false);
+        return LongStream.rangeClosed(lastFactor, (long) Math.sqrt(num))
+                .filter(x -> num % x == 0)
+                .mapToObj(x -> LongStream.concat(LongStream.of(x), factors(x, num / x)))
+                .findFirst()
+                .orElse(LongStream.of(num));
     }
 
-    private List<Long> primeFactorsStream(long number) {
-        return primeFactorsIntStream(number).boxed().collect(toList());
+    @Override
+    public Long JavaStreamSolution(Long limit) {
+
+        return factors(2, limit)
+                .mapToObj(l -> Long.valueOf(l))
+                .collect(toList()).stream()
+                .sorted(Comparator.reverseOrder()).findFirst()
+                .orElseThrow(() -> new RuntimeException("¯\\_(ツ)_/¯"));
     }
 
-    public long javaStreamSolution(long number) {
+    @Override
+    public Long VAVRSolution(Long limit) {
 
-        return primeFactorsStream(number).stream().reduce((first, second) -> second).get();
+        return PrimeNumbers.primeFactors(limit).max().get();
+    }
+
+    Flux<Long> reactorFactors(int lastFactor, long limit) {
+
+        return Flux.range(0, (int) Math.round(Math.sqrt(limit)))
+                .filter(x -> limit % x == 0)
+                .map(x -> Flux.concat(Flux.just(x), reactorFactors(x, limit / x)))
+                .map(x -> Long.valueOf(x.toString()))
+                .sort()
+                .take(1);
+
+    }
+
+    @Override
+    public Mono<Long> ReactorSolution(Long limit) {
+
+        //reactorFactors(2, limit).subscribe(System.out::println);
+
+        return Mono.just(0L);
+    }
+
+    @Override
+    public Long KotlinSolution(Long limit) {
+
+        return EulerProblem03Kt.KotlinSolution03(limit);
+    }
+
+    @Override
+    public Single<Long> RxJavaSolution(Long l) {
+
+        return Single.just(0l);
     }
 }

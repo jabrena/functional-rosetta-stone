@@ -3,7 +3,6 @@ package org.fundamentals.fp.euler;
 import io.vavr.Tuple;
 import io.vavr.collection.CharSeq;
 import io.vavr.collection.Stream;
-
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -51,7 +50,7 @@ public class EulerProblem30 {
 
         return LongStream.rangeClosed(from.apply(limit).intValue(), to.apply(limit).intValue()).boxed()
                 .filter(l -> isTheSame.test(limit, l))
-                .reduce((l1, l2) -> l1 + l2).get();
+                .reduce(0l, (l1, l2) -> l1 + l2);
     }
 
     public long VAVRSolution(long powers) {

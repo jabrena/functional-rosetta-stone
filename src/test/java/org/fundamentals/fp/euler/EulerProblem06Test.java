@@ -13,10 +13,11 @@ public class EulerProblem06Test extends BaseEulerProblemTest {
 
         EulerProblem06 problem6 = new EulerProblem06();
 
-        assertThat(problem6.javaStreamsSumSquare.apply(10L)).isEqualTo(385);
-        assertThat(problem6.javaStreamsSquareSum.apply(10L)).isEqualTo(3025);
-        assertThat(problem6.javaStreamsSolution(10L)).isEqualTo(2640);
-        assertThat(problem6.javaStreamsSolution(100L)).isEqualTo(euler.getAnswerToLong(6));
+        assertThat(problem6.JavaStreamSumSquare.apply(10L)).isEqualTo(385);
+        assertThat(problem6.JavaStreamSquareSum.apply(10L)).isEqualTo(3025);
+
+        assertThat(problem6.JavaStreamSolution(10L)).isEqualTo(2640);
+        assertThat(problem6.JavaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(6));
     }
 
     @Test
@@ -39,13 +40,13 @@ public class EulerProblem06Test extends BaseEulerProblemTest {
                 .verify();
 
         StepVerifier
-                .create(problem6.reactorSolution(10))
+                .create(problem6.ReactorSolution(10))
                 .expectNext(2640L)
                 .expectComplete()
                 .verify();
 
         StepVerifier
-                .create(problem6.reactorSolution(100))
+                .create(problem6.ReactorSolution(100))
                 .expectNext(euler.getAnswerToLong(6))
                 .expectComplete()
                 .verify();
