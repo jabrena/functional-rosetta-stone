@@ -6,10 +6,11 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem01Test extends BaseEulerProblemTest {
+public class EulerProblem01Test extends BaseEulerProblemTest implements IEulerTestable {
 
     @Test
-    public void given_JavaSolution_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 
@@ -18,7 +19,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_JavaStream_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 
@@ -32,7 +34,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_VAVRSolution_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 
@@ -41,7 +44,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_ReactorSolution_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 
@@ -59,7 +63,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_RxJavaSolution_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 
@@ -77,7 +82,8 @@ public class EulerProblem01Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_KotlinSolution_when_parameter_then_expectedResultTest() {
+    @Override
+    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem01 problem = new EulerProblem01();
 

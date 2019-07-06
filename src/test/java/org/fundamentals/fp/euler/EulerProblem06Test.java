@@ -6,10 +6,16 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem06Test extends BaseEulerProblemTest {
+public class EulerProblem06Test extends BaseEulerProblemTest implements IEulerTestable {
+
+    @Override
+    public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
 
     @Test
-    public void given_problem6_when_10_then_expectedResultsTest(){
+    @Override
+    public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem06 problem6 = new EulerProblem06();
 
@@ -20,8 +26,13 @@ public class EulerProblem06Test extends BaseEulerProblemTest {
         assertThat(problem6.JavaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(6));
     }
 
-    @Test
-    public void given_problem6_when_reactor10_then_expectedResultsTest(){
+    @Override
+    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
+    @Override
+    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem06 problem6 = new EulerProblem06();
 
@@ -50,6 +61,16 @@ public class EulerProblem06Test extends BaseEulerProblemTest {
                 .expectNext(euler.getAnswerToLong(6))
                 .expectComplete()
                 .verify();
+    }
+
+    @Override
+    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
+    @Override
+    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
+
     }
 
 }

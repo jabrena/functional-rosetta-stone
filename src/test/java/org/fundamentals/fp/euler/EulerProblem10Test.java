@@ -5,10 +5,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem10Test extends BaseEulerProblemTest {
+public class EulerProblem10Test extends BaseEulerProblemTest implements IEulerTestable  {
+
+    @Override
+    public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
 
     @Test
-    public void given_problem10_when_10_then_expectedResultsTest(){
+    @Override
+    public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem10 problem = new EulerProblem10();
 
@@ -17,4 +23,23 @@ public class EulerProblem10Test extends BaseEulerProblemTest {
         //assertThat(problem.javaStreamSolution(2_000_000L)).isEqualTo(euler.getAnswerToLong(10));
     }
 
+    @Override
+    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
+    @Override
+    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
+    @Override
+    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
+    @Override
+    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
 }

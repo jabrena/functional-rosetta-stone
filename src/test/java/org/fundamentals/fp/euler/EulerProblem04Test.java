@@ -8,11 +8,12 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EulerProblem04Test extends BaseEulerProblemTest {
+public class EulerProblem04Test extends BaseEulerProblemTest implements IEulerTestable {
 
     @Disabled
     @Test
-    public void given_palindromic_when_2digits_then_expectedResultsTest(){
+    @Override
+    public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem04 problem4 = new EulerProblem04();
 
@@ -21,7 +22,8 @@ public class EulerProblem04Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_palindromicStream_when_2digits_then_expectedResultsTest(){
+    @Override
+    public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem04 problem4 = new EulerProblem04();
 
@@ -30,7 +32,8 @@ public class EulerProblem04Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_palindromicVAVR_when_2digits_then_expectedResultsTest(){
+    @Override
+    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem04 problem4 = new EulerProblem04();
 
@@ -39,7 +42,8 @@ public class EulerProblem04Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_ReactorSolution_when_2digits_then_expectdResultsTest() {
+    @Override
+    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem04 problem4 = new EulerProblem04();
 
@@ -56,9 +60,16 @@ public class EulerProblem04Test extends BaseEulerProblemTest {
                 .verify();
     }
 
+    @Test
+    @Override
+    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+    }
+
     @Disabled
     @Test
-    public void given_KotlinSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+    @Override
+    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem04 problem = new EulerProblem04();
 

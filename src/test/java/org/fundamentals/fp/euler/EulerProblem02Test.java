@@ -6,10 +6,11 @@ import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EulerProblem02Test extends BaseEulerProblemTest {
+public class EulerProblem02Test extends BaseEulerProblemTest implements IEulerTestable {
 
     @Test
-    public void given_JavaSolutionProblem2_WhenFibonacciSerie_ThenValueExpectedTest() {
+    @Override
+    public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem02 problem = new EulerProblem02();
 
@@ -18,7 +19,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_JavaStreamSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+    @Override
+    public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem02 problem = new EulerProblem02();
 
@@ -27,7 +29,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_VAVRSolutionProblem_when_sumEven_then_returnsExpectedValue() {
+    @Override
+    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem02 problem = new EulerProblem02();
 
@@ -36,7 +39,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_ReactorSolutionProblem_when_sumEven_then_returnExpectedValueTest() {
+    @Override
+    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem02 problem = new EulerProblem02();
 
@@ -54,16 +58,8 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
     }
 
     @Test
-    public void given_KotlinSolutionProblem_when_sumEven_then_returnsExpectedValue() {
-
-        EulerProblem02 problem = new EulerProblem02();
-
-        assertThat(problem.KotlinSolution(100L)).isEqualTo(2 + 8 + 34);
-        assertThat(problem.KotlinSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
-    }
-
-    @Test
-    public void given_RxJavaSolution_whenExecute_then_expectedResultTest() {
+    @Override
+    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
 
         EulerProblem02 problem = new EulerProblem02();
 
@@ -78,6 +74,16 @@ public class EulerProblem02Test extends BaseEulerProblemTest {
                 .assertNoErrors()
                 .assertValueCount(1)
                 .values().get(0)).isEqualTo(euler.getAnswerToLong(2));
+    }
+
+    @Test
+    @Override
+    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
+
+        EulerProblem02 problem = new EulerProblem02();
+
+        assertThat(problem.KotlinSolution(100L)).isEqualTo(2 + 8 + 34);
+        assertThat(problem.KotlinSolution(4_000_000L)).isEqualTo(euler.getAnswerToLong(2));
     }
 
 }
