@@ -3,7 +3,7 @@ package org.fundamentals.fp.euler;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.fundamentals.fp.euler.Utils.JavaStreams.factorial;
+import static org.fundamentals.fp.euler.Utils.JavaStreams.factorialStream;
 import static org.fundamentals.fp.euler.Utils.JavaStreams.toDigits;
 
 /**
@@ -25,6 +25,6 @@ public class EulerProblem20 {
 
     public long javaStreamSolution(long limit) {
 
-        return factorial.andThen(toDigits).andThen(sum).apply(limit);
+        return factorialStream.andThen(toDigits).andThen(sum).apply(limit);
     }
 }

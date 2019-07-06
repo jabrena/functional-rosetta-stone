@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import reactor.core.publisher.Flux;
@@ -58,7 +58,13 @@ public class Utils {
                     .mapToObj(l -> l);
         }
 
-        static Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
+        static private Trampoline<BigInteger> trampolineFactorial(BigInteger n, BigInteger acc) {
+            return n.compareTo(BigInteger.ONE) == 0 ? Trampoline.completed(acc) : () -> trampolineFactorial(n.subtract(BigInteger.ONE), acc.multiply(n));
+        }
+
+        static Function<Long, BigInteger> factorialTrampoline = l -> trampolineFactorial(BigInteger.valueOf(l), BigInteger.ONE).invoke();
+
+        static Function<Long, BigInteger> factorialStream = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
                 .limit(limit)
                 .mapToObj(BigInteger::valueOf)
                 .reduce((n1, n2) -> n1.multiply(n2)).get();

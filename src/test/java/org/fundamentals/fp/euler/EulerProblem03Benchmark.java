@@ -4,20 +4,20 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
-public class EulerProblem05BenchMark {
+public class EulerProblem03Benchmark {
 
     @State(Scope.Thread)
     public static class St {
-        EulerProblem05 problem = new EulerProblem05();
-        Long limit = 20l;
+        EulerProblem03 problem = new EulerProblem03();
+        Long limit = 4_000_000L;
     }
 
-    //@Benchmark
+    @Benchmark
     public void JavaSolution(St st) {
         st.problem.JavaSolution(st.limit);
     }
 
-    //@Benchmark
+    @Benchmark
     public void JavaStreamSolution(St st) {
         st.problem.JavaStreamSolution(st.limit);
     }
@@ -30,7 +30,7 @@ public class EulerProblem05BenchMark {
     /*
     @Benchmark
     public void ReactorSolution(St st) {
-        st.problem.ReactorSolution(st.min, st.max);
+        st.problem.ReactorSolution(st.limit);
     }
 
     @Benchmark

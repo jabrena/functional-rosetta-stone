@@ -31,7 +31,7 @@ public class EulerProblem34 {
             .collect(Collectors.toList());
 
     Predicate<Long> isCurious = l -> toDigits.apply(l).stream()
-            .map(ll -> Utils.JavaStreams.factorial.apply(ll))
+            .map(ll -> Utils.JavaStreams.factorialStream.apply(ll))
             .reduce(BigInteger.ZERO,(l1, l2) -> l1.add(l2)).longValue() == l;
 
     public long javaStreamSolution() {

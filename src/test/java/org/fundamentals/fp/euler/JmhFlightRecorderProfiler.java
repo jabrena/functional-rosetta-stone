@@ -1,15 +1,18 @@
 package org.fundamentals.fp.euler;
 
-import org.openjdk.jmh.infra.BenchmarkParams;
-import org.openjdk.jmh.profile.ExternalProfiler;
-import org.openjdk.jmh.results.*;
-
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.openjdk.jmh.infra.BenchmarkParams;
+import org.openjdk.jmh.profile.ExternalProfiler;
+import org.openjdk.jmh.results.AggregationPolicy;
+import org.openjdk.jmh.results.Aggregator;
+import org.openjdk.jmh.results.BenchmarkResult;
+import org.openjdk.jmh.results.Result;
+import org.openjdk.jmh.results.ResultRole;
 
 public final class JmhFlightRecorderProfiler implements ExternalProfiler {
 

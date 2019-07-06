@@ -25,7 +25,11 @@ public class UtilsTest {
 
     @Test void give_JavaStreamFactorialTest() {
 
-        assertThat(Utils.JavaStreams.factorial.apply(10L)).isEqualTo(BigInteger.valueOf(3628800));
+        assertThat(Utils.JavaStreams.factorialTrampoline.apply(10L)).isEqualTo(BigInteger.valueOf(3628800));
+        assertThat(Utils.JavaStreams.factorialStream.apply(10L)).isEqualTo(BigInteger.valueOf(3628800));
+
+        assertThat(Utils.JavaStreams.factorialTrampoline.apply(100L)).isEqualTo(new BigInteger("93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"));
+        assertThat(Utils.JavaStreams.factorialStream.apply(100L)).isEqualTo(new BigInteger("93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"));
     }
 
     @Test
