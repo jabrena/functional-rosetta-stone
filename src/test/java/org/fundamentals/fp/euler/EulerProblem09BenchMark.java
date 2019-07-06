@@ -9,7 +9,7 @@ public class EulerProblem09BenchMark {
     @State(Scope.Thread)
     public static class St {
         EulerProblem09 problem = new EulerProblem09();
-        Long limit = 20l;
+        Long limit = 1000l;
     }
 
     //@Benchmark

@@ -13,10 +13,9 @@ import java.util.List;
 
 public final class JmhFlightRecorderProfiler implements ExternalProfiler {
 
-    private static final String DUMP_FOLDER = System.getProperty("jmh.stack.profiles", System.getProperty("user.dir"));
+    private static final String DUMP_FOLDER = System.getProperty("jmh.stack.profiles", System.getProperty("user.dir") + "/target");
 
-    private static final String DEFAULT_OPTIONS = System.getProperty("jmh.fr.options",
-                                                                     "settings=profile");//defaultrecording=true,
+    private static final String DEFAULT_OPTIONS = System.getProperty("jmh.fr.options", "settings=profile");
 
     private static volatile String benchmarkName;
 
@@ -37,7 +36,7 @@ public final class JmhFlightRecorderProfiler implements ExternalProfiler {
         final String id = params.id();
         benchmarkName = id;
         dumpFile = DUMP_FOLDER + '/' + id + ".jfr";
-        String flightRecorderOptions = DEFAULT_OPTIONS + ",dumponexit=true";//,dumponexitpath=" + dumpFile;
+        String flightRecorderOptions = DEFAULT_OPTIONS + ",dumponexit=true,filename=" + dumpFile;
         return Arrays.asList(
                 "-XX:+FlightRecorder",
                 "-XX:StartFlightRecording=" + flightRecorderOptions);
