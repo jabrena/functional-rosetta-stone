@@ -79,7 +79,7 @@ public class EulerProblem03 implements IEulerType1<Long, Long> {
 
     Flux<Long> reactorFactors(int lastFactor, long limit) {
 
-        return Flux.range(0, (int) Math.round(Math.sqrt(limit)))
+        return Flux.range(lastFactor, (int) Math.round(Math.sqrt(limit)))
                 .filter(x -> limit % x == 0)
                 .map(x -> Flux.concat(Flux.just(x), reactorFactors(x, limit / x)))
                 .map(x -> Long.valueOf(x.toString()))
@@ -97,14 +97,14 @@ public class EulerProblem03 implements IEulerType1<Long, Long> {
     }
 
     @Override
-    public Long KotlinSolution(Long limit) {
-
-        return EulerProblem03Kt.KotlinSolution03(limit);
-    }
-
-    @Override
     public Single<Long> RxJavaSolution(Long l) {
 
         return Single.just(0l);
+    }
+
+    @Override
+    public Long KotlinSolution(Long limit) {
+
+        return EulerProblem03Kt.KotlinSolution03(limit);
     }
 }

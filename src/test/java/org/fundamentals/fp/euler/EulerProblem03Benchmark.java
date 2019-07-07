@@ -34,13 +34,13 @@ public class EulerProblem03Benchmark {
     }
 
     @Benchmark
-    public void KotlinSolution(St st) {
-        st.problem.KotlinSolution(st.limit);
+    public void RxJavaSolution(St st) {
+        st.problem.RxJavaSolution(st.limit);
     }
 
     @Benchmark
-    public void RxJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.limit);
+    public void KotlinSolution(St st) {
+        st.problem.KotlinSolution(st.limit);
     }
     */
 }

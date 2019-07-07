@@ -9,8 +9,8 @@ public class EulerProblem04Benchmark {
     @State(Scope.Thread)
     public static class St {
         EulerProblem04 problem = new EulerProblem04();
-        Long min = 100l;
-        Long max = 999l;
+        int min = 100;
+        int max = 999;
     }
 
     //@Benchmark
@@ -28,21 +28,19 @@ public class EulerProblem04Benchmark {
         st.problem.VAVRSolution(st.min, st.max);
     }
 
-
     @Benchmark
     public void ReactorSolution(St st) {
         st.problem.ReactorSolution(st.min, st.max);
     }
 
-    /*
-    @Benchmark
-    public void KotlinSolution(St st) {
-        st.problem.KotlinSolution(st.limit);
-    }
-
     @Benchmark
     public void RxJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.limit);
+        st.problem.RxJavaSolution(st.min, st.max);
     }
-    */
+
+    //@Benchmark
+    public void KotlinSolution(St st) {
+        st.problem.KotlinSolution(st.min, st.max);
+    }
+
 }
