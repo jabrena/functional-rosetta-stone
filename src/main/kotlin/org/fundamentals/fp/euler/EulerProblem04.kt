@@ -8,14 +8,15 @@ fun isPalindrome(value: Int) : Boolean {
     return reverse(value) == value.toString()
 }
 
+fun crossProduct(min: Int, max: Int, value: Int): List<Int> {
+    return IntRange(min, max)
+            .map { element -> element * value }
+}
 
 fun KotlinSolution04(min : Int, max : Int) : Long {
 
     return IntRange(min, max)
-            .flatMap { value ->
-                IntRange(min, max)
-                        .map { element -> element * value }
-            }
+            .flatMap { value -> crossProduct(min, max, value) }
             .filter { i -> isPalindrome(i) }
             .map { i -> i.toLong() }
             .max()!!
