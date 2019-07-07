@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.vavr.Function3;
 import io.vavr.collection.List;
+import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -24,10 +25,10 @@ import reactor.core.publisher.Mono;
  * Find the largest palindrome made from the product of two 3-digit numbers.
  *
  */
-public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
+public class EulerProblem04 implements IEulerType2<Integer, Integer, Integer> {
 
     @Override
-    public Long JavaSolution(Integer min, Integer max) {
+    public Integer JavaSolution(Integer min, Integer max) {
 
         throw new NotImplementedException("¯\\_(ツ)_/¯");
     }
@@ -42,18 +43,19 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
                 .map(element -> element * value);
 
     @Override
-    public Long JavaStreamSolution(Integer min, Integer max) {
+    public Integer JavaStreamSolution(Integer min, Integer max) {
 
         return IntStream.rangeClosed(min, max).boxed()
                 .flatMap(l -> multipliedList.apply(min, max, l))
                 .filter(isPalindrome)
-                .mapToLong(x -> x)
-                .max()
-                .getAsLong();
+                .sorted(Comparator.reverseOrder())
+                .findFirst()
+                .get();
+
     }
 
     @Override
-    public Long VAVRSolution(Integer min, Integer max) {
+    public Integer VAVRSolution(Integer min, Integer max) {
 
         return List.rangeClosed(min, max)
                 .crossProduct()
@@ -61,12 +63,11 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
                 .map(t -> t._1 * t._2)
                 .filter(isPalindrome)
                 .max()
-                .get()
-                .longValue();
+                .get();
     }
 
     @Override
-    public Mono<Long> ReactorSolution(Integer min, Integer max) {
+    public Mono<Integer> ReactorSolution(Integer min, Integer max) {
 
         Function<Integer, Flux<Integer>> crossProduct = element ->
             Flux.range(min, max - min + 1)
@@ -75,13 +76,12 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
         return Flux.range(min, max - min + 1)
                 .flatMap(crossProduct)
                 .filter(isPalindrome)
-                .map(i -> Long.valueOf(i))
                 .sort()
                 .last();
     }
 
     @Override
-    public Single<Long> RxJavaSolution(Integer min, Integer max) {
+    public Single<Integer> RxJavaSolution(Integer min, Integer max) {
 
         io.reactivex.functions.Function<Integer, Observable<Integer>> crossProduct = element ->
                 Observable.range(min, max - min + 1)
@@ -90,13 +90,12 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
         return Observable.range(min, max - min + 1)
                 .flatMap(crossProduct)
                 .filter(i -> isPalindrome.test(i))
-                .map(i -> Long.valueOf(i))
                 .sorted()
-                .last(1L);
+                .last(1);
     }
 
     @Override
-    public Long KotlinSolution(Integer min, Integer max) {
+    public Integer KotlinSolution(Integer min, Integer max) {
 
         return EulerProblem04Kt.KotlinSolution04(min, max);
     }

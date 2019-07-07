@@ -27,8 +27,8 @@ public class EulerProblem04Test extends BaseEulerProblemTest implements IEulerTe
 
         EulerProblem04 problem4 = new EulerProblem04();
 
-        assertThat(problem4.JavaStreamSolution(10, 99)).isEqualTo(9009L);
-        assertThat(problem4.JavaStreamSolution(100, 999)).isEqualTo(euler.getAnswerToLong(4));
+        assertThat(problem4.JavaStreamSolution(10, 99)).isEqualTo(9009);
+        assertThat(problem4.JavaStreamSolution(100, 999)).isEqualTo(euler.getAnswerToInt(4));
     }
 
     @Test
@@ -37,8 +37,8 @@ public class EulerProblem04Test extends BaseEulerProblemTest implements IEulerTe
 
         EulerProblem04 problem4 = new EulerProblem04();
 
-        assertThat(problem4.VAVRSolution(10, 99)).isEqualTo(9009L);
-        assertThat(problem4.VAVRSolution(100, 999)).isEqualTo(euler.getAnswerToLong(4));
+        assertThat(problem4.VAVRSolution(10, 99)).isEqualTo(9009);
+        assertThat(problem4.VAVRSolution(100, 999)).isEqualTo(euler.getAnswerToInt(4));
     }
 
     @Test
@@ -49,13 +49,13 @@ public class EulerProblem04Test extends BaseEulerProblemTest implements IEulerTe
 
         StepVerifier
                 .create(problem4.ReactorSolution(10, 99))
-                .expectNext(9009L)
+                .expectNext(9009)
                 .expectComplete()
                 .verify();
 
         StepVerifier
                 .create(problem4.ReactorSolution(100, 999))
-                .expectNext(euler.getAnswerToLong(4))
+                .expectNext(euler.getAnswerToInt(4))
                 .expectComplete()
                 .verify();
     }
