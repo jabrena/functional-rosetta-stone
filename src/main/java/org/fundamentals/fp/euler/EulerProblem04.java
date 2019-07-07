@@ -98,7 +98,7 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Long> {
     @Override
     public Long KotlinSolution(Integer min, Integer max) {
 
-        throw new NotImplementedException("Coming soon");
+        return EulerProblem04Kt.KotlinSolution04(min, max);
     }
 
 }

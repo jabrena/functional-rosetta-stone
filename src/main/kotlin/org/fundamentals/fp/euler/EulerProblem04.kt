@@ -1,6 +1,22 @@
 package org.fundamentals.fp.euler
 
-fun KotlinSolution04(min : Long, max : Long) : Long {
+fun reverse(number: Int) : String {
+    return StringBuilder().append(number).reverse().toString()
+}
 
-    return 0L
+fun isPalindrome(value: Int) : Boolean {
+    return reverse(value) == value.toString()
+}
+
+
+fun KotlinSolution04(min : Int, max : Int) : Long {
+
+    return IntRange(min, max)
+            .flatMap { value ->
+                IntRange(min, max)
+                        .map { element -> element * value }
+            }
+            .filter { i -> isPalindrome(i) }
+            .map { i -> i.toLong() }
+            .max()!!
 }
