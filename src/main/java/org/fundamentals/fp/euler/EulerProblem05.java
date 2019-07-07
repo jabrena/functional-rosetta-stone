@@ -34,6 +34,10 @@ public class EulerProblem05 {
                 .findFirst().get();
     }
 
+    long pow(long a, long p) {
+        return Stream.rangeClosed(1, p).fold(1L, (xs, x) -> xs * a);
+    }
+
     public long VAVRSolution(long limit) {
 
         return Stream.rangeClosed(2, limit)
@@ -42,8 +46,5 @@ public class EulerProblem05 {
                 .foldLeft(1L, (xs, x) -> xs * pow(x._1, x._2));
     }
 
-    long pow(long a, long p) {
-        return Stream.rangeClosed(1, p).fold(1L, (xs, x) -> xs * a);
-    }
 
 }
