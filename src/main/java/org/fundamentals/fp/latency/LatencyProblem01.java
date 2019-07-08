@@ -89,7 +89,6 @@ public class LatencyProblem01 {
 
     public BigInteger JavaStreamSolution() {
 
-        //Sequential Solution
         return listOfGods.stream()
                 .map(toURL)
                 .filter(validURL)
