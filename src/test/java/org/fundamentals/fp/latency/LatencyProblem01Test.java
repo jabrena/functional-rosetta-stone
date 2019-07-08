@@ -1,5 +1,6 @@
 package org.fundamentals.fp.latency;
 
+import java.math.BigInteger;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class LatencyProblem01Test implements IEulerTestable {
 
         LatencyProblem01 problem = new LatencyProblem01();
 
-        assertThat(problem.JavaStreamSolution()).isEqualTo(1000);
+        assertThat(problem.JavaStreamSolution()).isEqualTo(new BigInteger("78179288397447443426"));
     }
 
     @Override
