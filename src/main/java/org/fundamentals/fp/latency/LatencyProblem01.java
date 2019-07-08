@@ -60,6 +60,8 @@ public class LatencyProblem01 {
             .map(String::valueOf)
             .collect(Collectors.joining( "" ));
 
+    Function<URL, String> fetch = url -> SimpleCurl.fetch(url);
+
     public BigInteger JavaStreamSolution() {
 
         //Sequential Solution
@@ -70,8 +72,7 @@ public class LatencyProblem01 {
                 .map(toURL)
                 .filter(filterWithLog)
                 .map(Either::get)
-                .map(SimpleCurl::fetch)
-                .flatMap(serialize)
+                .flatMap(fetch.andThen(serialize))
                 .filter(goodStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
