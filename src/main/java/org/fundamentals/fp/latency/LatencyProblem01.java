@@ -8,8 +8,10 @@ import io.vavr.control.Try;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,11 +25,10 @@ import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Patterns.$Left;
 import static io.vavr.Patterns.$Right;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class LatencyProblem01 {
-
-    private static ExecutorService executor = Executors.newFixedThreadPool(10);
 
     Function1<String, Either<Throwable, URL>> toURL = address ->
             Try.of(() -> new URL(address)).toEither();
@@ -73,6 +74,42 @@ public class LatencyProblem01 {
                 .filter(validURL)
                 .map(Either::get)
                 .flatMap(fetch.andThen(serialize))
+                .filter(goodStartingByn)
+                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+    }
+
+    private static ExecutorService executor = Executors.newFixedThreadPool(10);
+
+    private CompletableFuture<String> curlAsync(URL address) {
+
+        LOGGER.info("Thread: {}", Thread.currentThread().getName());
+        CompletableFuture<String> future = CompletableFuture
+                .supplyAsync(() -> SimpleCurl.fetch(address), executor)
+                .exceptionally(ex -> {
+                    LOGGER.error(ex.getLocalizedMessage(), ex);
+                    return "FETCH_BAD_RESULT";
+                })
+                .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",5, TimeUnit.SECONDS);
+
+        return future;
+    }
+
+    public BigInteger JavaStreamSolution2() {
+
+        List<CompletableFuture<String>> futureRequests = Stream.of(
+                "https://my-json-server.typicode.com/jabrena/latency-problems/greek",
+                "https://my-json-server.typicode.com/jabrena/latency-problems/nordic",
+                "https://my-json-server.typicode.com/jabrena/latency-problems/roman")
+                .map(toURL)
+                .filter(validURL)
+                .map(Either::get)
+                .map(x -> curlAsync(x))
+                .collect(toList());
+
+        return futureRequests.stream()
+                .map(CompletableFuture::join)
+                .flatMap(serialize)
                 .filter(goodStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
