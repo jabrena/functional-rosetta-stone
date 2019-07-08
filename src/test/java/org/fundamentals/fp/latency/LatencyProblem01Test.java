@@ -3,7 +3,6 @@ package org.fundamentals.fp.latency;
 import java.math.BigInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -16,7 +15,6 @@ public class LatencyProblem01Test implements IEulerTestable {
 
     }
 
-    @Disabled
     @Test
     @Override
     public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {

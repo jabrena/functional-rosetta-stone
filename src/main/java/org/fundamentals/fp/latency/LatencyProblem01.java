@@ -6,7 +6,11 @@ import io.vavr.Function1;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import java.math.BigInteger;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -29,6 +33,28 @@ import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class LatencyProblem01 {
+
+    final List<String> GOD_PROVIDERS = List.of(
+            "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
+            "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
+            "http://my-json-server.typicode.com/jabrena/latency-problems/roman");
+
+    Function<URL, String> curl = url -> Try.of(() -> {
+
+        LOGGER.info("Thread: {}", Thread.currentThread().getName());
+        LOGGER.info("Requeted URL: {}", url);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(url.toString()))
+                //.timeout(Duration.ofSeconds(1))
+                .build();
+
+        return client
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+    }).getOrElse("Bad request");
 
     Function1<String, Either<Throwable, URL>> toURL = address ->
             Try.of(() -> new URL(address)).toEither();
@@ -66,14 +92,11 @@ public class LatencyProblem01 {
     public BigInteger JavaStreamSolution() {
 
         //Sequential Solution
-        return Stream.of(
-                "https://my-json-server.typicode.com/jabrena/latency-problems/greek",
-                "https://my-json-server.typicode.com/jabrena/latency-problems/nordic",
-                "https://my-json-server.typicode.com/jabrena/latency-problems/roman")
+        return GOD_PROVIDERS.stream()
                 .map(toURL)
                 .filter(validURL)
                 .map(Either::get)
-                .flatMap(fetch.andThen(serialize))
+                .flatMap(curl.andThen(serialize))
                 .filter(goodStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
@@ -85,22 +108,19 @@ public class LatencyProblem01 {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         CompletableFuture<String> future = CompletableFuture
-                .supplyAsync(() -> SimpleCurl.fetch(address), executor)
+                .supplyAsync(() -> curl.apply(address), executor)
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",5, TimeUnit.SECONDS);
+                .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",1, TimeUnit.SECONDS);
 
         return future;
     }
 
     public BigInteger JavaStreamSolution2() {
 
-        List<CompletableFuture<String>> futureRequests = Stream.of(
-                "https://my-json-server.typicode.com/jabrena/latency-problems/greek",
-                "https://my-json-server.typicode.com/jabrena/latency-problems/nordic",
-                "https://my-json-server.typicode.com/jabrena/latency-problems/roman")
+        List<CompletableFuture<String>> futureRequests = GOD_PROVIDERS.stream()
                 .map(toURL)
                 .filter(validURL)
                 .map(Either::get)
