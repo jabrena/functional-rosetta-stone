@@ -40,7 +40,7 @@ public class LatencyProblem01 {
     Function<URL, String> curl = url -> Try.of(() -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
-        LOGGER.info("Requeted URL: {}", url);
+        LOGGER.info("Requested URL: {}", url);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -109,7 +109,7 @@ public class LatencyProblem01 {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",1, TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]",1, TimeUnit.SECONDS);
     };
 
     public BigInteger JavaStreamSolutionAsync() {
