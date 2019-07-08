@@ -32,7 +32,7 @@ public class LatencyProblem01 {
     Function1<String, Either<Throwable, URL>> toURL = address ->
             Try.of(() -> new URL(address)).toEither();
 
-    Predicate<Either<Throwable, URL>> filterWithLog = either ->
+    Predicate<Either<Throwable, URL>> validURL = either ->
             Match(either).of(
                 Case($Right($()), true),
                 Case($Left($()), () -> {
@@ -70,7 +70,7 @@ public class LatencyProblem01 {
                 "https://my-json-server.typicode.com/jabrena/latency-problems/nordic",
                 "https://my-json-server.typicode.com/jabrena/latency-problems/roman")
                 .map(toURL)
-                .filter(filterWithLog)
+                .filter(validURL)
                 .map(Either::get)
                 .flatMap(fetch.andThen(serialize))
                 .filter(goodStartingByn)
