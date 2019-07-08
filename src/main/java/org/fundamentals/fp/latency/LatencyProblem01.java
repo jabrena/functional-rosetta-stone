@@ -32,6 +32,8 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class LatencyProblem01 {
 
+    final int TIMEOUT = 2;
+
     final List<String> listOfGods = List.of(
             "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
             "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
@@ -109,7 +111,7 @@ public class LatencyProblem01 {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]",1, TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]",TIMEOUT, TimeUnit.SECONDS);
     };
 
     public BigInteger JavaStreamSolutionAsync() {
