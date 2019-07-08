@@ -100,19 +100,17 @@ public class LatencyProblem01 {
 
     private static ExecutorService executor = Executors.newFixedThreadPool(10);
 
-    private CompletableFuture<String> curlAsync(URL address) {
+    Function<URL, CompletableFuture<String>> curlAsync = address -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
-        CompletableFuture<String> future = CompletableFuture
+        return CompletableFuture
                 .supplyAsync(() -> curl.apply(address), executor)
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
                 .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",1, TimeUnit.SECONDS);
-
-        return future;
-    }
+    };
 
     public BigInteger JavaStreamSolution2() {
 
@@ -120,7 +118,7 @@ public class LatencyProblem01 {
                 .map(toURL)
                 .filter(validURL)
                 .map(Either::get)
-                .map(x -> curlAsync(x))
+                .map(curlAsync)
                 .collect(toList());
 
         return futureRequests.stream()
