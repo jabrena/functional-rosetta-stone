@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 
-import org.fundamentals.fp.training.sixth.SimpleCurl;
-
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
@@ -34,7 +32,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class LatencyProblem01 {
 
-    final List<String> GOD_PROVIDERS = List.of(
+    final List<String> listOfGods = List.of(
             "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
             "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
             "http://my-json-server.typicode.com/jabrena/latency-problems/roman");
@@ -87,12 +85,10 @@ public class LatencyProblem01 {
             .map(String::valueOf)
             .collect(Collectors.joining( "" ));
 
-    Function<URL, String> fetch = url -> SimpleCurl.fetch(url);
-
     public BigInteger JavaStreamSolution() {
 
         //Sequential Solution
-        return GOD_PROVIDERS.stream()
+        return listOfGods.stream()
                 .map(toURL)
                 .filter(validURL)
                 .map(Either::get)
@@ -120,7 +116,7 @@ public class LatencyProblem01 {
 
     public BigInteger JavaStreamSolution2() {
 
-        List<CompletableFuture<String>> futureRequests = GOD_PROVIDERS.stream()
+        List<CompletableFuture<String>> futureRequests = listOfGods.stream()
                 .map(toURL)
                 .filter(validURL)
                 .map(Either::get)
