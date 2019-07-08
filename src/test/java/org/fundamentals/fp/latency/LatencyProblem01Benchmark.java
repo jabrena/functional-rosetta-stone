@@ -18,7 +18,7 @@ public class LatencyProblem01Benchmark {
 
     @Benchmark
     public void JavaStreamSolutionAsync(St st) {
-        st.problem.JavaStreamSolution2();
+        st.problem.JavaStreamSolutionAsync();
     }
 
 }

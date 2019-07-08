@@ -25,11 +25,11 @@ public class LatencyProblem01Test implements IEulerTestable {
     }
 
     @Test
-    public void given_JavaStreamSolution2_when_executeMethod_then_expectedResultsTest() {
+    public void given_JavaStreamSolutionAsync_when_executeMethod_then_expectedResultsTest() {
 
         LatencyProblem01 problem = new LatencyProblem01();
 
-        assertThat(problem.JavaStreamSolution2()).isEqualTo(new BigInteger("78179288397447443426"));
+        assertThat(problem.JavaStreamSolutionAsync()).isEqualTo(new BigInteger("78179288397447443426"));
     }
 
     @Override

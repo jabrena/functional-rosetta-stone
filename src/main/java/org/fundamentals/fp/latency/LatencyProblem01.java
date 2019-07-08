@@ -72,7 +72,7 @@ public class LatencyProblem01 {
         return deserializedData.stream();
     }).getOrElse(() -> {
         LOGGER.error("Bad Serialization process");
-        return Stream.of("");
+        return Stream.of("BAD_SERIALIZED");
     });
 
     Predicate<String> goodStartingByn = value -> value.toLowerCase().charAt(0) == 'n';
@@ -112,7 +112,7 @@ public class LatencyProblem01 {
                 .completeOnTimeout("FETCH_BAD_RESULT_TIMEOUT",1, TimeUnit.SECONDS);
     };
 
-    public BigInteger JavaStreamSolution2() {
+    public BigInteger JavaStreamSolutionAsync() {
 
         List<CompletableFuture<String>> futureRequests = listOfGods.stream()
                 .map(toURL)
