@@ -47,7 +47,7 @@ public class LatencyProblem01 {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(url.toString()))
+                .uri(url.toURI())
                 //.timeout(Duration.ofSeconds(1))
                 .build();
 
@@ -110,7 +110,7 @@ public class LatencyProblem01 {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]",TIMEOUT, TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", TIMEOUT, TimeUnit.SECONDS);
     };
 
     public BigInteger JavaStreamSolutionAsync() {

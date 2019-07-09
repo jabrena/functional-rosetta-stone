@@ -24,7 +24,7 @@ public class LatencyProblemBenchmarkTest {
                 .resultFormat(ResultFormatType.JSON)
                 .result("target/jmh-results-latency.json")
                 //.verbosity(VerboseMode.EXTRA)
-                .mode(Mode.All)
+                .mode(Mode.AverageTime)
                 .timeUnit(TimeUnit.MILLISECONDS)
                 .warmupTime(TimeValue.seconds(5))
                 .measurementTime(TimeValue.milliseconds(1))
