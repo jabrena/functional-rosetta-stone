@@ -57,7 +57,7 @@ public class LatencyProblem01 {
             return Stream.of("BAD_SERIALIZED");
     });
 
-    Predicate<String> goodStartingByn = s -> s.toLowerCase().charAt(0) == 'n';
+    Predicate<String> godStartingByn = s -> s.toLowerCase().charAt(0) == 'n';
 
     Function<String, List<Integer>> toDigits = s -> s.chars()
             .mapToObj(is -> Integer.valueOf(is))
@@ -71,7 +71,7 @@ public class LatencyProblem01 {
 
         return listOfGods.stream()
                 .flatMap(toURL.andThen(fetch).andThen(serialize))
-                .filter(goodStartingByn)
+                .filter(godStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
@@ -90,16 +90,21 @@ public class LatencyProblem01 {
                 .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", TIMEOUT, TimeUnit.SECONDS);
     };
 
-    public BigInteger JavaStreamSolutionAsync() {
-
-        List<CompletableFuture<String>> futureRequests = listOfGods.stream()
+    Function<String, Stream<String>> fetchMultipleGodListAsync = ls -> {
+        List<CompletableFuture<String>> futureRequests = Stream.of(ls)
                 .map(toURL.andThen(fetchAsync))
                 .collect(toList());
 
         return futureRequests.stream()
                 .map(CompletableFuture::join)
-                .flatMap(serialize)
-                .filter(goodStartingByn)
+                .flatMap(serialize);
+    };
+
+    public BigInteger JavaStreamSolutionAsync() {
+
+        return listOfGods.stream()
+                .flatMap(fetchMultipleGodListAsync)
+                .filter(godStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
