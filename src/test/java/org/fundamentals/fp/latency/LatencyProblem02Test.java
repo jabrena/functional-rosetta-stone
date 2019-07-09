@@ -20,7 +20,15 @@ public class LatencyProblem02Test implements IEulerTestable {
 
         LatencyProblem02 problem = new LatencyProblem02();
 
-        assertThat(problem.JavaStreamSolution()).isEqualTo("Poseidon");
+        assertThat(problem.JavaStreamSolution()).isEqualTo("Apollo");
+    }
+
+    @Test
+    public void given_JavaStreamSolutionAsync_when_executeMethod_then_expectedResultsTest() {
+
+        LatencyProblem02 problem = new LatencyProblem02();
+
+        assertThat(problem.JavaStreamSolutionAsync()).isEqualTo("Apollo");
     }
 
     @Override
