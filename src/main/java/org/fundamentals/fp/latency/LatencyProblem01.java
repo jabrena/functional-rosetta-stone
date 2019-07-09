@@ -35,7 +35,7 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 @Slf4j
 public class LatencyProblem01 {
 
-    final int TIMEOUT = 3;
+    final int TIMEOUT = 5;
 
     final List<String> listOfGods = List.of(
             "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
@@ -90,20 +90,14 @@ public class LatencyProblem01 {
                 .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", TIMEOUT, TimeUnit.SECONDS);
     };
 
-    Function<String, Stream<String>> fetchMultipleGodListAsync = ls -> {
-        List<CompletableFuture<String>> futureRequests = Stream.of(ls)
+    public BigInteger JavaStreamSolutionAsync() {
+
+        List<CompletableFuture<String>> futureRequests = listOfGods.stream()
                 .map(toURL.andThen(fetchAsync))
                 .collect(toList());
 
         return futureRequests.stream()
                 .map(CompletableFuture::join)
-                .flatMap(serialize);
-    };
-
-    public BigInteger JavaStreamSolutionAsync() {
-
-        return listOfGods.stream()
-                .flatMap(fetchMultipleGodListAsync)
                 .filter(godStartingByn)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));

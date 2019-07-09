@@ -3,6 +3,7 @@ package org.fundamentals.fp.latency;
 import java.math.BigInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -24,6 +25,7 @@ public class LatencyProblem01Test implements IEulerTestable {
         assertThat(problem.JavaStreamSolution()).isEqualTo(new BigInteger("78179288397447443426"));
     }
 
+    @Disabled
     @Test
     public void given_JavaStreamSolutionAsync_when_executeMethod_then_expectedResultsTest() {
 
