@@ -59,23 +59,23 @@ public class LatencyProblem02 {
 
     private static ExecutorService executor = Executors.newFixedThreadPool(10);
 
-    Function<String, CompletableFuture<Tuple2<String,Integer>>> curlAsync = address -> {
+    Function<String, CompletableFuture<Tuple2<String,Integer>>> fetchAsync = address -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
                 .supplyAsync(() -> getWikipediaContent.apply(address), executor)
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
-                    return new Tuple2<String,Integer>(address, 0);
+                    return new Tuple2<String,Integer>(address + "-ERROR", 0);
                 })
-                .completeOnTimeout(new Tuple2<String,Integer>(address, 0), TIMEOUT, TimeUnit.SECONDS);
+                .completeOnTimeout(new Tuple2<String,Integer>(address + "-TIMEOUT", 0), TIMEOUT, TimeUnit.SECONDS);
     };
 
     public String JavaStreamSolutionAsync() {
 
         List<CompletableFuture<Tuple2<String, Integer>>> futureRequests = Stream.of(greekGods)
                 .flatMap(toURL.andThen(fetch).andThen(serialize))
-                .map(curlAsync)
+                .map(fetchAsync)
                 .collect(toList());
 
         return futureRequests.stream()

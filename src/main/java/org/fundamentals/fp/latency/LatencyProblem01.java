@@ -66,7 +66,7 @@ public class LatencyProblem01 {
 
     private static ExecutorService executor = Executors.newFixedThreadPool(10);
 
-    Function<URL, CompletableFuture<String>> curlAsync = address -> {
+    Function<URL, CompletableFuture<String>> fetchAsync = address -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
@@ -81,7 +81,7 @@ public class LatencyProblem01 {
     public BigInteger JavaStreamSolutionAsync() {
 
         List<CompletableFuture<String>> futureRequests = listOfGods.stream()
-                .map(toURL.andThen(curlAsync))
+                .map(toURL.andThen(fetchAsync))
                 .collect(toList());
 
         return futureRequests.stream()
