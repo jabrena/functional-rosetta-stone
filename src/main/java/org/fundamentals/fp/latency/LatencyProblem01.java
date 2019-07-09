@@ -20,6 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
+/**
+ * Problem 1
+ * Ancient European peoples worshiped many gods like Greek, Roman & Nordic gods.
+ * Every God is possible to be represented as the concatenation of every character converted in Decimal.
+ * Zeus = 122101117115
+ *
+ * Load the list of Gods and find the sum of God names starting with the letter n.
+ *
+ * Notes:
+ * Every connection with any API has a Timeout of 2 seconds.
+ * If in the process to load the list, the timeout is reached, the process will calculate with the rest of the lists.
+ * REST API: https://my-json-server.typicode.com/jabrena/latency-problems
+ */
 @Slf4j
 public class LatencyProblem01 {
 

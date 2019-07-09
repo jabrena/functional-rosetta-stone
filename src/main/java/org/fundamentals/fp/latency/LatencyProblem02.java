@@ -18,6 +18,18 @@ import lombok.extern.slf4j.Slf4j;
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
+/**
+ * Problem 2
+ * Greek gods are quite popular and they have presence in Wikipedia, the multilingual online encyclopedia.
+ * If you try to find further information about Zeus you should visit the address: https://en.wikipedia.org/wiki/Zeus
+ *
+ * Load the list of Greek Gods and discover what is the God with more literature described on Wikipedia.
+ *
+ * Notes:
+ * Every connection with any API has a Timeout of 2 seconds.
+ * REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/greek
+ * REST API 2: https://en.wikipedia.org/wiki/{greekGod}
+ */
 @Slf4j
 public class LatencyProblem02 {
 
