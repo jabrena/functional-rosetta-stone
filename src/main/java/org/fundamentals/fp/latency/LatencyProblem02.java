@@ -2,7 +2,6 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.Function1;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import java.net.URL;
@@ -38,8 +37,8 @@ public class LatencyProblem02 {
     final String greekGods = "http://my-json-server.typicode.com/jabrena/latency-problems/greek";
     final String wikipediaPath = "https://en.wikipedia.org/wiki/";
 
-    Function1<String, URL> toURL = address ->
-            Try.of(() -> new URL(address)).getOrElseThrow(ex -> {
+    Function<String, URL> toURL = address -> Try.of(() ->
+            new URL(address)).getOrElseThrow(ex -> {
                 LOGGER.error(ex.getLocalizedMessage(), ex);
                 throw new RuntimeException("Bad address", ex);
             });
