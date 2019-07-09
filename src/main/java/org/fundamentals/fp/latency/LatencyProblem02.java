@@ -82,15 +82,20 @@ public class LatencyProblem02 {
                 .completeOnTimeout(new Tuple2<String,Integer>(address + "-TIMEOUT", 0), TIMEOUT, TimeUnit.SECONDS);
     };
 
-    public String JavaStreamSolutionAsync() {
-
+    Function<String, Stream<Tuple2<String, Integer>>> fetchWikipediaByGodAsync = ls -> {
         List<CompletableFuture<Tuple2<String, Integer>>> futureRequests = Stream.of(greekGods)
                 .flatMap(toURL.andThen(fetch).andThen(serialize))
                 .map(fetchAsync)
                 .collect(toList());
 
         return futureRequests.stream()
-                .map(CompletableFuture::join)
+                .map(CompletableFuture::join);
+    };
+
+    public String JavaStreamSolutionAsync() {
+
+        return Stream.of(greekGods)
+                .flatMap(fetchWikipediaByGodAsync)
                 .peek(System.out::println)
                 .max((i, j) -> i._2.compareTo(j._2))
                 .get()._1;
