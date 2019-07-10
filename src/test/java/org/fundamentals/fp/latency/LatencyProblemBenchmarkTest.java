@@ -34,7 +34,7 @@ public class LatencyProblemBenchmarkTest {
                 //.shouldFailOnError(true)
                 .shouldDoGC(true)
                 .forks(2)
-                .jvmArgs("-Xmx6144m", "-Xms6144m")
+                //.jvmArgs("-Xmx6144m", "-Xms6144m")
                 //.addProfiler(StackProfiler.class)
                 .addProfiler(GCProfiler.class)
                 //.addProfiler(LinuxPerfProfiler.class)

@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
+import static org.fundamentals.fp.latency.SimpleCurl.log;
 
 /**
  * Problem 2
@@ -32,7 +33,7 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 @Slf4j
 public class LatencyProblem02 {
 
-    final int TIMEOUT = 5;
+    final int TIMEOUT = 15;
 
     final String greekGods = "http://my-json-server.typicode.com/jabrena/latency-problems/greek";
     final String wikipediaPath = "https://en.wikipedia.org/wiki/";
@@ -47,9 +48,9 @@ public class LatencyProblem02 {
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
         return deserializedData.stream();
-    }).getOrElse(() -> {
-        LOGGER.error("Bad Serialization process");
-        return Stream.of("BAD_SERIALIZED");
+    }).getOrElseThrow(ex -> {
+        LOGGER.error("Bad Serialization process", ex);
+        throw new RuntimeException("Bad Serialization process", ex);
     });
 
     Function<String, URL> buildWikipediaAddress = god -> Try.of(() ->
@@ -94,5 +95,33 @@ public class LatencyProblem02 {
                 .peek(System.out::println)
                 .max((i, j) -> i._2.compareTo(j._2))
                 .get()._1;
+    }
+
+    Function<String, Stream<String>> fetchGods = s -> Stream.of(s)
+            .flatMap(toURL.andThen(fetch).andThen(log).andThen(serialize));
+
+    Function<Stream<String>, Stream<Tuple2<String, Integer>>> fetchWikipediaAsync = ls -> {
+        List<CompletableFuture<Tuple2<String, Integer>>> futureRequests = ls
+                .map(fetchAsync)
+                .collect(toList());
+
+        return futureRequests.stream()
+                .map(CompletableFuture::join)
+                .map(s -> {
+                    LOGGER.debug(s._1);
+                    return s;
+                });
+    };
+
+    Function<Stream<Tuple2<String, Integer>>, String> max = ls -> ls
+            .max((i, j) -> i._2.compareTo(j._2))
+            .get()._1;
+
+    public String JavaStreamSolutionAsync2() {
+
+         return fetchGods
+                .andThen(fetchWikipediaAsync)
+                .andThen(max)
+                .apply(greekGods);
     }
 }

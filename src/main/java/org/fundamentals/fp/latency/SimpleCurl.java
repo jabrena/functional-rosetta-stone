@@ -31,7 +31,7 @@ public class SimpleCurl {
     });
 
     static Function<String, String> log = value -> {
-        LOGGER.info("Response: {}", value);
+        LOGGER.debug("Response: {}", value);
         return value;
     };
 }
