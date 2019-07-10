@@ -108,4 +108,30 @@ public class LatencyProblem01 {
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
+
+    Function<List<String>, Stream<String>> fetchListAsync = s -> {
+        List<CompletableFuture<String>> futureRequests = s.stream()
+                .map(toURL.andThen(fetchAsync))
+                .collect(toList());
+
+        return futureRequests.stream()
+                .map(CompletableFuture::join)
+                .flatMap(serialize);
+    };
+
+    Function<Stream<String>, Stream<String>> filterGods = ls -> ls
+            .filter(godStartingByn)
+            .peek(print);
+
+    Function<Stream<String>, BigInteger> sum = ls -> ls
+            .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+            .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+
+    public BigInteger JavaStreamSolutionAsync2() {
+
+        return fetchListAsync
+                .andThen(filterGods)
+                .andThen(sum)
+                .apply(listOfGods);
+    }
 }
