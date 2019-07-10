@@ -29,4 +29,9 @@ public class SimpleCurl {
         LOGGER.error(ex.getLocalizedMessage(), ex);
         throw new RuntimeException("Bad Request");
     });
+
+    static Function<String, String> log = value -> {
+        LOGGER.info("Response: {}", value);
+        return value;
+    };
 }

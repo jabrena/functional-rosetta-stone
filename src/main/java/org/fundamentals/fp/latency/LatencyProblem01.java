@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
+import static org.fundamentals.fp.latency.SimpleCurl.log;
 
 /**
  * Problem 1
@@ -82,13 +84,15 @@ public class LatencyProblem01 {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
-                .supplyAsync(() -> fetch.apply(address), executor)
+                .supplyAsync(() -> fetch.andThen(log).apply(address), executor)
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
                 .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", TIMEOUT, TimeUnit.SECONDS);
     };
+
+    Consumer<String> print = LOGGER::info;
 
     public BigInteger JavaStreamSolutionAsync() {
 
@@ -98,7 +102,9 @@ public class LatencyProblem01 {
 
         return futureRequests.stream()
                 .map(CompletableFuture::join)
+                .flatMap(serialize)
                 .filter(godStartingByn)
+                .peek(print)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
