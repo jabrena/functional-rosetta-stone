@@ -2,6 +2,7 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.reactivex.Single;
 import io.vavr.control.Try;
 import java.math.BigInteger;
 import java.net.URL;
@@ -15,7 +16,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;;
+import org.fundamentals.fp.euler.IEulerType3;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
@@ -35,9 +41,9 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * REST API: https://my-json-server.typicode.com/jabrena/latency-problems
  */
 @Slf4j
-public class LatencyProblem01 {
+public class LatencyProblem01 implements IEulerType3<BigInteger> {
 
-    final int TIMEOUT = 5;
+    final int TIMEOUT = 15;
 
     final List<String> listOfGods = List.of(
             "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
@@ -69,6 +75,12 @@ public class LatencyProblem01 {
             .map(String::valueOf)
             .collect(Collectors.joining( "" ));
 
+    @Override
+    public BigInteger JavaSolution() {
+        return null;
+    }
+
+    @Override
     public BigInteger JavaStreamSolution() {
 
         return listOfGods.stream()
@@ -133,5 +145,36 @@ public class LatencyProblem01 {
                 .andThen(filterGods)
                 .andThen(sum)
                 .apply(listOfGods);
+    }
+
+    @Override
+    public BigInteger VAVRSolution() {
+        return null;
+    }
+
+    private Scheduler scheduler = Schedulers.newElastic("myThreads");
+
+    @Override
+    public Mono<BigInteger> ReactorSolution() {
+
+        //Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
+        //        .doOnNext(System.out::println);
+
+        Flux.zip(
+                Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0)))),
+                Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(1)))),
+                (a, b) -> a + b).doOnNext(System.out::println);
+
+        return Mono.just(BigInteger.ZERO);
+    }
+
+    @Override
+    public Single<BigInteger> RxJavaSolution() {
+        return null;
+    }
+
+    @Override
+    public BigInteger KotlinSolution() {
+        return null;
     }
 }
