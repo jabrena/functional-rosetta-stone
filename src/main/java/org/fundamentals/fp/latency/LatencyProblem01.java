@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;;
-import org.fundamentals.fp.euler.IEulerType3;
+import org.fundamentals.fp.euler.IEulerType1;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
@@ -41,14 +41,9 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * REST API: https://my-json-server.typicode.com/jabrena/latency-problems
  */
 @Slf4j
-public class LatencyProblem01 implements IEulerType3<BigInteger> {
+public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
 
     final int TIMEOUT = 15;
-
-    final List<String> listOfGods = List.of(
-            "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
-            "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
-            "http://my-json-server.typicode.com/jabrena/latency-problems/roman");
 
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
@@ -76,16 +71,17 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
             .collect(Collectors.joining( "" ));
 
     @Override
-    public BigInteger JavaSolution() {
+    public BigInteger JavaSolution(List<String> listOfGods) {
         return null;
     }
 
     @Override
-    public BigInteger JavaStreamSolution() {
+    public BigInteger JavaStreamSolution(List<String> listOfGods) {
 
         return listOfGods.stream()
                 .flatMap(toURL.andThen(fetch).andThen(serialize))
                 .filter(godStartingByn)
+                .peek(print)
                 .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
@@ -106,7 +102,7 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
 
     Consumer<String> print = LOGGER::info;
 
-    public BigInteger JavaStreamSolutionAsync() {
+    public BigInteger JavaStreamSolutionAsync(List<String> listOfGods) {
 
         List<CompletableFuture<String>> futureRequests = listOfGods.stream()
                 .map(toURL.andThen(fetchAsync))
@@ -139,7 +135,7 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
             .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
             .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
 
-    public BigInteger JavaStreamSolutionAsync2() {
+    public BigInteger JavaStreamSolutionAsync2(List<String> listOfGods) {
 
         return fetchListAsync
                 .andThen(filterGods)
@@ -148,14 +144,14 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
     }
 
     @Override
-    public BigInteger VAVRSolution() {
+    public BigInteger VAVRSolution(List<String> listOfGods) {
         return null;
     }
 
     private Scheduler scheduler = Schedulers.newElastic("myThreads");
 
     @Override
-    public Mono<BigInteger> ReactorSolution() {
+    public Mono<BigInteger> ReactorSolution(List<String> listOfGods) {
 
         //Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
         //        .doOnNext(System.out::println);
@@ -169,12 +165,12 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
     }
 
     @Override
-    public Single<BigInteger> RxJavaSolution() {
+    public Single<BigInteger> RxJavaSolution(List<String> listOfGods) {
         return null;
     }
 
     @Override
-    public BigInteger KotlinSolution() {
+    public BigInteger KotlinSolution(List<String> listOfGods) {
         return null;
     }
 }
