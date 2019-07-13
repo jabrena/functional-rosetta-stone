@@ -1,7 +1,16 @@
 package org.fundamentals.fp.latency;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import io.vavr.Tuple2;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +20,9 @@ import org.junit.jupiter.api.Test;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.fundamentals.fp.latency.LatencyProblem03.GODS;
 import static org.fundamentals.fp.latency.LatencyProblem03.GODS.GREEK;
 import static org.fundamentals.fp.latency.LatencyProblem03.GODS.NORDIC;
 import static org.fundamentals.fp.latency.LatencyProblem03.GODS.ROMAN;
@@ -57,12 +68,12 @@ public class LatencyProblem03Test implements IEulerTestable {
                         .withStatus(200)
                         .withBodyFile("roman.json")));
 
-        final List<String> listOfGods = List.of(
-                "http://localhost:8090/greek",
-                "http://localhost:8090/nordic",
-                "http://localhost:8090/roman");
+        EnumMap<GODS, String> godMap = new EnumMap<>(GODS.class);
+        godMap.put(GREEK, "http://localhost:8090/greek");
+        godMap.put(ROMAN, "http://localhost:8090/roman");
+        godMap.put(NORDIC, "http://localhost:8090/nordic");
 
-        LatencyProblem03 problem = new LatencyProblem03(listOfGods);
+        LatencyProblem03 problem = new LatencyProblem03(godMap);
 
         List<String> expectedGreekList = List.of(
                 "Zeus",
@@ -108,9 +119,45 @@ public class LatencyProblem03Test implements IEulerTestable {
                 "Tyr"
         );
 
-        assertThat(problem.JavaStreamSolution(GREEK)).isEqualTo(expectedGreekList);
-        assertThat(problem.JavaStreamSolution(ROMAN)).isEqualTo(expectedRomanList);
-        assertThat(problem.JavaStreamSolution(NORDIC)).isEqualTo(expectedNordicList);
+        EnumMap<GODS, List<String>> extectedGodListMap = new EnumMap<>(GODS.class);
+        extectedGodListMap.put(GREEK, expectedGreekList);
+        extectedGodListMap.put(ROMAN, expectedRomanList);
+        extectedGodListMap.put(NORDIC, expectedNordicList);
+
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        Function<GODS, CompletableFuture<Tuple2<GODS, List<String>>>> callAsync = god -> {
+
+            LOGGER.info("Thread: {}", Thread.currentThread().getName());
+            return CompletableFuture
+                    .supplyAsync(() -> {
+                        return new Tuple2<>(god, problem.JavaStreamSolution(god));
+                    }, executor)
+                    .exceptionally(ex -> {
+                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                        return new Tuple2<>(god, List.of("FETCH_BAD_RESULT"));
+                    })
+                    .completeOnTimeout(
+                            new Tuple2<>(god, List.of("FETCH_BAD_RESULT_TIMEOUT"))
+                    ,TIMEOUT, TimeUnit.SECONDS);
+        };
+
+        Predicate<Tuple2<GODS, List<String>>> assertResult = t -> extectedGodListMap.get(t._1).equals(t._2);
+
+        IntStream.rangeClosed(1, 500).boxed()
+                .forEach(i -> {
+                    LOGGER.info("Test iteration: {}", i);
+                    List<CompletableFuture<Tuple2<GODS, List<String>>>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
+                            .map(e -> callAsync.apply(e))
+                            .collect(toList());
+
+                    assertThat(futureCallList.stream()
+                            .map(CompletableFuture::join)
+                            .filter(assertResult)
+                            .count()).isEqualTo(GODS.values().length);
+                });
     }
 
     @Override
