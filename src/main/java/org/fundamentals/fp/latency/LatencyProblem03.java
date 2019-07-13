@@ -34,15 +34,14 @@ public class LatencyProblem03 {
 
     private final EnumMap<GODS, String> godMap;
 
+    final ExecutorService executor = Executors.newFixedThreadPool(10);
+    final int TIMEOUT = 2;
+
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
         LOGGER.error(ex.getLocalizedMessage(), ex);
         throw new RuntimeException("Bad address", ex);
     });
-
-    final ExecutorService executor = Executors.newFixedThreadPool(10);
-
-    final int TIMEOUT = 3;
 
     Function<URL, String> callAsync = url -> {
 
