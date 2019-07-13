@@ -1,7 +1,13 @@
 package org.fundamentals.fp.latency;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.vavr.Tuple2;
+import io.vavr.control.Try;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -49,25 +55,50 @@ public class LatencyProblem03Test implements IEulerTestable {
 
     }
 
+    private List<String> loadJsonFile(String file) {
+
+        return Try.of(() -> {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String readContent = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader()
+                    .getResource("__files/" + file)
+                    .toURI())));
+
+            List<String> deserializedData = objectMapper.readValue(readContent, new TypeReference<List<String>>() {});
+            return deserializedData;
+        }).onFailure(System.out::println)
+        .getOrElse(Collections.emptyList());
+    }
+
     @Test
     @Override
     public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        //Given
         wireMockServer.stubFor(get(urlEqualTo("/greek"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(200)
                         .withBodyFile("greek.json")));
 
         wireMockServer.stubFor(get(urlEqualTo("/nordic"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(200)
                         .withBodyFile("nordic.json")));
 
         wireMockServer.stubFor(get(urlEqualTo("/roman"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(200)
                         .withBodyFile("roman.json")));
 
+        EnumMap<GODS, List<String>> extectedGodListMap = new EnumMap<>(GODS.class);
+        extectedGodListMap.put(GREEK, loadJsonFile("greek.json"));
+        extectedGodListMap.put(ROMAN, loadJsonFile("roman.json"));
+        extectedGodListMap.put(NORDIC, loadJsonFile("nordic.json"));
+
+        //When
         EnumMap<GODS, String> godMap = new EnumMap<>(GODS.class);
         godMap.put(GREEK, "http://localhost:8090/greek");
         godMap.put(ROMAN, "http://localhost:8090/roman");
@@ -75,65 +106,12 @@ public class LatencyProblem03Test implements IEulerTestable {
 
         LatencyProblem03 problem = new LatencyProblem03(godMap);
 
-        List<String> expectedGreekList = List.of(
-                "Zeus",
-                "Hera",
-                "Poseidon",
-                "Demeter",
-                "Ares",
-                "Athena",
-                "Apollo",
-                "Artemis",
-                "Hephaestus",
-                "Aphrodite",
-                "Hermes",
-                "Dionysus",
-                "Hades",
-                "Hypnos",
-                "Nike",
-                "Janus",
-                "Nemesis",
-                "Iris",
-                "Hecate",
-                "Tyche");
-
-        List<String> expectedRomanList = List.of(
-                "Venus",
-                "Mars",
-                "Neptun",
-                "Mercury",
-                "Pluto",
-                "Jupiter"
-        );
-
-        List<String> expectedNordicList = List.of(
-                "Baldur",
-                "Freyja",
-                "Heimdall",
-                "Frigga",
-                "Hel",
-                "Loki",
-                "Njord",
-                "Odin",
-                "Thor",
-                "Tyr"
-        );
-
-        EnumMap<GODS, List<String>> extectedGodListMap = new EnumMap<>(GODS.class);
-        extectedGodListMap.put(GREEK, expectedGreekList);
-        extectedGodListMap.put(ROMAN, expectedRomanList);
-        extectedGodListMap.put(NORDIC, expectedNordicList);
-
-        final int TIMEOUT = 2;
-
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-
         Function<GODS, CompletableFuture<Tuple2<GODS, List<String>>>> callAsync = god -> {
 
             LOGGER.info("Thread: {}", Thread.currentThread().getName());
             return CompletableFuture
                     .supplyAsync(() -> {
-                        return new Tuple2<>(god, problem.JavaStreamSolution(god));
+                        return new Tuple2<>(god, problem.JavaStreamSolutionAsync(god));
                     }, executor)
                     .exceptionally(ex -> {
                         LOGGER.error(ex.getLocalizedMessage(), ex);
@@ -141,12 +119,13 @@ public class LatencyProblem03Test implements IEulerTestable {
                     })
                     .completeOnTimeout(
                             new Tuple2<>(god, List.of("FETCH_BAD_RESULT_TIMEOUT"))
-                    ,TIMEOUT, TimeUnit.SECONDS);
+                            ,TIMEOUT, TimeUnit.SECONDS);
         };
 
         Predicate<Tuple2<GODS, List<String>>> assertResult = t -> extectedGodListMap.get(t._1).equals(t._2);
 
-        IntStream.rangeClosed(1, 500).boxed()
+        //Then
+        IntStream.rangeClosed(1, 256).boxed()
                 .forEach(i -> {
                     LOGGER.info("Test iteration: {}", i);
                     List<CompletableFuture<Tuple2<GODS, List<String>>>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
@@ -158,6 +137,8 @@ public class LatencyProblem03Test implements IEulerTestable {
                             .filter(assertResult)
                             .count()).isEqualTo(GODS.values().length);
                 });
+
+        executor.shutdown();
     }
 
     @Override

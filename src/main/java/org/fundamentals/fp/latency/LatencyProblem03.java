@@ -6,6 +6,10 @@ import io.vavr.control.Try;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -32,27 +36,46 @@ public class LatencyProblem03 {
         NORDIC
     }
 
-    public List<String> JavaStreamSolution(GODS god) {
+    Function<String, URL> toURL = address -> Try.of(() ->
+            new URL(address)).getOrElseThrow(ex -> {
+        LOGGER.error(ex.getLocalizedMessage(), ex);
+        throw new RuntimeException("Bad address", ex);
+    });
 
-        Function<String, URL> toURL = address -> Try.of(() ->
-                new URL(address)).getOrElseThrow(ex -> {
-            LOGGER.error(ex.getLocalizedMessage(), ex);
-            throw new RuntimeException("Bad address", ex);
-        });
+    final ExecutorService executor = Executors.newFixedThreadPool(10);
 
-        Function<String, Stream<String>> serialize = param -> Try.of(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-            return deserializedData.stream();
-        }).getOrElseThrow(ex -> {
-            LOGGER.error("Bad Serialization process", ex);
-            throw new RuntimeException(ex);
-        });
+    final int TIMEOUT = 3;
+
+    Function<URL, String> callAsync = url -> {
+
+        LOGGER.info("Thread: {}", Thread.currentThread().getName());
+        return CompletableFuture
+                .supplyAsync(() -> fetch.apply(url), executor)
+                .exceptionally(ex -> {
+                    LOGGER.error(ex.getLocalizedMessage(), ex);
+                    return "FETCH_BAD_RESULT";
+                })
+                .completeOnTimeout(
+                        "FETCH_BAD_RESULT_TIMEOUT"
+                        ,TIMEOUT, TimeUnit.SECONDS).join();
+    };
+
+    Function<String, Stream<String>> serialize = param -> Try.of(() -> {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+        return deserializedData.stream();
+    }).getOrElseThrow(ex -> {
+        LOGGER.error("Bad Serialization process", ex);
+        throw new RuntimeException(ex);
+    });
+
+    public List<String> JavaStreamSolutionAsync(GODS god) {
 
         return toURL
-                .andThen(fetch)
+                .andThen(callAsync)
                 .andThen(serialize)
                 .apply(godMap.get(god))
                 .collect(toUnmodifiableList());
     }
+
 }
