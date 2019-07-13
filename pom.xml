@@ -45,6 +45,14 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>net.jcip.annotations</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jcip-annotations.jar</systemPath>
+		</dependency>
+
+		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
 			<version>${vavr.version}</version>
