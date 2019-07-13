@@ -150,7 +150,7 @@ public class LatencyProblem03Test implements IEulerTestable {
                 .forEach(i -> {
                     LOGGER.info("Test iteration: {}", i);
                     List<CompletableFuture<Tuple2<GODS, List<String>>>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
-                            .map(e -> callAsync.apply(e))
+                            .map(callAsync)
                             .collect(toList());
 
                     assertThat(futureCallList.stream()
