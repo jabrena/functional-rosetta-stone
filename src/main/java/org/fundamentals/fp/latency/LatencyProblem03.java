@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
@@ -22,19 +23,16 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 @ThreadSafe
 @Immutable
 @Slf4j
+@RequiredArgsConstructor
 public class LatencyProblem03 {
-
-    private final EnumMap<GODS, String> godMap;
-
-    public LatencyProblem03(EnumMap<GODS, String> godMap) {
-        this.godMap = godMap;
-    }
 
     public enum GODS {
         GREEK,
         ROMAN,
         NORDIC
     }
+
+    private final EnumMap<GODS, String> godMap;
 
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
