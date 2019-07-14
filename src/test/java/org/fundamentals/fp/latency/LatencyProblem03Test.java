@@ -65,8 +65,11 @@ public class LatencyProblem03Test implements IEulerTestable {
 
             List<String> deserializedData = objectMapper.readValue(readContent, new TypeReference<List<String>>() {});
             return deserializedData;
-        }).onFailure(System.out::println)
-        .getOrElse(Collections.emptyList());
+        })
+        .getOrElseThrow(ex -> {
+            LOGGER.error("Problem loading JSON file", ex);
+            throw new RuntimeException(ex);
+        });
     }
 
     @Test
