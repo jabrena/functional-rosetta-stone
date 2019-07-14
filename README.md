@@ -30,7 +30,7 @@ How to test the project?
 Using the [jmh-results.json](https://github.com/jabrena/functional-rosetta-stone/blob/master/docs/jmh-results.json) 
 you can review the performance results: 
 
-- https://jmh.morethan.io/
+- [https://jmh.morethan.io/](http://jmh.morethan.io/?source=https://raw.githubusercontent.com/jabrena/functional-rosetta-stone/master/docs/jmh-results.json)
 - https://nilskp.github.io/jmh-charts/
 - https://github.com/akarnokd/jmh-compare-gui
 
