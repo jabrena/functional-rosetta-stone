@@ -42,6 +42,8 @@ public final class JmhFlightRecorderProfiler implements ExternalProfiler {
         String flightRecorderOptions = DEFAULT_OPTIONS + ",dumponexit=true,filename=" + dumpFile;
         return Arrays.asList(
                 "-XX:+FlightRecorder",
+                "-XX:+UnlockDiagnosticVMOptions",
+                "-XX:+DebugNonSafepoints",
                 "-XX:StartFlightRecording=" + flightRecorderOptions);
     }
 

@@ -49,7 +49,7 @@ public class LatencyProblem01Benchmark {
         st.problem.ReactorSolutionAsync();
     }
 
-    @Benchmark
+    //@Benchmark
     public void ReactorSolutionParallel(St st) {
         st.problem.ReactorSolutionParallel();
     }

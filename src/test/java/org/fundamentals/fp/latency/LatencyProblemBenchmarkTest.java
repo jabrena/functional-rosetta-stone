@@ -68,15 +68,19 @@ public class LatencyProblemBenchmarkTest {
                 .timeUnit(TimeUnit.MILLISECONDS)
                 .warmupTime(TimeValue.seconds(5))
                 .measurementTime(TimeValue.milliseconds(1))
-                .measurementIterations(10)
+                .measurementIterations(20)
                 .threads(Runtime.getRuntime().availableProcessors())
                 .warmupIterations(1)
                 //.shouldFailOnError(true)
                 .shouldDoGC(true)
                 .forks(5)
                 .jvmArgs("-Xmx6144m", "-Xms6144m",
-                        "-Xlog:gc+stats",
-                        //"-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC", //"-XX:+ShenandoahAllocationTrace",
+                        "-verbose:gc", "-XX:+PrintGCDetails", "-Xlog:gc:gc.log",
+                        //"-XX:-UseConcMarkSweepGC",
+                        //"-XX:-UseParallelGC", "-XX:ParallelGCThreads=8",
+                        //"-XX:+UseG1GC",
+                        "-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC",
+                        "-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000", //"-XX:+ShenandoahAllocationTrace",
                         "-XX:-UseBiasedLocking",
                         "-XX:+ExplicitGCInvokesConcurrent")
                         //"-XX:+DisableExplicitGC")
