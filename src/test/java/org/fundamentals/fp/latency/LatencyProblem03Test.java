@@ -75,7 +75,12 @@ public class LatencyProblem03Test implements IEulerTestable {
 
         final int TIMEOUT = 2;
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newFixedThreadPool(10,
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setName("MyExecutor");
+                    return thread;
+                });
 
         //Given
         wireMockServer.stubFor(get(urlEqualTo("/greek"))
@@ -104,7 +109,7 @@ public class LatencyProblem03Test implements IEulerTestable {
         godMap.put(ROMAN, "http://localhost:8090/roman");
         godMap.put(NORDIC, "http://localhost:8090/nordic");
 
-        LatencyProblem03 problem = new LatencyProblem03(godMap);
+        LatencyProblem03 problem = new LatencyProblem03(godMap, executor);
 
         Function<GODS, CompletableFuture<Tuple2<GODS, List<String>>>> callAsync = god -> {
 

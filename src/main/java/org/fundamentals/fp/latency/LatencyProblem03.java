@@ -8,11 +8,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
@@ -23,7 +21,6 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 @ThreadSafe
 @Immutable
 @Slf4j
-@RequiredArgsConstructor
 public class LatencyProblem03 {
 
     public enum GODS {
@@ -32,10 +29,14 @@ public class LatencyProblem03 {
         NORDIC
     }
 
-    private final EnumMap<GODS, String> godMap;
-
-    final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private ExecutorService executor;
     final int TIMEOUT = 2;
+    private EnumMap<GODS, String> godMap;
+
+    public LatencyProblem03(EnumMap<GODS, String> godMap, ExecutorService executor) {
+        this.godMap = godMap;
+        this.executor = executor;
+    }
 
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
