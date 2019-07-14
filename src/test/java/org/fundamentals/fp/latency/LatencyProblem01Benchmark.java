@@ -21,18 +21,23 @@ public class LatencyProblem01Benchmark {
                     return thread;
                 });
 
-        LatencyProblem01 problem = new LatencyProblem01(executor, TIMEOUT);
-
         final List<String> listOfGods = List.of(
-                "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
-                "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
-                "http://my-json-server.typicode.com/jabrena/latency-problems/roman");
+                "http://localhost:8090/greek",
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
 
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
     }
 
     @Benchmark
     public void JavaStreamSolution(St st) {
-        st.problem.JavaStreamSolution(st.listOfGods);
+        st.problem.JavaStreamSolution();
     }
+
+    @Benchmark
+    public void ReactorSolution(St st) {
+        st.problem.ReactorSolution();
+    }
+
 
 }

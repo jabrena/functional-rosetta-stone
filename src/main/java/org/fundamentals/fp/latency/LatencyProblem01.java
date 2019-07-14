@@ -9,15 +9,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;;
-import org.fundamentals.fp.euler.IEulerType1;
+import lombok.extern.slf4j.Slf4j;
+import org.fundamentals.fp.euler.IEulerType3;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
@@ -41,18 +40,20 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * REST API: https://my-json-server.typicode.com/jabrena/latency-problems
  */
 @Slf4j
-public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
+public class LatencyProblem01 implements IEulerType3<BigInteger> {
 
+    private List<String> listOfGods;
     private ExecutorService executor;
     private int TIMEOUT;
 
-    public LatencyProblem01(ExecutorService executor, int timeout) {
+    public LatencyProblem01(List<String> listOfGods, ExecutorService executor, int timeout) {
+        this.listOfGods = listOfGods;
         this.executor = executor;
         this.TIMEOUT = timeout;
     }
 
     @Override
-    public BigInteger JavaSolution(List<String> listOfGods) {
+    public BigInteger JavaSolution() {
         return null;
     }
 
@@ -114,7 +115,7 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
             .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
 
     @Override
-    public BigInteger JavaStreamSolution(List<String> listOfGods) {
+    public BigInteger JavaStreamSolution() {
 
         return fetchListAsync
                 .andThen(filterGods)
@@ -123,37 +124,45 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
     }
 
     @Override
-    public BigInteger VAVRSolution(List<String> listOfGods) {
+    public BigInteger VAVRSolution() {
         return null;
     }
 
     private Scheduler scheduler = Schedulers.newElastic("myThreads");
 
+    Function<String, Flux<String>> serializeFlux = param -> Try.of(() -> {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+        return Mono.just(deserializedData).flatMapMany(Flux::fromIterable);
+    }).getOrElseThrow(ex -> {
+        LOGGER.error("Bad Serialization process", ex);
+        throw new RuntimeException(ex);
+    });
+
     @Override
-    public Mono<BigInteger> ReactorSolution(List<String> listOfGods) {
+    public Mono<BigInteger> ReactorSolution() {
 
-        Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
-                .log();
-
-        //Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
-        //        .doOnNext(System.out::println);
-
-                /*
-        Flux.zip(
-                Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0)))),
-                Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(1)))),
-                (a, b) -> a + b).doOnNext(System.out::println);
-*/
-        return Mono.just(BigInteger.ZERO);
+        return Flux.range(0, listOfGods.size())
+                .flatMap(i -> {
+                    return toURL
+                            .andThen(fetchAsync)
+                            .andThen(CompletableFuture::join)
+                            .andThen(serializeFlux)
+                            .apply(listOfGods.get(i));
+                })
+                .filter(godStartingByn)
+                .log()
+                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
 
     @Override
-    public Single<BigInteger> RxJavaSolution(List<String> listOfGods) {
+    public Single<BigInteger> RxJavaSolution() {
         return null;
     }
 
     @Override
-    public BigInteger KotlinSolution(List<String> listOfGods) {
+    public BigInteger KotlinSolution() {
         return null;
     }
 }

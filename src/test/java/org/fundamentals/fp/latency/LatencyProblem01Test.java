@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -41,6 +40,24 @@ public class LatencyProblem01Test implements IEulerTestable {
 
     }
 
+    private void loadStubs() {
+
+        wireMockServer.stubFor(get(urlEqualTo("/greek"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                        .withStatus(200)
+                        .withBodyFile("greek.json")));
+
+        wireMockServer.stubFor(get(urlEqualTo("/roman"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                        .withStatus(200)
+                        .withBodyFile("roman.json")));
+
+        wireMockServer.stubFor(get(urlEqualTo("/nordic"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                        .withStatus(200)
+                        .withBodyFile("nordic.json")));
+    }
+
     @Test
     @Override
     public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
@@ -54,29 +71,16 @@ public class LatencyProblem01Test implements IEulerTestable {
                     return thread;
                 });
 
-        wireMockServer.stubFor(get(urlEqualTo("/greek"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("greek.json")));
-
-        wireMockServer.stubFor(get(urlEqualTo("/nordic"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("nordic.json")));
-
-        wireMockServer.stubFor(get(urlEqualTo("/roman"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("roman.json")));
+        loadStubs();
 
         final List<String> listOfGods = List.of(
                 "http://localhost:8090/greek",
-                "http://localhost:8090/nordic",
-                "http://localhost:8090/roman");
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
 
-        LatencyProblem01 problem = new LatencyProblem01(executor, TIMEOUT);
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
 
-        assertThat(problem.JavaStreamSolution(listOfGods)).isEqualTo(new BigInteger("78179288397447443426"));
+        assertThat(problem.JavaStreamSolution()).isEqualTo(new BigInteger("78179288397447443426"));
 
         executor.shutdown();
     }
@@ -96,12 +100,12 @@ public class LatencyProblem01Test implements IEulerTestable {
 
         final List<String> listOfGodsOriginal = List.of(
                 "http://my-json-server.typicode.com/jabrena/latency-problems/greek",
-                "http://my-json-server.typicode.com/jabrena/latency-problems/nordic",
-                "http://my-json-server.typicode.com/jabrena/latency-problems/roman");
+                "http://my-json-server.typicode.com/jabrena/latency-problems/roman",
+                "http://my-json-server.typicode.com/jabrena/latency-problems/nordic");
 
-        LatencyProblem01 problem = new LatencyProblem01(executor, TIMEOUT);
+        LatencyProblem01 problem = new LatencyProblem01(listOfGodsOriginal, executor, TIMEOUT);
 
-        assertThat(problem.JavaStreamSolution(listOfGodsOriginal)).isEqualTo(new BigInteger("78179288397447443426"));
+        assertThat(problem.JavaStreamSolution()).isEqualTo(new BigInteger("78179288397447443426"));
 
         executor.shutdown();
     }
@@ -111,7 +115,6 @@ public class LatencyProblem01Test implements IEulerTestable {
 
     }
 
-    @Disabled
     @Test
     @Override
     public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
@@ -125,30 +128,17 @@ public class LatencyProblem01Test implements IEulerTestable {
                     return thread;
                 });
 
-        wireMockServer.stubFor(get(urlEqualTo("/greek"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("greek.json")));
-
-        wireMockServer.stubFor(get(urlEqualTo("/nordic"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("nordic.json")));
-
-        wireMockServer.stubFor(get(urlEqualTo("/roman"))
-                .willReturn(aResponse().withHeader("Content-Type", "text/plain")
-                        .withStatus(200)
-                        .withBodyFile("roman.json")));
+        loadStubs();
 
         final List<String> listOfGods = List.of(
                 "http://localhost:8090/greek",
-                "http://localhost:8090/nordic",
-                "http://localhost:8090/roman");
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
 
-        LatencyProblem01 problem = new LatencyProblem01(executor, TIMEOUT);
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
 
         StepVerifier
-                .create(problem.ReactorSolution(listOfGods))
+                .create(problem.ReactorSolution())
                 .expectNext(new BigInteger("78179288397447443426"))
                 .expectComplete()
                 .verify();
