@@ -29,13 +29,14 @@ public class LatencyProblem03 {
         NORDIC
     }
 
-    private ExecutorService executor;
-    final int TIMEOUT = 2;
     private EnumMap<GODS, String> godMap;
+    private ExecutorService executor;
+    private int TIMEOUT;
 
-    public LatencyProblem03(EnumMap<GODS, String> godMap, ExecutorService executor) {
+    public LatencyProblem03(EnumMap<GODS, String> godMap, ExecutorService executor, int TIMEOUT) {
         this.godMap = godMap;
         this.executor = executor;
+        this.TIMEOUT = TIMEOUT;
     }
 
     Function<String, URL> toURL = address -> Try.of(() ->
