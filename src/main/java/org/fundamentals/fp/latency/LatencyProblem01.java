@@ -43,21 +43,32 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
 @Slf4j
 public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
 
-    final int TIMEOUT = 15;
+    private ExecutorService executor;
+    private int TIMEOUT;
+
+    public LatencyProblem01(ExecutorService executor, int timeout) {
+        this.executor = executor;
+        this.TIMEOUT = timeout;
+    }
+
+    @Override
+    public BigInteger JavaSolution(List<String> listOfGods) {
+        return null;
+    }
 
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
-                LOGGER.error(ex.getLocalizedMessage(), ex);
-                throw new RuntimeException("Bad address", ex);
-            });
+        LOGGER.error(ex.getLocalizedMessage(), ex);
+        throw new RuntimeException("Bad address", ex);
+    });
 
     Function<String, Stream<String>> serialize = param -> Try.of(() -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-            return deserializedData.stream();
-    }).getOrElse(() -> { //TODO Review this error flow
-            LOGGER.error("Bad Serialization process");
-            return Stream.of("BAD_SERIALIZED");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+        return deserializedData.stream();
+    }).getOrElseThrow(ex -> {
+        LOGGER.error("Bad Serialization process", ex);
+        throw new RuntimeException(ex);
     });
 
     Predicate<String> godStartingByn = s -> s.toLowerCase().charAt(0) == 'n';
@@ -70,23 +81,7 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
             .map(String::valueOf)
             .collect(Collectors.joining( "" ));
 
-    @Override
-    public BigInteger JavaSolution(List<String> listOfGods) {
-        return null;
-    }
-
-    @Override
-    public BigInteger JavaStreamSolution(List<String> listOfGods) {
-
-        return listOfGods.stream()
-                .flatMap(toURL.andThen(fetch).andThen(serialize))
-                .filter(godStartingByn)
-                .peek(print)
-                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
-                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
-    }
-
-    private static ExecutorService executor = Executors.newFixedThreadPool(10);
+    Consumer<String> print = LOGGER::info;
 
     Function<URL, CompletableFuture<String>> fetchAsync = address -> {
 
@@ -99,23 +94,6 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
                 })
                 .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", TIMEOUT, TimeUnit.SECONDS);
     };
-
-    Consumer<String> print = LOGGER::info;
-
-    public BigInteger JavaStreamSolutionAsync(List<String> listOfGods) {
-
-        List<CompletableFuture<String>> futureRequests = listOfGods.stream()
-                .map(toURL.andThen(fetchAsync))
-                .collect(toList());
-
-        return futureRequests.stream()
-                .map(CompletableFuture::join)
-                .flatMap(serialize)
-                .filter(godStartingByn)
-                .peek(print)
-                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
-                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
-    }
 
     Function<List<String>, Stream<String>> fetchListAsync = s -> {
         List<CompletableFuture<String>> futureRequests = s.stream()
@@ -135,7 +113,8 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
             .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
             .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
 
-    public BigInteger JavaStreamSolutionAsync2(List<String> listOfGods) {
+    @Override
+    public BigInteger JavaStreamSolution(List<String> listOfGods) {
 
         return fetchListAsync
                 .andThen(filterGods)
@@ -153,14 +132,18 @@ public class LatencyProblem01 implements IEulerType1<List<String>, BigInteger> {
     @Override
     public Mono<BigInteger> ReactorSolution(List<String> listOfGods) {
 
+        Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
+                .log();
+
         //Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0))))
         //        .doOnNext(System.out::println);
 
+                /*
         Flux.zip(
                 Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(0)))),
                 Flux.fromStream(fetchListAsync.apply(List.of(listOfGods.get(1)))),
                 (a, b) -> a + b).doOnNext(System.out::println);
-
+*/
         return Mono.just(BigInteger.ZERO);
     }
 
