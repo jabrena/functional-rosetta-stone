@@ -39,5 +39,25 @@ public class LatencyProblem01Benchmark {
         st.problem.ReactorSolution();
     }
 
+    @Benchmark
+    public void ReactorSolutionFunctionalComposition(St st) {
+        st.problem.ReactorSolutionFunctionalComposition();
+    }
+
+    @Benchmark
+    public void ReactorSolutionAsync(St st) {
+        st.problem.ReactorSolutionAsync();
+    }
+
+    @Benchmark
+    public void ReactorSolutionParallel(St st) {
+        st.problem.ReactorSolutionParallel();
+    }
+
+    @Benchmark
+    public void ReactorSolutionSequential(St st) {
+        st.problem.ReactorSolutionSequential();
+    }
+
 
 }

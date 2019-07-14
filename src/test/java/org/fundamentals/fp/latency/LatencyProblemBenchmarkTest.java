@@ -76,7 +76,7 @@ public class LatencyProblemBenchmarkTest {
                 .forks(5)
                 .jvmArgs("-Xmx6144m", "-Xms6144m",
                         "-Xlog:gc+stats",
-                        "-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC", //"-XX:+ShenandoahAllocationTrace",
+                        //"-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC", //"-XX:+ShenandoahAllocationTrace",
                         "-XX:-UseBiasedLocking",
                         "-XX:+ExplicitGCInvokesConcurrent")
                         //"-XX:+DisableExplicitGC")

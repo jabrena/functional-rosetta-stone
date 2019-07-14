@@ -17,10 +17,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerType3;
+import reactor.blockhound.BlockHound;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
+import reactor.tools.agent.ReactorDebugAgent;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
@@ -128,7 +130,7 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
         return null;
     }
 
-    private Scheduler scheduler = Schedulers.newElastic("myThreads");
+    private Scheduler scheduler = Schedulers.newElastic("MyScheduler");
 
     Function<String, Flux<String>> serializeFlux = param -> Try.of(() -> {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -139,8 +141,86 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
         throw new RuntimeException(ex);
     });
 
+    Function<Flux<String>, Flux<String>> filterGodsFlux = ls -> ls
+            .filter(godStartingByn)
+            .log();
+
+    Function<Flux<String>, Mono<BigInteger>> sumFlux = ls -> ls
+            .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+            .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+
+    Function<Integer, Flux<String>> asyncFetchFlux = limit -> {
+        return Flux.range(0, limit)
+                .flatMap(i -> {
+                    return toURL
+                            .andThen(fetch)
+                            .andThen(serializeFlux)
+                            .apply(listOfGods.get(i));
+                })
+                .subscribeOn(scheduler);
+    };
+
+    public Mono<BigInteger> ReactorSolutionFunctionalComposition() {
+
+        //ReactorDebugAgent.init();
+        //ReactorDebugAgent.processExistingClasses();
+        //BlockHound.install();
+
+        return asyncFetchFlux
+                .andThen(filterGodsFlux)
+                .andThen(sumFlux)
+                .apply(listOfGods.size());
+    }
+
     @Override
     public Mono<BigInteger> ReactorSolution() {
+
+        return Flux.range(0, listOfGods.size())
+                .flatMap(i -> {
+                    return toURL
+                            .andThen(fetch)
+                            .andThen(serializeFlux)
+                            .apply(listOfGods.get(i));
+                })
+                .subscribeOn(scheduler)
+                .filter(godStartingByn)
+                .log()
+                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+    }
+
+    public Mono<BigInteger> ReactorSolutionParallel() {
+
+        return Flux.range(0, listOfGods.size())
+                .flatMap(i -> {
+                    return toURL
+                            .andThen(fetch)
+                            .andThen(serializeFlux)
+                            .apply(listOfGods.get(i));
+                })
+                .subscribeOn(Schedulers.parallel())
+                .filter(godStartingByn)
+                .log()
+                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+    }
+
+    public Mono<BigInteger> ReactorSolutionSequential() {
+
+        return Flux.range(0, listOfGods.size())
+                .flatMap(i -> {
+                    return toURL
+                            .andThen(fetch)
+                            .andThen(serializeFlux)
+                            .apply(listOfGods.get(i));
+                })
+                .filter(godStartingByn)
+                .log()
+                .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+                .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+    }
+
+    public Mono<BigInteger> ReactorSolutionAsync() {
 
         return Flux.range(0, listOfGods.size())
                 .flatMap(i -> {

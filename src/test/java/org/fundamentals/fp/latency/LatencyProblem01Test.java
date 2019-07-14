@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -139,6 +140,127 @@ public class LatencyProblem01Test implements IEulerTestable {
 
         StepVerifier
                 .create(problem.ReactorSolution())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
+
+        executor.shutdown();
+    }
+
+    @Test
+    public void given_ReactorSolutionFunctionalComposition_when_executeMethod_then_expectedResultsTest() {
+
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10,
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setName("MyExecutor");
+                    return thread;
+                });
+
+        loadStubs();
+
+        final List<String> listOfGods = List.of(
+                "http://localhost:8090/greek",
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
+
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
+
+        StepVerifier
+                .create(problem.ReactorSolutionFunctionalComposition())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
+
+        executor.shutdown();
+    }
+
+    @Test
+    public void given_ReactorSolutionAsync_when_executeMethod_then_expectedResultsTest() {
+
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10,
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setName("MyExecutor");
+                    return thread;
+                });
+
+        loadStubs();
+
+        final List<String> listOfGods = List.of(
+                "http://localhost:8090/greek",
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
+
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
+
+        StepVerifier
+                .create(problem.ReactorSolutionAsync())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
+
+        executor.shutdown();
+    }
+
+    @Disabled
+    @Test
+    public void given_ReactorSolutionParallel_when_executeMethod_then_expectedResultsTest() {
+
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10,
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setName("MyExecutor");
+                    return thread;
+                });
+
+        loadStubs();
+
+        final List<String> listOfGods = List.of(
+                "http://localhost:8090/greek",
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
+
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
+
+        StepVerifier
+                .create(problem.ReactorSolutionParallel())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
+
+        executor.shutdown();
+    }
+
+    @Test
+    public void given_ReactorSolutionSequential_when_executeMethod_then_expectedResultsTest() {
+
+        final int TIMEOUT = 2;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10,
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setName("MyExecutor");
+                    return thread;
+                });
+
+        loadStubs();
+
+        final List<String> listOfGods = List.of(
+                "http://localhost:8090/greek",
+                "http://localhost:8090/roman",
+                "http://localhost:8090/nordic");
+
+        LatencyProblem01 problem = new LatencyProblem01(listOfGods, executor, TIMEOUT);
+
+        StepVerifier
+                .create(problem.ReactorSolutionSequential())
                 .expectNext(new BigInteger("78179288397447443426"))
                 .expectComplete()
                 .verify();
