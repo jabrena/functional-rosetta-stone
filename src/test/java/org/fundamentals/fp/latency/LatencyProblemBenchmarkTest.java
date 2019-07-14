@@ -74,7 +74,12 @@ public class LatencyProblemBenchmarkTest {
                 //.shouldFailOnError(true)
                 .shouldDoGC(true)
                 .forks(5)
-                .jvmArgs("-Xmx6144m", "-Xms6144m")
+                .jvmArgs("-Xmx6144m", "-Xms6144m",
+                        "-Xlog:gc+stats",
+                        "-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC", //"-XX:+ShenandoahAllocationTrace",
+                        "-XX:-UseBiasedLocking",
+                        "-XX:+ExplicitGCInvokesConcurrent")
+                        //"-XX:+DisableExplicitGC")
                 //.addProfiler(StackProfiler.class)
                 .addProfiler(GCProfiler.class)
                 //.addProfiler(LinuxPerfProfiler.class)
