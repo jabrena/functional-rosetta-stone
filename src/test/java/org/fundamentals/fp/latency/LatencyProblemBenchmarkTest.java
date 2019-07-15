@@ -68,7 +68,7 @@ public class LatencyProblemBenchmarkTest {
                 .timeUnit(TimeUnit.MILLISECONDS)
                 .warmupTime(TimeValue.seconds(5))
                 .measurementTime(TimeValue.milliseconds(1))
-                .measurementIterations(20)
+                .measurementIterations(10)
                 .threads(Runtime.getRuntime().availableProcessors())
                 .warmupIterations(1)
                 //.shouldFailOnError(true)
