@@ -7,6 +7,7 @@ import io.vavr.control.Try;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -17,12 +18,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerType3;
-import reactor.blockhound.BlockHound;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
-import reactor.tools.agent.ReactorDebugAgent;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
@@ -162,10 +161,6 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
 
     public Mono<BigInteger> ReactorSolutionFunctionalComposition() {
 
-        //ReactorDebugAgent.init();
-        //ReactorDebugAgent.processExistingClasses();
-        //BlockHound.install();
-
         return asyncFetchFlux
                 .andThen(filterGodsFlux)
                 .andThen(sumFlux)
@@ -189,15 +184,24 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
                 .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
     }
 
+    private <T> Mono<T> blockingGet(final Callable<T> callable) {
+        return Mono.fromCallable(callable)
+                .subscribeOn(Schedulers.elastic());
+    }
+
+    Function<String, Flux<String>> fetchWrapper = s -> {
+
+        return blockingGet(() -> toURL
+                .andThen(fetch)
+                .andThen(serialize)
+                .andThen(st -> st.collect(toList()))
+                .apply(s)).flatMapMany(Flux::fromIterable);
+    };
+
     public Mono<BigInteger> ReactorSolutionParallel() {
 
         return Flux.range(0, listOfGods.size())
-                .flatMap(i -> {
-                    return toURL
-                            .andThen(fetch)
-                            .andThen(serializeFlux)
-                            .apply(listOfGods.get(i));
-                })
+                .flatMap(i -> fetchWrapper.apply(listOfGods.get(i)))
                 .subscribeOn(Schedulers.parallel())
                 .filter(godStartingByn)
                 .log()

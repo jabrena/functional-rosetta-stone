@@ -68,7 +68,7 @@ public class LatencyProblem01Benchmark {
                 .verify();
     }
 
-    //@Benchmark
+    @Benchmark
     public void ReactorSolutionParallel(St st) {
 
         StepVerifier

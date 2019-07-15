@@ -86,6 +86,7 @@ public class LatencyProblem01Test implements IEulerTestable {
         executor.shutdown();
     }
 
+    @Disabled
     @Tag("endtoend")
     @Test
     public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsEndToEndTest() {
@@ -207,7 +208,6 @@ public class LatencyProblem01Test implements IEulerTestable {
         executor.shutdown();
     }
 
-    @Disabled
     @Test
     public void given_ReactorSolutionParallel_when_executeMethod_then_expectedResultsTest() {
 
