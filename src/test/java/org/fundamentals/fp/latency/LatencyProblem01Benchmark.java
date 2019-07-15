@@ -1,11 +1,15 @@
 package org.fundamentals.fp.latency;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import reactor.test.StepVerifier;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class LatencyProblem01Benchmark {
 
@@ -31,32 +35,57 @@ public class LatencyProblem01Benchmark {
 
     @Benchmark
     public void JavaStreamSolution(St st) {
-        st.problem.JavaStreamSolution();
+        assertThat(st.problem.JavaStreamSolution()).isEqualTo(new BigInteger("78179288397447443426"));
     }
 
     @Benchmark
     public void ReactorSolution(St st) {
-        st.problem.ReactorSolution();
+
+        StepVerifier
+                .create(st.problem.ReactorSolution())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
     }
 
     @Benchmark
     public void ReactorSolutionFunctionalComposition(St st) {
-        st.problem.ReactorSolutionFunctionalComposition();
+
+        StepVerifier
+                .create(st.problem.ReactorSolutionFunctionalComposition())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
     }
 
     @Benchmark
     public void ReactorSolutionAsync(St st) {
-        st.problem.ReactorSolutionAsync();
+
+        StepVerifier
+                .create(st.problem.ReactorSolutionAsync())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
     }
 
     //@Benchmark
     public void ReactorSolutionParallel(St st) {
-        st.problem.ReactorSolutionParallel();
+
+        StepVerifier
+                .create(st.problem.ReactorSolutionParallel())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
     }
 
     @Benchmark
     public void ReactorSolutionSequential(St st) {
-        st.problem.ReactorSolutionSequential();
+
+        StepVerifier
+                .create(st.problem.ReactorSolutionSequential())
+                .expectNext(new BigInteger("78179288397447443426"))
+                .expectComplete()
+                .verify();
     }
 
 
