@@ -11,9 +11,18 @@ Improve the functional programming skills for Java Developers
 How to test the project?
 
 ```
+git clone https://github.com/jabrena/functional-rosetta-stone.git
+cd functional-rosetta-stone
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
+```
+
+How to run the presentation in local?
+
+```
+cd docs
+python -m SimpleHTTPServer
 ```
 
 ## Documentation
