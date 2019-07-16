@@ -1,3 +1,9 @@
+/*
+ *  Functional Rosetta Stone Copyright (c) 2019
+ *  All rights reserved.
+ *  Licensed under the Apache 2 license.
+ *  For full license text, see LICENSE.txt file in the repo root  or https://opensource.org/licenses/Apache-2.0
+ */
 package org.fundamentals.fp.euler;
 
 import io.reactivex.Observable;
@@ -23,13 +29,16 @@ import reactor.core.publisher.Mono;
 @Solved
 public class EulerProblem01 implements IEulerType1<Integer, Integer> {
 
+    private final int THREE = 3;
+    private final int FIVE = 5;
+
     @Override
     public Integer JavaSolution(Integer limit) {
 
         int sum = 0;
 
-        for(int counter = 1; counter < limit; counter++) {
-            if ((counter % 3 ==0) || (counter % 5 ==0)) {
+        for (int counter = 1; counter < limit; counter++) {
+            if ((counter % THREE == 0) || (counter % FIVE == 0)) {
                 sum += counter;
             }
         }
@@ -38,8 +47,8 @@ public class EulerProblem01 implements IEulerType1<Integer, Integer> {
     }
 
     BiPredicate<Integer, Integer> isMultiple = (l, i) -> l % i == 0;
-    Predicate<Integer> isMultiple3 = number -> isMultiple.test(number, 3);
-    Predicate<Integer> isMultiple5 = number -> isMultiple.test(number, 5);
+    Predicate<Integer> isMultiple3 = number -> isMultiple.test(number, THREE);
+    Predicate<Integer> isMultiple5 = number -> isMultiple.test(number, FIVE);
 
     @Override
     public Integer JavaStreamSolution(Integer limit) {
@@ -52,10 +61,10 @@ public class EulerProblem01 implements IEulerType1<Integer, Integer> {
     @Override
     public Integer VAVRSolution(Integer limit) {
 
-         return Stream.range(1, limit)
-                 .filter(isMultiple3.or(isMultiple5))
-                 .sum()
-                 .intValue();
+        return Stream.range(1, limit)
+            .filter(isMultiple3.or(isMultiple5))
+            .sum()
+            .intValue();
     }
 
     @Override

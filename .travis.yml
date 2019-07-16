@@ -11,6 +11,6 @@ notifications:
     recipients:
     - bren@juanantonio.info
 script:
-- ./mvnw test -DexcludedGroups=performance
+- ./mvnw clean test -DexcludedGroups=performance,endtoend -Dcheckstyle.skip
 after_success:
 - bash <(curl -s https://codecov.io/bash)
