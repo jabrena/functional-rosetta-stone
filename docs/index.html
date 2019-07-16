@@ -1,8 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+
+    <title>Functional programming on Java with VAVR</title>
+
+    <meta name="description" content="A web presentation about Functional programming on Java with VAVR">
+    <meta name="author" content="Juan Antonio Breña Moral">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="./Styles/reveal.css">
+    <link rel="stylesheet" href="./Styles/black.css" id="theme">
+    <link rel="stylesheet" href="./Styles/zenburn.css">
 </head>
 <body>
-    <h1>Functional Rosetta Stone</h1>
+    <div class="reveal">
+
+        <div class="slides">
+            <section>
+                <h1>101 Profiling</h1>
+                <h2>For Microservices</h2>
+                <h3>Empower your developers <span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
+                <i>Juan Antonio Breña Moral</i>
+            </section>
+
+            <section data-background="./Images/logo.jpg">
+                <section>
+                    <h2>Agenda</h2>
+                    <ol>
+                        <li>Java Context</li>
+                        <li>Approaches</li>
+                        <li>Functional features in Java 8+</li>
+                        <li>VAVR Intro</li>
+                        <li>Summary</li>
+                        <li>References</li>
+                        <li>Q&A</li>
+                    </ol>
+                </section>
+                <section>
+                    <h2>Educational Goals</h2>
+                    <ol>
+                        <li>Learn fundamental concepts about Functional programming</li>
+                        <li>Learn to use a VAVR</li>
+                    </ol>
+                </section>
+
+            </section>
+
+            <section>
+              <section data-background="./Images/books.jpg">
+                  <h2>References</h2>
+              </section>
+
+              <section>
+                  <h2>Books</h2>
+                  <table>
+                    <tr>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Java-Performance-Definitive-Scott-Oaks/dp/1449358454/ref=sr_1_fkmr1_1?ie=UTF8&qid=1520287248&sr=8-1-fkmr1&keywords=high+performance+java+oreilly" target="_blank">
+                          <img src="./Images/highPerformanceJava.jpg" />
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Java-High-Performance-applications-concurrency/dp/1787120783/ref=sr_1_2?ie=UTF8&qid=1520287203&sr=8-2&keywords=java+high+performance" target="_b
+                        ">
+                          <img src="./Images/highPerformanceJava9.jpg" />
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+              </section>
+
+              <section>
+                  <h2>Books</h2>
+                  <table>
+                    <tr>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601/ref=sr_1_1?ie=UTF8&qid=1520287317&sr=8-1&keywords=java+concurrency+in+practice" target="
+                        ">
+                          <img src="./Images/javaConcurrencyInPractice.jpg" />
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Effective-Java-Third-Joshua-Bloch/dp/0134685997/ref=sr_1_2?ie=UTF8&qid=1520287317&sr=8-2&keywords=java+concurrency+in+practice" target="_blank">
+                          <img src="./Images/effectiveJava3.jpg" />
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+              </section>
+
+              <section>
+                  <h2>Books</h2>
+                  <table>
+                    <tr>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Elegant-Objects-1-Yegor-Bugayenko/dp/1519166915/ref=sr_1_2?ie=UTF8&qid=1520287765&sr=8-2&keywords=elegant+objects" target="_blank">
+                          <img src="./Images/elegantObjects1.jpg" />
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://www.amazon.co.uk/Hands-Microservices-Kotlin-cloud-native-microservices-ebook/dp/B077THJ1G4/ref=sr_1_1?s=books&ie=UTF8&qid=1520287842&sr=1-1&keywords=kotlin+microservices" target="_blank">
+                          <img src="./Images/kotlinMicroservices.jpg" />
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+              </section>
+
+            </section>
+
+            <section align="left" data-background="./Images/innovation.jpg">
+                <h2 align="center">Q&A</h2>
+                  <table>
+                      <tr align="top">
+                        <td>
+                          <img src="./Images/jabAvatar.jpg" width="50%" />
+                        </td>
+                          <td>
+            					         <a target="_blank" href="https://twitter.com/juanantoniobm"><i class="fab fa-twitter"></i>&nbsp;@juanantoniobm</a><br/>
+            					         <a target="_blank" href="https://github.com/jabrena"><i class="fab fa-github"></i>&nbsp;https://github.com/jabrena</a><br/>
+                               <a target="_blank" href="https://www.juanantonio.info"><i class="fas fa-globe"></i>&nbsp;https://www.juanantonio.info</a><br/>
+                             </td>
+                           </tr>
+                  </table>
+    					<blockquote><small><div align="left">"Pressure makes diamonds."</div>
+                <div align="left"> - George S. Patton Jr.</div></small></blockquote>
+    				</section>
+
+        </div>
+    </div>
+
+    <script src="./Scripts/head.js"></script>
+    <script src="./Scripts/reveal.js"></script>
+    <script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+                    { src: './Scripts/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: './Scripts/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: './Scripts/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+
+	</script>
 </body>
+</html>
