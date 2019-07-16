@@ -28,6 +28,7 @@
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
 		<assertj-core.version>3.12.2</assertj-core.version>
 		<jmh.version>1.21</jmh.version>
+		<checkstyle.skip>true</checkstyle.skip>
 	</properties>
 
 	<!--
