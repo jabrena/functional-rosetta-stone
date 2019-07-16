@@ -8,6 +8,14 @@
 	<name>functional-rosseta-stone</name>
 	<description>Demo project for Spring Boot</description>
 
+	<developers>
+		<developer>
+			<id>jabrena</id>
+			<name>Juan Antonio Breña Moral</name>
+			<email>bren@juanantonio.info</email>
+		</developer>
+	</developers>
+
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -30,20 +38,6 @@
 		<jmh.version>1.21</jmh.version>
 		<checkstyle.skip>true</checkstyle.skip>
 	</properties>
-
-	<!--
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.projectreactor</groupId>
-				<artifactId>reactor-bom</artifactId>
-				<version>Bismuth-RELEASE</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	-->
 
 	<repositories>
 		<repository>
