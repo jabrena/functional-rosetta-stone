@@ -65,7 +65,8 @@
 					<section style="color: black">
 						<h2 style="color: black">Agenda</h2>
 						<ol>
-							<li>Concepts</li>
+							<li>Market context</li>
+							<li>Functional Concepts</li>
 							<li>Functional features in Java 8+</li>
 							<li>VAVR to the rescue</li>
 							<li>Patterns</li>
@@ -114,12 +115,90 @@
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h2>Concepts</h2>
+						<h2>Market context</h2>
+						<ol>
+							<li>OSI Layer</li>
+							<li>Problem</li>
+							<li>API Protocol</li>
+							<li>Stack</li>
+							<li>Language</li>
+							<li>Framework</li>
+							<li>Libraries</li>
+						</ol>
+					</section>
+					<section>
+						<h2>OSI Layers</h2>
+					</section>
+					<section>
+						<h2>Problem</h2>
+						<ul>
+							<li>API <--</li>
+							<li>Big Data</li>
+							<li>IoT</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Protocol</h2>
+						<ul>
+							<li>HTTP REST <--</li>
+							<li>gRPC</li>
+							<li>GraphQL</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Stack</h2>
+						<ul>
+							<li>Servlet (Blocking) <--</li>
+							<li>Webflux (Non-blocking & Reactive)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Languages</h2>
+						<ul>
+							<li>Java 11+ <--</li>
+							<li>Kotlin</li>
+							<li>Clojure, Scala, Haskell</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Frameworks</h2>
+						<ul>
+							<li>Spring Boot <--</li>
+							<li>Quarkus (VertX (RxJAVA))</li>
+							<li>Micronaut</li>
+							<li>Spring Fu</li>
+							<li>Akka</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Libraries</h2>
+						<ul>
+							<li>Resilience4J</li>
+							<li>VAVR <--</li>
+						</ul>
+					</section>
+				</section>
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Functional Concepts I</h2>
 						<ol>
 							<li>Programming paradigms</li>
 							<li>Eager vs Lazy</li>
 							<li>Mutable vs Immutable</li>
-							<li>Functional programming concepts</li>
+							<li>Recursion</li>
+							<li>Equational reasoning</li>
+							<li>Referential Transparency</li>
+							<li>Pure functions</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Functional Concepts II</h2>
+						<ol>
+							<li>High-order functions</li>
+							<li>Closures</li>
+							<li>Currying</li>
+							<li>Monads</li>
 						</ol>
 					</section>
 					<section>
@@ -206,38 +285,67 @@
 						</table>
 					</section>
 					<section>
+						<h2>Eager vs Lazy</h2>
+						<pre><code class="hljava" data-trim data-line-numbers="1,15">
+
+System.out.println("First");
+Integer eager = List.of(1,2,3).stream()
+		.peek(System.out::println)
+		.reduce(0, (i1, i2) -> i1 + i2); // eager
+
+System.out.println("Second");
+Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
+		.peek(System.out::println)
+		.reduce(0, (i1, i2) -> i1 + i2); // lazy
+
+System.out.println(eager);
+System.out.println(lazy.get());
+						</code></pre>
+					</section>
+
+					<section>
 						<h2>Mutable vs Immutable</h2>
 					</section>
 
 					<section>
-						<h2>Functional programming</h2>
-						<ul>
-							<li>First class function</li>
-							<li>High-order functions</li>
-							<li>Immutable data</li>
-							<li>Pure functions</li>
-							<li>Recursion</li>
-							<li>Mutable vs Immutable</li>
-							<li>Manipulation of lists</li>
-							<li>Lazy evaluation</li>
-						</ul>
+						<h2>Mutable vs Immutable</h2>
+						<pre><code class="hljava" data-trim data-line-numbers="1,15">
+//PENDING
+//Add example with Classic Java collection (Mutable)
+//Add example with VAVR Collection
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Recursion</h2>
 					</section>
 					<section>
-						<h2>Functional programming</h2>
-						<ul>
-							<li>Equational reasoning</li>
-							<li>Referential Transparency</li>
-							<li>Side effects</li>
-							<li>Closures</li>
-							<li>Currying</li>
-							<li>Monads</li>
-						</ul>
+						<h2>Equational reasoning</h2>
 					</section>
+					<section>
+						<h2>Referential Transparency</h2>
+					</section>
+					<section>
+						<h2>Pure functions</h2>
+					</section>
+					<section>
+						<h2>High-order functions</h2>
+					</section>
+					<section>
+						<h2>Closures</h2>
+					</section>
+					<section>
+						<h2>Currying</h2>
+					</section>
+					<section>
+						<h2>Monads</h2>
+					</section>
+
 				</section>
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h2>Functional features in Java 8+</h2>
+						<h2>Functional elements in Java 8+</h2>
 						<ul>
 							<li>Lambdas</li>
 							<li>Java Streams</li>
@@ -253,20 +361,23 @@
 					<section>
 						<h2>VAVR to the rescue</h2>
 						<ul>
-							<li>Philosophy</li>
 							<li>Architecture</li>
-							<li>Monads</li>
-							<li>Validation/Match</li>
 							<li>Functional interfaces</li>
+							<li>Monads</li>
 							<li>Tuples</li>
+							<li>Validation/Match</li>
 							<li>Immutable collections</li>
 							<li>Future/Promises</li>
 							<li>Performance</li>
+							<li>Alternatives</li>
 						</ul>
 					</section>
 					<section>
 						<h2>Architecture</h2>
 						<img src="images/vavr_architecture.jpg" />
+					</section>
+					<section>
+						<h2>Functional interfaces</h2>
 					</section>
 					<section>
 						<h2>Monads</h2>
@@ -283,32 +394,11 @@
 					<section>
 						<h2>Patterns</h2>
 						<ul>
-							<li>Functional Error Handling</li>
-							<li>Functional composition</li>
 							<li>Type driven programming</li>
+							<li>Functional composition</li>
+							<li>Functional Error Handling</li>
 						</ul>
 					</section>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim data-line-numbers="4,8-11">
-import React, { useState } from 'react';
-
-function Example() {
-  const [count, setCount] = useState(0);
-
-  return (
-    &lt;div&gt;
-      &lt;p&gt;You clicked {count} times&lt;/p&gt;
-      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-        Click me
-      &lt;/button&gt;
-    &lt;/div&gt;
-  );
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
 				</section>
 
 				<section data-background="#FFFFFF">
