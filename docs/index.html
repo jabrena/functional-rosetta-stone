@@ -1,334 +1,394 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
 
-    <title>Functional programming on Java with VAVR</title>
+	<head>
+		<meta charset="utf-8">
 
-    <meta name="description" content="A web presentation about Functional programming on Java with VAVR">
-    <meta name="author" content="Juan Antonio Breña Moral">
+		<title>Functional programming on Java with VAVR</title>
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="description" content="A web presentation about Functional programming on Java with VAVR">
+		<meta name="author" content="Juan Antonio Breña Moral">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="stylesheet" href="./Styles/reveal.css">
-    <link rel="stylesheet" href="./Styles/black.css" id="theme">
-    <link rel="stylesheet" href="./Styles/zenburn.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Cache -->
-    <meta http-equiv="cache-control" content="no-store" />
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-</head>
-<body>
-    <div class="reveal">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
-        <div class="slides">
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
 
-            <section data-background="#FFFFFF">
-                <section data-background="Images/vavr_logo.png"
-                         data-background-repeat="repeat"
-                         data-background-size="500px">
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
 
-                    <h1 style="color: #336699">Functional programming</h1>
-                    <h2 style="color: #336699">on <span style="color: #CC9900">Java</span> with <span style="color: #CC9900">VAVR</span></h2>
-                    <h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
-                    <i style="color: #CC9900">Juan Antonio Breña Moral</i>
-                </section>
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
 
-                <section data-background="Images/vavr_logo.png"
-                         data-background-repeat="repeat"
-                         data-background-size="100px">
-                    <img src="Images/vavr_logo.png" />
-                </section>
-            </section>
+	<body>
 
-            <section data-background="Images/vavr_logo2.png"
-                     data-background-repeat="repeat"
-                     data-background-size="500px">
-                <section style="color: black">
-                    <h2 style="color: black">Agenda</h2>
-                    <ol>
-                        <li>Concepts</li>
-                        <li>Functional features in Java 8+</li>
-                        <li>VAVR to the rescue</li>
-                        <li>Patterns</li>
-                        <li>Live demo</li>
-                        <li>Sharpening the axe</li>
-                        <li>References</li>
-                        <li>Acknowledgements</li>
-                    </ol>
-                </section>
-            </section>
+		<div class="reveal">
+			<div class="slides">
 
-            <section align="left" data-background="./Images/innovation.jpg">
-                <h2 align="center">Who I am</h2>
-                <table>
-                    <tr>
-                        <td>
-                            <img src="./Images/jabAvatar.jpg" width="100%"/>
-                        </td>
-                        <td style="color: #336699; vertical-align: top">
-                            Juan Antonio Breña Moral (40)<br />
-                            Chapter Lead, Triathlete, Deejay & Mindstorms/STEAM teacher.<br />
-                            <a target="_blank" href="https://twitter.com/juanantoniobm">Twitter</a> |
-                            <a target="_blank" href="https://github.com/jabrena">Github</a></li> |
-                            <a target="_blank" href="www.linkedin.com/in/juanantoniobrenamoral">Linkedin</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center" style="color: #336699;">
-                            Purpose: <i>"Riding dragons with innovation & fun"</i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center" style="color: #336699;">
-                            Quote: <i>"Pressure makes diamonds."</i><br />
-                            <i>- George S. Patton Jr.</i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center" style="color: #336699;">
-                            <br />
-                            Madrid | Dubai | London | Brussels
-                        </td>
-                    </tr>
-                </table>
-            </section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Concepts</h2>
-                    <ol>
-                        <li>Programming paradigms</li>
-                        <li>Eager vs Lazy</li>
-                        <li>Mutable vs Immutable</li>
-                        <li>Functional programming concepts</li>
-                    </ol>
-                </section>
-                <section>
-                    <h2>Programming paradigms</h2>
-                    <img src="Images/paradigms.png" />
-                </section>
-                <section>
-                    <h2>Eager vs Lazy</h2>
-                </section>
-                <section>
-                    <h2>Mutable vs Immutable</h2>
-                </section>
+				<section data-background="#FFFFFF">
+					<section data-background="images/vavr_logo.png"
+							 data-background-repeat="repeat"
+							 data-background-size="500px">
 
-                <section>
-                    <h2>Functional programming</h2>
-                    <ul>
-                        <li>First class function</li>
-                        <li>High-order functions</li>
-                        <li>Immutable data</li>
-                        <li>Pure functions</li>
-                        <li>Recursion</li>
-                        <li>Mutable vs Immutable</li>
-                        <li>Manipulation of lists</li>
-                        <li>Lazy evaluation</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Functional programming</h2>
-                    <ul>
-                        <li>Equational reasoning</li>
-                        <li>Referential Transparency</li>
-                        <li>Side effects</li>
-                        <li>Closures</li>
-                        <li>Currying</li>
-                        <li>Monads</li>
-                    </ul>
-                </section>
-            </section>
+						<h1 style="color: #336699">Functional programming</h1>
+						<h2 style="color: #336699">on <span style="color: #CC9900">Java</span> with <span style="color: #CC9900">VAVR</span></h2>
+						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
+						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
+					</section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Functional features in Java 8+</h2>
-                    <ul>
-                        <li>Lambdas</li>
-                        <li>Java Streams</li>
-                        <li>Collectors</li>
-                        <li>Optional</li>
-                        <li>Functional interfaces</li>
-                        <li>CompletableFuture</li>
-                    </ul>
-                </section>
-            </section>
+					<section data-background="images/vavr_logo.png"
+							 data-background-repeat="repeat"
+							 data-background-size="100px">
+						<img src="images/vavr_logo.png" />
+					</section>
+				</section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>VAVR to the rescue</h2>
-                    <ul>
-                        <li>Philosophy</li>
-                        <li>Architecture</li>
-                        <li>Monads</li>
-                        <li>Validation/Match</li>
-                        <li>Functional interfaces</li>
-                        <li>Tuples</li>
-                        <li>Immutable collections</li>
-                        <li>Future/Promises</li>
-                        <li>Performance</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Architecture</h2>
-                    <img src="Images/vavr_architecture.jpg" />
-                </section>
-                <section>
-                    <h2>Monads</h2>
-                    <ul>
-                        <li>Either</li>
-                        <li>Option</li>
-                        <li>Try</li>
-                        <li>Stream</li>
-                    </ul>
-                </section>
-            </section>
+				<section data-background="images/vavr_logo2.png"
+						 data-background-repeat="repeat"
+						 data-background-size="500px">
+					<section style="color: black">
+						<h2 style="color: black">Agenda</h2>
+						<ol>
+							<li>Concepts</li>
+							<li>Functional features in Java 8+</li>
+							<li>VAVR to the rescue</li>
+							<li>Patterns</li>
+							<li>Live demo</li>
+							<li>Sharpening the axe</li>
+							<li>References</li>
+							<li>Acknowledgements</li>
+						</ol>
+					</section>
+				</section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Patterns</h2>
-                    <ul>
-                        <li>Functional Error Handling</li>
-                        <li>Functional composition</li>
-                        <li>Type driven programming</li>
-                    </ul>
-                </section>
-            </section>
+				<section align="left" data-background="./images/innovation.jpg">
+					<h2 align="center">Who I am</h2>
+					<table>
+						<tr>
+							<td>
+								<img src="./images/jabAvatar.jpg" width="100%"/>
+							</td>
+							<td style="color: #336699; vertical-align: top">
+								Juan Antonio Breña Moral (40)<br />
+								Chapter Lead, Triathlete, Deejay & Mindstorms/STEAM teacher.<br />
+								<a target="_blank" href="https://twitter.com/juanantoniobm">Twitter</a> |
+								<a target="_blank" href="https://github.com/jabrena">Github</a></li> |
+								<a target="_blank" href="www.linkedin.com/in/juanantoniobrenamoral">Linkedin</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center" style="color: #336699;">
+								Purpose: <i>"Riding dragons with innovation & fun"</i>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center" style="color: #336699;">
+								Quote: <i>"Pressure makes diamonds."</i><br />
+								<i>- George S. Patton Jr.</i>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center" style="color: #336699;">
+								<br />
+								Madrid | Dubai | London | Brussels
+							</td>
+						</tr>
+					</table>
+				</section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Live demo</h2>
-                    <p>
-A live example based on <a href="https://spring.io/blog/2019/04/03/spring-tips-webmvc-fn-the-functional-dsl-for-spring-mvc" target="_blank">WebMvc.fn</a> to ilustrate some examples.
-                    </p>
-                </section>
-            </section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Concepts</h2>
+						<ol>
+							<li>Programming paradigms</li>
+							<li>Eager vs Lazy</li>
+							<li>Mutable vs Immutable</li>
+							<li>Functional programming concepts</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Programming paradigms</h2>
+						<!--
+                        <img src="images/paradigms.png" />
+                        -->
+						<table>
+							<thead>
+							<tr>
+								<th>Paradigm</th>
+								<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>$1</td>
+							</tr>
+							<tr>
+								<td>Lemonade</td>
+								<td>$2</td>
+							</tr>
+							<tr>
+								<td>Bread</td>
+								<td>$3</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<h2>Eager vs Lazy</h2>
+					</section>
+					<section>
+						<h2>Mutable vs Immutable</h2>
+					</section>
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Sharpening the axe</h2>
-                    <blockquote>
-                        Give me six hours to chop down a tree and I will spend the first four sharpening the axe.<br />
-                        - Abraham Lincoln
-                    </blockquote>
-                    <ul>
-                        <li>Synchronous problems: <a href="https://projecteuler.net/archives" target="_blank">Euler problems</a></li>
-                        <li>Asynchronous problems: <a href="https://github.com/jabrena/latency-problems" target="_blank">Latency problems</a></li>
-                    </ul>
-                </section>
-            </section>
+					<section>
+						<h2>Functional programming</h2>
+						<ul>
+							<li>First class function</li>
+							<li>High-order functions</li>
+							<li>Immutable data</li>
+							<li>Pure functions</li>
+							<li>Recursion</li>
+							<li>Mutable vs Immutable</li>
+							<li>Manipulation of lists</li>
+							<li>Lazy evaluation</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Functional programming</h2>
+						<ul>
+							<li>Equational reasoning</li>
+							<li>Referential Transparency</li>
+							<li>Side effects</li>
+							<li>Closures</li>
+							<li>Currying</li>
+							<li>Monads</li>
+						</ul>
+					</section>
+				</section>
 
-            <section>
-                <section data-background="./Images/references2.png">
-                  <h2>References</h2>
-                </section>
-                <section data-background="./Images/references2.png">
-                    <h2>Links</h2>
-                    <ul>
-                        <li><a href="https://www.vavr.io/vavr-docs/" target="_blank">https://www.vavr.io/vavr-docs/</a></li>
-                    </ul>
-                </section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Functional features in Java 8+</h2>
+						<ul>
+							<li>Lambdas</li>
+							<li>Java Streams</li>
+							<li>Collectors</li>
+							<li>Optional</li>
+							<li>Functional interfaces</li>
+							<li>CompletableFuture</li>
+						</ul>
+					</section>
+				</section>
 
-                <section>
-                    <h2>Books</h2>
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="https://www.amazon.co.uk/Java-High-Performance-applications-concurrency/dp/1787120783/ref=sr_1_2?ie=UTF8&qid=1520287203&sr=8-2&keywords=java+high+performance" target="_blank">
-                                <img src="./Images/functionalProgrammingJava.jpg" />
-                                </a>
-                            </td>
-                            <td>
-                                <a href="https://www.amazon.co.uk/Java-Performance-Definitive-Scott-Oaks/dp/1449358454/ref=sr_1_fkmr1_1?ie=UTF8&qid=1520287248&sr=8-1-fkmr1&keywords=high+performance+java+oreilly" target="_blank">
-                                    <img src="./Images/functionalJava.jpg" />
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>VAVR to the rescue</h2>
+						<ul>
+							<li>Philosophy</li>
+							<li>Architecture</li>
+							<li>Monads</li>
+							<li>Validation/Match</li>
+							<li>Functional interfaces</li>
+							<li>Tuples</li>
+							<li>Immutable collections</li>
+							<li>Future/Promises</li>
+							<li>Performance</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Architecture</h2>
+						<img src="images/vavr_architecture.jpg" />
+					</section>
+					<section>
+						<h2>Monads</h2>
+						<ul>
+							<li>Either</li>
+							<li>Option</li>
+							<li>Try</li>
+							<li>Stream</li>
+						</ul>
+					</section>
+				</section>
 
-              <section>
-                  <h2>Books</h2>
-                  <table>
-                    <tr>
-                      <td>
-                        <a href="https://www.amazon.com/Reactive-Streams-Java-Concurrency-Reactor-ebook/dp/B07L1KKJVB/ref=sr_1_1?crid=39AYYV6VMCZ1E&keywords=reactive+streams+in+java&qid=1563289095&s=books&sprefix=reactive+streams%2Cstripbooks-intl-ship%2C233&sr=1-1" target="_blank">
-                          <img src="./Images/reactiveStreamsInJava.jpg" />
-                        </a>
-                      </td>
-                      <td>
-                          <a href="https://www.amazon.com/Hands-Reactive-Programming-Spring-cloud-ready-ebook/dp/B076QCBXZ2/ref=sr_1_2?crid=1QMFP7NKVYBZD&keywords=reactive+programming&qid=1563289165&s=books&sprefix=reactive+programming%2Cstripbooks-intl-ship%2C231&sr=1-2" target="_blank">
-                              <img src="./Images/reactiveProgrammingSpring5.jpg" />
-                          </a>
-                      </td>
-                    </tr>
-                  </table>
-              </section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Patterns</h2>
+						<ul>
+							<li>Functional Error Handling</li>
+							<li>Functional composition</li>
+							<li>Type driven programming</li>
+						</ul>
+					</section>
+				</section>
 
-              <section>
-                  <h2>Books</h2>
-                  <table>
-                    <tr>
-                        <td>
-                            <a href="https://www.amazon.com/Functional-Programming-Simplified-Alvin-Alexander-ebook/dp/B076J7CJKY/ref=sr_1_1?crid=22NAHIR8RUFUO&keywords=functional+programming+simplified&qid=1563289068&s=books&sprefix=functional+programming+si%2Cstripbooks-intl-ship%2C247&sr=1-1" target="_blank">
-                                <img src="./Images/functionalProgrammingSimplified.jpg" />
-                            </a>
-                        </td>
-                      <td>
-                        <a href="https://www.blurb.es/b/9008339-category-theory-for-programmers" target="_blank">
-                          <img src="./Images/categoryTheoryForProgrammers.jpg" />
-                        </a>
-                      </td>
-                    </tr>
-                  </table>
-              </section>
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code class="hljs" data-trim data-line-numbers="4,8-11">
+import React, { useState } from 'react';
 
-            </section>
+function Example() {
+  const [count, setCount] = useState(0);
 
-            <section data-background="#FFFFFF">
-                <section>
-                    <h2>Acknowledgements</h2>
-                    <ul>
-                        <li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a></li>
-                        <li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a></li>
-                        <li><a href="https://twitter.com/pivovarit" target="_blank">Grzegorz Piwowarek</a></li>
-                    </ul>
-                </section>
-            </section>
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+					</code></pre>
+					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
 
-        </div>
-    </div>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Live demo</h2>
+						<p>
+							A live example based on <a href="https://spring.io/blog/2019/04/03/spring-tips-webmvc-fn-the-functional-dsl-for-spring-mvc" target="_blank">WebMvc.fn</a> to ilustrate some examples.
+						</p>
+					</section>
+				</section>
 
-    <script src="./Scripts/head.js"></script>
-    <script src="./Scripts/reveal.js"></script>
-    <script>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Sharpening the axe</h2>
+						<blockquote>
+							Give me six hours to chop down a tree and I will spend the first four sharpening the axe.<br />
+							- Abraham Lincoln
+						</blockquote>
+						<ul>
+							<li>Synchronous problems: <a href="https://projecteuler.net/archives" target="_blank">Euler problems</a></li>
+							<li>Asynchronous problems: <a href="https://github.com/jabrena/latency-problems" target="_blank">Latency problems</a></li>
+						</ul>
+					</section>
+				</section>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
+				<section>
+					<section data-background="./images/references2.png">
+						<h2>References</h2>
+					</section>
+					<section data-background="./images/references2.png">
+						<h2>Links</h2>
+						<ul>
+							<li><a href="https://www.vavr.io/vavr-docs/" target="_blank">https://www.vavr.io/vavr-docs/</a></li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Books</h2>
+						<table>
+							<tr>
+								<td>
+									<a href="https://www.amazon.co.uk/Java-High-Performance-applications-concurrency/dp/1787120783/ref=sr_1_2?ie=UTF8&qid=1520287203&sr=8-2&keywords=java+high+performance" target="_blank">
+										<img src="./images/functionalProgrammingJava.jpg" />
+									</a>
+								</td>
+								<td>
+									<a href="https://www.amazon.co.uk/Java-Performance-Definitive-Scott-Oaks/dp/1449358454/ref=sr_1_fkmr1_1?ie=UTF8&qid=1520287248&sr=8-1-fkmr1&keywords=high+performance+java+oreilly" target="_blank">
+										<img src="./images/functionalJava.jpg" />
+									</a>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h2>Books</h2>
+						<table>
+							<tr>
+								<td>
+									<a href="https://www.amazon.com/Reactive-Streams-Java-Concurrency-Reactor-ebook/dp/B07L1KKJVB/ref=sr_1_1?crid=39AYYV6VMCZ1E&keywords=reactive+streams+in+java&qid=1563289095&s=books&sprefix=reactive+streams%2Cstripbooks-intl-ship%2C233&sr=1-1" target="_blank">
+										<img src="./images/reactiveStreamsInJava.jpg" />
+									</a>
+								</td>
+								<td>
+									<a href="https://www.amazon.com/Hands-Reactive-Programming-Spring-cloud-ready-ebook/dp/B076QCBXZ2/ref=sr_1_2?crid=1QMFP7NKVYBZD&keywords=reactive+programming&qid=1563289165&s=books&sprefix=reactive+programming%2Cstripbooks-intl-ship%2C231&sr=1-2" target="_blank">
+										<img src="./images/reactiveProgrammingSpring5.jpg" />
+									</a>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<h2>Books</h2>
+						<table>
+							<tr>
+								<td>
+									<a href="https://www.amazon.com/Functional-Programming-Simplified-Alvin-Alexander-ebook/dp/B076J7CJKY/ref=sr_1_1?crid=22NAHIR8RUFUO&keywords=functional+programming+simplified&qid=1563289068&s=books&sprefix=functional+programming+si%2Cstripbooks-intl-ship%2C247&sr=1-1" target="_blank">
+										<img src="./images/functionalProgrammingSimplified.jpg" />
+									</a>
+								</td>
+								<td>
+									<a href="https://www.blurb.es/b/9008339-category-theory-for-programmers" target="_blank">
+										<img src="./images/categoryTheoryForProgrammers.jpg" />
+									</a>
+								</td>
+							</tr>
+						</table>
+					</section>
+
+				</section>
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Acknowledgements</h2>
+						<ul>
+							<li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a></li>
+							<li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a></li>
+							<li><a href="https://twitter.com/pivovarit" target="_blank">Grzegorz Piwowarek</a></li>
+						</ul>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
 				progress: true,
-				history: true,
 				center: true,
+				hash: true,
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-				// Optional reveal.js plugins
+				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
-                    { src: './Scripts/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: './Scripts/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: './Scripts/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 
-	</script>
-</body>
+		</script>
+
+	</body>
 </html>
