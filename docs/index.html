@@ -104,12 +104,6 @@
 								<i>- George S. Patton Jr.</i>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2" align="center" style="color: #336699;">
-								<br />
-								Madrid | Dubai | London | Brussels
-							</td>
-						</tr>
 					</table>
 				</section>
 
@@ -128,6 +122,7 @@
 					</section>
 					<section>
 						<h2>OSI Layers</h2>
+                        <img src="./images/OSILayers.png" width="70%">
 					</section>
 					<section>
 						<h2>Problem</h2>
@@ -305,14 +300,21 @@ System.out.println(lazy.get());
 
 					<section>
 						<h2>Mutable vs Immutable</h2>
+                        <img src="./images/javaCollection.png">
 					</section>
 
 					<section>
 						<h2>Mutable vs Immutable</h2>
 						<pre><code class="hljava" data-trim data-line-numbers="1,15">
-//PENDING
-//Add example with Classic Java collection (Mutable)
-//Add example with VAVR Collection
+Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3).stream()
+        .peek(System.out::println)
+        .collect(toUnmodifiableList()); //Java 10
+        //.collect(Collectors.collectingAndThen(
+        //    Collectors.toList(),
+        //    x -> Collections.unmodifiableList(x))); // Java 8
+
+var list = retrieveList.get();
+list.add(1); //Katacroker
 						</code></pre>
 					</section>
 
@@ -321,6 +323,7 @@ System.out.println(lazy.get());
 					</section>
 					<section>
 						<h2>Equational reasoning</h2>
+                        <img src="./images/equationalReasoning.jpg">
 					</section>
 					<section>
 						<h2>Referential Transparency</h2>
@@ -509,6 +512,9 @@ System.out.println(lazy.get());
 		<script src="js/reveal.js"></script>
 
 		<script>
+
+            Reveal.configure({ slideNumber: true });
+            Reveal.configure({ slideNumber: 'c/t' });
 
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
