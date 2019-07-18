@@ -331,6 +331,25 @@ list.add(1); //Katacroker
 						<h2>Equational reasoning</h2>
                         <img src="./images/equationalReasoning.jpg">
 					</section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Equational reasoning
+
+                            ``` java
+
+var list = List.of(80, 90, 100);
+
+Function2<Integer, Integer, Integer> divide =
+    (i1, i2) -> i2 / i1;
+Function<List<Integer>, Integer> sum = l ->
+    l.stream().reduce(0, (i1, i2) -> i1 + i2);
+
+System.out.println(divide.apply(sum.apply(list), list.size()));
+
+
+                            ```
+                        </script>
+                    </section>
 					<section>
 						<h2>Referential Transparency</h2>
 						<p>
