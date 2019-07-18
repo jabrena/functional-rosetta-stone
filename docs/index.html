@@ -184,7 +184,7 @@
 							<li>Recursion</li>
 							<li>Equational reasoning</li>
 							<li>Referential Transparency</li>
-							<li>Pure functions</li>
+							<li>Pure vs Impure functions</li>
 						</ol>
 					</section>
 					<section>
@@ -377,10 +377,86 @@ int result2 = add.apply(2, mult.apply(3, 4));
 						</script>
 					</section>
 					<section>
-						<h2>Pure functions</h2>
+						<h2>Pure vs Impure functions</h2>
+                        <p>
+                        Characteristics of Pure Function:
+                        </p>
+                        <ul>
+                            <li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
+                            <li>They do not have any side effects like network or database calls</li>
+                            <li>They do not mod­ify the arguments which are passed to them</li>
+                        </ul>
 					</section>
+                    <section>
+                        <h2>Pure vs Impure functions</h2>
+                        <p>
+                            Characterisitcs of Impure functions
+                        </p>
+                        <ul>
+                            <li>The return value of the impure functions does not solely depend on its arguments Hence, if you call the impure functions with the same set of arguments, you might get the different return values For example, Math.random(), Date.now()
+                            <li>They may have any side effects like network or database calls
+                            <li>They may modify the arguments which are passed to them</li>
+                        </ul>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Pure vs Impure functions
+
+                            Imperative
+
+                            ``` java
+private Double impureFunc(Integer value) { return Math.random() * value; };
+private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
+
+private void imperativeStyle() {
+    var impureOutput = new ArrayList<>();
+    for(var i = 0; i < 5; i++){
+        impureOutput.add(impureFunc(5));
+    }
+    var pureOutput = new ArrayList<>();
+    for(var i = 0; i < 5; i++){
+        pureOutput.add(pureFunc(5));
+    }
+    System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+    System.out.println("Pure result: " + pureOutput);
+}
+
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Pure vs Impure functions
+
+                            Functional
+
+                            ``` java
+Function<Integer, Double> impureFunc = value ->
+    Math.random() * value;
+Function<Integer, Double> pureFunc = value ->
+    Double.valueOf(value * value);
+
+BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
+    IntStream.rangeClosed(0, limit).boxed()
+    .map(fun)
+    .collect(toUnmodifiableList());
+
+var impureOutput = populate.apply(impureFunc, 5);
+var pureOutput = populate.apply(pureFunc, 5);
+
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+
+                            ```
+                        </script>
+                    </section>
+
 					<section>
 						<h2>High-order functions</h2>
+                        <p>
+A higher order function is a function that takes a function as an argument, or returns a function.
+
+                        </p>
 					</section>
 					<section>
 						<h2>Closures</h2>
