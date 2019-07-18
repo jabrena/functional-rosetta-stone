@@ -52,29 +52,29 @@
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 					</section>
 
+                    <section data-background="images/vavr_logo2.png"
+                             data-background-repeat="repeat"
+                             data-background-size="500px">
+                        <section style="color: black">
+                            <h2 style="color: black">Agenda</h2>
+                            <ol>
+                                <li>Market context</li>
+                                <li>Functional Concepts</li>
+                                <li>Functional features in Java 8+</li>
+                                <li>VAVR</li>
+                                <li>Functional patterns</li>
+                                <li>Live demo</li>
+                                <li>Sharpening the axe</li>
+                                <li>References</li>
+                                <li>Acknowledgements</li>
+                            </ol>
+                        </section>
+                    </section>
+
 					<section data-background="images/vavr_logo.png"
 							 data-background-repeat="repeat"
 							 data-background-size="100px">
 						<img src="images/vavr_logo.png" />
-					</section>
-				</section>
-
-				<section data-background="images/vavr_logo2.png"
-						 data-background-repeat="repeat"
-						 data-background-size="500px">
-					<section style="color: black">
-						<h2 style="color: black">Agenda</h2>
-						<ol>
-							<li>Market context</li>
-							<li>Functional Concepts</li>
-							<li>Functional features in Java 8+</li>
-							<li>VAVR to the rescue</li>
-							<li>Patterns</li>
-							<li>Live demo</li>
-							<li>Sharpening the axe</li>
-							<li>References</li>
-							<li>Acknowledgements</li>
-						</ol>
 					</section>
 				</section>
 
@@ -191,8 +191,11 @@
 						<h2>Functional Concepts II</h2>
 						<ol>
 							<li>High-order functions</li>
-							<li>Closures</li>
-							<li>Currying</li>
+                            <li>Functional composition</li>
+                            <li>Memoization</li>
+                            <li>Currying</li>
+                            <li>Partial</li>
+                            <li>Lifting</li>
 							<li>Monads</li>
 						</ol>
 					</section>
@@ -457,13 +460,27 @@ System.out.println("Pure result: " + pureOutput);
 A higher order function is a function that takes a function as an argument, or returns a function.
 
                         </p>
+                        <img src="./images/highOrderFunction.jpg" width="60%">
 					</section>
-					<section>
-						<h2>Closures</h2>
-					</section>
+                    <section>
+                        <h2>Memoization</h2>
+                        <p>
+                            Memoization is a form of caching.
+                            A memoized function executes only once and then returns the result from a cache.
+                        </p>
+                    </section>
 					<section>
 						<h2>Currying</h2>
+                        <p>
+Currying is a technique to partially apply a function by fixing a value for one of the parameters
+                        </p>
 					</section>
+                    <section>
+                        <h2>Partial</h2>
+                    </section>
+                    <section>
+                        <h2>Lifting</h2>
+                    </section>
 					<section>
 						<h2>Monads</h2>
 					</section>
@@ -475,6 +492,7 @@ A higher order function is a function that takes a function as an argument, or r
 						<h2>Functional elements in Java 8+</h2>
 						<ul>
 							<li>Lambdas</li>
+                            <li>Closures</li>
 							<li>Java Streams</li>
 							<li>Collectors</li>
 							<li>Optional</li>
@@ -482,11 +500,42 @@ A higher order function is a function that takes a function as an argument, or r
 							<li>CompletableFuture</li>
 						</ul>
 					</section>
+                    <section>
+                        <h2>Lambdas</h2>
+                    </section>
+                    <section>
+                        <h2>Closures</h2>
+                        <p>
+                            A closure is the combination of a function bundled together (enclosed) with
+                            references to its surrounding state (the lexical environment). In other words,
+                            a closure gives you access to an outer function’s scope from an inner function.
+                        </p>
+                        <p>
+                            Closures are commonly used to give objects data privacy.
+                            When you use closures for data privacy, the enclosed variables are only
+                            in scope within the containing (outer) function.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Java Streams</h2>
+                    </section>
+                    <section>
+                        <h2>Collectors</h2>
+                    </section>
+                    <section>
+                        <h2>Optional</h2>
+                    </section>
+                    <section>
+                        <h2>Functional interfaces</h2>
+                    </section>
+                    <section>
+                        <h2>CompletableFuture</h2>
+                    </section>
 				</section>
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h2>VAVR to the rescue</h2>
+						<h2>VAVR</h2>
 						<ul>
 							<li>Architecture</li>
 							<li>Functional interfaces</li>
@@ -519,7 +568,7 @@ A higher order function is a function that takes a function as an argument, or r
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h2>Patterns</h2>
+						<h2>Functional patterns</h2>
 						<ul>
 							<li>Type driven programming</li>
 							<li>Functional composition</li>
@@ -547,6 +596,7 @@ A higher order function is a function that takes a function as an argument, or r
 						<ul>
 							<li>Synchronous problems: <a href="https://projecteuler.net/archives" target="_blank">Euler problems</a></li>
 							<li>Asynchronous problems: <a href="https://github.com/jabrena/latency-problems" target="_blank">Latency problems</a></li>
+                            <li><a href="https://www.geeksforgeeks.org/dynamic-programming/" target="_blank">Dynamic programming</a> problems</li>
 						</ul>
 					</section>
 				</section>
@@ -568,7 +618,7 @@ A higher order function is a function that takes a function as an argument, or r
 							<tr>
 								<td>
 									<a href="https://www.amazon.co.uk/Java-High-Performance-applications-concurrency/dp/1787120783/ref=sr_1_2?ie=UTF8&qid=1520287203&sr=8-2&keywords=java+high+performance" target="_blank">
-										<img src="./images/functionalProgrammingJava.jpg" />
+										<img src="./images/functionalProgrammingJava.jpg" width="70%" />
 									</a>
 								</td>
 								<td>
@@ -609,7 +659,7 @@ A higher order function is a function that takes a function as an argument, or r
 								</td>
 								<td>
 									<a href="https://www.blurb.es/b/9008339-category-theory-for-programmers" target="_blank">
-										<img src="./images/categoryTheoryForProgrammers.jpg" />
+										<img src="./images/categoryTheoryForProgrammers.jpg" width="50%" />
 									</a>
 								</td>
 							</tr>
