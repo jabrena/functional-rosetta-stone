@@ -279,23 +279,26 @@
 							</tbody>
 						</table>
 					</section>
-					<section>
-						<h2>Eager vs Lazy</h2>
-						<pre><code class="hljava" data-trim data-line-numbers="1,15">
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
 
+							``` java
 System.out.println("First");
 Integer eager = List.of(1,2,3).stream()
-		.peek(System.out::println)
-		.reduce(0, (i1, i2) -> i1 + i2); // eager
+	.peek(System.out::println)
+	.reduce(0, (i1, i2) -> i1 + i2); // eager
 
 System.out.println("Second");
 Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
-		.peek(System.out::println)
-		.reduce(0, (i1, i2) -> i1 + i2); // lazy
+	.peek(System.out::println)
+	.reduce(0, (i1, i2) -> i1 + i2); // lazy
 
 System.out.println(eager);
 System.out.println(lazy.get());
-						</code></pre>
+
+							```
+						</script>
 					</section>
 
 					<section>
@@ -303,21 +306,24 @@ System.out.println(lazy.get());
                         <img src="./images/javaCollection.png">
 					</section>
 
-					<section>
-						<h2>Mutable vs Immutable</h2>
-						<pre><code class="hljava" data-trim data-line-numbers="1,15">
-Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3).stream()
-        .peek(System.out::println)
-        .collect(toUnmodifiableList()); //Java 10
-        //.collect(Collectors.collectingAndThen(
-        //    Collectors.toList(),
-        //    x -> Collections.unmodifiableList(x))); // Java 8
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3)
+	.stream()
+	.peek(System.out::println)
+	.collect(toUnmodifiableList()); //Java 10
+	//.collect(Collectors.collectingAndThen(
+	//    Collectors.toList(),
+	//    x -> Collections.unmodifiableList(x))); // Java 8
 
 var list = retrieveList.get();
 list.add(1); //Katacroker
-						</code></pre>
+							```
+						</script>
 					</section>
-
 					<section>
 						<h2>Recursion</h2>
 					</section>
@@ -327,6 +333,29 @@ list.add(1); //Katacroker
 					</section>
 					<section>
 						<h2>Referential Transparency</h2>
+						<p>
+							Referential transparency is generally defined as the fact that an expression,
+							in a program, may be replaced by its value (or anything having the same value)
+							without changing the result of the program.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Referential Transparency
+
+							``` java
+//x = 2 + (3 * 4)
+//x = 2 + 12
+//x = 14
+
+BiFunction<Integer, Integer, Integer> add =
+(i1, i2) -> i1 + i2;
+BiFunction<Integer, Integer, Integer> mult =
+(i1, i2) -> i1 * i2;
+
+int result2 = add.apply(2, mult.apply(3, 4));
+							```
+						</script>
 					</section>
 					<section>
 						<h2>Pure functions</h2>
