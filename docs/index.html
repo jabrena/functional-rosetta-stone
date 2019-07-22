@@ -613,6 +613,46 @@ Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
 							```
 						</script>
 					</section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Functors / Composition
+
+                            ``` java
+@Test
+public void andThenTest() {
+
+    Function1<Integer, Integer> plusOne =
+        a -> a + 1;
+    Function1<Integer, Integer> multiplyByTwo =
+        a -> a * 2;
+    Function1<Integer, Integer> add1AndMultiplyBy2 =
+        plusOne.andThen(multiplyByTwo);
+
+    then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+}
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Functors / Composition
+
+                            ``` java
+@Test
+public void composeTest() {
+
+    Function1<Integer, Integer> plusOne =
+        a -> a + 1;
+    Function1<Integer, Integer> multiplyByTwo =
+        a -> a * 2;
+    Function1<Integer, Integer> add1AndMultiplyBy2 =
+        multiplyByTwo.compose(plusOne);
+
+    then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+}
+                            ```
+                        </script>
+                    </section>
 					<section>
 						<h2>Data Types</h2>
 						<ul>
