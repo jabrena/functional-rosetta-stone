@@ -535,9 +535,10 @@ Currying is a technique to partially apply a function by fixing a value for one 
 					<section>
 						<h2>VAVR</h2>
 						<ul>
+							<li>About</li>
 							<li>Architecture</li>
-							<li>Functional interfaces</li>
-							<li>Monads</li>
+							<li>Functors</li>
+							<li>Data Types</li>
 							<li>Tuples</li>
 							<li>Validation/Match</li>
 							<li>Immutable collections</li>
@@ -547,14 +548,73 @@ Currying is a technique to partially apply a function by fixing a value for one 
 						</ul>
 					</section>
 					<section>
+						<h2>About</h2>
+						<p>
+Vavr is a functional library for Java 8+ that provides persistent data types
+and functional control structures.
+						</p>
+					</section>
+					<section>
 						<h2>Architecture</h2>
-						<img src="images/vavr_architecture.jpg" />
+						<h3>VAVR 0.10.0</h3>
+						<img src="images/vavr_architecture_initial_1.png" />
 					</section>
 					<section>
-						<h2>Functional interfaces</h2>
+						<h2>Architecture</h2>
+						<h3>VAVR 0.10.0</h3>
+						<img src="images/vavr_architecture_initial_2.png" />
 					</section>
 					<section>
-						<h2>Monads</h2>
+						<h2>Architecture</h2>
+						<h3>VAVR 1.0.0</h3>
+						<img src="images/vavr_architecture.jpg" width="80%" />
+					</section>
+					<section>
+						<h2>Functors</h2>
+						<p>
+Functional programming is all about values and transformation of values using functions.
+Java 8 just provides a Function which accepts one parameter and a BiFunction which accepts two parameters.
+Vavr provides functions up to a limit of 8 parameters.
+The functional interfaces are of called Function0, Function1, Function2, Function3 and so on.
+If you need a function which throws a checked exception you can use CheckedFunction1, CheckedFunction2 and so on.
+						</p>
+					</section>
+					<section>
+						<h2>Functors</h2>
+						<p>
+In fact Vavr functional interfaces are Java 8 functional interfaces on steroids.
+They also provide features like:
+						</p>
+						<ul>
+							<li>Composition</li>
+							<li>Lifting</li>
+							<li>Currying</li>
+							<li>Memoization</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Composition
+
+							``` java
+/*
+f(x) = x + 1
+f(x,y) = x + y
+f(a,b,c,x) = a * x^2 + b*x + c
+*/
+
+Function1<BigInteger, BigInteger>
+	fx = x -> x.add(BigInteger.ONE);
+Function2<BigInteger, BigInteger, BigInteger>
+	fxy = (x, y) -> x.add(y);
+Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
+	fabcx = (a, b, c, x) -> a.multiply(x.pow(2)).add(b.multiply(x)).add(c);
+
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Data Types</h2>
 						<ul>
 							<li>Either</li>
 							<li>Option</li>
