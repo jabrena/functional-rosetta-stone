@@ -555,6 +555,7 @@ Vavr is a functional library for Java 8+ that provides persistent data types
 and functional control structures.
 						</p>
 					</section>
+					<!--
 					<section>
 						<h2>Architecture</h2>
 						<h3>VAVR 0.10.0</h3>
@@ -565,6 +566,7 @@ and functional control structures.
 						<h3>VAVR 0.10.0</h3>
 						<img src="images/vavr_architecture_initial_2.png" />
 					</section>
+					-->
 					<section>
 						<h2>Architecture</h2>
 						<h3>VAVR 1.0.0</h3>
@@ -593,6 +595,16 @@ They also provide features like:
 							<li>Currying</li>
 							<li>Memoization</li>
 						</ul>
+					</section>
+					<section>
+						<h2>Functors / Composition</h2>
+						<p>
+You can compose functions.
+In mathematics, function composition is the application of one function to the result of another
+to produce a third function.
+For instance, the functions f : X → Y and g : Y → Z can be composed to yield
+a function h: g(f(x)) which maps X → Z.
+						</p>
 					</section>
 					<!--
 					<section data-markdown>
@@ -743,13 +755,53 @@ public void liftExample3Test() {
 						</script>
 					</section>
 					<section>
+						<h2>Functors / Partial application</h2>
+						<p>
+Partial application allows you to derive a new function from an existing one by fixing some values.
+You can fix one or more parameters, and the number of fixed parameters defines the arity of
+the new function such that new arity = (original arity - fixed parameters).
+The parameters are bound from left to right.
+						</p>
+					</section>
+					<section>
+						<h2>Functors / Currying</h2>
+						<p>
+Currying is a technique to partially apply a function by fixing a value for one of the parameters,
+resulting in a Function1 function that returns a Function1.
+When a Function2 is curried, the result is indistinguishable from the partial application
+of a Function2 because both result in a 1-arity function.
+						</p>
+					</section>
+					<section>
+						<h2>Functors / Memoization</h2>
+						<p>
+Memoization is a form of caching.
+A memoized function executes only once and then returns the result from a cache.
+						</p>
+					</section>
+					<section>
 						<h2>Data Types</h2>
+						<p>
+						Single valued:
+						</p>
 						<ul>
-							<li>Either</li>
 							<li>Option</li>
 							<li>Try</li>
-							<li>Stream</li>
 						</ul>
+						<p>
+							Biased to one value:
+						</p>
+						<ul>
+							<li>Either</li>
+							<li>Validation</li>
+						</ul>
+						<p>
+							Product types:
+						</p>
+						<ul>
+							<li>Tuple</li>
+						</ul>
+
 					</section>
 				</section>
 
