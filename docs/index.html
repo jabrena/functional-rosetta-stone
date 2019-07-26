@@ -588,10 +588,12 @@ They also provide features like:
 						<ul>
 							<li>Composition</li>
 							<li>Lifting</li>
+							<li>Partial application</li>
 							<li>Currying</li>
 							<li>Memoization</li>
 						</ul>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functors / Composition
@@ -613,6 +615,7 @@ Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
 							```
 						</script>
 					</section>
+					-->
                     <section data-markdown>
                         <script type="text/template">
                             ## Functors / Composition
@@ -653,6 +656,91 @@ public void composeTest() {
                             ```
                         </script>
                     </section>
+					<section>
+						<h2>Functors / Lifting</h2>
+						<p>
+The term partial function comes from mathematics.
+A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X.
+It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y.
+That means a partial function works properly only for some input values.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+@Test
+public void liftExample1Test() {
+
+	Function2<Integer, Integer, Integer> divide =
+							(a, b) -> a / b;
+	Function2<Integer, Integer, Option<Integer>> safeDivide =
+							Function2.lift(divide);
+
+	Option<Integer> d1 = safeDivide.apply(1, 0);
+	Option<Integer> d2 = safeDivide.apply(4, 2);
+
+	then(d1).isEqualTo(Option.none());
+	then(d2).isEqualTo(Option.some(2));
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+Function2<Integer, Integer, Integer> sum = (first, second) -> {
+	if (first < 0 || second < 0) {
+		throw new IllegalArgumentException("Only positive integers are allowed");
+	}
+	return first + second;
+};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+@Test
+public void liftExample2Test() {
+
+	Function2<Integer, Integer, Option<Integer>> sumSafe =
+		Function2.lift(sum);
+
+	Option<Integer> s1 = sumSafe.apply(-1, 2);
+	Option<Integer> s2 = sumSafe.apply(1, 2);
+
+	then(s1).isEqualTo(Option.none());
+	then(s2).isEqualTo(Option.some(3));
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+@Test
+public void liftExample3Test() {
+
+	long validSumCounter = IntStream.iterate(-5, i -> i + 1)
+		.takeWhile(i -> i < 10)
+		.mapToObj(i -> sumSafe.apply(i, 1))
+		.filter(Option::isDefined)
+		.peek(System.out::println)
+		.count();
+
+	then(validSumCounter).isEqualTo(10);
+}
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Data Types</h2>
 						<ul>
