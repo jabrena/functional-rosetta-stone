@@ -1,95 +1,71 @@
 package org.fundamentals.fp.playground;
 
-import com.pholser.junit.quickcheck.Property;
-import com.pholser.junit.quickcheck.generator.InRange;
-import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.assertj.core.api.Assertions;
+import io.vavr.Function0;
+import io.vavr.Function1;
+import io.vavr.Function2;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import java.net.URI;
-import java.util.concurrent.Callable;
-import java.util.function.BinaryOperator;
+import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(JUnitQuickcheck.class)
+/*
+    Java 8 provides only two basic functional interfaces: Function, BiFunction
+    Vavr extends the idea of functional interfaces in Java further by supporting up to a maximum of eight parameters
+    and spicing up the API with methods for memoization, composition, and currying.
+ */
 public class FunctionalInterfacesTest {
 
-    @Property
-    public void l1_toConstant() {
-        assertThat(FunctionalInterfaces.L1_toConstant().get()).isEqualTo(42);
+    @Test
+    public void whenCreatesFunction_thenCorrect0() {
+        Function0<String> getClazzName = () -> this.getClass().getName();
+
+        assertEquals("org.am061.java.vavr.FunctionalInterfacesTest", getClazzName.apply());
     }
 
-    @Property
-    public void l2_toUpperCase() {
-        String input = RandomStringUtils.randomAlphabetic(10);
-        String output = input.toUpperCase();
+    @Test
+    public void givenVavrFunction_whenWorks_thenCorrect() {
+        Function1<Integer, Integer> squareVavr = (num) -> num * num;
+        Function<Integer, Integer> squareJava = (num) -> num * num;
 
-        assertThat(FunctionalInterfaces.L2_toUpperCase().apply(input)).isEqualTo(output);
+        assertEquals((Integer) 4, squareVavr.apply(2));
+        assertEquals((Integer) 4, squareJava.apply(2));
     }
 
-    @Property
-    public void l3_toLong(Long input) {
-        Function<String, Long> function = FunctionalInterfaces.L3_toLong();
+    @Test
+    public void givenVavrBiFunction_whenWorks_thenCorrect() {
+        Function2<Integer, Integer, Integer> sumVavr = (num1, num2) -> num1 + num2;
+        BiFunction<Integer, Integer, Integer> sumJava = (num1, num2) -> num1 + num2;
 
-        assertThat(function.apply(input.toString())).isEqualTo(input);
+        assertEquals((Integer) 12, sumVavr.apply(5, 7));
+        assertEquals((Integer) 12, sumJava.apply(5, 7));
     }
 
-    @Property
-    public void l4_to42IntegerPredicateFalse(@InRange(minInt = 43) Integer input) {
-        IntPredicate function = FunctionalInterfaces.L4_to42IntegerPredicate();
-
-        assertThat(function.test(input)).isEqualTo(true);
+    private int sum(int a, int b) {
+        System.out.println("Summing up " + a + " and " + b);
+        return a + b;
     }
 
-    @Property
-    public void l4_to42IntegerPredicateTrue() {
-        IntPredicate function = FunctionalInterfaces.L4_to42IntegerPredicate();
+    @Test
+    public void whenCreatesFunctionFromMethodRef_thenCorrect() {
+        Function2<Integer, Integer, Integer> sum = Function2.of(this::sum);
+        Function2<Integer, Integer, Integer> memoizedSum = sum.memoized();
+        Function1<Integer, Integer> sumWith6 = sum.curried().apply(6);
+        Function2<Integer, Integer, Integer> sumWith12 = sum.andThen(sumWith6).andThen(sumWith6);
 
-        assertThat(function.test(42)).isEqualTo(false);
-    }
+        assertEquals((Integer) 11, sum.apply(5, 6));
 
-    @Property
-    public void l5_toIntegerPredicate(@InRange(maxInt = Integer.MAX_VALUE - 1) Integer input) {
-        Function<Integer, Predicate<Integer>> function = FunctionalInterfaces.L5_toIntegerPredicate();
+        assertEquals((Integer) 11, memoizedSum.apply(5, 6));
+        assertEquals((Integer) 11, memoizedSum.apply(5, 6));
+        assertEquals((Integer) 11, memoizedSum.apply(5, 6));
 
-        assertThat(function.apply(input).test(input)).isEqualTo(false);
-        assertThat(function.apply(input).test(input + 1)).isEqualTo(true);
+        assertEquals((Integer) 11, memoizedSum.apply(6, 5));
+        assertEquals((Integer) 11, memoizedSum.apply(6, 5));
 
-    }
-
-    @Property
-    public void l6_toURI() {
-        String input = RandomStringUtils.randomAlphabetic(10);
-        String string = String.format("http://%s.com", input);
-        URI uri = URI.create(string);
-
-        assertThat(FunctionalInterfaces.L6_toURI().apply(string)).isEqualTo(uri);
-    }
-
-    @Property
-    public void l7_toCallable(Integer input) throws Exception {
-        Function<Supplier<Integer>, Callable<Integer>> function = FunctionalInterfaces.L7_toCallable();
-        Supplier<Integer> supplier = () -> input;
-        Callable<Integer> output = function.apply(supplier);
-
-        assertThat(supplier.get()).isEqualTo(output.call());
-    }
-
-    @Property
-    public void l8_functionComposition(@InRange(maxInt = (Integer.MAX_VALUE / 2) - 2) Integer input) {
-
-        BinaryOperator<Function<Integer, Integer>> combiner = FunctionalInterfaces.L8_functionComposition();
-
-        Function<Integer, Integer> f1 = i -> i + 2;
-        Function<Integer, Integer> f2 = i -> i * 2;
-        Integer result = combiner.apply(f1, f2).apply(input);
-        Assertions.assertThat(result).isEqualTo((input + 2) * 2);
+        System.out.println();
+        
+        assertEquals((Integer) 11, sumWith6.apply(5));
+        assertEquals((Integer) 22, sumWith12.apply(5, 5));
     }
 }

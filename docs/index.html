@@ -540,11 +540,9 @@ Currying is a technique to partially apply a function by fixing a value for one 
 							<li>Architecture</li>
 							<li>Functors</li>
 							<li>Algebraic Data Types (ADTs)</li>
-							<li>Tuples</li>
-							<li>Validation/Match</li>
+							<li>Product Types</li>
+							<li>Sum Types</li>
 							<li>Immutable collections</li>
-							<li>Future/Promises</li>
-							<li>Performance</li>
 							<li>Alternatives</li>
 						</ul>
 					</section>
@@ -782,28 +780,58 @@ A memoized function executes only once and then returns the result from a cache.
 					<section>
 						<h2>Algebraic Data Types (ADTs)</h2>
 						<p>
-						Single valued:
+Algebraic Data Types, or ADTs for short, are powerful in representing the data model
+in a concise and transparent way.
+						</p>
+						<ul>
+							<li>Sum types</li>
+							<li>Product types</li>
+						</ul>
+<!--
+To understand the concept
+https://slides.com/mariusju/adts/fullscreen#/
+https://www.slideshare.net/debasishg/qconny-12/
+https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
+-->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Sum types</h3>
+						<p>
+Sum types can be seen as types that capture state.
+technically, they are formed by a sealed base interface and two or more final implementations.
 						</p>
 						<ul>
 							<li>Option</li>
-							<li>Try</li>
-						</ul>
-						<p>
-							Biased to one value:
-						</p>
-						<ul>
 							<li>Either</li>
-							<li>Validation</li>
+							<li>Try</li>
+							<li>VAVR Stream</li>
+							<li>VAVR List</li>
 						</ul>
+<!--
+(Think this or that, a boolean OR.)
+
+Enums are the closest thing to sum types in an OO language.
+Enums can express variants, but can’t associate data with the different cases.
+-->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Product types</h3>
 						<p>
-							Product types:
+							Product types are different, they cannot have different states.
+							The values can be seen as indexed values.
 						</p>
 						<ul>
 							<li>Tuple</li>
 						</ul>
-
+						<!--
+                        (Think this and that, a boolean AND.)
+                        Classes in an OO language are also examples of product types.
+                        -->
 					</section>
 				</section>
+
 
                 <section data-background="#FFFFFF">
                     <section>
