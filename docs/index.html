@@ -646,6 +646,16 @@ and functional control structures.
 					</section>
 					<section>
 						<h2>Sum types / Option</h2>
+						<p>
+Option is a monadic container type which represents an optional value.
+Instances of Option are either an instance of Option.Some
+or the singleton Option.None.
+						</p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Option.html" target="_blank">Javadocs</a>
+					</section>
+					<section>
+						<h2>Sum types / Option</h2>
+						<img src="./images/option.png" />
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -682,9 +692,56 @@ public void optionTest2() {
 					</section>
 					<section>
 						<h2>Sum types / Either</h2>
+                        <p>
+Either represents a value of two possible types.
+An Either is either a Either.Left or a  Either.Right.
+						</p>
+						<p>
+By convention, the Left signifies a failure case result
+and the Right signifies a success.
+                        </p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Either.html" target="_blank">Javadocs</a>
+                    </section>
+                    <section>
+                        <h2>Sum types / Either</h2>
+                        <img src="./images/either.png" />
+                    </section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Either
+
+							``` java
+Either<String, Integer> examValidation(int result) {
+	if (result < 50) {
+		return Either.left("Result not acceptable");
+	} else {
+		return Either.right(result);
+	}
+}
+
+@Test
+public void given_someExamResults_when_validate_then_expectedResults() {
+
+	then(examValidation(49).isLeft()).isTrue();
+	then(examValidation(50).isLeft()).isFalse();
+	then(examValidation(50).isRight()).isTrue();
+	then(examValidation(60).isRight()).isTrue();
+}
+
+							```
+						</script>
 					</section>
 					<section>
 						<h2>Sum types / Try</h2>
+						<p>
+The Try control gives us the ability write safe code without
+focusing on try-catch blocks in the presence of exceptions.
+						</p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Try.html" target="_blank">Javadocs</a>
+					</section>
+					<section>
+						<h2>Sum types / Try</h2>
+						<img src="./images/try.png" />
 					</section>
 					<section data-markdown>
 						<script type="text/template">

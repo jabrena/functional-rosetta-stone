@@ -1,13 +1,10 @@
 package org.fundamentals.fp.playground;
 
-//import com.codahale.metrics.MetricRegistry;
-//import com.codahale.metrics.SharedMetricRegistries;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.SharedMetricRegistries;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -47,6 +44,7 @@ import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import io.vavr.control.Validation;
+import org.junit.jupiter.api.Test;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -181,7 +179,8 @@ public class Resilience4JTests {
                 );
     }
 
-    /*
+    @Disabled
+    @Test
     public void circuitBreaker() throws Exception {
 
         HelloWorldService service = null;
@@ -191,8 +190,8 @@ public class Resilience4JTests {
                 .waitDurationInOpenState(Duration.ofSeconds(5))
                 .recordFailure(throwable -> Match(throwable).of(
                         Case($(instanceOf(IOException.class)), true),
-                        Case($(instanceOf(WebApplicationException.class)),
-                                ex -> ex.getResponse().getStatus() == INTERNAL_SERVER_ERROR.getStatusCode()),
+                        //Case($(instanceOf(WebApplicationException.class)),
+                        //        ex -> ex.getResponse().getStatus() == INTERNAL_SERVER_ERROR.getStatusCode()),
                         Case($(), false)))
                 .build();
         CircuitBreaker circuitBreaker = CircuitBreaker.of("testName", circuitBreakerConfig);
@@ -206,6 +205,7 @@ public class Resilience4JTests {
 
     }
 
+    @Test
     public void metrics() throws Exception {
         CircuitBreakerRegistry registry = CircuitBreakerRegistry.ofDefaults();
         CircuitBreaker circuitBreaker = registry.circuitBreaker("backendName");
@@ -221,20 +221,18 @@ public class Resilience4JTests {
         metricRegistry.registerAll(CircuitBreakerMetrics.ofCircuitBreakerRegistry(registry));
     }
 
+    /*
     public void events() throws Exception {
         CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("name1");
         circuitBreaker.getEventPublisher()
-            .onSuccess(event -> LOG.debug(event.toString()))
-            .onError(event -> LOG.warn(event.toString()))
-            .onStateTransition(event -> LOG.info(event.toString()));
+            .onSuccess(event -> LOGGER.debug(event.toString()))
+            .onError(event -> LOGGER.warn(event.toString()))
+            .onStateTransition(event -> LOGGER.info(event.toString()));
 
         RxJava2Adapter.toFlowable(circuitBreaker.getEventPublisher())
-                .filter(event -> event.getEventType() == Type.ERROR)
+                .filter(event -> event.getEventType() == CircuitBreakerEvent.Type.ERROR)
                 .cast(CircuitBreakerOnErrorEvent.class)
-                .subscribe(event -> LOG.warn(event.toString()));
-
-
-
+                .subscribe(event -> LOGGER.warn(event.toString()));
 
         CircularEventConsumer<CircuitBreakerEvent> ringBuffer = new CircularEventConsumer<>(10);
         circuitBreaker.getEventPublisher().onEvent(ringBuffer);
@@ -313,7 +311,7 @@ public class Resilience4JTests {
         then(result).isEqualTo("Ich muss weg!");
     }
 
-    /*
+
     public void timer(){
         HelloWorldService service = null;
 
@@ -330,7 +328,6 @@ public class Resilience4JTests {
         double responseTimePercentile = metrics.getSnapshot().get95thPercentile();
 
     }
-    */
 
     @Test
     public void matchUser(){
