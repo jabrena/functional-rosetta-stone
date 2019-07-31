@@ -3,6 +3,7 @@ package org.fundamentals.fp.playground;
 import io.vavr.control.Option;
 import org.junit.Test;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertEquals;
 
 /*
@@ -13,19 +14,19 @@ import static org.junit.Assert.assertEquals;
 public class OptionTest {
 
     @Test
-    public void givenValue_whenCreatesOption_thenCorrect() {
-        Option<Object> noneOption = Option.of(null);
-        Option<Object> someOption = Option.of("val");
+    public void optionTest1() {
+        Option<String> noneOption = Option.of(null);
+        Option<String> someOption = Option.of("val");
 
-        assertEquals("None", noneOption.toString());
-        assertEquals("Some(val)", someOption.toString());
+        then(noneOption).isEqualTo(Option.none());
+        then(someOption).isEqualTo(Option.some("val"));
     }
 
     @Test
-    public void givenNull_whenCreatesOption_thenCorrect() {
+    public void optionTest2() {
         String name = null;
         Option<String> nameOption = Option.of(name);
 
-        assertEquals("string", nameOption.getOrElse("string"));
+        then(nameOption.getOrElse("string")).isEqualTo("string");
     }
 }

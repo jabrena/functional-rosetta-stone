@@ -52,19 +52,20 @@
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 					</section>
 
-                    <section data-background="images/vavr_logo2.png"
-                             data-background-repeat="repeat"
-                             data-background-size="500px">
+                    <section>
                         <h2 style="color: black">Agenda</h2>
                         <ol>
                             <li>Market context</li>
+							<li>Why?</li>
                             <li>Functional Concepts</li>
                             <li>Functional features in Java 8+</li>
                             <li>VAVR</li>
                             <li>Testing</li>
                             <li>Functional patterns</li>
                             <li>Live demo</li>
+                            <!--
                             <li>Sharpening the axe</li>
+                            -->
                             <li>References</li>
                             <li>Acknowledgements</li>
                         </ol>
@@ -110,13 +111,13 @@
 					<section>
 						<h2>Market context</h2>
 						<ol>
-							<li>OSI Layer</li>
-							<li>Problem</li>
-							<li>API Protocol</li>
-							<li>Stack</li>
-							<li>Language</li>
-							<li>Framework</li>
-							<li>Libraries</li>
+							<li>OSI Layer: <strong>Application</strong></li>
+							<li>Problem: <strong>API</strong></li>
+							<li>API Protocol: <strong>REST HTTP</strong></li>
+							<li>Stack: <strong>Servlet</strong></li>
+							<li>Language: <strong>Java 11+</strong></li>
+							<li>Framework: <strong>Spring Boot</strong></li>
+							<li>Libraries: <strong>VAVR</strong></li>
 						</ol>
 					</section>
 					<section>
@@ -175,27 +176,54 @@
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h2>Functional Concepts I</h2>
+						<h2>Why?</h2>
+						<p>
+Average Joe, implements in many cases, Microservices using an imperative and
+monolithic style. In Java, you can multiple paradigms with
+success, like Object Oriented, Declarative, Functional & Reactive.
+						</p>
+						<p>
+This Talk tries to introduce some functional concepts with the help of VAVR for Java developers with
+ some Java 8+ skills.
+						</p>
+					</section>
+					<section>
+						<h2>Why?</h2>
+						<p>
+Recurrent problems:
+						</p>
+						<ul>
+							<li>Concurrency issues</li>
+							<li>Large methods in legacy repositories</li>
+							<li>@ControllerAdvice is another GOTO</li>
+						</ul>
+					</section>
+				</section>
+
+<!--
+Initial questions:
+
+- Developers using Java 11?
+- Developers using Java 8?
+- Developers using Streams?
+- Developers using Functional Interfaces?
+- Do you use Optional in the daily job?
+-->
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Functional Concepts</h2>
 						<ol>
 							<li>Programming paradigms</li>
 							<li>Eager vs Lazy</li>
 							<li>Mutable vs Immutable</li>
-							<li>Recursion</li>
 							<li>Equational reasoning</li>
+							<li>Functional composition</li>
 							<li>Referential Transparency</li>
 							<li>Pure vs Impure functions</li>
-						</ol>
-					</section>
-					<section>
-						<h2>Functional Concepts II</h2>
-						<ol>
-							<li>High-order functions</li>
-                            <li>Functional composition</li>
-                            <li>Memoization</li>
-                            <li>Currying</li>
-                            <li>Partial</li>
-                            <li>Lifting</li>
-							<li>Monads</li>
+							<li>Functors, Applicative & Monads</li>
+							<li>Type classes vs ADTs</li>
+
 						</ol>
 					</section>
 					<section>
@@ -327,9 +355,6 @@ list.add(1); //Katacroker
 						</script>
 					</section>
 					<section>
-						<h2>Recursion</h2>
-					</section>
-					<section>
 						<h2>Equational reasoning</h2>
                         <img src="./images/equationalReasoning.jpg">
 					</section>
@@ -453,32 +478,18 @@ System.out.println("Pure result: " + pureOutput);
                         </script>
                     </section>
 
-					<section>
-						<h2>High-order functions</h2>
-                        <p>
-A higher order function is a function that takes a function as an argument, or returns a function.
-
-                        </p>
-                        <img src="./images/highOrderFunction.jpg" width="60%">
-					</section>
                     <section>
-                        <h2>Memoization</h2>
-                        <p>
-                            Memoization is a form of caching.
-                            A memoized function executes only once and then returns the result from a cache.
-                        </p>
-                    </section>
-					<section>
-						<h2>Currying</h2>
-                        <p>
-Currying is a technique to partially apply a function by fixing a value for one of the parameters
-                        </p>
-					</section>
-                    <section>
-                        <h2>Partial</h2>
-                    </section>
-                    <section>
-                        <h2>Lifting</h2>
+                        <h2>Type classes vs ADTs</h2>
+						<h3>Type class</h3>
+						<p>
+Type class: defines a set of functions (usually only the signature, with no concrete implementation,
+although a default implementation can be provided).
+						</p>
+						<h3>ADT</h3>
+						<p>
+ADT: A very specific composite type created from a set of simpler constructs which together define
+the different states or structures of the ADT.
+						</p>
                     </section>
 					<section>
 						<h2>Monads</h2>
@@ -538,10 +549,10 @@ Currying is a technique to partially apply a function by fixing a value for one 
 						<ul>
 							<li>About</li>
 							<li>Architecture</li>
-							<li>Functors</li>
 							<li>Algebraic Data Types (ADTs)</li>
 							<li>Product Types</li>
 							<li>Sum Types</li>
+							<li>Functors</li>
 							<li>Immutable collections</li>
 							<li>Alternatives</li>
 						</ul>
@@ -549,7 +560,7 @@ Currying is a technique to partially apply a function by fixing a value for one 
 					<section>
 						<h2>About</h2>
 						<p>
-Vavr is a functional library for Java 8+ that provides persistent data types
+VAVR is a functional library for Java 8+ that provides persistent data types
 and functional control structures.
 						</p>
 					</section>
@@ -571,6 +582,156 @@ and functional control structures.
 						<img src="images/vavr_architecture.jpg" width="80%" />
 					</section>
 					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<p>
+							Algebraic Data Types, or ADTs for short, are powerful in representing the data model
+							in a concise and transparent way.
+						</p>
+						<ul>
+							<li>Sum types</li>
+							<li>Product types</li>
+						</ul>
+						<!--
+                        To understand the concept
+                        https://slides.com/mariusju/adts/fullscreen#/
+                        https://www.slideshare.net/debasishg/qconny-12/
+                        https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
+                        -->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Sum types</h3>
+						<p>
+							Sum types can be seen as types that capture state.
+							technically, they are formed by a sealed base interface and two or more final implementations.
+						</p>
+						<ul>
+							<li>Option</li>
+							<li>Either</li>
+							<li>Try</li>
+							<li>VAVR Stream</li>
+							<li>VAVR List</li>
+						</ul>
+						<!--
+                        (Think this or that, a boolean OR.)
+
+                        Enums are the closest thing to sum types in an OO language.
+                        Enums can express variants, but can’t associate data with the different cases.
+                        -->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Product types</h3>
+						<p>
+							Product types are different, they cannot have different states.
+							The values can be seen as indexed values.
+						</p>
+						<ul>
+							<li>Tuple</li>
+						</ul>
+						<!--
+                        (Think this and that, a boolean AND.)
+                        Classes in an OO language are also examples of product types.
+                        -->
+					</section>
+					<section>
+						<h2>Sum types</h2>
+						<ul>
+							<li>Option</li>
+							<li>Either</li>
+							<li>Try</li>
+							<li>VAVR Stream</li>
+							<li>VAVR List</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Sum types / Option</h2>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Option
+
+							``` java
+@Test
+public void optionTest1() {
+	Option<String> noneOption = Option.of(null);
+	Option<String> someOption = Option.of("val");
+
+	then(noneOption).isEqualTo(Option.none());
+	then(someOption).isEqualTo(Option.some("val"));
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Option
+
+							``` java
+@Test
+public void optionTest2() {
+	String name = null;
+	Option<String> nameOption = Option.of(name);
+
+	then(nameOption.getOrElse("string")).isEqualTo("string");
+}
+
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Sum types / Either</h2>
+					</section>
+					<section>
+						<h2>Sum types / Try</h2>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Try
+
+							``` java
+@Test
+public void given_unsafeMethod_when_executeMethod_thenKataKrokerTest() {
+
+	Function2<Integer, Integer, Integer> unsafeDivide =
+		(a, b) -> a / b;
+	Try<Integer> result =
+		Try.of(() -> unsafeDivide.apply(1, 0));
+
+	then(result.isFailure()).isTrue();
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Try
+
+							``` java
+@Test
+public void given_unsafeMethod_when_executeMethod_thenSameKataKrokerBehaviourTest() {
+
+	Function2<Integer, Integer, Integer> unsafeDivide =
+		(a, b) -> a / b;
+	Try<Integer> result =
+		Try.of(() -> unsafeDivide.apply(1, 0));
+	result.getOrElse(-1);
+
+	then(result.isFailure()).isTrue();
+}
+
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Product types</h2>
+						<ul>
+							<li>Tuple</li>
+						</ul>
+					</section>
+					<section>
 						<h2>Functors</h2>
 						<p>
 Functional programming is all about values and transformation of values using functions.
@@ -580,6 +741,7 @@ The functional interfaces are of called Function0, Function1, Function2, Functio
 If you need a function which throws a checked exception you can use CheckedFunction1, CheckedFunction2 and so on.
 						</p>
 					</section>
+
 					<section>
 						<h2>Functors</h2>
 						<p>
@@ -777,59 +939,7 @@ Memoization is a form of caching.
 A memoized function executes only once and then returns the result from a cache.
 						</p>
 					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<p>
-Algebraic Data Types, or ADTs for short, are powerful in representing the data model
-in a concise and transparent way.
-						</p>
-						<ul>
-							<li>Sum types</li>
-							<li>Product types</li>
-						</ul>
-<!--
-To understand the concept
-https://slides.com/mariusju/adts/fullscreen#/
-https://www.slideshare.net/debasishg/qconny-12/
-https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
--->
-					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<h3>Sum types</h3>
-						<p>
-Sum types can be seen as types that capture state.
-technically, they are formed by a sealed base interface and two or more final implementations.
-						</p>
-						<ul>
-							<li>Option</li>
-							<li>Either</li>
-							<li>Try</li>
-							<li>VAVR Stream</li>
-							<li>VAVR List</li>
-						</ul>
-<!--
-(Think this or that, a boolean OR.)
 
-Enums are the closest thing to sum types in an OO language.
-Enums can express variants, but can’t associate data with the different cases.
--->
-					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<h3>Product types</h3>
-						<p>
-							Product types are different, they cannot have different states.
-							The values can be seen as indexed values.
-						</p>
-						<ul>
-							<li>Tuple</li>
-						</ul>
-						<!--
-                        (Think this and that, a boolean AND.)
-                        Classes in an OO language are also examples of product types.
-                        -->
-					</section>
 				</section>
 
 
@@ -948,9 +1058,11 @@ Enums can express variants, but can’t associate data with the different cases.
 					<section>
 						<h2>Acknowledgements</h2>
 						<ul>
-							<li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a></li>
+							<li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a> (Technical Review & VAVR Author)</li>
+							<!--
 							<li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a></li>
 							<li><a href="https://twitter.com/pivovarit" target="_blank">Grzegorz Piwowarek</a></li>
+							-->
 						</ul>
 					</section>
 				</section>

@@ -1,10 +1,13 @@
 package org.fundamentals.fp.playground;
 
+import io.vavr.Function0;
+import io.vavr.Function2;
 import io.vavr.control.Try;
 import org.junit.Test;
 
 import java.util.function.Supplier;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -15,18 +18,32 @@ import static org.junit.Assert.assertTrue;
 public class TryTest {
 
     @Test
-    public void givenBadCode_whenTryHandles_thenCorrect1() {
-        Try<Integer> result = Try.of(() -> 1 / 0);
+    public void given_unsafeMethod_when_executeMethod_thenKataKrokerTest() {
 
-        assertTrue(result.isFailure());
+        Function2<Integer, Integer, Integer> unsafeDivide = (a, b) -> a / b;
+        Try<Integer> result = Try.of(() -> unsafeDivide.apply(1, 0));
+
+        then(result.isFailure()).isTrue();
     }
 
     @Test
-    public void givenBadCode_whenTryHandles_thenCorrect2() {
-        Try<Integer> result = Try.of(() -> 1 / 0);
+    public void given_unsafeMethod_when_executeMethod_thenSameKataKrokerBehaviourTest() {
+
+        Function2<Integer, Integer, Integer> unsafeDivide = (a, b) -> a / b;
+        Try<Integer> result = Try.of(() -> unsafeDivide.apply(1, 0));
+        result.getOrElse(-1);
+
+        then(result.isFailure()).isTrue();
+    }
+
+    @Test
+    public void given_unsafeMethod_when_executeMethod_thenRecoveryBehaviourTest() {
+
+        Function2<Integer, Integer, Integer> unsafeDivide = (a, b) -> a / b;
+        Try<Integer> result = Try.of(() -> unsafeDivide.apply(1, 0));
         int errorSentinel = result.getOrElse(-1);
 
-        assertEquals(-1, errorSentinel);
+        then(errorSentinel).isEqualTo(-1);
     }
 
     @Test(expected = ArithmeticException.class)
