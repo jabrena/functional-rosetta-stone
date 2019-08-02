@@ -1,10 +1,12 @@
 package org.fundamentals.fp.euler;
 
-import java.util.List;
+import io.reactivex.Single;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.function.Function;
-
-import static org.fundamentals.fp.euler.Utils.JavaStreams.factorialStream;
-import static org.fundamentals.fp.euler.Utils.JavaStreams.toDigits;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import reactor.core.publisher.Mono;
 
 /**
  * Problem 20: Factorial digit sum
@@ -18,13 +20,65 @@ import static org.fundamentals.fp.euler.Utils.JavaStreams.toDigits;
  * Find the sum o9f the digits in the number 100!
  *
  */
-public class EulerProblem20 {
+public class EulerProblem20 implements IEulerType1<Long, Long> {
 
-    Function<List<Long>, Long> sum = digits -> digits.stream()
+    @Override
+    public Long JavaSolution(Long limit) {
+
+        BigDecimal factorial = BigDecimal.valueOf(limit);
+        for(long x = limit -1; x > 0; x--) {
+            factorial = factorial.multiply(BigDecimal.valueOf(x));
+        }
+
+        String strFactorial = factorial.toString();
+        long sum = 0L;
+        for(int x = 0; x < strFactorial.length(); x++) {
+            String digit = String.valueOf((char) strFactorial.charAt(x));
+            sum += Long.valueOf(digit);
+        }
+
+        return sum;
+    }
+
+    Function<Long, BigInteger> factorialStream = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
+            .limit(limit)
+            .mapToObj(BigInteger::valueOf)
+            .reduce((n1, n2) -> n1.multiply(n2)).get();
+
+    Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
+            .mapToObj(c -> String.valueOf((char) c))
+            .map(s -> Integer.valueOf(s));
+
+    Function<Stream<Integer>, Long> sum = digits -> digits
+            .mapToLong(Long::valueOf)
             .reduce(0L, Long::sum);
 
-    public long javaStreamSolution(long limit) {
+    @Override
+    public Long JavaStreamSolution(Long limit) {
 
-        return factorialStream.andThen(toDigits).andThen(sum).apply(limit);
+        return factorialStream
+                .andThen(toDigits)
+                .andThen(sum)
+                .apply(limit);
+    }
+
+    @Override
+    public Long VAVRSolution(Long limit) {
+        return null;
+    }
+
+    @Override
+    public Mono<Long> ReactorSolution(Long limit) {
+        return null;
+    }
+
+    @Override
+    public Single<Long> RxJavaSolution(Long limit) {
+        return null;
+    }
+
+    @Override
+    public Long KotlinSolution(Long limit) {
+        return null;
     }
 }
