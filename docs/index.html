@@ -226,6 +226,40 @@ Using functional programming language changes the way you write code.
 You start thinking about the (data) types that represent the data your code works with.
 						</p>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+
+							### Stringly-typed
+
+							``` java
+public class Person {
+	private final String name;
+	private final String surname;
+	private final String address;
+	private final String phoneNumber;
+	private final String age;
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+
+							### Strongly-typed
+
+							``` java
+public class Person {
+	private final String name;
+	private final Surname surname;
+	private final Address address;
+	private final PhoneNumber phoneNumber;
+	private final PositiveInteger age;
+}
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/waterTap.jpg">
