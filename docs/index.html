@@ -255,7 +255,6 @@ You start thinking about the (data) types that represent the data your code work
 							## Functional composition
 
 							``` java
-
 @Test
 public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 
@@ -319,7 +318,7 @@ public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest
 public class EulerProblem20 {
 
 	public long javaStreamSolution(long limit) {
-							
+
 		return factorial
 					.andThen(toDigits)
 					.andThen(sum)

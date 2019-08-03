@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import org.fundamentals.fp.euler.IEulerType3;
+import org.fundamentals.fp.playground.IEulerType3;
 import reactor.core.publisher.Mono;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
