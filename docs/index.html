@@ -42,9 +42,7 @@
 
 
 				<section data-background="#FFFFFF">
-					<section data-background="images/vavr_logo.png"
-							 data-background-repeat="repeat"
-							 data-background-size="500px">
+					<section>
 
 						<h1 style="color: #336699">Functional programming</h1>
 						<h2 style="color: #336699">on <span style="color: #CC9900">Java</span> with <span style="color: #CC9900">VAVR</span></h2>
@@ -86,19 +84,19 @@
 				<section data-background="#FFFFFF">
 					<h2 style="color: black">Agenda</h2>
 					<ol>
-						<li>Market context</li>
-						<li>Why?</li>
-						<li>Functional patterns</li>
-						<li>Functional Concepts</li>
-						<li>Functional features in Java 8+</li>
+						<li>Market context <strong style="color:orange">Alpha</strong></li>
+						<li>Why? <strong style="color:orange">Alpha</strong></li>
+						<li>Functional patterns <strong style="color:orange">Beta</strong></li>
+						<li>Functional Concepts <strong style="color:orange">Beta</strong></li>
+						<li>Functional features in Java 8+ <strong style="color:orange">Beta</strong></li>
 						<li>VAVR</li>
 						<li>Functional testing</li>
 						<li>Live demo</li>
 						<!--
                         <li>Sharpening the axe</li>
                         -->
-						<li>References</li>
-						<li>Acknowledgements</li>
+						<li>References <strong style="color:orange">Beta</strong></li>
+						<li>Acknowledgements <strong style="color:orange">Alpha</strong></li>
 					</ol>
 				</section>
 
@@ -260,6 +258,22 @@ public class Person {
 							```
 						</script>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+
+							``` java
+Person findOne(long id) throws NoSuchElementException;
+Integer valueOf(String s) throws NumberFormatException;
+
+Try<Person> findOne(long id)
+Try<Integer> valueOf(String s)
+
+Optional<Person> findOne(long id);
+Optional<Integer> valueOf(String s);
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/waterTap.jpg">
@@ -387,6 +401,47 @@ Function<Stream<Integer>, Long> sum = digits -> digits
 					</section>
 					<section>
 						<h2>Functional error handling</h2>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							### Try (Scala)
+							``` scala
+sealed abstract class Try[+T]
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+List<URL> getSearchResults(String searchString) throws IOException
+Try<List<URL>> getSearchResults(String searchString) {
+	return Try.of(() -> getFromGoogle(searchString))
+	.recover(NoSuchElementException.class, emptyList())
+	.recover(NSAForbiddenException.class, emptyList())
+	.orElse(() -> Try.of(() -> getFromDuckDuckGo(searchString)));
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							### JEP-305: Pattern Matching
+							``` java
+Try<InputStream> foo = getSingleSearchResults("foo")
+	.flatMap(url -> Try.of(url::openStream))
+
+Match(foo).of(
+	Case($Success($()), "Opened successfully"),
+	Case($Failure($()), "Failed :(")
+);
+							```
+						</script>
 					</section>
 				</section>
 
