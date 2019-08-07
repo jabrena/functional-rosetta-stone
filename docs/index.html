@@ -178,9 +178,10 @@ In Java, you can develop software using multiple paradigms with
 success.
 						</p>
 						<p>
-This Talk tries to introduce some functional concepts with the help of VAVR.
+This talk tries to introduce some functional concepts with the help of VAVR.
 						</p>
 					</section>
+					<!--
 					<section>
 						<h2>Why?</h2>
 						<p>
@@ -192,6 +193,7 @@ Recurrent problems:
 							<li>@ControllerAdvice is another GOTO</li>
 						</ul>
 					</section>
+					-->
 				</section>
 
 <!--
@@ -298,6 +300,7 @@ Optional<Integer> valueOf(String s);
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -317,12 +320,13 @@ public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 							```
 						</script>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
 
 							``` java
-public Long JavaSolution(Long limit) {
+public Long javaSolution(Long limit) {
 
 	BigDecimal factorial = BigDecimal.valueOf(limit);
 	for(long x = limit -1; x > 0; x--) {
@@ -365,15 +369,12 @@ public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest
 							## Functional composition
 
 							``` java
-public class EulerProblem20 {
+public long javaStreamSolution(long limit) {
 
-	public long javaStreamSolution(long limit) {
-
-		return factorial
-					.andThen(toDigits)
-					.andThen(sum)
-					.apply(limit);
-	}
+	return factorial
+				.andThen(toDigits)
+				.andThen(sum)
+				.apply(limit);
 }
 							```
 						</script>
@@ -1291,14 +1292,17 @@ A memoized function executes only once and then returns the result from a cache.
 				</section>
 				-->
 
-				<section>
-					<section data-background="./images/references2.png">
+				<section data-background="#ffffff">
+					<section>
 						<h2>References</h2>
 					</section>
-					<section data-background="./images/references2.png">
+					<section>
 						<h2>Links</h2>
 						<ul>
 							<li><a href="https://www.vavr.io/vavr-docs/" target="_blank">https://www.vavr.io/vavr-docs/</a></li>
+							<li><a href="https://pivovarit.github.io/talks/functional-exception-handling" target="_blank">https://pivovarit.github.io/talks/functional-exception-handling</a></li>
+							<li><a href="http://normanmaurer.me/blog/2013/11/09/The-hidden-performance-costs-of-instantiating-Throwables/" target="_blank">The hidden performance costs of instantiating Throwables</a> </li>
+							<li><a href="https://shipilev.net/blog/2014/exceptional-performance/" target="_blank">The Exceptional Performance of Lil' Exception</a> </li>
 						</ul>
 					</section>
 
