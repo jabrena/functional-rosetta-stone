@@ -84,8 +84,8 @@
 				<section data-background="#FFFFFF">
 					<h2 style="color: black">Agenda</h2>
 					<ol>
-						<li>Market context <strong style="color:orange">Alpha</strong></li>
-						<li>Why? <strong style="color:orange">Alpha</strong></li>
+						<li>Market context</li>
+						<li>Why?</li>
 						<li>Functional patterns <strong style="color:orange">Beta</strong></li>
 						<li>Functional Concepts <strong style="color:orange">Beta</strong></li>
 						<li>Functional features in Java 8+ <strong style="color:orange">Beta</strong></li>
@@ -113,6 +113,7 @@
 							<li>Libraries: <strong>VAVR</strong></li>
 						</ol>
 					</section>
+					<!--
 					<section>
 						<h2>OSI Layers</h2>
                         <img src="./images/OSILayers.png" width="70%">
@@ -165,6 +166,7 @@
 							<li>VAVR <--</li>
 						</ul>
 					</section>
+					-->
 				</section>
 
 				<section data-background="#FFFFFF">
@@ -178,9 +180,10 @@ In Java, you can develop software using multiple paradigms with
 success.
 						</p>
 						<p>
-This Talk tries to introduce some functional concepts with the help of VAVR.
+This talk tries to introduce some functional concepts and patterns with the help of VAVR.
 						</p>
 					</section>
+					<!--
 					<section>
 						<h2>Why?</h2>
 						<p>
@@ -192,6 +195,7 @@ Recurrent problems:
 							<li>@ControllerAdvice is another GOTO</li>
 						</ul>
 					</section>
+					-->
 				</section>
 
 <!--
@@ -275,15 +279,36 @@ Optional<Integer> valueOf(String s);
 						</script>
 					</section>
 					<section>
+						<h2>Type driven development</h2>
+						<img src="./images/clean-architecture1.png">
+					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<img src="./images/clean-architecture2.png">
+					</section>
+					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/waterTap.jpg">
 					</section>
+                    <section>
+                        <h2>Functional composition</h2>
+                        <p>
+Function composition is an act or mechanism to combine simple functions to build more complicated ones.
+                        </p>
+                        <p>
+Programmers frequently apply functions to results of other functions, and almost all programming languages allow it.
+                        </p>
+                        <p>
+The ability to easily compose functions encourages factoring (breaking apart) functions for maintainability and code reuse.
+                        </p>
+                    </section>
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
 
 							``` java
 /**
+* https://projecteuler.net/problem=20
 * Problem 20: Factorial digit sum
 * n! means n (n 1) ... 3 2 1
 *
@@ -298,6 +323,7 @@ Optional<Integer> valueOf(String s);
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -317,12 +343,13 @@ public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
 							```
 						</script>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
 
 							``` java
-public Long JavaSolution(Long limit) {
+public Long javaSolution(Long limit) {
 
 	BigDecimal factorial = BigDecimal.valueOf(limit);
 	for(long x = limit -1; x > 0; x--) {
@@ -365,15 +392,12 @@ public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest
 							## Functional composition
 
 							``` java
-public class EulerProblem20 {
+public long javaStreamSolution(long limit) {
 
-	public long javaStreamSolution(long limit) {
-
-		return factorial
-					.andThen(toDigits)
-					.andThen(sum)
-					.apply(limit);
-	}
+	return factorial
+				.andThen(toDigits)
+				.andThen(sum)
+				.apply(limit);
 }
 							```
 						</script>
@@ -398,6 +422,20 @@ Function<Stream<Integer>, Long> sum = digits -> digits
 	.reduce(0L, Long::sum);
 							```
 						</script>
+					</section>
+					<section>
+						<h2>Functional error handling</h2>
+						<p>
+In Java 8, the language was released with some Types to increase the expressiveness,
+like <strong>Optional</strong> to model optionality in the value returned by a method.
+						</p>
+						<p>
+Following the same idea, how to model the Exceptionality? Unfortunately,
+the language doesn't provide any solution in the line of Optional.
+						</p>
+						<p>
+How to solve the gap in Java? VAVR
+						</p>
 					</section>
 					<section>
 						<h2>Functional error handling</h2>
@@ -1291,14 +1329,18 @@ A memoized function executes only once and then returns the result from a cache.
 				</section>
 				-->
 
-				<section>
-					<section data-background="./images/references2.png">
+				<section data-background="#ffffff">
+					<section>
 						<h2>References</h2>
 					</section>
-					<section data-background="./images/references2.png">
+					<section>
 						<h2>Links</h2>
 						<ul>
-							<li><a href="https://www.vavr.io/vavr-docs/" target="_blank">https://www.vavr.io/vavr-docs/</a></li>
+							<li><a href="https://www.vavr.io/vavr-docs/" target="_blank">VAVR docs</a></li>
+							<li><a href="https://pivovarit.github.io/talks/functional-exception-handling" target="_blank">Functional Exception Handling in Java</a></li>
+							<li><a href="http://normanmaurer.me/blog/2013/11/09/The-hidden-performance-costs-of-instantiating-Throwables/" target="_blank">The hidden performance costs of instantiating Throwables</a> </li>
+							<li><a href="https://shipilev.net/blog/2014/exceptional-performance/" target="_blank">The Exceptional Performance of Lil' Exception</a> </li>
+							<li><a href="https://www.javaspecialists.eu/archive/Issue187.html" target="_blank">Cost of Causing Exceptions</a></li>
 						</ul>
 					</section>
 
