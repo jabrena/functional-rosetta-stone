@@ -105,7 +105,7 @@ public class Resilience4JTests {
 
     // Service Interface mit Checked exception
     public interface HelloWorldService {
-        String sayHelloWorld(String name) throws BusinessException;
+        String sayHelloWorld(String name) throws org.fundamentals.fp.playground.BusinessException;
         //Try<String> sayHelloWorld(String name);
     }
 
@@ -114,7 +114,7 @@ public class Resilience4JTests {
 
         String result = Try.of(() -> helloWorldService.sayHelloWorld("Robert"))
                 .map(value -> value + " und allen Anwesenden")
-                .recover(BusinessException.class, throwable -> "Ich muss weg!")
+                .recover(org.fundamentals.fp.playground.BusinessException.class, throwable -> "Ich muss weg!")
                 .onFailure(throwable -> LOGGER.warn("Handled exception", throwable))
                 .getOrElse(() -> "Ich muss auch weg");
     }

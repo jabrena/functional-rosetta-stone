@@ -1,4 +1,4 @@
-package playground;
+package org.fundamentals.fp.playground;
 
 import io.reactivex.annotations.Nullable;
 import io.vavr.Function1;

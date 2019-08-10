@@ -1,4 +1,4 @@
-package playground;
+package org.fundamentals.fp.playground;
 
 /**
  * @author Jens Wilke; created: 2015-01-07

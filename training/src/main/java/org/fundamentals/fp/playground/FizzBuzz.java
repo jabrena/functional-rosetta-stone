@@ -1,4 +1,4 @@
-package org.fundamentals.fp.others;
+package org.fundamentals.fp.playground;
 
 import io.reactivex.Single;
 import io.vavr.Function1;

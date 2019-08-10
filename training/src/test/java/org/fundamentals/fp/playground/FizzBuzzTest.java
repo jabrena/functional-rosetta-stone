@@ -1,4 +1,4 @@
-package org.fundamentals.fp.others;
+package org.fundamentals.fp.playground;
 
 import org.junit.jupiter.api.Test;
 
