@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.Single;
 import io.vavr.Function1;
-import io.vavr.Function2;
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import java.net.URL;
@@ -68,16 +69,16 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
                 .recover(ex -> Option.none())
                 .get();
 
-    Function2<URL, Config, CompletableFuture<String>> fetchAsync = (address, config) -> {
+    Function<Tuple2<URL, Config>, CompletableFuture<String>> fetchAsync = (tuple) -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
-                .supplyAsync(() -> fetch.andThen(log).apply(address), config.getExecutor())
+                .supplyAsync(() -> fetch.andThen(log).apply(tuple._1), tuple._2().getExecutor())
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", config.getTimeout(), TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", tuple._2.getTimeout(), TimeUnit.SECONDS);
     };
 
     Function<String, List<String>> serialize = param -> Try.of(() -> {
@@ -91,17 +92,23 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
 
     Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
 
-    Function1<Config, String> roundRobin = config -> {
-        Integer index = new Random().nextInt(config.getList().size());
-        return config.getList().get(index);
+    Function1<List<String>, List<URL>> validAddress = list -> list.stream()
+            .map(toURL)
+            .filter(Option::isDefined)
+            .map(Option::get)
+            .collect(toList());
+
+    Function1<Config, Tuple2<URL, Config>> loadBalance = config -> {
+        List<URL> validAddressList = validAddress.apply(config.getList());
+        Integer index = new Random().nextInt(validAddressList.size());
+        return Tuple.of(validAddressList.get(index), config);
     };
 
     @Override
     public List<String> JavaStreamSolution() {
 
-        return roundRobin
-                .andThen(toURL)
-                .andThen(o -> fetchAsync.apply(o.get(), config))
+        return loadBalance
+                .andThen(fetchAsync)
                 .andThen(CompletableFuture::join)
                 .andThen(serialize)
                 .andThen(l -> l.stream()

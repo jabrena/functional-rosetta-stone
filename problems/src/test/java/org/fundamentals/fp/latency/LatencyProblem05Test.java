@@ -44,6 +44,7 @@ public class LatencyProblem05Test implements IEulerTestable {
 
         //Given
         final List<String> list = Collections.unmodifiableList(List.of(
+                "KATAKROKER",
                 "http://localhost:8090/greek-instance1",
                 "http://localhost:8090/greek-instance2",
                 "http://localhost:8090/greek-instance3",
