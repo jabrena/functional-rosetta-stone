@@ -75,14 +75,15 @@ public class LatencyProblemBenchmarkTest {
                 .shouldDoGC(true)
                 .forks(5)
                 .jvmArgs("-Xmx6144m", "-Xms6144m",
-                        "-verbose:gc", "-XX:+PrintGCDetails", "-Xlog:gc:gc.log",
+                        "-verbose:gc", "-Xlog:gc:gc.log", //"-XX:+PrintGCDetails",
                         //"-XX:-UseConcMarkSweepGC",
                         //"-XX:-UseParallelGC", "-XX:ParallelGCThreads=8",
                         //"-XX:+UseG1GC",
                         "-XX:+UnlockExperimentalVMOptions", "-XX:+UseShenandoahGC",
-                        "-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000", //"-XX:+ShenandoahAllocationTrace",
+                        //"-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000", //"-XX:+ShenandoahAllocationTrace",
                         "-XX:-UseBiasedLocking",
-                        "-XX:+ExplicitGCInvokesConcurrent")
+                        "-XX:+ExplicitGCInvokesConcurrent",
+                        "-XX:+AllowRedefinitionToAddDeleteMethods")
                         //"-XX:+DisableExplicitGC")
                 //.addProfiler(StackProfiler.class)
                 .addProfiler(GCProfiler.class)
