@@ -100,18 +100,6 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
 
     Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
 
-    Function1<List<String>, List<URL>> validAddress = list -> list.stream()
-            .map(toURL)
-            .filter(Option::isDefined)
-            .map(Option::get)
-            .collect(toList());
-
-    Function1<Config, Tuple2<URL, Config>> loadBalance = config -> {
-        List<URL> validAddressList = validAddress.apply(config.getList());
-        Integer index = new Random().nextInt(validAddressList.size());
-        return Tuple.of(validAddressList.get(index), config);
-    };
-
     Function1<Config, Option<String>> fetchAsyncObservability = config -> {
 
         long startTime = System.currentTimeMillis();
