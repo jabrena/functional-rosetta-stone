@@ -126,7 +126,7 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
                 .apply(config);
     };
 
-    Function1<Supplier<List<String>>, Supplier<List<String>>> retry = supplier -> {
+    Function1<Supplier<List<String>>, Supplier<List<String>>> retryBehaviour = supplier -> {
 
         RetryConfig customConfig = RetryConfig.custom()
                 .retryOnResult(r -> r.equals(new ArrayList<String>()))
@@ -147,7 +147,10 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
 
         Supplier<List<String>> supplier = () -> consumeService.apply(config);
 
-        return retry.apply(supplier).get();
+        return Try.ofSupplier(retryBehaviour.apply(supplier))
+                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
+                .recover(ex -> new ArrayList<>())
+                .get();
     }
 
     @Override
