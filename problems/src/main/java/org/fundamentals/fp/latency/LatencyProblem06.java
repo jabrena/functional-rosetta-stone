@@ -126,8 +126,7 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
                 .apply(config);
     };
 
-    @Override
-    public List<String> JavaStreamSolution() {
+    Function1<Supplier<List<String>>, Supplier<List<String>>> retry = supplier -> {
 
         RetryConfig customConfig = RetryConfig.custom()
                 .retryOnResult(r -> r.equals(new ArrayList<String>()))
@@ -136,13 +135,19 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
         Retry retry = Retry.of("retry", customConfig);
         retry.getEventPublisher().onRetry(event -> LOGGER.info("Retrying execution"));
 
-        Supplier<List<String>> supplier = () -> consumeService.apply(config);
-
         Supplier<List<String>> decoratedSupplier = Decorators.ofSupplier(supplier)
                 .withRetry(retry)
                 .decorate();
 
-        return decoratedSupplier.get();
+        return decoratedSupplier;
+    };
+
+    @Override
+    public List<String> JavaStreamSolution() {
+
+        Supplier<List<String>> supplier = () -> consumeService.apply(config);
+
+        return retry.apply(supplier).get();
     }
 
     @Override
