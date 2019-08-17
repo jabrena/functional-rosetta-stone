@@ -34,8 +34,8 @@ public class SimpleCurl {
 
     static Function<URL, Option<String>> fetch2 = url -> Try.of(() -> {
 
-        LOGGER.info("Thread: {}", Thread.currentThread().getName());
-        LOGGER.info("Requested URL: {}", url);
+        LOGGER.debug("Thread: {}", Thread.currentThread().getName());
+        LOGGER.debug("Requested URL: {}", url);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

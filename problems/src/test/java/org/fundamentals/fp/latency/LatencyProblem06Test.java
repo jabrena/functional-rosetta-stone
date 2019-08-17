@@ -1,7 +1,7 @@
 package org.fundamentals.fp.latency;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.http.Fault;
+import io.vavr.control.Option;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -74,7 +74,7 @@ public class LatencyProblem06Test implements IEulerTestable {
 
         //Then
         then(problem.JavaStreamSolution())
-                .isEqualTo(List.of("Ares", "Athena", "Apollo", "Artemis", "Aphrodite"));
+                .isEqualTo(Option.of(List.of("Ares", "Athena", "Apollo", "Artemis", "Aphrodite")));
 
         executor.shutdown();
     }

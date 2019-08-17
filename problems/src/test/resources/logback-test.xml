@@ -19,8 +19,9 @@
     </appender>
 
     <logger name="ch.qos.logback.core" level="OFF" />
+    <logger name="org.eclipse.jetty" level="OFF" />
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE" />
     </root>

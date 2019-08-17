@@ -5,30 +5,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.decorators.Decorators;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
-import io.reactivex.Single;
 import io.vavr.Function1;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.fundamentals.fp.euler.IEulerType3;
-import reactor.core.publisher.Mono;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch2;
 
@@ -49,7 +41,7 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch2;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class LatencyProblem06 implements IEulerType3<List<String>> {
+public class LatencyProblem06 {
 
     @Data
     @AllArgsConstructor
@@ -62,115 +54,95 @@ public class LatencyProblem06 implements IEulerType3<List<String>> {
 
     private final Config config;
 
-    @Override
-    public List<String> JavaSolution() {
-        return null;
-    }
+    Function1<List<String>, String> getFirst = list -> list.get(0);
 
-    Function1<String, Option<URL>> toURL = address ->
+    Function1<String, URL> toURL = address ->
             Try.of(() -> new URL(address))
-                .map(u -> Option.some(u))
                 .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
-                .recover(ex -> Option.none())
-                .get();
+                .getOrElseThrow(() -> new RuntimeException("Bad URL"));
 
-    Function<Config, CompletableFuture<Option<String>>> fetchAsync = (config) -> {
+    Function1<Option<String>, Option<List<String>>> serialize = response -> {
 
-        LOGGER.info("Thread: {}", Thread.currentThread().getName());
+        if(response.isDefined()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<String> deserializedData = objectMapper.readValue(response.get(), new TypeReference<List<String>>() {});
+                return Option.some(deserializedData);
+            } catch (IOException e) {
+                return Option.none();
+            }
+        }
+
+        return Option.none();
+    };
+
+    Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = (config) -> {
+
         return CompletableFuture
-                .supplyAsync(() -> toURL
-                        .andThen(u -> u.getOrElseThrow(() -> new RuntimeException("Bad URL")))
+                .supplyAsync(() -> getFirst
+                        .andThen(toURL)
                         .andThen(fetch2)
-                        .apply(config.list.get(0)), config.getExecutor())
+                        .andThen(serialize)
+                        .apply(config.getList()), config.getExecutor())
                 .exceptionally(ex -> {
-                    LOGGER.error("TIMEOUT: {}", ex.getLocalizedMessage(), ex);
+                    LOGGER.warn(ex.getLocalizedMessage(), ex);
                     return Option.none();
                 })
                 .completeOnTimeout(Option.none(), config.getTimeout(), TimeUnit.SECONDS);
     };
 
-    Function<String, List<String>> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-        return deserializedData;
-    })
-    .onFailure(ex -> LOGGER.error("Bad Serialization process {}", ex.getLocalizedMessage(), ex))
-    .recover(ex -> new ArrayList<>())
-    .get();
-
-    Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
-
-    Function1<Config, Option<String>> fetchAsyncObservability = config -> {
+    Function1<Config, Option<List<String>>> fetchAsyncObservability = config -> {
 
         long startTime = System.currentTimeMillis();
 
-        Option<String> result = fetchAsync
+        Option<List<String>> result = fetchAsync
                 .andThen(CompletableFuture::join)
                 .apply(config);
 
         long stopTime = System.currentTimeMillis();
         double elapsedTime = (stopTime - startTime) / 1000d;
-        LOGGER.info("Execution time: {}", elapsedTime);
+        LOGGER.debug("Async execution: {} seconds", elapsedTime);
 
         return result;
     };
 
-    Function1<Config, List<String>> consumeService = config -> {
+    Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
 
-        return fetchAsyncObservability
-                .andThen(o -> o.map(serialize.andThen(l -> l.stream()
-                        .filter(godStartingByA)
-                        .peek(System.out::println)
-                        .collect(toUnmodifiableList()))
-                ).getOrElse(new ArrayList<>()))
-                .apply(config);
-    };
+    Function1<Config, Option<List<String>>> consumeService = config ->
+        fetchAsyncObservability
+            .andThen(o ->
+                o.map(l -> l.stream()
+                            .filter(godStartingByA)
+                            .peek(LOGGER::debug)
+                            .collect(toUnmodifiableList()))
+                .map(l -> Option.some(l))
+                .getOrElse(Option.none()))
+            .apply(config);
 
-    Function1<Supplier<List<String>>, Supplier<List<String>>> retryBehaviour = supplier -> {
+    Function1<Supplier<Option<List<String>>>, Supplier<Option<List<String>>>> retryBehaviour = supplier -> {
 
         RetryConfig customConfig = RetryConfig.custom()
-                .retryOnResult(r -> r.equals(new ArrayList<String>()))
+                .retryOnResult(r -> r.equals(Option.none()))
                 .build();
 
         Retry retry = Retry.of("retry", customConfig);
-        retry.getEventPublisher().onRetry(event -> LOGGER.info("Retrying execution"));
+        retry.getEventPublisher().onRetry(event -> LOGGER.warn("Applying #Resilience4j Retry"));
 
-        Supplier<List<String>> decoratedSupplier = Decorators.ofSupplier(supplier)
+        Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplier)
                 .withRetry(retry)
                 .decorate();
 
         return decoratedSupplier;
     };
 
-    @Override
-    public List<String> JavaStreamSolution() {
+    public Option<List<String>> JavaStreamSolution() {
 
-        Supplier<List<String>> supplier = () -> consumeService.apply(config);
+        final Supplier<Option<List<String>>> supplier = () -> consumeService.apply(config);
 
         return Try.ofSupplier(retryBehaviour.apply(supplier))
-                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
-                .recover(ex -> new ArrayList<>())
+                .onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
+                .recover(ex -> Option.none())
                 .get();
-    }
-
-    @Override
-    public List<String> VAVRSolution() {
-        return null;
-    }
-
-    @Override
-    public Mono<List<String>> ReactorSolution() {
-        return null;
-    }
-
-    @Override
-    public Single<List<String>> RxJavaSolution() {
-        return null;
-    }
-
-    @Override
-    public List<String> KotlinSolution() {
-        return null;
     }
 
 }
