@@ -84,7 +84,7 @@ public class LatencyProblem06 {
                 return Option.none();
             });
 
-    Function1<Config, Option<List<String>>> fetchAsyncObservability = config -> {
+    Function1<Config, Option<List<String>>> fetchAsyncWithMetrics = config -> {
 
         long startTime = System.currentTimeMillis();
 
@@ -101,16 +101,13 @@ public class LatencyProblem06 {
 
     Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
 
-    Function1<Config, Option<List<String>>> consumeService = config ->
-        fetchAsyncObservability
-            .andThen(o ->
-                o.map(l -> l.stream()
-                            .filter(godStartingByA)
-                            .peek(LOGGER::debug)
-                            .collect(toUnmodifiableList()))
+    Function1<Option<List<String>>, Option<List<String>>> filterGreekGods = ols -> ols
+                .map(l -> l.stream()
+                    .filter(godStartingByA)
+                    .peek(LOGGER::debug)
+                    .collect(toUnmodifiableList()))
                 .map(l -> Option.some(l))
-                .getOrElse(Option.none()))
-            .apply(config);
+                .getOrElse(Option.none());
 
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> retryBehaviour = (supplier, config) -> {
 
@@ -131,7 +128,8 @@ public class LatencyProblem06 {
 
     public Option<List<String>> JavaStreamSolution() {
 
-        final Supplier<Option<List<String>>> supplier = () -> consumeService.apply(config);
+        final Supplier<Option<List<String>>> supplier = () ->
+                fetchAsyncWithMetrics.andThen(filterGreekGods).apply(config);
 
         return Try.ofSupplier(retryBehaviour.apply(supplier, config))
                 .onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
@@ -140,5 +138,3 @@ public class LatencyProblem06 {
     }
 
 }
-
-
