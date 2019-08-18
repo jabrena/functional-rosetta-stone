@@ -14,8 +14,8 @@ public class SimpleCurl {
 
     static Function<URL, String> fetch = url -> Try.of(() -> {
 
-        LOGGER.info("Thread: {}", Thread.currentThread().getName());
-        LOGGER.info("Requested URL: {}", url);
+        LOGGER.debug("Thread: {}", Thread.currentThread().getName());
+        LOGGER.debug("Requested URL: {}", url);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -26,6 +26,7 @@ public class SimpleCurl {
         return client
                 .send(request, HttpResponse.BodyHandlers.ofString())
                 .body();
+
     }).getOrElseThrow(ex -> {
         LOGGER.error(ex.getLocalizedMessage(), ex);
         throw new RuntimeException("Bad Request", ex);

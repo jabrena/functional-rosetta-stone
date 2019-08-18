@@ -44,10 +44,7 @@ public class LatencyProblem06Test implements IEulerTestable {
     public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
 
         //Given
-        final List<String> list = Collections.unmodifiableList(List.of(
-                //"KATAKROKER",
-                "http://localhost:8090/greek-instance1"
-        ));
+        final String address = "http://localhost:8090/greek-instance1";
         final ExecutorService executor = Executors.newFixedThreadPool(10,
                 r -> {
                     Thread thread = new Thread(r);
@@ -61,7 +58,7 @@ public class LatencyProblem06Test implements IEulerTestable {
                         .withStatus(200)
                         //.withBodyFile("latency-problem5/greek.json")));
                         .withBodyFile("latency-problem5/greek.json")
-                        .withLogNormalRandomDelay(850, 0.25)));
+                        .withLogNormalRandomDelay(900, 0.25)));
 
         /*
         wireMockServer.stubFor(get(urlEqualTo("/greek-instance1"))
@@ -69,7 +66,7 @@ public class LatencyProblem06Test implements IEulerTestable {
         */
 
         //When
-        LatencyProblem06.Config config = new LatencyProblem06.Config(list, executor, timeout);
+        LatencyProblem06.Config config = new LatencyProblem06.Config(address, executor, timeout);
         LatencyProblem06 problem = new LatencyProblem06(config);
 
         //Then

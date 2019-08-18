@@ -8,9 +8,9 @@ import io.github.resilience4j.retry.RetryConfig;
 import io.vavr.Function1;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
-import static org.fundamentals.fp.latency.SimpleCurl.fetch2;
+import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
 /**
  * Feature: Retry
@@ -47,49 +47,40 @@ public class LatencyProblem06 {
     @AllArgsConstructor
     public static class Config {
 
-        private List<String> list;
+        private String address;
         private Executor executor;
         private int timeout;
     }
 
     private final Config config;
 
-    Function1<List<String>, String> getFirst = list -> list.get(0);
+    Function1<String, URL> toURL = address -> Try
+        .of(() -> new URL(address))
+        .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
+        .getOrElseThrow(() -> new RuntimeException("Bad URL"));
 
-    Function1<String, URL> toURL = address ->
-            Try.of(() -> new URL(address))
-                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
-                .getOrElseThrow(() -> new RuntimeException("Bad URL"));
+    Function1<String, List<String>> serialize = param -> Try
+        .of(() -> {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+            return deserializedData;
+        }).getOrElseThrow(ex -> {
+            LOGGER.error("Bad Serialization process", ex);
+            throw new RuntimeException(ex);
+        });
 
-    Function1<Option<String>, Option<List<String>>> serialize = response -> {
+    Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = config ->
 
-        if(response.isDefined()) {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                List<String> deserializedData = objectMapper.readValue(response.get(), new TypeReference<List<String>>() {});
-                return Option.some(deserializedData);
-            } catch (IOException e) {
+        CompletableFuture
+            .supplyAsync(() -> toURL.andThen(fetch).apply(config.getAddress()), config.getExecutor())
+            .orTimeout(config.getTimeout(), TimeUnit.SECONDS)
+            .thenApply(serialize)
+            .handle((response, ex) -> {
+                if(Objects.isNull(ex)) {
+                    return Option.some(response);
+                }
                 return Option.none();
-            }
-        }
-
-        return Option.none();
-    };
-
-    Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = (config) -> {
-
-        return CompletableFuture
-                .supplyAsync(() -> getFirst
-                        .andThen(toURL)
-                        .andThen(fetch2)
-                        .andThen(serialize)
-                        .apply(config.getList()), config.getExecutor())
-                .exceptionally(ex -> {
-                    LOGGER.warn(ex.getLocalizedMessage(), ex);
-                    return Option.none();
-                })
-                .completeOnTimeout(Option.none(), config.getTimeout(), TimeUnit.SECONDS);
-    };
+            });
 
     Function1<Config, Option<List<String>>> fetchAsyncObservability = config -> {
 
