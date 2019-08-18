@@ -16,6 +16,11 @@ cd functional-rosetta-stone
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
+
+
+./mvnw dependency-check:check
+./mwnw versions:display-dependency-updates
+./mvnw versions:display-plugin-updates 
 ```
 
 How to run the presentation in local?

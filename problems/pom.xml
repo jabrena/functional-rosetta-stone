@@ -6,29 +6,41 @@
 	<artifactId>problems</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<name>problems</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Euler and Latency solutions/tests</description>
 
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<kotlin.version>1.3.31</kotlin.version>
+
+		<kotlin.version>${hamcrest.version}.31</kotlin.version>
 		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-		<commons-lang3.version>3.9</commons-lang3.version>
-		<vavr.version>0.10.2</vavr.version>
-		<arrow.version>0.8.2</arrow.version>
-		<rxjava.version>2.2.10</rxjava.version>
-		<parallel-collectors.version>1.1.0</parallel-collectors.version>
+
 		<lombok.version>1.18.8</lombok.version>
+		<vavr.version>0.10.2</vavr.version>
+
 		<slf4j-api.version>1.7.25</slf4j-api.version>
 		<logback-classic.version>1.2.3</logback-classic.version>
-		<jackson-dataformat-xml.version>2.9.0</jackson-dataformat-xml.version>
 		<jackson.version>2.9.9</jackson.version>
-		<junit.jupiter.version>5.4.2</junit.jupiter.version>
-		<assertj-core.version>3.12.2</assertj-core.version>
+
+		<commons-lang3.version>3.9</commons-lang3.version>
+		<guava.version>28.0-jre</guava.version>
+
+		<arrow.version>0.8.2</arrow.version>
+		<rxjava.version>2.2.10</rxjava.version>
+		<resilience4j.version>0.16.0</resilience4j.version>
+
+		<junit.jupiter.version>5.5.1</junit.jupiter.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<assertj-core.version>3.13.1</assertj-core.version>
+		<rest-assured.version>4.0.0</rest-assured.version>
+		<wiremock.version>2.24.1</wiremock.version>
+
 		<jmh.version>1.21</jmh.version>
+
 		<checkstyle.skip>true</checkstyle.skip>
+		<reactor.version>3.3.0.M3</reactor.version>
 	</properties>
 
 	<repositories>
@@ -51,17 +63,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>net.jcip.annotations</groupId>
-			<artifactId>jcip-annotations</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jcip-annotations.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>io.vavr</groupId>
-			<artifactId>vavr</artifactId>
-			<version>${vavr.version}</version>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>${kotlin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -72,9 +76,17 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib-jdk8</artifactId>
-			<version>${kotlin.version}</version>
+			<groupId>io.vavr</groupId>
+			<artifactId>vavr</artifactId>
+			<version>${vavr.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.jcip.annotations</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jcip-annotations.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -86,9 +98,8 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>28.0-jre</version>
+			<version>${guava.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -121,19 +132,19 @@
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
-			<version>3.2.10.RELEASE</version>
+			<version>${reactor.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.projectreactor.addons</groupId>
 			<artifactId>reactor-extra</artifactId>
-			<version>3.2.3.RELEASE</version>
+			<version>3.3.0.M1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-tools</artifactId>
-			<version>1.0.0.M1</version>
+			<version>${reactor.version}</version>
 		</dependency>
 <!--
 		<dependency>
@@ -149,7 +160,6 @@
 		</dependency>
 -->
 
-
 		<dependency>
 			<groupId>io.reactivex.rxjava2</groupId>
 			<artifactId>rxjava</artifactId>
@@ -164,87 +174,32 @@
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-core</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-framework-common</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-all</artifactId>
-			<version>0.16.0</version>
+			<version>${resilience4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-circuitbreaker</artifactId>
-			<version>0.16.0</version>
+			<version>${resilience4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-ratelimiter</artifactId>
-			<version>0.16.0</version>
+			<version>${resilience4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-retry</artifactId>
-			<version>0.16.0</version>
+			<version>${resilience4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-bulkhead</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-cache</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-timelimiter</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-consumer</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.resilience4j</groupId>
-			<artifactId>resilience4j-metrics</artifactId>
-			<version>0.16.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.codahale.metrics</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>3.0.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.pivovarit</groupId>
-			<artifactId>parallel-collectors</artifactId>
-			<version>${parallel-collectors.version}</version>
+			<version>${resilience4j.version}</version>
 		</dependency>
 
 		<dependency>
@@ -269,10 +224,9 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
+			<version>${hamcrest.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.assertj</groupId>
@@ -284,7 +238,7 @@
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
-			<version>3.2.10.RELEASE</version>
+			<version>${reactor.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -319,13 +273,13 @@
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
-            <version>2.23.2</version>
+            <version>${wiremock.version}</version>
         </dependency>
 
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>4.0.0</version>
+			<version>${rest-assured.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -411,7 +365,7 @@
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>8.19</version>
+						<version>8.23</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -430,87 +384,6 @@
 					<suppressionsLocation>checkstyle_ignore.xml</suppressionsLocation>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>post-unit-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-
-							<dataFile>target/jacoco.exec</dataFile>
-							<!-- Sets the output directory for the code coverage report. -->
-							<outputDirectory>target/jacoco</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M2</version>
-
-				<executions>
-					<execution>
-						<id>enforce</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<banDuplicatePomDependencyVersions/>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>auto-clean</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>5.0.0-M3</version>
-			</plugin>
-
 
 		</plugins>
 	</build>

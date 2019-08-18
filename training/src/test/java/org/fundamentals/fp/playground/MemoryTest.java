@@ -1,6 +1,5 @@
 package org.fundamentals.fp.playground;
 
-import io.reactivex.annotations.Nullable;
 import io.vavr.Function1;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
@@ -19,7 +18,7 @@ public class MemoryTest {
                     .recover(ex -> Option.none())
                     .get();
 
-    @Nullable URL parse(String addr) {
+    URL parse(String addr) {
         try {
             return new URL(addr);
         } catch(Exception e) {
