@@ -6,6 +6,7 @@ import io.github.resilience4j.decorators.Decorators;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import io.vavr.Function1;
+import io.vavr.Function2;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import java.net.URL;
@@ -50,6 +51,7 @@ public class LatencyProblem06 {
         private String address;
         private Executor executor;
         private int timeout;
+        private int maxRetryAttempts;
     }
 
     private final Config config;
@@ -110,9 +112,10 @@ public class LatencyProblem06 {
                 .getOrElse(Option.none()))
             .apply(config);
 
-    Function1<Supplier<Option<List<String>>>, Supplier<Option<List<String>>>> retryBehaviour = supplier -> {
+    Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> retryBehaviour = (supplier, config) -> {
 
         RetryConfig customConfig = RetryConfig.custom()
+                .maxAttempts(config.getMaxRetryAttempts())
                 .retryOnResult(r -> r.equals(Option.none()))
                 .build();
 
@@ -130,7 +133,7 @@ public class LatencyProblem06 {
 
         final Supplier<Option<List<String>>> supplier = () -> consumeService.apply(config);
 
-        return Try.ofSupplier(retryBehaviour.apply(supplier))
+        return Try.ofSupplier(retryBehaviour.apply(supplier, config))
                 .onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
                 .recover(ex -> Option.none())
                 .get();
