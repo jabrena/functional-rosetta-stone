@@ -2,14 +2,16 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.decorators.Decorators;
-import io.github.resilience4j.retry.Retry;
-import io.github.resilience4j.retry.RetryConfig;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import java.net.URL;
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -19,6 +21,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,46 +29,29 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
 /**
- * Feature: Consume a REST Greek God Service
+ * Feature: Consume a REST Roman God Service
  *
  * Scenario: Consume the API in a Happy path
- *     Given a REST API about Greek gods
+ *     Given a REST API about Roman gods
  *     When  the client sends the request
- *     And   execute a Retry Policy
- *     Then  return all gods starting with `a`
+ *     And   execute a Circuit Breaker Policy
+ *     Then  return all gods finishing the name with `s`
  *
- * Scenario: Force an internal Retry behaviour
- *     Given a REST API about Greek gods
+ * Scenario: Force an internal Circuit Breaker behaviour
+ *     Given a REST API about Roman gods
  *     When  the client sends the request
- *     And   execute a Retry Policy
- *     Then  return all gods starting with `a`
- *
- * Scenario: Consume the API with a bad response
- *     Given a REST API about Greek gods
- *     When  the client sends the request
- *     And   execute a Retry Policy
- *     Then  return all gods starting with `a`
- *
- * Scenario: Consume the API with a corrupted response
- *     Given a REST API about Greek gods
- *     When  the client sends the request
- *     And   execute a Retry Policy
- *     Then  return all gods starting with `a`
- *
- * Scenario: Test a bad internal configuration
- *     Given a REST API about Greek gods
- *     When  the client sends the request
- *     And   execute a Retry Policy
- *     Then  return all gods starting with `a`
+ *     And   execute a Circuit Breaker Policy
+ *     Then  return all gods finishing the name with `s`
  *
  * - Try to test the solution without any Internet call
  * - Review the timeout for Every connection.
- * - Review the retry options
- * - REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/greek
+ * - Review the circuit breaker options
+ * - REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/roman
+ *
  */
 @Slf4j
 @RequiredArgsConstructor
-public class LatencyProblem06 {
+public class LatencyProblem07 {
 
     @Data
     @AllArgsConstructor
@@ -77,6 +63,7 @@ public class LatencyProblem06 {
         private int maxRetryAttempts;
     }
 
+    @NonNull
     private final Config config;
 
     Function1<String, URL> toURL = address -> Try
@@ -108,41 +95,47 @@ public class LatencyProblem06 {
 
     Function1<Config, Option<List<String>>> fetchAsyncWithMetrics = config -> {
 
-        long startTime = System.currentTimeMillis();
+        double startTime = System.currentTimeMillis();
 
         Option<List<String>> result = fetchAsync
                 .andThen(CompletableFuture::join)
                 .apply(config);
 
-        long stopTime = System.currentTimeMillis();
+        double stopTime = System.currentTimeMillis();
         double elapsedTime = (stopTime - startTime) / 1000d;
         LOGGER.debug("Async execution: {} seconds", elapsedTime);
 
         return result;
     };
 
-    Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
+    Predicate<String> godStartingByS = s -> s.toLowerCase().charAt(s.length() - 1) == 's';
 
     Function1<Option<List<String>>, Option<List<String>>> filterGreekGods = ols -> ols
                 .map(l -> l.stream()
-                    .filter(godStartingByA)
+                    .filter(godStartingByS)
                     .peek(LOGGER::debug)
                     .collect(toUnmodifiableList()))
                 .map(l -> Option.some(l))
                 .getOrElse(Option.none());
 
-    Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> retryBehaviour = (supplier, config) -> {
+    Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> circuitBreakerBehaviour = (supplier, config) -> {
 
-        RetryConfig customConfig = RetryConfig.custom()
-                .maxAttempts(config.getMaxRetryAttempts())
-                .retryOnResult(r -> r.equals(Option.none()))
+        CircuitBreakerConfig customConfig = CircuitBreakerConfig.custom()
+                .failureRateThreshold(50)
+                .waitDurationInOpenState(Duration.ofMillis(1000))
+                .ringBufferSizeInHalfOpenState(2)
+                .ringBufferSizeInClosedState(2)
                 .build();
 
-        Retry retry = Retry.of("retry", customConfig);
-        retry.getEventPublisher().onRetry(event -> LOGGER.warn("Applying #Resilience4j Retry"));
+        CircuitBreakerRegistry circuitBreakerRegistry =
+                CircuitBreakerRegistry.of(customConfig);
+        circuitBreakerRegistry.getEventPublisher().onEntryAdded(event -> LOGGER.warn("Applying #Resilience4j Circuit Breaker"));
+
+        CircuitBreaker circuitBreaker = circuitBreakerRegistry
+                .circuitBreaker("circuitBreaker");
 
         Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplier)
-                .withRetry(retry)
+                .withCircuitBreaker(circuitBreaker)
                 .decorate();
 
         return decoratedSupplier;
@@ -153,7 +146,7 @@ public class LatencyProblem06 {
         final Supplier<Option<List<String>>> supplier = () ->
                 fetchAsyncWithMetrics.andThen(filterGreekGods).apply(config);
 
-        return Try.ofSupplier(retryBehaviour.apply(supplier, config))
+        return Try.ofSupplier(circuitBreakerBehaviour.apply(supplier, config))
                 .onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
                 .recover(ex -> Option.none())
                 .get();
