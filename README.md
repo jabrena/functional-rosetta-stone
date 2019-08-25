@@ -20,7 +20,8 @@ cd functional-rosetta-stone
 
 ./mvnw dependency-check:check
 ./mwnw versions:display-dependency-updates
-./mvnw versions:display-plugin-updates 
+./mvnw versions:display-plugin-updates
+./mvnw dependency:tree -pl problems 
 ```
 
 How to run the presentation in local?

@@ -28,6 +28,7 @@
 		<guava.version>28.0-jre</guava.version>
 
 		<arrow.version>0.8.2</arrow.version>
+		<reactor.version>3.3.0.M3</reactor.version>
 		<rxjava.version>2.2.10</rxjava.version>
 		<resilience4j.version>0.16.0</resilience4j.version>
 
@@ -40,7 +41,6 @@
 		<jmh.version>1.21</jmh.version>
 
 		<checkstyle.skip>true</checkstyle.skip>
-		<reactor.version>3.3.0.M3</reactor.version>
 	</properties>
 
 	<repositories>
@@ -239,20 +239,6 @@
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<version>${reactor.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.pholser</groupId>
-			<artifactId>junit-quickcheck-core</artifactId>
-			<version>0.9</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.pholser</groupId>
-			<artifactId>junit-quickcheck-generators</artifactId>
-			<version>0.9</version>
 			<scope>test</scope>
 		</dependency>
 
