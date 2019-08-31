@@ -150,7 +150,7 @@ public class LatencyProblem07 {
         LOGGER.debug("getNumberOfFailedCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfFailedCalls());
         LOGGER.debug("getNumberOfSuccessfulCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfSuccessfulCalls());
 
-        //Forcing a failure for Circuit Breaker if the Functor returns a Option.none()
+        //Forcing a failure for Circuit Breaker if the Functor returns an Option.none()
         Supplier<Option<List<String>>> supplierWithResultHandling = SupplierUtils.andThen(supplier, result -> {
             if(!result.isDefined()) {
                 throw new RuntimeException("Triggering a failure for CircuitBreaker");
