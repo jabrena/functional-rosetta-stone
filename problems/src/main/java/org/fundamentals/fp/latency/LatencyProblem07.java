@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import io.github.resilience4j.core.SupplierUtils;
 import io.github.resilience4j.decorators.Decorators;
 import io.vavr.Function1;
 import io.vavr.Function2;
@@ -60,11 +61,34 @@ public class LatencyProblem07 {
         private String address;
         private Executor executor;
         private int timeout;
-        private int maxRetryAttempts;
     }
 
     @NonNull
     private final Config config;
+
+    //It is necessary to maintain in memory the Circuit Breaker
+    private static class CB {
+
+        public static CircuitBreaker circuitBreaker;
+
+        static {
+
+            CircuitBreakerConfig customConfig = CircuitBreakerConfig.custom()
+                    .failureRateThreshold(50)
+                    .waitDurationInOpenState(Duration.ofMillis(1000))
+                    .ringBufferSizeInHalfOpenState(5)
+                    .ringBufferSizeInClosedState(5)
+                    .automaticTransitionFromOpenToHalfOpenEnabled(true)
+                    .build();
+
+            CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.of(customConfig);
+            circuitBreaker = circuitBreakerRegistry.circuitBreaker("circuitBreaker");
+        }
+
+        public static CircuitBreaker getCircuitBreaker() {
+            return circuitBreaker;
+        }
+    }
 
     Function1<String, URL> toURL = address -> Try
         .of(() -> new URL(address))
@@ -90,6 +114,7 @@ public class LatencyProblem07 {
                 if(Objects.isNull(ex)) {
                     return Option.some(response);
                 }
+                LOGGER.warn(ex.getLocalizedMessage(), ex);
                 return Option.none();
             });
 
@@ -120,22 +145,19 @@ public class LatencyProblem07 {
 
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> circuitBreakerBehaviour = (supplier, config) -> {
 
-        CircuitBreakerConfig customConfig = CircuitBreakerConfig.custom()
-                .failureRateThreshold(50)
-                .waitDurationInOpenState(Duration.ofMillis(1000))
-                .ringBufferSizeInHalfOpenState(2)
-                .ringBufferSizeInClosedState(2)
-                .build();
+        LOGGER.debug("getNumberOfBufferedCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfBufferedCalls());
+        LOGGER.debug("getNumberOfFailedCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfFailedCalls());
+        LOGGER.debug("getNumberOfSuccessfulCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfSuccessfulCalls());
 
-        CircuitBreakerRegistry circuitBreakerRegistry =
-                CircuitBreakerRegistry.of(customConfig);
-        circuitBreakerRegistry.getEventPublisher().onEntryAdded(event -> LOGGER.warn("Applying #Resilience4j Circuit Breaker"));
+        Supplier<Option<List<String>>> supplierWithResultHandling = SupplierUtils.andThen(supplier, result -> {
+            if(!result.isDefined()) {
+                throw new RuntimeException("Triggering a failure for CircuitBreaker");
+            }
+            return result;
+        });
 
-        CircuitBreaker circuitBreaker = circuitBreakerRegistry
-                .circuitBreaker("circuitBreaker");
-
-        Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplier)
-                .withCircuitBreaker(circuitBreaker)
+        Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplierWithResultHandling)
+                .withCircuitBreaker(CB.getCircuitBreaker())
                 .decorate();
 
         return decoratedSupplier;

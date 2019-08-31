@@ -5,6 +5,8 @@ import io.vavr.control.Option;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,10 +44,9 @@ public class LatencyProblem07Test {
                     return thread;
                 });
         final int timeout = 2;
-        final int maxRetryAttempts = 3;
 
         //When
-        return new LatencyProblem07.Config(address, executor, timeout, maxRetryAttempts);
+        return new LatencyProblem07.Config(address, executor, timeout);
     }
 
     @Test
@@ -70,10 +71,36 @@ public class LatencyProblem07Test {
         LatencyProblem07 problem = new LatencyProblem07(getDefaultConfig());
 
         //When
-        Option<List<String>> result = problem.JavaStreamSolution();
+        var result = problem.JavaStreamSolution();
 
         //Then
         then(result).isEqualTo(Option.of(List.of("Venus", "Mars")));
+    }
+
+    @Test
+    public void given_JavaStreamSolution_when_forceCircuitBreaker_then_expectedResultsTest() {
+
+        //Given
+        wireMockServer.stubFor(get(urlEqualTo("/roman-instance1"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                        .withStatus(200)
+                        .withBodyFile("latency-problem7/roman.json")
+                        .withLogNormalRandomDelay(900, 0.25)));
+
+        LatencyProblem07.Config config = getDefaultConfig();
+        config.setTimeout(1);
+        LatencyProblem07 problem = new LatencyProblem07(config);
+
+        //When
+        int limit = 10;
+        Option<List<String>> result= IntStream.rangeClosed(1, limit).boxed()
+                .map(i -> {
+                    return problem.JavaStreamSolution();
+                })
+                .collect(Collectors.toUnmodifiableList()).get(limit -1);
+
+        //Then
+        then(result).isEqualTo(Option.none());
     }
 
 }
