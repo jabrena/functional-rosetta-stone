@@ -85,7 +85,7 @@ public class LatencyProblem07Test {
                 .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(200)
                         .withBodyFile("latency-problem7/roman.json")
-                        .withLogNormalRandomDelay(900, 0.25)));
+                        .withLogNormalRandomDelay(1500, 0.25)));
 
         LatencyProblem07.Config config = getDefaultConfig();
         config.setTimeout(1);
