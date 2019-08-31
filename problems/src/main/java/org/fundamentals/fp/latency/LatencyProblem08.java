@@ -59,6 +59,41 @@ public class LatencyProblem08 {
     @NonNull
     private final LatencyProblem08.Config config;
 
+    //It is necessary to maintain in memory the RateLimiter
+    private static class RL {
+
+        public static RateLimiter rateLimiter;
+
+        static {
+
+            RateLimiterConfig customConfig = RateLimiterConfig.custom()
+                    .limitRefreshPeriod(Duration.ofMillis(1))
+                    .limitForPeriod(2)
+                    .timeoutDuration(Duration.ofMillis(25))
+                    .build();
+
+            RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(customConfig);
+            rateLimiterRegistry.getEventPublisher()
+                    .onEntryAdded(entryAddedEvent -> {
+                        RateLimiter addedRateLimiter = entryAddedEvent.getAddedEntry();
+                        LOGGER.info("RateLimiter {} added", addedRateLimiter.getName());
+                    })
+                    .onEntryRemoved(entryRemovedEvent -> {
+                        RateLimiter removedRateLimiter = entryRemovedEvent.getRemovedEntry();
+                        LOGGER.info("RateLimiter {} removed", removedRateLimiter.getName());
+                    });
+
+            rateLimiter = rateLimiterRegistry.rateLimiter("default");
+            rateLimiter.getEventPublisher()
+                    .onSuccess(event -> LOGGER.info("Success"))
+                    .onFailure(event -> LOGGER.info("Failure"));
+        }
+
+        public static synchronized RateLimiter getRateLimiter() {
+            return rateLimiter;
+        }
+
+    }
 
     Function1<String, URL> toURL = address -> Try
             .of(() -> new URL(address))
@@ -109,37 +144,15 @@ public class LatencyProblem08 {
     Function1<Option<List<String>>, Option<List<String>>> filterGreekGods = ols -> ols
             .map(l -> l.stream()
                     .filter(godNameHasA.and(godNameHasI))
-                    .peek(LOGGER::debug)
+                    //.peek(LOGGER::debug)
                     .collect(toUnmodifiableList()))
             .map(l -> Option.some(l))
             .getOrElse(Option.none());
 
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> rateLimiterBehaviour = (supplier, config) -> {
 
-        RateLimiterConfig customConfig = RateLimiterConfig.custom()
-                .limitRefreshPeriod(Duration.ofMillis(1))
-                .limitForPeriod(10)
-                .timeoutDuration(Duration.ofMillis(25))
-                .build();
-
-        RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(customConfig);
-        rateLimiterRegistry.getEventPublisher()
-                .onEntryAdded(entryAddedEvent -> {
-                    RateLimiter addedRateLimiter = entryAddedEvent.getAddedEntry();
-                    LOGGER.info("RateLimiter {} added", addedRateLimiter.getName());
-                })
-                .onEntryRemoved(entryRemovedEvent -> {
-                    RateLimiter removedRateLimiter = entryRemovedEvent.getRemovedEntry();
-                    LOGGER.info("RateLimiter {} removed", removedRateLimiter.getName());
-                });
-
-        RateLimiter rateLimiter = rateLimiterRegistry.rateLimiter("default");
-        rateLimiter.getEventPublisher()
-                .onSuccess(event -> LOGGER.info("Success"))
-                .onFailure(event -> LOGGER.info("Failure"));
-
         Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplier)
-                .withRateLimiter(rateLimiter)
+                .withRateLimiter(RL.getRateLimiter())
                 .decorate();
 
         return decoratedSupplier;
