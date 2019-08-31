@@ -5,8 +5,6 @@ import io.vavr.control.Option;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +63,7 @@ public class LatencyProblem08Test {
 
         //Then
         then(result).isEqualTo(Option.of(
-                List.of("Shiva", "Ganapati", "Krishna")));
+                List.of("Shiva", "Ganapati", "Krishna", "Saraswati", "Lakshmi", "Durga Devi", "Indra", "Agni")));
     }
 
 }
