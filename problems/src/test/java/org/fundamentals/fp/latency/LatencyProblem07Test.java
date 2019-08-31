@@ -94,9 +94,7 @@ public class LatencyProblem07Test {
         //When
         int limit = 10;
         Option<List<String>> result= IntStream.rangeClosed(1, limit).boxed()
-                .map(i -> {
-                    return problem.JavaStreamSolution();
-                })
+                .map(i -> problem.JavaStreamSolution())
                 .collect(Collectors.toUnmodifiableList()).get(limit -1);
 
         //Then

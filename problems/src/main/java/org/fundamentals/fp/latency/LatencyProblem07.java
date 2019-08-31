@@ -85,7 +85,7 @@ public class LatencyProblem07 {
             circuitBreaker = circuitBreakerRegistry.circuitBreaker("circuitBreaker");
         }
 
-        public static CircuitBreaker getCircuitBreaker() {
+        public static synchronized CircuitBreaker getCircuitBreaker() {
             return circuitBreaker;
         }
     }
@@ -145,10 +145,12 @@ public class LatencyProblem07 {
 
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> circuitBreakerBehaviour = (supplier, config) -> {
 
+        //Metrics
         LOGGER.debug("getNumberOfBufferedCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfBufferedCalls());
         LOGGER.debug("getNumberOfFailedCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfFailedCalls());
         LOGGER.debug("getNumberOfSuccessfulCalls: {}", CB.getCircuitBreaker().getMetrics().getNumberOfSuccessfulCalls());
 
+        //Forcing a failure for Circuit Breaker if the Functor returns a Option.none()
         Supplier<Option<List<String>>> supplierWithResultHandling = SupplierUtils.andThen(supplier, result -> {
             if(!result.isDefined()) {
                 throw new RuntimeException("Triggering a failure for CircuitBreaker");
