@@ -91,7 +91,9 @@ public class LatencyProblem08Test {
                         .withBodyFile("latency-problem8/indian.json")
                         .withLogNormalRandomDelay(900, 0.25)));
 
-        LatencyProblem08 problem = new LatencyProblem08(getDefaultConfig());
+        LatencyProblem08.Config config = getDefaultConfig();
+        config.setTimeout(2);
+        LatencyProblem08 problem = new LatencyProblem08(config);
 
         //When
 

@@ -151,6 +151,10 @@ public class LatencyProblem08 {
 
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> rateLimiterBehaviour = (supplier, config) -> {
 
+        //Metrics
+        LOGGER.debug("getAvailablePermissions: {}", RL.getRateLimiter().getMetrics().getAvailablePermissions());
+        LOGGER.debug("getNumberOfWaitingThreads: {}", RL.getRateLimiter().getMetrics().getNumberOfWaitingThreads());
+
         Supplier<Option<List<String>>> decoratedSupplier = Decorators.ofSupplier(supplier)
                 .withRateLimiter(RL.getRateLimiter())
                 .decorate();

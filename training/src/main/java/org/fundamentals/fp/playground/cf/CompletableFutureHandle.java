@@ -1,4 +1,4 @@
-package org.fundamentals.fp.playground;
+package org.fundamentals.fp.playground.cf;
 
 import java.util.concurrent.CompletableFuture;
 
