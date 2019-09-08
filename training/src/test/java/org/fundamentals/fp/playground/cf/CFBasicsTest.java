@@ -75,4 +75,39 @@ public class CFBasicsTest {
         ;
     }
 
+    @Test
+    public void given_CF4_when_Call_then_returnExpectedValue() {
+
+        CFBasics example = new CFBasics();
+
+        Callable demo = () -> example.myForthCF();
+
+        await()
+                .atMost(Duration.ofSeconds(7))
+                .until(demo, equalTo(4));
+    }
+
+    @Test
+    public void given_CF5_when_Call_then_returnExpectedValue() {
+
+        CFBasics example = new CFBasics();
+
+        Callable demo = () -> example.myFifthCF();
+
+        await()
+                .atMost(Duration.ofSeconds(7))
+                .until(demo, equalTo(0));
+    }
+
+    @Test
+    public void given_CF6_when_Call_then_returnExpectedValue() {
+
+        CFBasics example = new CFBasics();
+
+        Callable demo = () -> example.mySixthCF();
+
+        await()
+                .atMost(Duration.ofSeconds(7))
+                .until(demo, equalTo(102));
+    }
 }

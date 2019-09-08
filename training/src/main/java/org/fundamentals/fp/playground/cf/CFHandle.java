@@ -2,7 +2,7 @@ package org.fundamentals.fp.playground.cf;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CompletableFutureHandle {
+public class CFHandle {
 
     public static void main(String[] args) {
         runTasks(2);

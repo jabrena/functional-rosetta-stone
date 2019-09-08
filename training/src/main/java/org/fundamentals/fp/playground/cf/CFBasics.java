@@ -2,12 +2,8 @@ package org.fundamentals.fp.playground.cf;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
-import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class CFBasics {
@@ -28,6 +24,25 @@ public class CFBasics {
     CompletableFuture<Integer> asyncCall(Integer param) {
         CompletableFuture<Integer> cf1 = CompletableFuture
                 .supplyAsync(() -> this.compute.apply(param));
+        return cf1;
+    }
+
+    CompletableFuture<Integer> asyncCallFailed() {
+        CompletableFuture<Integer> cf1 = CompletableFuture
+                .supplyAsync(() -> {
+                    throw new RuntimeException("Katakroker");
+                });
+        return cf1;
+    }
+
+    CompletableFuture<Integer> asyncCallFailedProtected() {
+        CompletableFuture<Integer> cf1 = CompletableFuture
+                .supplyAsync(() -> {
+                    throw new RuntimeException("Katakroker");
+                })
+                .handle((result, ex) -> {
+                    return 100;
+                });
         return cf1;
     }
 
@@ -70,6 +85,48 @@ public class CFBasics {
          */
 
         return futuresList.stream()
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    public Integer myForthCF() {
+
+        CompletableFuture<Integer> request1 = asyncCall(1);
+        CompletableFuture<Integer> request2 = asyncCallFailed();
+        CompletableFuture<Integer> request3 = asyncCall(1);
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
+
+        return futuresList.stream()
+                .filter(cf -> !cf.isCompletedExceptionally())
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    public Integer myFifthCF() {
+
+        CompletableFuture<Integer> request1 = asyncCallFailed();
+        CompletableFuture<Integer> request2 = asyncCallFailed();
+        CompletableFuture<Integer> request3 = asyncCallFailed();
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
+
+        return futuresList.stream()
+                .filter(cf -> !cf.isCompletedExceptionally())
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    public Integer mySixthCF() {
+
+        CompletableFuture<Integer> request1 = asyncCall(1);
+        CompletableFuture<Integer> request2 = asyncCallFailed();
+        CompletableFuture<Integer> request3 = asyncCallFailedProtected();
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
+
+        return futuresList.stream()
+                .filter(cf -> !cf.isCompletedExceptionally())
                 .map(CompletableFuture::join)
                 .reduce(0 , (i1, i2) -> i1 + i2);
     }
