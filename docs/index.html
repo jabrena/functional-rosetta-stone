@@ -89,8 +89,9 @@
 						<li>Functional programming concepts</li>
 						<li>What are the limits with Java 8+?</li>
 						<li>Functional patterns</li>
-						<!--
 						<li>VAVR</li>
+						<!--
+
 						<li>Functional testing</li>
 						<li>Live demo</li>
 
@@ -234,8 +235,10 @@ Initial questions:
 							<li>Referential Transparency</li>
 							<li>Pure vs Impure functions</li>
 							<li>List manipulation</li>
+							<!--
 							<li>Functors, Applicative & Monads</li>
 							<li>Type classes vs ADTs</li>
+							-->
 						</ol>
 					</section>
 					<!--
@@ -477,6 +480,7 @@ System.out.println("Pure result: " + pureOutput);
                         </script>
                     </section>
                     -->
+					<!--
 					<section>
 						<h2>Functors, Applicative & Monads</h2>
 					</section>
@@ -493,7 +497,10 @@ System.out.println("Pure result: " + pureOutput);
 							the different states or structures of the ADT.
 						</p>
 					</section>
-
+					-->
+					<section>
+						<h2>List manipulation</h2>
+					</section>
 				</section>
 
 
@@ -510,18 +517,21 @@ System.out.println("Pure result: " + pureOutput);
 					</section>
 					<section>
 						<h2>Functors</h2>
+						<p>What happen if your Functor requires 3 or more parameters?</p>
+						<p>Java 8+ only has Function & BiFunction support</p>
+						<p>VAVR support Functors with 1-8 parameters</p>
+						<p>VAVR add in the Functors, support for
+							lifting, partial application, currying & memoization by default</p>
 					</section>
 					<section>
 						<h2>Tuples</h2>
-					</section>
-					<section>
-						<h2>Stream operators</h2>
+						<p>Java doesn´t have any Tuple in the type system</p>
+						<p>It is necessary to use an externa library to add the support</p>
+						<p>VAVR has support for Tuples with 1-8 elements</p>
 					</section>
 					<section>
 						<h2>Optional</h2>
-					</section>
-					<section>
-						<h2>CompletableFuture</h2>
+						<p>Optional is not a real Monad, it doesn´t pass the Monads Laws</p>
 					</section>
 				</section>
 
@@ -1284,7 +1294,7 @@ A memoized function executes only once and then returns the result from a cache.
 					</section>
 
 				</section>
-
+<!--
 				<section data-background="#FFFFFF">
 					<section>
 						<h2>Property-based testing</h2>
@@ -1302,7 +1312,7 @@ A memoized function executes only once and then returns the result from a cache.
 						</p>
 					</section>
 				</section>
-
+-->
 				<!--
 				<section data-background="#FFFFFF">
 					<section>
