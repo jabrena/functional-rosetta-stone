@@ -45,7 +45,7 @@
 					<section>
 
 						<h1 style="color: #336699">Functional programming</h1>
-						<h2 style="color: #336699">on <span style="color: #CC9900">Java</span> with <span style="color: #CC9900">VAVR</span></h2>
+						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">VAVR</span></h2>
 						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 					</section>
@@ -86,17 +86,19 @@
 					<ol>
 						<li>Market context</li>
 						<li>Why?</li>
-						<li>Functional patterns <strong style="color:orange">Beta</strong></li>
-						<li>Functional Concepts <strong style="color:orange">Beta</strong></li>
-						<li>Functional features in Java 8+ <strong style="color:orange">Beta</strong></li>
+						<li>Functional programming concepts</li>
+						<li>What are the limits with Java 8+?</li>
+						<li>Functional patterns</li>
+						<!--
 						<li>VAVR</li>
 						<li>Functional testing</li>
 						<li>Live demo</li>
-						<!--
+
                         <li>Sharpening the axe</li>
                         -->
-						<li>References <strong style="color:orange">Beta</strong></li>
-						<li>Acknowledgements <strong style="color:orange">Alpha</strong></li>
+						<li>Summary</li>
+						<li>References</li>
+						<li>Acknowledgements</li>
 					</ol>
 				</section>
 
@@ -110,10 +112,21 @@
 							<li>Stack: <strong>Servlet</strong></li>
 							<li>Language: <strong>Java 11+</strong></li>
 							<li>Framework: <strong>Spring Boot</strong></li>
-							<li>Libraries: <strong>VAVR</strong></li>
 						</ol>
 					</section>
 					<!--
+					<section>
+						<h2>Future market context</h2>
+						<ol>
+							<li>OSI Layer: <strong>Application</strong></li>
+							<li>Problem: <strong>API</strong></li>
+							<li>API Protocol: <strong>REST/GRPC HTTP</strong></li>
+							<li>Stack: <strong>Netty</strong></li>
+							<li>Language: <strong>Java 11+</strong></li>
+							<li>Framework: <strong>Spring Webflux</strong></li>
+						</ol>
+					</section>
+
 					<section>
 						<h2>OSI Layers</h2>
                         <img src="./images/OSILayers.png" width="70%">
@@ -180,7 +193,7 @@ In Java, you can develop software using multiple paradigms with
 success.
 						</p>
 						<p>
-This talk tries to introduce some functional concepts and patterns with the help of VAVR.
+This talk tries to introduce some functional concepts and patterns.
 						</p>
 					</section>
 					<!--
@@ -208,6 +221,310 @@ Initial questions:
 - Do you use Optional in the daily job?
 -->
 
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Functional Concepts</h2>
+						<ol>
+							<!-- <li>Programming paradigms</li> -->
+							<li>Eager vs Lazy</li>
+							<li>Mutable vs Immutable</li>
+							<li>Equational reasoning</li>
+							<li>Functional composition</li>
+							<li>Referential Transparency</li>
+							<li>Pure vs Impure functions</li>
+							<li>List manipulation</li>
+							<li>Functors, Applicative & Monads</li>
+							<li>Type classes vs ADTs</li>
+						</ol>
+					</section>
+					<!--
+					<section>
+						<h2>Programming paradigms</h2>
+						<table>
+							<tbody>
+							<tr>
+								<td>Imperative</td>
+								<td>Control flow is explicit.
+									Commands show how the computation takes place, step by step.
+								</td>
+							</tr>
+							<tr>
+								<td>Declarative</td>
+								<td>Control flow is implicit.
+									the developer states only what the results should look like,
+									not how to obtain it.
+								</td>
+							</tr>
+							<tr>
+								<td>Functional</td>
+								<td>Control flow is expressed by combining function calls
+									rather than by assigning values to variables.
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<h2>Programming paradigms</h2>
+						<table>
+							<tbody>
+							<tr>
+								<td>Object-oriented</td>
+								<td>Computation is affected by sending messages to objects.
+									Objects has state and behaviour.
+								</td>
+							</tr>
+							<tr>
+								<td>Event-driven</td>
+								<td>Control flow is determined by asynchronous actions.</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					-->
+					<section>
+						<h2>Eager vs Lazy</h2>
+						<table>
+							<thead>
+							<tr>
+								<th>Concept</th>
+								<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>Lazy</td>
+								<td>Refers to the delaying of the evaluation of an operation until it is needed.
+									Lazy evaluation support infinite streams.
+								</td>
+							</tr>
+							<tr>
+								<td>Eager</td>
+								<td>An operation is executed as soon as it is encountered.
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
+
+							``` java
+							System.out.println("First");
+							Integer eager = List.of(1,2,3).stream()
+							.peek(System.out::println)
+							.reduce(0, (i1, i2) -> i1 + i2); // eager
+
+							System.out.println("Second");
+							Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
+								.peek(System.out::println)
+								.reduce(0, (i1, i2) -> i1 + i2); // lazy
+
+								System.out.println(eager);
+								System.out.println(lazy.get());
+
+								```
+						</script>
+					</section>
+
+					<section>
+						<h2>Mutable vs Immutable</h2>
+						<img src="./images/javaCollection.png">
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+							Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3)
+								.stream()
+								.peek(System.out::println)
+								.collect(toUnmodifiableList()); //Java 10
+								//.collect(Collectors.collectingAndThen(
+								//    Collectors.toList(),
+								//    x -> Collections.unmodifiableList(x))); // Java 8
+
+								var list = retrieveList.get();
+								list.add(1); //Katacroker
+								```
+						</script>
+					</section>
+					<section>
+						<h2>Equational reasoning</h2>
+						<img src="./images/equationalReasoning.jpg">
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Equational reasoning
+
+							``` java
+
+var list = List.of(80, 90, 100);
+
+Function2<Integer, Integer, Integer> divide =
+	(i1, i2) -> i2 / i1;
+Function<List<Integer>, Integer> sum = l ->
+	l.stream().reduce(0, (i1, i2) -> i1 + i2);
+
+System.out.println(divide.apply(sum.apply(list), list.size()));
+
+
+								```
+						</script>
+					</section>
+					<section>
+						<h2>Referential Transparency</h2>
+						<p>
+							Referential transparency is generally defined as the fact that an expression,
+							in a program, may be replaced by its value (or anything having the same value)
+							without changing the result of the program.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Referential Transparency
+
+							``` java
+							//x = 2 + (3 * 4)
+							//x = 2 + 12
+							//x = 14
+
+							BiFunction<Integer, Integer, Integer> add =
+							(i1, i2) -> i1 + i2;
+							BiFunction<Integer, Integer, Integer> mult =
+							(i1, i2) -> i1 * i2;
+
+							int result2 = add.apply(2, mult.apply(3, 4));
+							```
+						</script>
+					</section>
+					<!--
+					<section>
+						<h2>Pure vs Impure functions</h2>
+                        <p>
+                        Characteristics of Pure Function:
+                        </p>
+                        <ul>
+                            <li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
+                            <li>They do not have any side effects like network or database calls</li>
+                            <li>They do not mod­ify the arguments which are passed to them</li>
+                        </ul>
+					</section>
+                    <section>
+                        <h2>Pure vs Impure functions</h2>
+                        <p>
+                            Characterisitcs of Impure functions
+                        </p>
+                        <ul>
+                            <li>The return value of the impure functions does not solely depend on its arguments Hence, if you call the impure functions with the same set of arguments, you might get the different return values For example, Math.random(), Date.now()
+                            <li>They may have any side effects like network or database calls
+                            <li>They may modify the arguments which are passed to them</li>
+                        </ul>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Pure vs Impure functions
+
+                            Imperative
+
+                            ``` java
+private Double impureFunc(Integer value) { return Math.random() * value; };
+private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
+
+private void imperativeStyle() {
+    var impureOutput = new ArrayList<>();
+    for(var i = 0; i < 5; i++){
+        impureOutput.add(impureFunc(5));
+    }
+    var pureOutput = new ArrayList<>();
+    for(var i = 0; i < 5; i++){
+        pureOutput.add(pureFunc(5));
+    }
+    System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+    System.out.println("Pure result: " + pureOutput);
+}
+
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Pure vs Impure functions
+
+                            Functional
+
+                            ``` java
+Function<Integer, Double> impureFunc = value ->
+    Math.random() * value;
+Function<Integer, Double> pureFunc = value ->
+    Double.valueOf(value * value);
+
+BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
+    IntStream.rangeClosed(0, limit).boxed()
+    .map(fun)
+    .collect(toUnmodifiableList());
+
+var impureOutput = populate.apply(impureFunc, 5);
+var pureOutput = populate.apply(pureFunc, 5);
+
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+
+                            ```
+                        </script>
+                    </section>
+                    -->
+					<section>
+						<h2>Functors, Applicative & Monads</h2>
+					</section>
+					<section>
+						<h2>Type classes vs ADTs</h2>
+						<h3>Type class</h3>
+						<p>
+							Type class: defines a set of functions (usually only the signature, with no concrete implementation,
+							although a default implementation can be provided).
+						</p>
+						<h3>ADT</h3>
+						<p>
+							ADT: A very specific composite type created from a set of simpler constructs which together define
+							the different states or structures of the ADT.
+						</p>
+					</section>
+
+				</section>
+
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>What are the limits with Java 8+?</h2>
+						<ul>
+							<li>Functors</li>
+							<li>Tuples</li>
+							<li>Stream operators</li>
+							<li>Optional</li>
+							<li>CompletableFuture</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Functors</h2>
+					</section>
+					<section>
+						<h2>Tuples</h2>
+					</section>
+					<section>
+						<h2>Stream operators</h2>
+					</section>
+					<section>
+						<h2>Optional</h2>
+					</section>
+					<section>
+						<h2>CompletableFuture</h2>
+					</section>
+				</section>
+
 				<section data-background="#FFFFFF">
 					<section>
 						<h2>Functional patterns</h2>
@@ -227,6 +544,14 @@ but also guide you and provide feedback in your design process.
 Using functional programming language changes the way you write code.
 You start thinking about the (data) types that represent the data your code works with.
 						</p>
+					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<ul>
+							<li>Accuracy with Types used for Object design</li>
+							<li>Cardinality</li>
+							<li>Recovered Exceptions or better Types?</li>
+						</ul>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -496,340 +821,6 @@ Match(foo).of(
 							```
 						</script>
 					</section>
-				</section>
-
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Functional Concepts</h2>
-						<ol>
-							<li>Programming paradigms</li>
-							<li>Eager vs Lazy</li>
-							<li>Mutable vs Immutable</li>
-							<li>Equational reasoning</li>
-							<li>Functional composition</li>
-							<li>Referential Transparency</li>
-							<!-- <li>Pure vs Impure functions</li> -->
-							<li>Functors, Applicative & Monads</li>
-							<li>Type classes vs ADTs</li>
-
-						</ol>
-					</section>
-					<section>
-						<h2>Programming paradigms</h2>
-						<table>
-							<!--
-							<thead>
-							<tr>
-								<th>Paradigm</th>
-								<th>Description</th>
-							</tr>
-							</thead>
-							-->
-							<tbody>
-							<tr>
-								<td>Imperative</td>
-								<td>Control flow is explicit.
-									Commands show how the computation takes place, step by step.
-								</td>
-							</tr>
-							<tr>
-								<td>Declarative</td>
-								<td>Control flow is implicit.
-									the developer states only what the results should look like,
-									not how to obtain it.
-								</td>
-							</tr>
-							<tr>
-								<td>Functional</td>
-								<td>Control flow is expressed by combining function calls
-									rather than by assigning values to variables.
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</section>
-					<section>
-						<h2>Programming paradigms</h2>
-						<table>
-							<!--
-							<thead>
-							<tr>
-								<th>Paradigm</th>
-								<th>Description</th>
-							</tr>
-							</thead>
-							-->
-							<tbody>
-							<tr>
-								<td>Object-oriented</td>
-								<td>Computation is affected by sending messages to objects.
-									Objects has state and behaviour.
-								</td>
-							</tr>
-							<tr>
-								<td>Event-driven</td>
-								<td>Control flow is determined by asynchronous actions.</td>
-							</tr>
-							</tbody>
-						</table>
-					</section>
-					<section>
-						<h2>Eager vs Lazy</h2>
-						<table>
-							<thead>
-							<tr>
-								<th>Concept</th>
-								<th>Description</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr>
-								<td>Lazy</td>
-								<td>Refers to the delaying of the evaluation of an operation until it is needed.
-									Lazy evaluation support infinite streams.
-								</td>
-							</tr>
-							<tr>
-								<td>Eager</td>
-								<td>An operation is executed as soon as it is encountered.
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Eager vs Lazy
-
-							``` java
-System.out.println("First");
-Integer eager = List.of(1,2,3).stream()
-	.peek(System.out::println)
-	.reduce(0, (i1, i2) -> i1 + i2); // eager
-
-System.out.println("Second");
-Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
-	.peek(System.out::println)
-	.reduce(0, (i1, i2) -> i1 + i2); // lazy
-
-System.out.println(eager);
-System.out.println(lazy.get());
-
-							```
-						</script>
-					</section>
-
-					<section>
-						<h2>Mutable vs Immutable</h2>
-                        <img src="./images/javaCollection.png">
-					</section>
-
-					<section data-markdown>
-						<script type="text/template">
-							## Mutable vs Immutable
-
-							``` java
-Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3)
-	.stream()
-	.peek(System.out::println)
-	.collect(toUnmodifiableList()); //Java 10
-	//.collect(Collectors.collectingAndThen(
-	//    Collectors.toList(),
-	//    x -> Collections.unmodifiableList(x))); // Java 8
-
-var list = retrieveList.get();
-list.add(1); //Katacroker
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Equational reasoning</h2>
-                        <img src="./images/equationalReasoning.jpg">
-					</section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Equational reasoning
-
-                            ``` java
-
-var list = List.of(80, 90, 100);
-
-Function2<Integer, Integer, Integer> divide =
-    (i1, i2) -> i2 / i1;
-Function<List<Integer>, Integer> sum = l ->
-    l.stream().reduce(0, (i1, i2) -> i1 + i2);
-
-System.out.println(divide.apply(sum.apply(list), list.size()));
-
-
-                            ```
-                        </script>
-                    </section>
-					<section>
-						<h2>Referential Transparency</h2>
-						<p>
-							Referential transparency is generally defined as the fact that an expression,
-							in a program, may be replaced by its value (or anything having the same value)
-							without changing the result of the program.
-						</p>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Referential Transparency
-
-							``` java
-//x = 2 + (3 * 4)
-//x = 2 + 12
-//x = 14
-
-BiFunction<Integer, Integer, Integer> add =
-(i1, i2) -> i1 + i2;
-BiFunction<Integer, Integer, Integer> mult =
-(i1, i2) -> i1 * i2;
-
-int result2 = add.apply(2, mult.apply(3, 4));
-							```
-						</script>
-					</section>
-					<!--
-					<section>
-						<h2>Pure vs Impure functions</h2>
-                        <p>
-                        Characteristics of Pure Function:
-                        </p>
-                        <ul>
-                            <li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
-                            <li>They do not have any side effects like network or database calls</li>
-                            <li>They do not mod­ify the arguments which are passed to them</li>
-                        </ul>
-					</section>
-                    <section>
-                        <h2>Pure vs Impure functions</h2>
-                        <p>
-                            Characterisitcs of Impure functions
-                        </p>
-                        <ul>
-                            <li>The return value of the impure functions does not solely depend on its arguments Hence, if you call the impure functions with the same set of arguments, you might get the different return values For example, Math.random(), Date.now()
-                            <li>They may have any side effects like network or database calls
-                            <li>They may modify the arguments which are passed to them</li>
-                        </ul>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Pure vs Impure functions
-
-                            Imperative
-
-                            ``` java
-private Double impureFunc(Integer value) { return Math.random() * value; };
-private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
-
-private void imperativeStyle() {
-    var impureOutput = new ArrayList<>();
-    for(var i = 0; i < 5; i++){
-        impureOutput.add(impureFunc(5));
-    }
-    var pureOutput = new ArrayList<>();
-    for(var i = 0; i < 5; i++){
-        pureOutput.add(pureFunc(5));
-    }
-    System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
-    System.out.println("Pure result: " + pureOutput);
-}
-
-                            ```
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Pure vs Impure functions
-
-                            Functional
-
-                            ``` java
-Function<Integer, Double> impureFunc = value ->
-    Math.random() * value;
-Function<Integer, Double> pureFunc = value ->
-    Double.valueOf(value * value);
-
-BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
-    IntStream.rangeClosed(0, limit).boxed()
-    .map(fun)
-    .collect(toUnmodifiableList());
-
-var impureOutput = populate.apply(impureFunc, 5);
-var pureOutput = populate.apply(pureFunc, 5);
-
-System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
-System.out.println("Pure result: " + pureOutput);
-
-                            ```
-                        </script>
-                    </section>
-                    -->
-					<section>
-						<h2>Functors, Applicative & Monads</h2>
-					</section>
-                    <section>
-                        <h2>Type classes vs ADTs</h2>
-						<h3>Type class</h3>
-						<p>
-Type class: defines a set of functions (usually only the signature, with no concrete implementation,
-although a default implementation can be provided).
-						</p>
-						<h3>ADT</h3>
-						<p>
-ADT: A very specific composite type created from a set of simpler constructs which together define
-the different states or structures of the ADT.
-						</p>
-                    </section>
-
-				</section>
-
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Functional elements in Java 8+</h2>
-						<ul>
-							<li>Lambdas</li>
-                            <li>Closures</li>
-							<li>Java Streams</li>
-							<li>Collectors</li>
-							<li>Optional</li>
-							<li>Functional interfaces</li>
-							<li>CompletableFuture</li>
-						</ul>
-					</section>
-                    <section>
-                        <h2>Lambdas</h2>
-                    </section>
-                    <section>
-                        <h2>Closures</h2>
-                        <p>
-                            A closure is the combination of a function bundled together (enclosed) with
-                            references to its surrounding state (the lexical environment). In other words,
-                            a closure gives you access to an outer function’s scope from an inner function.
-                        </p>
-                        <p>
-                            Closures are commonly used to give objects data privacy.
-                            When you use closures for data privacy, the enclosed variables are only
-                            in scope within the containing (outer) function.
-                        </p>
-                    </section>
-                    <section>
-                        <h2>Java Streams</h2>
-                    </section>
-                    <section>
-                        <h2>Collectors</h2>
-                    </section>
-                    <section>
-                        <h2>Optional</h2>
-                    </section>
-                    <section>
-                        <h2>Functional interfaces</h2>
-                    </section>
-                    <section>
-                        <h2>CompletableFuture</h2>
-                    </section>
 				</section>
 
 				<section data-background="#FFFFFF">
