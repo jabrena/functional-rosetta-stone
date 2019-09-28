@@ -1,10 +1,9 @@
 package org.fundamentals.fp.playground;
 
-import io.vavr.Function2;
 import java.util.List;
 import java.util.function.Function;
 
-public class EquationalReasoning {
+public class EquationalReasoning2 {
 
     public static void main(String[] args) {
 
@@ -12,10 +11,10 @@ public class EquationalReasoning {
 
         Function<List<Integer>, Integer> sum = l -> l.stream()
                 .reduce(0, (i1, i2) -> i1 + i2);
-        Function2<Integer, Integer, Integer> divide =
-                (i1, i2) -> i1 / i2;
+        Function<List<Integer>, Integer> divide = l ->
+                sum.apply(l) / l.size();
 
-        System.out.println(divide.apply(sum.apply(list), list.size()));
+        System.out.println(divide.apply(list));
     }
 
 }

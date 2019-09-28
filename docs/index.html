@@ -115,72 +115,6 @@
 							<li>Framework: <strong>Spring Boot</strong></li>
 						</ol>
 					</section>
-					<!--
-					<section>
-						<h2>Future market context</h2>
-						<ol>
-							<li>OSI Layer: <strong>Application</strong></li>
-							<li>Problem: <strong>API</strong></li>
-							<li>API Protocol: <strong>REST/GRPC HTTP</strong></li>
-							<li>Stack: <strong>Netty</strong></li>
-							<li>Language: <strong>Java 11+</strong></li>
-							<li>Framework: <strong>Spring Webflux</strong></li>
-						</ol>
-					</section>
-
-					<section>
-						<h2>OSI Layers</h2>
-                        <img src="./images/OSILayers.png" width="70%">
-					</section>
-					<section>
-						<h2>Problem</h2>
-						<ul>
-							<li>API <--</li>
-							<li>Big Data</li>
-							<li>IoT</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Protocol</h2>
-						<ul>
-							<li>HTTP REST <--</li>
-							<li>gRPC</li>
-							<li>GraphQL</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Stack</h2>
-						<ul>
-							<li>Servlet (Blocking) <--</li>
-							<li>Webflux (Non-blocking & Reactive)</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Languages</h2>
-						<ul>
-							<li>Java 11+ <--</li>
-							<li>Kotlin</li>
-							<li>Clojure, Scala, Haskell</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Frameworks</h2>
-						<ul>
-							<li>Spring Boot <--</li>
-							<li>Quarkus (VertX (RxJAVA))</li>
-							<li>Micronaut</li>
-							<li>Spring Fu</li>
-							<li>Akka</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Libraries</h2>
-						<ul>
-							<li>Resilience4J</li>
-							<li>VAVR <--</li>
-						</ul>
-					</section>
-					-->
 				</section>
 
 				<section data-background="#FFFFFF">
@@ -328,7 +262,7 @@ Initial questions:
 								System.out.println(eager);
 								System.out.println(lazy.get());
 
-								```
+							```
 						</script>
 					</section>
 
@@ -365,15 +299,12 @@ Initial questions:
 
 							``` java
 
-var list = List.of(80, 90, 100);
+Function<List<Integer>, Integer> sum = list -> list.stream()
+	.reduce(0, (i1, i2) -> i1 + i2);
+Function<List<Integer>, Integer> divide = list ->
+	sum.apply(list) / list.size();
 
-Function2<Integer, Integer, Integer> divide =
-	(i1, i2) -> i2 / i1;
-Function<List<Integer>, Integer> sum = l ->
-	l.stream().reduce(0, (i1, i2) -> i1 + i2);
-
-System.out.println(divide.apply(sum.apply(list), list.size()));
-
+System.out.println(divide.apply(list));
 
 								```
 						</script>
@@ -501,6 +432,24 @@ System.out.println("Pure result: " + pureOutput);
 					<section>
 						<h2>List manipulation</h2>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## List manipulation
+
+							``` java
+var numbers = List.of(9, 10, 3, 4, 7, 3, 4);
+var distinct = numbers.stream()
+	.map(i -> i * i)
+	.distinct()
+	.peek(System.out::println)//Debug only
+	.filter(i -> i > 50)
+	.collect(toUnmodifiableList());
+
+System.out.println(distinct);
+
+							```
+						</script>
+					</section>
 				</section>
 
 
@@ -508,30 +457,44 @@ System.out.println("Pure result: " + pureOutput);
 					<section>
 						<h2>What are the limits with Java 8+?</h2>
 						<ul>
-							<li>Functors</li>
-							<li>Tuples</li>
+							<li>Functional Interfaces</li>
 							<li>Stream operators</li>
 							<li>Optional</li>
 							<li>CompletableFuture</li>
+							<li>Tuples</li>
 						</ul>
 					</section>
 					<section>
-						<h2>Functors</h2>
-						<p>What happen if your Functor requires 3 or more parameters?</p>
-						<p>Java 8+ only has Function & BiFunction support</p>
+						<h2>Functional interfaces</h2>
+						<ul>
+							<li>What happen if your Functor requires 3 or more parameters?</li>
+							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
+								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
+							<li>How to map a method/function which throw a checked exception?</li>
+							<li>How to memoize a lazy stream?</li>
+						</ul>
+
+						<!--
 						<p>VAVR support Functors with 1-8 parameters</p>
 						<p>VAVR add in the Functors, support for
 							lifting, partial application, currying & memoization by default</p>
+						-->
+					</section>
+					<section>
+						<h2>Stream operators</h2>
+						<p>How to map a method/function which throw a checked exception?</p>
+						<p>How to do Lifting?</p>
+						<p>How to reuse a Stream once is consumed?</p>
+					</section>
+					<section>
+						<h2>Optional</h2>
+						<p>Optional is not a real Monad, it doesn´t pass the Monads Laws</p>
 					</section>
 					<section>
 						<h2>Tuples</h2>
 						<p>Java doesn´t have any Tuple in the type system</p>
 						<p>It is necessary to use an externa library to add the support</p>
 						<p>VAVR has support for Tuples with 1-8 elements</p>
-					</section>
-					<section>
-						<h2>Optional</h2>
-						<p>Optional is not a real Monad, it doesn´t pass the Monads Laws</p>
 					</section>
 				</section>
 
