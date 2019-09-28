@@ -95,7 +95,7 @@ public class CFBasicsTest {
         Callable demo = () -> example.myFifthCF();
 
         await()
-                .atMost(Duration.ofSeconds(7))
+                //.atMost(Duration.ofSeconds(7))
                 .until(demo, equalTo(0));
     }
 
