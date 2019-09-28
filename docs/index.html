@@ -430,9 +430,11 @@ System.out.println("Pure result: " + pureOutput);
 						</p>
 					</section>
 					-->
+					<!--
 					<section>
 						<h2>List manipulation</h2>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## List manipulation
@@ -519,6 +521,10 @@ System.out.println(distinct);
 					<section>
 						<h2>Type driven development</h2>
 						<p>
+Type-driven development is a programming style where you
+write types first and use them to guide the definition of functions in your program.
+						</p>
+						<p>
 A strong type system can not only prevent errors,
 but also guide you and provide feedback in your design process.
 						</p>
@@ -535,11 +541,21 @@ You start thinking about the (data) types that represent the data your code work
 							<li>Recovered Exceptions or better Types?</li>
 						</ul>
 					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Accuracy with Types used for Object design</h4>
+						<img src="./images/clean-architecture1.png">
+					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Accuracy with Types used for Object design</h4>
+						<img src="./images/clean-architecture2.png">
+					</section>
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
 
-							### Stringly-typed
+							### Accuracy with Types used for Object design
 
 							``` java
 public class UserTransaction {
@@ -556,7 +572,7 @@ public class UserTransaction {
 						<script type="text/template">
 							## Type driven development
 
-							### Typed
+							### Accuracy with Types used for Object design
 
 							``` java
 public class UserTransaction {
@@ -573,7 +589,7 @@ public class UserTransaction {
                         <script type="text/template">
                             ## Type driven development
 
-                            ### Typed
+                            ### Accuracy with Types used for Object design
 
                             ``` java
 public class UserTransaction {
@@ -597,7 +613,7 @@ public class UserTransaction {
                         <script type="text/template">
                             ## Type driven development
 
-                            ### Typed
+                            ### Accuracy with Types used for Object design
 
                             ``` java
 public class UserTransaction {
@@ -613,6 +629,11 @@ public class UserTransaction {
                             ```
                         </script>
                     </section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Cardinality</h4>
+						<img src="./images/cardinality.png">
+					</section>
                     <!--
 					<section data-markdown>
 						<script type="text/template">
@@ -631,20 +652,11 @@ Optional<Integer> valueOf(String s);
 						</script>
 					</section>
 					-->
-                    <!--
-					<section>
-						<h2>Type driven development</h2>
-						<img src="./images/clean-architecture1.png">
-					</section>
-					<section>
-						<h2>Type driven development</h2>
-						<img src="./images/clean-architecture2.png">
-					</section>
+
 					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/waterTap.jpg">
 					</section>
-					-->
                     <section>
                         <h2>Functional composition</h2>
                         <p>
@@ -1426,10 +1438,8 @@ A memoized function executes only once and then returns the result from a cache.
 						<h2>Acknowledgements</h2>
 						<ul>
 							<li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a> (Technical Review & VAVR Author)</li>
-							<!--
-							<li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a></li>
+							<li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a> (Resilience4j)</li>
 							<li><a href="https://twitter.com/pivovarit" target="_blank">Grzegorz Piwowarek</a></li>
-							-->
 						</ul>
 					</section>
 				</section>
