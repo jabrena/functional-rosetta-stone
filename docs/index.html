@@ -524,10 +524,147 @@ System.out.println(distinct);
 					<section>
 						<h2>Functional patterns</h2>
 						<ul>
-							<li>Type driven development</li>
 							<li>Functional composition</li>
+							<li>Type driven development</li>
 							<li>Functional Error Handling</li>
 						</ul>
+					</section>
+					<section>
+						<h2>Functional composition</h2>
+						<img src="./images/waterTap.jpg">
+					</section>
+					<section>
+						<h2>Functional composition</h2>
+						<p>
+							Function composition is an act or mechanism to combine simple functions to build more complicated ones.
+						</p>
+						<p>
+							Programmers frequently apply functions to results of other functions, and almost all programming languages allow it.
+						</p>
+						<p>
+							The ability to easily compose functions encourages factoring (breaking apart) functions for maintainability and code reuse.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+							/**
+							* https://projecteuler.net/problem=20
+							* Problem 20: Factorial digit sum
+							* n! means n (n 1) ... 3 2 1
+							*
+							* For example, 10! = 10   9   ...   3   2   1 = 3628800,
+							*
+							* and the sum of the digits in the number 10! is
+							* 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+							*
+							* Find the sum of the digits in the number 100!
+							*
+							*/
+							```
+						</script>
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+@Test
+public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
+
+	EulerProblem20 problem = new EulerProblem20();
+
+	assertThat(problem.JavaSolution(10L))
+		.isEqualTo(27L);
+	assertThat(problem.JavaStreamSolution(100L))
+		.isEqualTo(euler.getAnswerToLong(20));
+}
+
+							```
+						</script>
+					</section>
+					-->
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+							public Long javaSolution(Long limit) {
+
+							BigDecimal factorial = BigDecimal.valueOf(limit);
+							for(long x = limit -1; x > 0; x--) {
+							factorial = factorial.multiply(BigDecimal.valueOf(x));
+							}
+
+							String strFactorial = factorial.toString();
+							long sum = 0L;
+							for(int x = 0; x < strFactorial.length(); x++) {
+							String digit = String.valueOf((char) strFactorial.charAt(x));
+							sum += Long.valueOf(digit);
+							}
+							return sum;
+							}
+							```
+						</script>
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+@Test
+public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
+
+	EulerProblem20 problem = new EulerProblem20();
+
+	assertThat(problem.javaStreamSolution(10L))
+		.isEqualTo(27L);
+	assertThat(problem.javaStreamSolution(100L))
+		.isEqualTo(euler.getAnswerToLong(20));
+}
+							```
+						</script>
+					</section>
+					-->
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+							public long javaStreamSolution(long limit) {
+
+							return factorial
+							.andThen(toDigits)
+							.andThen(sum)
+							.apply(limit);
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+							Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
+							.limit(limit)
+							.mapToObj(BigInteger::valueOf)
+							.reduce((n1, n2) -> n1.multiply(n2))
+							.get();
+
+							Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
+								.mapToObj(c -> String.valueOf((char) c))
+								.map(s -> Integer.valueOf(s));
+
+								Function<Stream<Integer>, Long> sum = digits -> digits
+									.mapToLong(Long::valueOf)
+									.reduce(0L, Long::sum);
+									```
+						</script>
 					</section>
 					<section>
 						<h2>Type driven development</h2>
@@ -580,12 +717,17 @@ You start thinking about the (data) types that represent the data your code work
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
-						<img src="./images/clean-architecture1.png" width="50%">
-					</section>
-					<section>
-						<h2>Type driven development</h2>
-						<h4>Accuracy with Types used for Object design</h4>
-						<img src="./images/clean-architecture2.png" width="50%">
+						<table>
+							<tr>
+								<td>
+									<img src="./images/clean-architecture1.png">
+								</td>
+								<td>
+									<img src="./images/clean-architecture2.png">
+								</td>
+							</tr>
+						</table>
+
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -763,143 +905,6 @@ public synchronized Throwable fillInStackTrace() { ... }
 						<img src="./images/benchmark_throwable.png" width="50%">
 					</section>
 					<section>
-						<h2>Functional composition</h2>
-						<img src="./images/waterTap.jpg">
-					</section>
-                    <section>
-                        <h2>Functional composition</h2>
-                        <p>
-Function composition is an act or mechanism to combine simple functions to build more complicated ones.
-                        </p>
-                        <p>
-Programmers frequently apply functions to results of other functions, and almost all programming languages allow it.
-                        </p>
-                        <p>
-The ability to easily compose functions encourages factoring (breaking apart) functions for maintainability and code reuse.
-                        </p>
-                    </section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-/**
-* https://projecteuler.net/problem=20
-* Problem 20: Factorial digit sum
-* n! means n (n 1) ... 3 2 1
-*
-* For example, 10! = 10   9   ...   3   2   1 = 3628800,
-*
-* and the sum of the digits in the number 10! is
-* 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
-*
-* Find the sum of the digits in the number 100!
-*
-*/
-							```
-						</script>
-					</section>
-					<!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-@Test
-public void given_JavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-	EulerProblem20 problem = new EulerProblem20();
-
-	assertThat(problem.JavaSolution(10L))
-		.isEqualTo(27L);
-	assertThat(problem.JavaStreamSolution(100L))
-		.isEqualTo(euler.getAnswerToLong(20));
-}
-
-							```
-						</script>
-					</section>
-					-->
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-public Long javaSolution(Long limit) {
-
-	BigDecimal factorial = BigDecimal.valueOf(limit);
-	for(long x = limit -1; x > 0; x--) {
-		factorial = factorial.multiply(BigDecimal.valueOf(x));
-	}
-
-	String strFactorial = factorial.toString();
-	long sum = 0L;
-	for(int x = 0; x < strFactorial.length(); x++) {
-		String digit = String.valueOf((char) strFactorial.charAt(x));
-		sum += Long.valueOf(digit);
-	}
-	return sum;
-}
-							```
-						</script>
-					</section>
-					<!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-@Test
-public void given_JavaStreamSolution_when_executeMethod_then_expectedResultsTest() {
-
-	EulerProblem20 problem = new EulerProblem20();
-
-	assertThat(problem.javaStreamSolution(10L))
-		.isEqualTo(27L);
-	assertThat(problem.javaStreamSolution(100L))
-		.isEqualTo(euler.getAnswerToLong(20));
-}
-							```
-						</script>
-					</section>
-					-->
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-public long javaStreamSolution(long limit) {
-
-	return factorial
-				.andThen(toDigits)
-				.andThen(sum)
-				.apply(limit);
-}
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							``` java
-Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
-	.limit(limit)
-	.mapToObj(BigInteger::valueOf)
-	.reduce((n1, n2) -> n1.multiply(n2))
-	.get();
-
-Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
-	.mapToObj(c -> String.valueOf((char) c))
-	.map(s -> Integer.valueOf(s));
-
-Function<Stream<Integer>, Long> sum = digits -> digits
-	.mapToLong(Long::valueOf)
-	.reduce(0L, Long::sum);
-							```
-						</script>
-					</section>
-					<section>
 						<h2>Functional error handling</h2>
 						<p>
 In Java 8, the language was released with some Types to increase the expressiveness,
@@ -910,9 +915,51 @@ Following the same idea, how to model the Exceptionality? Unfortunately,
 the language doesn't provide any solution in the line of Optional.
 						</p>
 						<p>
-How to solve the gap in Java? VAVR
+How to solve the gap in Java?
 						</p>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							### Try (Scala)
+							``` scala
+							sealed abstract class Try[+T]
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							### Try API
+							``` java
+Try<U> map(Function<? super T, ? extends U> mapper)
+Try<U> flatMap(Function<? super T, ? extends Try<? extends U>> mapper)
+Try<T> filter(Predicate<? super T> predicate) ...
+
+Try<T> orElse(Try<? extends T> other)
+
+Try<T> onFailure(Consumer<? super Throwable> action)
+Try<T> onSuccess(Consumer<? super T> action)
+
+Try<T> recover(Class<X> exception, T value)
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Functional error handling</h2>
+						<p>
+						The following exceptions are considered to be fatal/non-recoverable:
+						</p>
+						<ul>
+							<li>InterruptedException</li>
+							<li>LinkageError</li>
+							<li>ThreadDeath</li>
+							<li>VirtualMachineError (i.e. OutOfMemoryError or StackOverflowError)</li>
+						</ul>
+					</section>
+					<!--
 					<section>
 						<h2>Functional error handling</h2>
 						<ul>
@@ -927,20 +974,7 @@ How to solve the gap in Java? VAVR
 							<li>Relying on getCause()
 						</ul>
 					</section>
-
-
-
-
-					<section data-markdown>
-						<script type="text/template">
-							## Functional error handling
-
-							### Try (Scala)
-							``` scala
-sealed abstract class Try[+T]
-							```
-						</script>
-					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
@@ -956,6 +990,7 @@ Try<List<URL>> getSearchResults(String searchString) {
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
@@ -971,7 +1006,9 @@ Match(foo).of(
 );
 							```
 						</script>
+
 					</section>
+					-->
 				</section>
 
 				<section data-background="#FFFFFF">
