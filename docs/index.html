@@ -544,6 +544,31 @@ Using functional programming language changes the way you write code.
 You start thinking about the (data) types that represent the data your code works with.
 						</p>
 					</section>
+					<!--
+					https://blog.oyanglul.us/purescript/type-driven-development-with-purescript/
+					-->
+					<section>
+						<h2>Type driven development</h2>
+
+						<p>There are 3 steps in Type-Driven Development.</p>
+						<ol>
+							<li>
+								<strong>Type:</strong> Either write a type to begin the process, or inspect the type of a hole to
+								decide how to continue the process.
+							</li>
+							<li>
+								<strong>Define:</strong> Create the structure of a function definition either by creating an out-
+								line of a definition or breaking it down into smaller components.
+							</li>
+							<li>
+								<strong>Refine:</strong> Improve an existing definition either by filling in a hole or making its
+								type more precise.
+							</li>
+						</ol>
+
+					</section>
+
+
 					<section>
 						<h2>Type driven development</h2>
 						<ul>
@@ -555,12 +580,12 @@ You start thinking about the (data) types that represent the data your code work
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
-						<img src="./images/clean-architecture1.png">
+						<img src="./images/clean-architecture1.png" width="50%">
 					</section>
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
-						<img src="./images/clean-architecture2.png">
+						<img src="./images/clean-architecture2.png" width="50%">
 					</section>
 					<section data-markdown>
 						<script type="text/template">
@@ -603,6 +628,7 @@ public class UserTransaction {
                             ### Accuracy with Types used for Object design
 
                             ``` java
+//Java Bean Validation (JSR 303)
 public class UserTransaction {
     @NotNull
     @Pattern(regexp = "/(?:[A-Z]{3} [0-9]+(?:\.[0-9]+)?)|(?:[0-9]+(?:\.[0-9]+)? [A-Z]{3})/")
@@ -627,6 +653,7 @@ public class UserTransaction {
                             ### Accuracy with Types used for Object design
 
                             ``` java
+//Java Bean Validation (JSR 303)
 public class UserTransaction {
     @CurrencyCode
     private final String currencyCode;
@@ -643,27 +670,88 @@ public class UserTransaction {
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Cardinality</h4>
+						<p>
+							In mathematics, the cardinality of a set is a measure of the
+							"number of elements of the set".
+						</p>
 						<img src="./images/cardinality.png">
 					</section>
-                    <!--
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Cardinality</h4>
+						<table>
+							<thead>
+							<tr>
+								<th>Type</th>
+								<th>Java 8</th>
+								<th>RxJava2</th>
+								<th>Reactor</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>0-1</td>
+								<td>CompletableFuture<T></td>
+								<td>Maybe<T></td>
+								<td>Mono<T></td>
+							</tr>
+							<tr>
+								<td>0-N</td>
+								<td>CompletableFuture<T></td>
+								<td>Observable<T></td>
+								<td>Flux<T></td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>CompletableFuture<T></td>
+								<td>Single<T></td>
+								<td>Mono<T></td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td>CompletableFuture<Void></td>
+								<td>Completable</td>
+								<td>Mono<Void></td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
+							#### Recovered Exceptions or better Types?
 
 							``` java
-Person findOne(long id) throws NoSuchElementException;
-Integer valueOf(String s) throws NumberFormatException;
+Book getBook(String ISBN) throws NotFoundException;
 
-Try<Person> findOne(long id)
-Try<Integer> valueOf(String s)
+Try<Book> getBook(String ISBN)
 
-Optional<Person> findOne(long id);
-Optional<Integer> valueOf(String s);
+Optional<Book> getBook(String ISBN);
 							```
 						</script>
 					</section>
-					-->
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+							#### Recovered Exceptions or better Types?
 
+"Fills in the execution stack trace.
+This method records within this Throwable object information about
+the current state of the stack frames for the current thread."
+
+"Cost of Causing Exceptions", Heinz Kabutz
+
+							``` java
+public synchronized Throwable fillInStackTrace() { ... }
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Recovered Exceptions or better Types?</h4>
+						<p>"The hidden performance costs of instantiating Throwables", Norman Maurer</p>
+						<img src="./images/benchmark_throwable.png" width="50%">
+					</section>
 					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/waterTap.jpg">
