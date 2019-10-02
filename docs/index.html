@@ -823,16 +823,12 @@ public class UserTransaction {
 //Money and Currency API (JSR 354)
 //Date and Time API (JSR 310)
 public class UserTransaction {
-    @CurrencyCode
     private final CurrencyUnit currencyCode;
-    @Amount
     private final MonetaryAmount amount;
-    @IBAN
-    private final String fromAccountId;
-    @IBAN
-    private final String toAccountId;
-    @TransactionDate
-    private final LocalDateTime date
+    private final IBAN fromAccountId;
+    private final IBAN toAccountId;
+    private final TransactionDate date
+	...
 }
                             ```
                         </script>
