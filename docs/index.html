@@ -264,18 +264,18 @@ Initial questions:
 							## Eager vs Lazy
 
 							``` java
-							System.out.println("First");
-							Integer eager = List.of(1,2,3).stream()
-							.peek(System.out::println)
-							.reduce(0, (i1, i2) -> i1 + i2); // eager
+System.out.println("First");
+Integer eager = List.of(1,2,3).stream()
+	.peek(System.out::println)
+	.reduce(0, (i1, i2) -> i1 + i2); // eager
 
-							System.out.println("Second");
-							Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
-								.peek(System.out::println)
-								.reduce(0, (i1, i2) -> i1 + i2); // lazy
+System.out.println("Second");
+Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
+	.peek(System.out::println)
+	.reduce(0, (i1, i2) -> i1 + i2); // lazy
 
-								System.out.println(eager);
-								System.out.println(lazy.get());
+	System.out.println(eager);
+	System.out.println(lazy.get());
 
 							```
 						</script>
@@ -1340,17 +1340,40 @@ public void given_unsafeMethod_when_executeMethod_thenSameKataKrokerBehaviourTes
 							```
 						</script>
 					</section>
+					<!--
 					<section>
 						<h2>Sum types / VAVR Stream</h2>
 					</section>
 					<section>
 						<h2>Sum types / VAVR List</h2>
 					</section>
+					-->
 					<section>
 						<h2>Product types</h2>
 						<ul>
 							<li>Tuple</li>
 						</ul>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Try
+
+							``` java
+// (Java, 8)
+Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
+
+// "Java"
+String s = java8._1;
+
+// 8
+Integer i = java8._2;
+
+Tuple2<String, Integer> that = java8.map(
+	s -> s.substring(2) + "vr",
+	i -> i / 8
+);
+								```
+						</script>
 					</section>
 					<section>
 						<h2>Functors</h2>
