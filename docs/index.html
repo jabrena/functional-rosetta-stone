@@ -821,9 +821,9 @@ public class UserTransaction {
 //Date and Time API (JSR 310)
 public class UserTransaction {
     @CurrencyCode
-    private final String currencyCode;
-    @EURAmount
-    private final Money amount;
+    private final CurrencyUnit currencyCode;
+    @Amount
+    private final MonetaryAmount amount;
     @IBAN
     private final String fromAccountId;
     @IBAN
