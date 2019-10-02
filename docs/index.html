@@ -482,27 +482,47 @@ System.out.println(distinct);
 						</ul>
 					</section>
 					<section>
-						<h2>Functional interfaces</h2>
+						<h2>What are the limits with Java 8+?</h2>
 						<ul>
 							<li>What happen if your Functor requires 3 or more parameters?</li>
+							<!--
 							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
 								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
-							<li>How to map a method/function which throw a checked exception?</li>
+							-->
 							<li>How to memoize a lazy stream?</li>
-						</ul>
 
 						<!--
 						<p>VAVR support Functors with 1-8 parameters</p>
 						<p>VAVR add in the Functors, support for
 							lifting, partial application, currying & memoization by default</p>
 						-->
+							<li>How to do Lifting?</li>
+							<li>Java doesn´t have any Tuple in the type system</li>
+						</ul>
 					</section>
 					<section>
-						<h2>Stream operators</h2>
-						<p>How to map a method/function which throw a checked exception?</p>
-						<p>How to do Lifting?</p>
-						<p>How to reuse a Stream once is consumed?</p>
+						<h2>What are the limits with Java 8+?</h2>
+						<ul>
+							<li>How to map a method/function which throw a checked exception?</li>
+
+							<li>How to reuse a Stream once is consumed?</li>
+
+							<li>How to flow-control with streams?</li>
+							<!--
+							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
+								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
+							-->
+							<li>How control of timing?</li>
+
+							<!--
+                            <p>VAVR support Functors with 1-8 parameters</p>
+                            <p>VAVR add in the Functors, support for
+                                lifting, partial application, currying & memoization by default</p>
+                            -->
+							<li>How compose streams?</li>
+						</ul>
 					</section>
+					<!--
 					<section>
 						<h2>Optional</h2>
 						<p>What happen with Monad Laws?</p>
@@ -513,14 +533,12 @@ System.out.println(distinct);
 							<li>Associativity</li>
 						</ul>
 					</section>
+
 					<section>
 						<h2>Tuples</h2>
 						<p>Java doesn´t have any Tuple in the type system</p>
-						<!--
-						<p>It is necessary to use an externa library to add the support</p>
-						<p>VAVR has support for Tuples with 1-8 elements</p>
-						-->
 					</section>
+				-->
 				</section>
 
 				<section data-background="#FFFFFF">
@@ -823,7 +841,6 @@ public class UserTransaction {
 //Money and Currency API (JSR 354)
 //Date and Time API (JSR 310)
 public class UserTransaction {
-    private final CurrencyUnit currencyCode;
     private final MonetaryAmount amount;
     private final IBAN fromAccountId;
     private final IBAN toAccountId;
@@ -1681,6 +1698,8 @@ A memoized function executes only once and then returns the result from a cache.
                         <ul>
                             <li>Functional Resilience4J</li>
                             <li>From Java Streams to Reactive Streams with Reactor</li>
+							<li>ZIO for Java</li>
+							<li>GraalVM for Webflux microservices</li>
                         </ul>
                     </section>
                 </section>
