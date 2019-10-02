@@ -1553,6 +1553,23 @@ When a Function2 is curried, the result is indistinguishable from the partial ap
 of a Function2 because both result in a 1-arity function.
 						</p>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Currying
+
+							``` java
+Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+Function1<Integer, Integer> add2 = sum.curried().apply(2);
+
+then(add2.apply(4)).isEqualTo(6);
+
+Function3<Integer, Integer, Integer, Integer> sum = (a, b, c) -> a + b + c;
+final Function1<Integer, Function1<Integer, Integer>> add2 = sum.curried().apply(2);
+
+then(add2.apply(4).apply(3)).isEqualTo(9);
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Functors / Memoization</h2>
 						<p>
@@ -1560,7 +1577,21 @@ Memoization is a form of caching.
 A memoized function executes only once and then returns the result from a cache.
 						</p>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Memoization
 
+							``` java
+Function0<Double> hashCache =
+Function0.of(Math::random).memoized();
+
+double randomValue1 = hashCache.apply();
+double randomValue2 = hashCache.apply();
+
+then(randomValue1).isEqualTo(randomValue2);
+							```
+						</script>
+					</section>
 				</section>
 <!--
 				<section data-background="#FFFFFF">
