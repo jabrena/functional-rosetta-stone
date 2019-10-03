@@ -1,16 +1,22 @@
 package org.fundamentals.fp.playground.cf;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.awaitility.core.ConditionTimeoutException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CFBasicsTest {
 
@@ -87,16 +93,19 @@ public class CFBasicsTest {
                 .until(demo, equalTo(4));
     }
 
+    @Disabled
     @Test
     public void given_CF5_when_Call_then_returnExpectedValue() {
 
         CFBasics example = new CFBasics();
 
-        Callable demo = () -> example.myFifthCF();
+        //Callable demo = () -> example.myFifthCF();
 
-        await()
+        //await()
                 //.atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(0));
+                //.until(demo, equalTo(0));
+
+        then(example.myFifthCF()).isEqualTo(0);
     }
 
     @Test
@@ -109,5 +118,21 @@ public class CFBasicsTest {
         await()
                 .atMost(Duration.ofSeconds(7))
                 .until(demo, equalTo(102));
+    }
+
+    @Test
+    public void testWithErrorHandledInStream() {
+
+        CompletableFuture<Optional<String>> future1 = CompletableFuture.supplyAsync(() -> Optional.of("1"));
+        CompletableFuture<Optional<String>> futureEx = CompletableFuture.supplyAsync(() -> Optional.of((2/0)+""));
+        CompletableFuture<Optional<String>> future2 = CompletableFuture.supplyAsync(() -> Optional.of("2"));
+        CompletableFuture<Optional<String>> future3 = CompletableFuture.supplyAsync(() -> Optional.of("3"));
+        String output = Stream.of(future1, futureEx, future2, future3)
+                .filter(x -> !x.isCompletedExceptionally())
+                .map(CompletableFuture::join)
+                .map(x -> x.get())
+                .collect(Collectors.joining(" "));
+
+        assertEquals("1 2 3", output);
     }
 }

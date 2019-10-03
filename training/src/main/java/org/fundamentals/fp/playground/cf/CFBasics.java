@@ -112,7 +112,7 @@ public class CFBasics {
         List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
 
         return futuresList.stream()
-                .filter(cf -> !cf.isCompletedExceptionally())
+                .filter(CompletableFuture::isCompletedExceptionally)
                 .map(CompletableFuture::join)
                 .reduce(0 , (i1, i2) -> i1 + i2);
     }
