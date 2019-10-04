@@ -82,14 +82,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.jcip.annotations</groupId>
-			<artifactId>jcip-annotations</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jcip-annotations.jar</systemPath>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>

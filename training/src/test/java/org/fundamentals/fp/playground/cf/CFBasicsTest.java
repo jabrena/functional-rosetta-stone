@@ -99,13 +99,13 @@ public class CFBasicsTest {
 
         CFBasics example = new CFBasics();
 
-        //Callable demo = () -> example.myFifthCF();
+        Callable demo = () -> example.myFifthCF();
 
-        //await()
-                //.atMost(Duration.ofSeconds(7))
-                //.until(demo, equalTo(0));
+        await()
+                .atMost(Duration.ofSeconds(7))
+                .until(demo, equalTo(0));
 
-        then(example.myFifthCF()).isEqualTo(0);
+        //then(example.myFifthCF()).isEqualTo(0);
     }
 
     @Test
@@ -120,6 +120,21 @@ public class CFBasicsTest {
                 .until(demo, equalTo(102));
     }
 
+    @Test
+    public void given_CF7_when_Call_then_returnExpectedValue() {
+
+        CFBasics example = new CFBasics();
+
+        Callable demo = () -> example.mySeventhCF();
+
+        await()
+            .atMost(Duration.ofSeconds(7))
+            .until(demo, equalTo(0));
+
+        //then(example.mySeventhCF()).isEqualTo(0);
+    }
+
+    @Disabled
     @Test
     public void testWithErrorHandledInStream() {
 
