@@ -87,7 +87,15 @@
                         <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" target="_blank">Wikipedia</a>
                     </p>
                 </section>
+<!--
+Initial questions:
 
+- Developers using Java 11?
+- Developers using Java 8?
+- Developers using Streams?
+- Developers using Functional Interfaces?
+- Do you use Optional in the daily job?
+-->
                 <section data-background="#FFFFFF">
                     <h2 style="color: black">Agenda</h2>
                     <ol>
@@ -176,10 +184,12 @@
 							<li>About</li>
 							<li>Maven dependency</li>
 							<li>Architecture</li>
+							<!--
 							<li>Algebraic Data Types (ADTs)</li>
 							<li>Product Types</li>
 							<li>Sum Types</li>
 							<li>Functors</li>
+							-->
 							<!-- <li>Immutable collections</li> -->
 						</ul>
 					</section>
@@ -205,18 +215,6 @@
 							(876 KB)
 						</script>
 					</section>
-					<!--
-					<section>
-						<h2>Architecture</h2>
-						<h3>VAVR 0.10.0</h3>
-						<img src="images/vavr_architecture_initial_1.png" />
-					</section>
-					<section>
-						<h2>Architecture</h2>
-						<h3>VAVR 0.10.0</h3>
-						<img src="images/vavr_architecture_initial_2.png" />
-					</section>
-					-->
 					<section>
 						<h2>Architecture</h2>
 						<h3>VAVR 1.0.0</h3>
@@ -226,6 +224,13 @@
 						<h2>Architecture</h2>
 						<img src="images/vavr-modules.png" width="40%" />
 					</section>
+<!--
+To understand the concept
+https://slides.com/mariusju/adts/fullscreen#/
+https://www.slideshare.net/debasishg/qconny-12/
+https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
+-->
+					<!--
 					<section>
 						<h2>Algebraic Data Types (ADTs)</h2>
 						<p>
@@ -236,12 +241,7 @@
 							<li>Sum types</li>
 							<li>Product types</li>
 						</ul>
-						<!--
-                        To understand the concept
-                        https://slides.com/mariusju/adts/fullscreen#/
-                        https://www.slideshare.net/debasishg/qconny-12/
-                        https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
-                        -->
+
 					</section>
 					<section>
 						<h2>Algebraic Data Types (ADTs)</h2>
@@ -257,12 +257,6 @@
 							<li>VAVR Stream</li>
 							<li>VAVR List</li>
 						</ul>
-						<!--
-                        (Think this or that, a boolean OR.)
-
-                        Enums are the closest thing to sum types in an OO language.
-                        Enums can express variants, but can’t associate data with the different cases.
-                        -->
 					</section>
 					<section>
 						<h2>Algebraic Data Types (ADTs)</h2>
@@ -274,10 +268,6 @@
 						<ul>
 							<li>Tuple</li>
 						</ul>
-						<!--
-                        (Think this and that, a boolean AND.)
-                        Classes in an OO language are also examples of product types.
-                        -->
 					</section>
 					<section>
 						<h2>Sum types</h2>
@@ -427,14 +417,6 @@
 								```
 						</script>
 					</section>
-					<!--
-					<section>
-						<h2>Sum types / VAVR Stream</h2>
-					</section>
-					<section>
-						<h2>Sum types / VAVR List</h2>
-					</section>
-					-->
 					<section>
 						<h2>Product types</h2>
 						<ul>
@@ -497,29 +479,6 @@
 							a function h: g(f(x)) which maps X → Z.
 						</p>
 					</section>
-					<!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Composition
-
-							``` java
-/*
-f(x) = x + 1
-f(x,y) = x + y
-f(a,b,c,x) = a * x^2 + b*x + c
-*/
-
-Function1<BigInteger, BigInteger>
-	fx = x -> x.add(BigInteger.ONE);
-Function2<BigInteger, BigInteger, BigInteger>
-	fxy = (x, y) -> x.add(y);
-Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
-	fabcx = (a, b, c, x) -> a.multiply(x.pow(2)).add(b.multiply(x)).add(c);
-
-							```
-						</script>
-					</section>
-					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functors / Composition
@@ -702,37 +661,8 @@ Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
 								```
 						</script>
 					</section>
+				-->
 				</section>
-
-				<!--
-                                <section data-background="#FFFFFF">
-
-
-                                    <section>
-                                        <h2>Why?</h2>
-                                        <p>
-                Recurrent problems:
-                                        </p>
-                                        <ul>
-                                            <li>Concurrency issues</li>
-                                            <li>Large methods in legacy repositories</li>
-                                            <li>@ControllerAdvice is another GOTO</li>
-                                        </ul>
-                                    </section>
-
-                                </section>
-                                -->
-
-<!--
-Initial questions:
-
-- Developers using Java 11?
-- Developers using Java 8?
-- Developers using Streams?
-- Developers using Functional Interfaces?
-- Do you use Optional in the daily job?
--->
-
 
 				<section data-background="#FFFFFF">
 					<section>
