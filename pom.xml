@@ -20,7 +20,6 @@
 	<modules>
 		<module>problems</module>
 		<module>training</module>
-		<module>demo</module>
 	</modules>
 
 	<properties>
