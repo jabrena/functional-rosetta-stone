@@ -96,10 +96,11 @@
                         <li>Market context</li>
                         <li>Why?</li>
                         -->
+						<li>Adding VAVR in your classpath/module list</li>
                         <li>Functional programming concepts</li>
                         <li>What are the limits with Java 8+?</li>
                         <li>Functional patterns</li>
-                        <li>VAVR</li>
+
                         <!--
 
                         <li>Functional testing</li>
@@ -167,6 +168,542 @@
 						</ol>
 					</section>
 				</section>
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>VAVR</h2>
+						<ul>
+							<li>About</li>
+							<li>Maven dependency</li>
+							<li>Architecture</li>
+							<li>Algebraic Data Types (ADTs)</li>
+							<li>Product Types</li>
+							<li>Sum Types</li>
+							<li>Functors</li>
+							<!-- <li>Immutable collections</li> -->
+						</ul>
+					</section>
+					<section>
+						<h2>About</h2>
+						<p>
+							VAVR is a functional library for Java 8+ that provides persistent data types
+							and functional control structures.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Maven dependency
+
+							https://mvnrepository.com/artifact/io.vavr/vavr/0.10.2
+							``` xml
+							<dependency>
+								<groupId>io.vavr</groupId>
+								<artifactId>vavr</artifactId>
+								<version>0.10.2</version>
+							</dependency>
+							```
+							(876 KB)
+						</script>
+					</section>
+					<!--
+					<section>
+						<h2>Architecture</h2>
+						<h3>VAVR 0.10.0</h3>
+						<img src="images/vavr_architecture_initial_1.png" />
+					</section>
+					<section>
+						<h2>Architecture</h2>
+						<h3>VAVR 0.10.0</h3>
+						<img src="images/vavr_architecture_initial_2.png" />
+					</section>
+					-->
+					<section>
+						<h2>Architecture</h2>
+						<h3>VAVR 1.0.0</h3>
+						<img src="images/vavr_architecture.jpg" width="80%" />
+					</section>
+					<section>
+						<h2>Architecture</h2>
+						<img src="images/vavr-modules.png" width="40%" />
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<p>
+							Algebraic Data Types, or ADTs for short, are powerful in representing the data model
+							in a concise and transparent way.
+						</p>
+						<ul>
+							<li>Sum types</li>
+							<li>Product types</li>
+						</ul>
+						<!--
+                        To understand the concept
+                        https://slides.com/mariusju/adts/fullscreen#/
+                        https://www.slideshare.net/debasishg/qconny-12/
+                        https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
+                        -->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Sum types</h3>
+						<p>
+							Sum types can be seen as types that capture state.
+							technically, they are formed by a sealed base interface and two or more final implementations.
+						</p>
+						<ul>
+							<li>Option</li>
+							<li>Either</li>
+							<li>Try</li>
+							<li>VAVR Stream</li>
+							<li>VAVR List</li>
+						</ul>
+						<!--
+                        (Think this or that, a boolean OR.)
+
+                        Enums are the closest thing to sum types in an OO language.
+                        Enums can express variants, but can’t associate data with the different cases.
+                        -->
+					</section>
+					<section>
+						<h2>Algebraic Data Types (ADTs)</h2>
+						<h3>Product types</h3>
+						<p>
+							Product types are different, they cannot have different states.
+							The values can be seen as indexed values.
+						</p>
+						<ul>
+							<li>Tuple</li>
+						</ul>
+						<!--
+                        (Think this and that, a boolean AND.)
+                        Classes in an OO language are also examples of product types.
+                        -->
+					</section>
+					<section>
+						<h2>Sum types</h2>
+						<ul>
+							<li>Option</li>
+							<li>Either</li>
+							<li>Try</li>
+							<li>VAVR Stream</li>
+							<li>VAVR List</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Sum types / Option</h2>
+						<p>
+							Option is a monadic container type which represents an optional value.
+							Instances of Option are either an instance of Option.Some
+							or the singleton Option.None.
+						</p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Option.html" target="_blank">Javadocs</a>
+					</section>
+					<section>
+						<h2>Sum types / Option</h2>
+						<img src="./images/option.png" />
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Option
+
+							``` java
+							@Test
+							public void optionTest1() {
+							Option<String> noneOption = Option.of(null);
+								Option<String> someOption = Option.of("val");
+
+									then(noneOption).isEqualTo(Option.none());
+									then(someOption).isEqualTo(Option.some("val"));
+									}
+
+									```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Option
+
+							``` java
+							@Test
+							public void optionTest2() {
+							String name = null;
+							Option<String> nameOption = Option.of(name);
+
+								then(nameOption.getOrElse("string")).isEqualTo("string");
+								}
+
+								```
+						</script>
+					</section>
+					<section>
+						<h2>Sum types / Either</h2>
+						<p>
+							Either represents a value of two possible types.
+							An Either is either a Either.Left or a  Either.Right.
+						</p>
+						<p>
+							By convention, the Left signifies a failure case result
+							and the Right signifies a success.
+						</p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Either.html" target="_blank">Javadocs</a>
+					</section>
+					<section>
+						<h2>Sum types / Either</h2>
+						<img src="./images/either.png" />
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Either
+
+							``` java
+							Either<String, Integer> examValidation(int result) {
+							if (result < 50) {
+							return Either.left("Result not acceptable");
+							} else {
+							return Either.right(result);
+							}
+							}
+
+							@Test
+							public void given_someExamResults_when_validate_then_expectedResults() {
+
+							then(examValidation(49).isLeft()).isTrue();
+							then(examValidation(50).isLeft()).isFalse();
+							then(examValidation(50).isRight()).isTrue();
+							then(examValidation(60).isRight()).isTrue();
+							}
+
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Sum types / Try</h2>
+						<p>
+							The Try control gives us the ability write safe code without
+							focusing on try-catch blocks in the presence of exceptions.
+						</p>
+						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Try.html" target="_blank">Javadocs</a>
+					</section>
+					<section>
+						<h2>Sum types / Try</h2>
+						<img src="./images/try.png" />
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Try
+
+							``` java
+							@Test
+							public void given_unsafeMethod_when_executeMethod_thenKataKrokerTest() {
+
+							Function2<Integer, Integer, Integer> unsafeDivide =
+							(a, b) -> a / b;
+							Try<Integer> result =
+								Try.of(() -> unsafeDivide.apply(1, 0));
+
+								then(result.isFailure()).isTrue();
+								}
+
+								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Sum types / Try
+
+							``` java
+							@Test
+							public void given_unsafeMethod_when_executeMethod_thenSameKataKrokerBehaviourTest() {
+
+							Function2<Integer, Integer, Integer> unsafeDivide =
+							(a, b) -> a / b;
+							Try<Integer> result =
+								Try.of(() -> unsafeDivide.apply(1, 0));
+								result.getOrElse(-1);
+
+								then(result.isFailure()).isTrue();
+								}
+
+								```
+						</script>
+					</section>
+					<!--
+					<section>
+						<h2>Sum types / VAVR Stream</h2>
+					</section>
+					<section>
+						<h2>Sum types / VAVR List</h2>
+					</section>
+					-->
+					<section>
+						<h2>Product types</h2>
+						<ul>
+							<li>Tuple</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Product types / Tuple
+
+							``` java
+							// (Java, 8)
+							Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
+
+							// "Java"
+							String s = java8._1;
+
+							// 8
+							Integer i = java8._2;
+
+							Tuple2<String, Integer> that = java8.map(
+							s -> s.substring(2) + "vr",
+							i -> i / 8
+							);
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Functors</h2>
+						<p>
+							Functional programming is all about values and transformation of values using functions.
+							Java 8 just provides a Function which accepts one parameter and a BiFunction which accepts two parameters.
+							Vavr provides functions up to a limit of 8 parameters.
+							The functional interfaces are of called Function0, Function1, Function2, Function3 and so on.
+							If you need a function which throws a checked exception you can use CheckedFunction1, CheckedFunction2 and so on.
+						</p>
+					</section>
+
+					<section>
+						<h2>Functors</h2>
+						<p>
+							In fact Vavr functional interfaces are Java 8 functional interfaces on steroids.
+							They also provide features like:
+						</p>
+						<ul>
+							<li>Composition</li>
+							<li>Lifting</li>
+							<li>Partial application</li>
+							<li>Currying</li>
+							<li>Memoization</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Functors / Composition</h2>
+						<p>
+							You can compose functions.
+							In mathematics, function composition is the application of one function to the result of another
+							to produce a third function.
+							For instance, the functions f : X → Y and g : Y → Z can be composed to yield
+							a function h: g(f(x)) which maps X → Z.
+						</p>
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Composition
+
+							``` java
+/*
+f(x) = x + 1
+f(x,y) = x + y
+f(a,b,c,x) = a * x^2 + b*x + c
+*/
+
+Function1<BigInteger, BigInteger>
+	fx = x -> x.add(BigInteger.ONE);
+Function2<BigInteger, BigInteger, BigInteger>
+	fxy = (x, y) -> x.add(y);
+Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
+	fabcx = (a, b, c, x) -> a.multiply(x.pow(2)).add(b.multiply(x)).add(c);
+
+							```
+						</script>
+					</section>
+					-->
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Composition
+
+							``` java
+							@Test
+							public void andThenTest() {
+
+							Function1<Integer, Integer> plusOne =
+							a -> a + 1;
+							Function1<Integer, Integer> multiplyByTwo =
+							a -> a * 2;
+							Function1<Integer, Integer> add1AndMultiplyBy2 =
+							plusOne.andThen(multiplyByTwo);
+
+							then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Composition
+
+							``` java
+							@Test
+							public void composeTest() {
+
+							Function1<Integer, Integer> plusOne =
+							a -> a + 1;
+							Function1<Integer, Integer> multiplyByTwo =
+							a -> a * 2;
+							Function1<Integer, Integer> add1AndMultiplyBy2 =
+							multiplyByTwo.compose(plusOne);
+
+							then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+							}
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Functors / Lifting</h2>
+						<p>
+							The term partial function comes from mathematics.
+							A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X.
+							It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y.
+							That means a partial function works properly only for some input values.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+							@Test
+							public void liftExample1Test() {
+
+							Function2<Integer, Integer, Integer> divide =
+							(a, b) -> a / b;
+							Function2<Integer, Integer, Option<Integer>> safeDivide =
+								Function2.lift(divide);
+
+								Option<Integer> d1 = safeDivide.apply(1, 0);
+									Option<Integer> d2 = safeDivide.apply(4, 2);
+
+										then(d1).isEqualTo(Option.none());
+										then(d2).isEqualTo(Option.some(2));
+										}
+										```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+							Function2<Integer, Integer, Integer> sum = (first, second) -> {
+							if (first < 0 || second < 0) {
+							throw new IllegalArgumentException("Only positive integers are allowed");
+							}
+							return first + second;
+							};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+							@Test
+							public void liftExample2Test() {
+
+							Function2<Integer, Integer, Option<Integer>> sumSafe =
+								Function2.lift(sum);
+
+								Option<Integer> s1 = sumSafe.apply(-1, 2);
+									Option<Integer> s2 = sumSafe.apply(1, 2);
+
+										then(s1).isEqualTo(Option.none());
+										then(s2).isEqualTo(Option.some(3));
+										}
+										```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Lifting
+
+							``` java
+							@Test
+							public void liftExample3Test() {
+
+							long validSumCounter = IntStream.iterate(-5, i -> i + 1)
+							.takeWhile(i -> i < 10)
+							.mapToObj(i -> sumSafe.apply(i, 1))
+							.filter(Option::isDefined)
+							.peek(System.out::println)
+							.count();
+
+							then(validSumCounter).isEqualTo(10);
+							}
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Functors / Partial application</h2>
+						<p>
+							Partial application allows you to derive a new function from an existing one by fixing some values.
+							You can fix one or more parameters, and the number of fixed parameters defines the arity of
+							the new function such that new arity = (original arity - fixed parameters).
+							The parameters are bound from left to right.
+						</p>
+					</section>
+					<section>
+						<h2>Functors / Currying</h2>
+						<p>
+							Currying is a technique to partially apply a function by fixing a value for one of the parameters,
+							resulting in a Function1 function that returns a Function1.
+							When a Function2 is curried, the result is indistinguishable from the partial application
+							of a Function2 because both result in a 1-arity function.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Currying
+
+							``` java
+							Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+							Function1<Integer, Integer> add2 = sum.curried().apply(2);
+
+							then(add2.apply(4)).isEqualTo(6);
+
+							Function3<Integer, Integer, Integer, Integer> sum = (a, b, c) -> a + b + c;
+							final Function1<Integer, Function1<Integer, Integer>> add2 = sum.curried().apply(2);
+
+							then(add2.apply(4).apply(3)).isEqualTo(9);
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Functors / Memoization</h2>
+						<p>
+							Memoization is a form of caching.
+							A memoized function executes only once and then returns the result from a cache.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functors / Memoization
+
+							``` java
+							Function0<Double> hashCache =
+								Function0.of(Math::random).memoized();
+
+								double randomValue1 = hashCache.apply();
+								double randomValue2 = hashCache.apply();
+
+								then(randomValue1).isEqualTo(randomValue2);
+								```
+						</script>
+					</section>
+				</section>
+
 				<!--
                                 <section data-background="#FFFFFF">
 
@@ -555,8 +1092,8 @@ System.out.println(distinct);
 							<li>Functional Interfaces</li>
 							<li>Stream operators</li>
 							<li>Optional</li>
-							<!-- <li>CompletableFuture</li> -->
-							<li>Tuples</li>
+							<li>CompletableFuture</li>
+							<!-- <li>Tuples</li>-->
 						</ul>
 					</section>
 					<section>
@@ -1197,542 +1734,6 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
                             ```
                         </script>
                     </section>
-				</section>
-
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>VAVR</h2>
-						<ul>
-							<li>About</li>
-							<li>Maven dependency</li>
-							<li>Architecture</li>
-							<li>Algebraic Data Types (ADTs)</li>
-							<li>Product Types</li>
-							<li>Sum Types</li>
-							<li>Functors</li>
-							<li>Immutable collections</li>
-							<li>Alternatives</li>
-						</ul>
-					</section>
-					<section>
-						<h2>About</h2>
-						<p>
-VAVR is a functional library for Java 8+ that provides persistent data types
-and functional control structures.
-						</p>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Maven dependency
-
-							https://mvnrepository.com/artifact/io.vavr/vavr/0.10.2
-							``` xml
-<dependency>
-	<groupId>io.vavr</groupId>
-	<artifactId>vavr</artifactId>
-	<version>0.10.2</version>
-</dependency>
-							```
-							(876 KB)
-						</script>
-					</section>
-					<!--
-					<section>
-						<h2>Architecture</h2>
-						<h3>VAVR 0.10.0</h3>
-						<img src="images/vavr_architecture_initial_1.png" />
-					</section>
-					<section>
-						<h2>Architecture</h2>
-						<h3>VAVR 0.10.0</h3>
-						<img src="images/vavr_architecture_initial_2.png" />
-					</section>
-					-->
-					<section>
-						<h2>Architecture</h2>
-						<h3>VAVR 1.0.0</h3>
-						<img src="images/vavr_architecture.jpg" width="80%" />
-					</section>
-					<section>
-						<h2>Architecture</h2>
-						<img src="images/vavr-modules.png" width="40%" />
-					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<p>
-							Algebraic Data Types, or ADTs for short, are powerful in representing the data model
-							in a concise and transparent way.
-						</p>
-						<ul>
-							<li>Sum types</li>
-							<li>Product types</li>
-						</ul>
-						<!--
-                        To understand the concept
-                        https://slides.com/mariusju/adts/fullscreen#/
-                        https://www.slideshare.net/debasishg/qconny-12/
-                        https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
-                        -->
-					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<h3>Sum types</h3>
-						<p>
-							Sum types can be seen as types that capture state.
-							technically, they are formed by a sealed base interface and two or more final implementations.
-						</p>
-						<ul>
-							<li>Option</li>
-							<li>Either</li>
-							<li>Try</li>
-							<li>VAVR Stream</li>
-							<li>VAVR List</li>
-						</ul>
-						<!--
-                        (Think this or that, a boolean OR.)
-
-                        Enums are the closest thing to sum types in an OO language.
-                        Enums can express variants, but can’t associate data with the different cases.
-                        -->
-					</section>
-					<section>
-						<h2>Algebraic Data Types (ADTs)</h2>
-						<h3>Product types</h3>
-						<p>
-							Product types are different, they cannot have different states.
-							The values can be seen as indexed values.
-						</p>
-						<ul>
-							<li>Tuple</li>
-						</ul>
-						<!--
-                        (Think this and that, a boolean AND.)
-                        Classes in an OO language are also examples of product types.
-                        -->
-					</section>
-					<section>
-						<h2>Sum types</h2>
-						<ul>
-							<li>Option</li>
-							<li>Either</li>
-							<li>Try</li>
-							<li>VAVR Stream</li>
-							<li>VAVR List</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Sum types / Option</h2>
-						<p>
-Option is a monadic container type which represents an optional value.
-Instances of Option are either an instance of Option.Some
-or the singleton Option.None.
-						</p>
-						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Option.html" target="_blank">Javadocs</a>
-					</section>
-					<section>
-						<h2>Sum types / Option</h2>
-						<img src="./images/option.png" />
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Sum types / Option
-
-							``` java
-@Test
-public void optionTest1() {
-	Option<String> noneOption = Option.of(null);
-	Option<String> someOption = Option.of("val");
-
-	then(noneOption).isEqualTo(Option.none());
-	then(someOption).isEqualTo(Option.some("val"));
-}
-
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Sum types / Option
-
-							``` java
-@Test
-public void optionTest2() {
-	String name = null;
-	Option<String> nameOption = Option.of(name);
-
-	then(nameOption.getOrElse("string")).isEqualTo("string");
-}
-
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Sum types / Either</h2>
-                        <p>
-Either represents a value of two possible types.
-An Either is either a Either.Left or a  Either.Right.
-						</p>
-						<p>
-By convention, the Left signifies a failure case result
-and the Right signifies a success.
-                        </p>
-						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Either.html" target="_blank">Javadocs</a>
-                    </section>
-                    <section>
-                        <h2>Sum types / Either</h2>
-                        <img src="./images/either.png" />
-                    </section>
-					<section data-markdown>
-						<script type="text/template">
-							## Sum types / Either
-
-							``` java
-Either<String, Integer> examValidation(int result) {
-	if (result < 50) {
-		return Either.left("Result not acceptable");
-	} else {
-		return Either.right(result);
-	}
-}
-
-@Test
-public void given_someExamResults_when_validate_then_expectedResults() {
-
-	then(examValidation(49).isLeft()).isTrue();
-	then(examValidation(50).isLeft()).isFalse();
-	then(examValidation(50).isRight()).isTrue();
-	then(examValidation(60).isRight()).isTrue();
-}
-
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Sum types / Try</h2>
-						<p>
-The Try control gives us the ability write safe code without
-focusing on try-catch blocks in the presence of exceptions.
-						</p>
-						<a href="https://static.javadoc.io/io.vavr/vavr/0.10.0/io/vavr/control/Try.html" target="_blank">Javadocs</a>
-					</section>
-					<section>
-						<h2>Sum types / Try</h2>
-						<img src="./images/try.png" />
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Sum types / Try
-
-							``` java
-@Test
-public void given_unsafeMethod_when_executeMethod_thenKataKrokerTest() {
-
-	Function2<Integer, Integer, Integer> unsafeDivide =
-		(a, b) -> a / b;
-	Try<Integer> result =
-		Try.of(() -> unsafeDivide.apply(1, 0));
-
-	then(result.isFailure()).isTrue();
-}
-
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Sum types / Try
-
-							``` java
-@Test
-public void given_unsafeMethod_when_executeMethod_thenSameKataKrokerBehaviourTest() {
-
-	Function2<Integer, Integer, Integer> unsafeDivide =
-		(a, b) -> a / b;
-	Try<Integer> result =
-		Try.of(() -> unsafeDivide.apply(1, 0));
-	result.getOrElse(-1);
-
-	then(result.isFailure()).isTrue();
-}
-
-							```
-						</script>
-					</section>
-					<!--
-					<section>
-						<h2>Sum types / VAVR Stream</h2>
-					</section>
-					<section>
-						<h2>Sum types / VAVR List</h2>
-					</section>
-					-->
-					<section>
-						<h2>Product types</h2>
-						<ul>
-							<li>Tuple</li>
-						</ul>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Product types / Tuple
-
-							``` java
-// (Java, 8)
-Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
-
-// "Java"
-String s = java8._1;
-
-// 8
-Integer i = java8._2;
-
-Tuple2<String, Integer> that = java8.map(
-	s -> s.substring(2) + "vr",
-	i -> i / 8
-);
-								```
-						</script>
-					</section>
-					<section>
-						<h2>Functors</h2>
-						<p>
-Functional programming is all about values and transformation of values using functions.
-Java 8 just provides a Function which accepts one parameter and a BiFunction which accepts two parameters.
-Vavr provides functions up to a limit of 8 parameters.
-The functional interfaces are of called Function0, Function1, Function2, Function3 and so on.
-If you need a function which throws a checked exception you can use CheckedFunction1, CheckedFunction2 and so on.
-						</p>
-					</section>
-
-					<section>
-						<h2>Functors</h2>
-						<p>
-In fact Vavr functional interfaces are Java 8 functional interfaces on steroids.
-They also provide features like:
-						</p>
-						<ul>
-							<li>Composition</li>
-							<li>Lifting</li>
-							<li>Partial application</li>
-							<li>Currying</li>
-							<li>Memoization</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Functors / Composition</h2>
-						<p>
-You can compose functions.
-In mathematics, function composition is the application of one function to the result of another
-to produce a third function.
-For instance, the functions f : X → Y and g : Y → Z can be composed to yield
-a function h: g(f(x)) which maps X → Z.
-						</p>
-					</section>
-					<!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Composition
-
-							``` java
-/*
-f(x) = x + 1
-f(x,y) = x + y
-f(a,b,c,x) = a * x^2 + b*x + c
-*/
-
-Function1<BigInteger, BigInteger>
-	fx = x -> x.add(BigInteger.ONE);
-Function2<BigInteger, BigInteger, BigInteger>
-	fxy = (x, y) -> x.add(y);
-Function4<BigInteger, BigInteger, BigInteger, BigInteger, BigInteger>
-	fabcx = (a, b, c, x) -> a.multiply(x.pow(2)).add(b.multiply(x)).add(c);
-
-							```
-						</script>
-					</section>
-					-->
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Functors / Composition
-
-                            ``` java
-@Test
-public void andThenTest() {
-
-    Function1<Integer, Integer> plusOne =
-        a -> a + 1;
-    Function1<Integer, Integer> multiplyByTwo =
-        a -> a * 2;
-    Function1<Integer, Integer> add1AndMultiplyBy2 =
-        plusOne.andThen(multiplyByTwo);
-
-    then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
-}
-                            ```
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Functors / Composition
-
-                            ``` java
-@Test
-public void composeTest() {
-
-    Function1<Integer, Integer> plusOne =
-        a -> a + 1;
-    Function1<Integer, Integer> multiplyByTwo =
-        a -> a * 2;
-    Function1<Integer, Integer> add1AndMultiplyBy2 =
-        multiplyByTwo.compose(plusOne);
-
-    then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
-}
-                            ```
-                        </script>
-                    </section>
-					<section>
-						<h2>Functors / Lifting</h2>
-						<p>
-The term partial function comes from mathematics.
-A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X.
-It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y.
-That means a partial function works properly only for some input values.
-						</p>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Lifting
-
-							``` java
-@Test
-public void liftExample1Test() {
-
-	Function2<Integer, Integer, Integer> divide =
-							(a, b) -> a / b;
-	Function2<Integer, Integer, Option<Integer>> safeDivide =
-							Function2.lift(divide);
-
-	Option<Integer> d1 = safeDivide.apply(1, 0);
-	Option<Integer> d2 = safeDivide.apply(4, 2);
-
-	then(d1).isEqualTo(Option.none());
-	then(d2).isEqualTo(Option.some(2));
-}
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Lifting
-
-							``` java
-Function2<Integer, Integer, Integer> sum = (first, second) -> {
-	if (first < 0 || second < 0) {
-		throw new IllegalArgumentException("Only positive integers are allowed");
-	}
-	return first + second;
-};
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Lifting
-
-							``` java
-@Test
-public void liftExample2Test() {
-
-	Function2<Integer, Integer, Option<Integer>> sumSafe =
-		Function2.lift(sum);
-
-	Option<Integer> s1 = sumSafe.apply(-1, 2);
-	Option<Integer> s2 = sumSafe.apply(1, 2);
-
-	then(s1).isEqualTo(Option.none());
-	then(s2).isEqualTo(Option.some(3));
-}
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Lifting
-
-							``` java
-@Test
-public void liftExample3Test() {
-
-	long validSumCounter = IntStream.iterate(-5, i -> i + 1)
-		.takeWhile(i -> i < 10)
-		.mapToObj(i -> sumSafe.apply(i, 1))
-		.filter(Option::isDefined)
-		.peek(System.out::println)
-		.count();
-
-	then(validSumCounter).isEqualTo(10);
-}
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Functors / Partial application</h2>
-						<p>
-Partial application allows you to derive a new function from an existing one by fixing some values.
-You can fix one or more parameters, and the number of fixed parameters defines the arity of
-the new function such that new arity = (original arity - fixed parameters).
-The parameters are bound from left to right.
-						</p>
-					</section>
-					<section>
-						<h2>Functors / Currying</h2>
-						<p>
-Currying is a technique to partially apply a function by fixing a value for one of the parameters,
-resulting in a Function1 function that returns a Function1.
-When a Function2 is curried, the result is indistinguishable from the partial application
-of a Function2 because both result in a 1-arity function.
-						</p>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Currying
-
-							``` java
-Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
-Function1<Integer, Integer> add2 = sum.curried().apply(2);
-
-then(add2.apply(4)).isEqualTo(6);
-
-Function3<Integer, Integer, Integer, Integer> sum = (a, b, c) -> a + b + c;
-final Function1<Integer, Function1<Integer, Integer>> add2 = sum.curried().apply(2);
-
-then(add2.apply(4).apply(3)).isEqualTo(9);
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Functors / Memoization</h2>
-						<p>
-Memoization is a form of caching.
-A memoized function executes only once and then returns the result from a cache.
-						</p>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functors / Memoization
-
-							``` java
-Function0<Double> hashCache =
-Function0.of(Math::random).memoized();
-
-double randomValue1 = hashCache.apply();
-double randomValue2 = hashCache.apply();
-
-then(randomValue1).isEqualTo(randomValue2);
-							```
-						</script>
-					</section>
 				</section>
 <!--
 				<section data-background="#FFFFFF">
