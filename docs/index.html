@@ -1017,8 +1017,16 @@ System.out.println(distinct);
 					<section>
 						<h2>Monads</h2>
 						<p>
-							A monad is a parameterised type.
+							A monad has 3 features:
 						</p>
+						<ul>
+							<li>a parameterized type M< T ></li>
+							<li>a “unit” function T -> M< T ></li>
+							<li>a “bind” operation: M< T > bind T -> M< U > = M < U > </li>
+						</ul>
+
+						<p>Every monad need to pass the 3 Monad laws:</p>
+
 						<ul>
 							<li>Left Identity</li>
 							<li>Right Identity</li>
@@ -1032,9 +1040,9 @@ System.out.println(distinct);
 							An effect is the thing a monad handles
 						</p>
 						<ul>
-							<li>Option is a monad that models the effect of optionality (of something being optional)</li>
-							<li>Future is a monad that models latency as an effect</li>
-							<li>Try is a monad that models the effect of failures (manages exceptions as effects)</li>
+							<li><strong>Option</strong> is a monad that models the effect of optionality (of something being optional)</li>
+							<li><strong>Future</strong> is a monad that models latency as an effect</li>
+							<li><strong>Try</strong> is a monad that models the effect of failures (manages exceptions as effects)</li>
 						</ul>
 					</section>
 					<section>
