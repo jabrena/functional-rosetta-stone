@@ -30,8 +30,7 @@ import java.util.stream.LongStream;
 public class EulerProblem26 {
 
     public long javaStreamSolution(long limit) {
-        return Long.parseLong(LongStream.rangeClosed(1, limit)
-                .boxed()
+        return Long.parseLong(LongStream.rangeClosed(1, limit).boxed()
                 .skip(1)
                 .map(l -> new BigDecimal(l))
                 .map(bd -> BigDecimal.ONE.divide(bd, MathContext.DECIMAL64))

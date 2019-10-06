@@ -21,8 +21,9 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Names score
- * Problem 22
+ * Problem 22: Names score
+ * https://projecteuler.net/problem=22
+ *
  * Using names.txt (right click and 'Save Link/Target As...'), a 46K text file
  * containing over five-thousand first names, begin by sorting it into alphabetical order.
  * Then working out the alphabetical value for each name, multiply this value by its alphabetical position
@@ -51,7 +52,6 @@ public class EulerProblem22 {
     Function<List<String>, List<Tuple2>> addIndex = list -> {
 
         AtomicInteger index = new AtomicInteger(0);
-        //io.vavr.collection.List<Tuple2<Integer, String>> collect =
 
         return Stream.of(list)
                 .map(s -> new Tuple2(index.incrementAndGet(), String.valueOf(s)))
@@ -76,7 +76,11 @@ public class EulerProblem22 {
             .reduce(0L, Long::sum);
 
     public long javaStreamSolution() {
-        return loadFile.andThen(addIndex).andThen(sum).apply("euler/p022_names.txt");
+
+        return loadFile
+                .andThen(addIndex)
+                .andThen(sum)
+                .apply("euler/p022_names.txt");
     }
 
     public long VAVRSolution() {

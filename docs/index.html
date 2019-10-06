@@ -104,7 +104,7 @@ Initial questions:
                         <li>Market context</li>
                         <li>Why?</li>
                         -->
-						<li>Adding VAVR in your classpath/module list</li>
+						<li>VAVR Intro</li>
                         <li>Functional programming concepts</li>
                         <li>What are the limits with Java 8+?</li>
                         <li>Functional patterns</li>
@@ -169,7 +169,9 @@ Initial questions:
 					-->
 					<section>
 						<h2>Goals</h2>
+						<p>
                         I wish the audience could:
+						</p>
 						<ol>
 							<li>Design with better Types</li>
 							<li>Use functional composition in the daily job</li>
@@ -185,6 +187,7 @@ Initial questions:
 							<li>About</li>
 							<li>Maven dependency</li>
 							<li>Architecture</li>
+							<li>Packages</li>
 							<!--
 							<li>Algebraic Data Types (ADTs)</li>
 							<li>Product Types</li>
@@ -222,8 +225,13 @@ Initial questions:
 						<img src="images/vavr_architecture.jpg" width="80%" />
 					</section>
 					<section>
-						<h2>Architecture</h2>
-						<img src="images/vavr-modules.png" width="40%" />
+						<h2>Packages</h2>
+						<ul>
+							<li><strong>vavr.core: </strong>Tuple0-8, Function0-8, CheckedFunction0-8, Lazy</li>
+							<li><strong>vavr.control: </strong>Option, Try, Either, Validation</li>
+							<li>vavr.collection: Seq, Map, Set</li>
+							<li>vavr.concurrency: Future</li>
+						</ul>
 					</section>
 <!--
 To understand the concept
@@ -748,7 +756,6 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 							<tr>
 								<td>Lazy</td>
 								<td>Refers to the delaying of the evaluation of an operation until it is needed.
-									Lazy evaluation support infinite streams.
 								</td>
 							</tr>
 							<tr>
@@ -765,22 +772,39 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 
 							``` java
 System.out.println("First");
-Integer eager = List.of(1,2,3).stream()
-	.peek(System.out::println)
+List<Integer> list = List.of(1,2,3);
+Consumer<Integer> print = System.out::println;
+	Integer eager = list.stream()
+	.peek(print)
 	.reduce(0, (i1, i2) -> i1 + i2); // eager
 
 System.out.println("Second");
-Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
-	.peek(System.out::println)
+Supplier<Integer> lazy = () -> list.stream()
+	.peek(print)
 	.reduce(0, (i1, i2) -> i1 + i2); // lazy
 
-	System.out.println(eager);
-	System.out.println(lazy.get());
+then(eager).isEqualTo(lazy.get());
 
 							```
 						</script>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
 
+							``` java
+Lazy<Double> lazy = Lazy.of(Math::random);
+then(lazy.isEvaluated()).isFalse();
+
+double val1 = lazy.get();
+then(lazy.isEvaluated()).isTrue();
+
+double val2 = lazy.get();
+then(val1).isEqualTo(val2);
+
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Mutable vs Immutable</h2>
 						<img src="./images/javaCollection.png">
@@ -791,22 +815,45 @@ Supplier<Integer> lazy = () -> List.of(1,2,3).stream()
 							## Mutable vs Immutable
 
 							``` java
-							Supplier<List<Integer>> retrieveList = () -> List.of(1, 2, 3)
-								.stream()
-								.peek(System.out::println)
-								.collect(toUnmodifiableList()); //Java 10
-								//.collect(Collectors.collectingAndThen(
-								//    Collectors.toList(),
-								//    x -> Collections.unmodifiableList(x))); // Java 8
+var list = java.util.List.of(1, 2, 3).stream()
+	.peek(System.out::println)
+	.collect(toUnmodifiableList()); //Java 10
+	//.collect(Collectors.collectingAndThen(
+	//    Collectors.toList(),
+	//    x -> Collections.unmodifiableList(x))); // Java 8
 
-								var list = retrieveList.get();
-								list.add(1); //Katacroker
+Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+	list.add(1); //Katacroker
+});
+
 								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var animals = io.vavr.collection.List.of("🐱", "🐶");
+animals.append("🐕");
+
+then(animals.size()).isEqualTo(2);
+
+animals = animals.append("🐕");
+
+then(animals.size()).isEqualTo(3);
+
+							```
 						</script>
 					</section>
 					<section>
 						<h2>Equational reasoning</h2>
-						<img src="./images/equationalReasoning.jpg">
+						<p>
+							Building a formal model of a program's algorithm,
+							reasoning about the behavior of the formal model using its axioms,
+							and proving that the program matches the model.
+						</p>
+						<img src="./images/equationalReasoning.jpg" width="40%">
 					</section>
 					<section data-markdown>
 						<script type="text/template">

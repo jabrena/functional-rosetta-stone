@@ -1,11 +1,13 @@
 package org.fundamentals.fp.playground.vavr;
 
 import io.vavr.Lazy;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.BDDAssertions.then;
 
 /**
  *
@@ -16,14 +18,33 @@ import static org.junit.Assert.assertTrue;
 public class LazyTest {
 
     @Test
-    public void givenFunction_whenEvaluatesWithLazy_thenCorrect() {
+    public void given_JavaLazy_when_executeMultipleTimes_then_processExecutedTest() {
+
+        System.out.println("First");
+        List<Integer> list = List.of(1,2,3);
+        Consumer<Integer> print = System.out::println;
+        Integer eager = list.stream()
+                .peek(print)
+                .reduce(0, (i1, i2) -> i1 + i2); // eager
+
+        System.out.println("Second");
+        Supplier<Integer> lazy = () -> list.stream()
+                .peek(print)
+                .reduce(0, (i1, i2) -> i1 + i2); // lazy
+
+        then(eager).isEqualTo(lazy.get());
+    }
+
+    @Test
+    public void given_Lazy_when_executeMultipleTimes_then_memoizedResultTest() {
+
         Lazy<Double> lazy = Lazy.of(Math::random);
-        assertFalse(lazy.isEvaluated());
+        then(lazy.isEvaluated()).isFalse();
 
         double val1 = lazy.get();
-        assertTrue(lazy.isEvaluated());
+        then(lazy.isEvaluated()).isTrue();
 
         double val2 = lazy.get();
-        assertEquals(val1, val2, 0.1);
+        then(val1).isEqualTo(val2);
     }
 }
