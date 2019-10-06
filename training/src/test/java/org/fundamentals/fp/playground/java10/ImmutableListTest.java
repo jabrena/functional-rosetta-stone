@@ -34,5 +34,6 @@ public class ImmutableListTest {
         animals = animals.append("🐕");
 
         then(animals.size()).isEqualTo(3);
+        then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
     }
 }
