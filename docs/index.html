@@ -1575,13 +1575,6 @@ public class UserTransaction {
 						<h4>Accuracy with Types used for Object design</h4>
 						<img src="./images/wwii_bunker.jpg" width="50%">
 					</section>
-                    <!--
-					<section>
-						<h2>Type driven development</h2>
-						<h4>Accuracy with Types used for Object design</h4>
-						<img src="./images/diagram1.svg">
-					</section>
-					-->
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Cardinality</h4>
@@ -1682,23 +1675,18 @@ like <strong>Optional</strong> to model optionality in the value returned by a m
 Following the same idea, how to model the Exceptionality? Unfortunately,
 the language doesn't provide any solution in the line of Optional.
 						</p>
+					</section>
+					<section>
+						<h2>Functional error handling</h2>
 						<p>
-How to solve the gap in Java?
+							Alternatives:
 						</p>
+						<ul>
+							<li>Try</li>
+							<li>Either</li>
+							<li>Lifting</li>
+						</ul>
 					</section>
-                    <!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functional error handling
-
-							### Try (Scala)
-							``` scala
-							sealed abstract class Try[+T]
-							```
-						</script>
-					</section>
-					-->
-
                     <section>
                         <h2>Functional error handling</h2>
                         <p>
@@ -1707,27 +1695,6 @@ How to solve the gap in Java?
                         </p>
                         <img src="./images/try.png" />
                     </section>
-                    <!--
-					<section data-markdown>
-						<script type="text/template">
-							## Functional error handling
-
-							### Try API
-							``` java
-Try<U> map(Function<? super T, ? extends U> mapper)
-Try<U> flatMap(Function<? super T, ? extends Try<? extends U>> mapper)
-Try<T> filter(Predicate<? super T> predicate) ...
-
-Try<T> orElse(Try<? extends T> other)
-
-Try<T> onFailure(Consumer<? super Throwable> action)
-Try<T> onSuccess(Consumer<? super T> action)
-
-Try<T> recover(Class<X> exception, T value)
-							```
-						</script>
-					</section>
-					-->
 					<section>
 						<h2>Functional error handling</h2>
 						<p>
@@ -1740,27 +1707,10 @@ Try<T> recover(Class<X> exception, T value)
 							<li>VirtualMachineError (i.e. OutOfMemoryError or StackOverflowError)</li>
 						</ul>
 					</section>
-					<!--
-					<section>
-						<h2>Functional error handling</h2>
-						<ul>
-							<li>Log and throw
-							<li>Declaring that your method throws java.lang.Exception
-							<li>Declaring that your method throws a large variety of exceptions
-							<li>Log and return null
-							<li>Catch and ignore
-							<li>Catching java.lang.Exception
-							<li>Destructive wrapping
-							<li>Throw within finally
-							<li>Relying on getCause()
-						</ul>
-					</section>
-					-->
                     <section data-markdown>
                         <script type="text/template">
                             ## Functional error handling
 
-                            ### Example
                             ``` java
 var result = Try.of(this::bunchOfWork)
     .recover(x -> Match(x).of(
@@ -1775,7 +1725,6 @@ var result = Try.of(this::bunchOfWork)
                     </section>
                     <section>
                         <h2>Functional error handling</h2>
-                        <!-- <h3>Either</h3> -->
                         <p>
                             Either represents a value of two possible types.
                             <!-- An Either is either a Either.Left or a  Either.Right. -->
@@ -1788,7 +1737,6 @@ var result = Try.of(this::bunchOfWork)
                         <script type="text/template">
                             ## Functional error handling
 
-                            ### Example
                             ``` java
 private boolean isValid(String address) {
 
@@ -1806,7 +1754,6 @@ private boolean isValid(String address) {
                         <script type="text/template">
                             ## Functional error handling
 
-                            ### Example
                             ``` java
 public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 
@@ -1824,26 +1771,73 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
                             ```
                         </script>
                     </section>
-				</section>
-<!--
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Property-based testing</h2>
-						<p>
-							Property-based testing
-						</p>
-					</section>
-				</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
 
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Live demo</h2>
-						<p>
-							A live example based on <a href="https://spring.io/blog/2019/04/03/spring-tips-webmvc-fn-the-functional-dsl-for-spring-mvc" target="_blank">WebMvc.fn</a> to ilustrate some examples.
-						</p>
+							``` java
+Function2<Integer, Integer, Integer> divide =
+	(a, b) -> a / b;
+Function2<Integer, Integer, Option<Integer>> safeDivide =
+	Function2.lift(divide);
+
+Option<Integer> d1 = safeDivide.apply(1, 0);
+Option<Integer> d2 = safeDivide.apply(4, 2);
+
+then(d1).isEqualTo(Option.none());
+then(d2).isEqualTo(Option.some(2));
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+Function2<Integer, Integer, Integer> sum = (first, second) -> {
+	if (first < 0 || second < 0) {
+		throw new IllegalArgumentException("Only positive integers are allowed");
+	}
+	return first + second;
+};
+Function2<Integer, Integer, Option<Integer>> sumSafe =
+	Function2.lift(sum);
+
+Option<Integer> s1 = sumSafe.apply(-1, 2);
+Option<Integer> s2 = sumSafe.apply(1, 2);
+
+then(s1).isEqualTo(Option.none());
+then(s2).isEqualTo(Option.some(3));
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+Function2<Integer, Integer, Integer> sum = (first, second) -> {
+	if (first < 0 || second < 0) {
+		throw new IllegalArgumentException("Only positive integers are allowed");
+	}
+	return first + second;
+};
+Function2<Integer, Integer, Option<Integer>> sumSafe =
+		Function2.lift(sum);
+
+long validSumCounter = IntStream.iterate(-5, i -> i + 1)
+	.takeWhile(i -> i < 10)
+	.mapToObj(i -> sumSafe.apply(i, 1))
+	.filter(Option::isDefined)
+	.count();
+then(validSumCounter).isEqualTo(10);
+
+							```
+						</script>
 					</section>
 				</section>
--->
 				<!--
 				<section data-background="#FFFFFF">
 					<section>
@@ -1875,9 +1869,7 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 				<section data-background="#ffffff">
 					<section>
 						<h2>References</h2>
-					</section>
-					<section>
-						<h2>Links</h2>
+						<h4>Links</h4>
 						<ul>
 							<li><a href="https://www.vavr.io/vavr-docs/" target="_blank">VAVR docs</a></li>
 							<li><a href="https://pivovarit.github.io/talks/functional-exception-handling" target="_blank">Functional Exception Handling in Java</a></li>
@@ -1888,7 +1880,8 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 						</ul>
 					</section>
 					<section>
-						<h2>Links</h2>
+						<h2>References</h2>
+						<h4>Links</h4>
 						<ul>
 							<li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html" target="_blank">Functors, Applicatives, And Monads In Pictures</a></li>
 							<li><a href="https://es.slideshare.net/jdegoes/error-management-future-vs-zio" target="_blank">Error Management: Future vs ZIO</a> </li>
@@ -1899,7 +1892,8 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 					</section>
 
 					<section>
-						<h2>Books</h2>
+						<h2>References</h2>
+						<h4>Books</h4>
 						<table>
 							<tr>
 								<td>
@@ -1917,7 +1911,8 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 					</section>
 
 					<section>
-						<h2>Books</h2>
+						<h2>References</h2>
+						<h4>Books</h4>
 						<table>
 							<tr>
 								<td>
@@ -1933,9 +1928,9 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
 							</tr>
 						</table>
 					</section>
-
 					<section>
-						<h2>Books</h2>
+						<h2>References</h2>
+						<h4>Books</h4>
 						<table>
 							<tr>
 								<td>
@@ -1971,9 +1966,9 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
                         <h2>Future talks</h2>
                         <ul>
                             <li>Functional Resilience4J</li>
-							<li>JPMS with Spring Boot</li>
-                            <li>ZIO for Java</li>
+							<li>JPMS for Webflux microservices</li>
 							<li>GraalVM for Webflux microservices</li>
+							<!-- <li>ZIO for Java</li> -->
                         </ul>
                     </section>
                 </section>
