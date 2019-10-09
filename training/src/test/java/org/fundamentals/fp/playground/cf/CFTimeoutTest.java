@@ -1,6 +1,10 @@
 package org.fundamentals.fp.playground.cf;
 
 import io.vavr.control.Try;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +13,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toUnmodifiableList;
+import static org.assertj.core.api.BDDAssertions.then;
 
 @Slf4j
 public class CFTimeoutTest {
@@ -18,7 +24,7 @@ public class CFTimeoutTest {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
 
-        delay(2);
+        delay(3);
 
         return 1;
     }
@@ -37,7 +43,9 @@ public class CFTimeoutTest {
     }
 
     @Test
-    public void timeoutTest() {
+    public void timeoutJava8Test() {
+
+        var TIMEOUT = 2;
 
         CompletableFuture<Integer> cf1 = new CompletableFuture<>()
                 .supplyAsync(this::method1);
@@ -48,17 +56,80 @@ public class CFTimeoutTest {
         var futureRequests = List.of(cf1, cf2);
 
         var list = futureRequests.stream()
-                //.map(CompletableFuture::join)
                 .map(cf -> {
                     try {
-                        return cf.get(1, TimeUnit.SECONDS);
+                        return cf.get(TIMEOUT, TimeUnit.SECONDS);
                     } catch (InterruptedException | ExecutionException | TimeoutException e) {
                         LOGGER.warn(e.getLocalizedMessage(), e);
                         return 99;
                     }
-                }).collect(Collectors.toList());
+                }).collect(toUnmodifiableList());
 
-        list.stream().forEach(System.out::println);
+        then(list).isEqualTo(List.of(99, 1));
+    }
+
+    @Test
+    public void timeoutJava9Test() {
+
+        var TIMEOUT = 2;
+
+        CompletableFuture<Integer> cf1 = new CompletableFuture<>()
+                .supplyAsync(this::method1)
+                .orTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .handle((result, ex) -> {
+                    if(!Objects.isNull(ex)) {
+                        return 99;
+                    }
+                    return result;
+                });
+
+        CompletableFuture<Integer> cf2 = new CompletableFuture<>()
+                .supplyAsync(this::method2)
+                .orTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .handle((result, ex) -> {
+                    if(!Objects.isNull(ex)) {
+                        return 99;
+                    }
+                    return result;
+                });
+
+        var futureRequests = List.of(cf1, cf2);
+
+        var list = futureRequests.stream()
+                .map(CompletableFuture::join)
+                .collect(toUnmodifiableList());
+
+        then(list).isEqualTo(List.of(99, 1));
+    }
+
+    @Test
+    public void timeoutJava9Test2() {
+
+        var TIMEOUT = 2;
+
+        Supplier<Integer> fm1 = () -> method1();
+        Supplier<Integer> fm2 = () -> method2();
+        Function<Supplier<Integer>, CompletableFuture<Integer>> toCF = s ->
+                new CompletableFuture<Integer>()
+                        .supplyAsync(s)
+                        .orTimeout(TIMEOUT, TimeUnit.SECONDS)
+                        .handle((result, ex) -> {
+                            if(!Objects.isNull(ex)) {
+                                return 99;
+                            }
+                            return result;
+                        });
+
+        var futureRequests = List.of(fm1, fm2)
+                .stream()
+                .map(toCF)
+                .collect(Collectors.toUnmodifiableList());
+
+        var list = futureRequests.stream()
+                .map(CompletableFuture::join)
+                .collect(toUnmodifiableList());
+
+        then(list).isEqualTo(List.of(99, 1));
     }
 
 }
