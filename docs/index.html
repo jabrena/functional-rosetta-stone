@@ -771,18 +771,214 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 						<h2>Functional Concepts</h2>
 						<ol>
 							<!-- <li>Programming paradigms</li> -->
+							<li>Eager vs Lazy</li>
+							<li>Mutable vs Immutable</li>
+							<li>Pure vs Impure functions</li>
+							<li>List manipulation</li>
+
 							<li>Equational reasoning</li>
 							<li>Functional composition</li>
 							<li>Referential Transparency</li>
 							<li>Monads</li>
 							<li>Effects</li>
 							<!-- <li>Side effect</li> -->
-							<li>Eager vs Lazy</li>
-							<li>Mutable vs Immutable</li>
-							<li>Pure vs Impure functions</li>
-							<li>List manipulation</li>
+
 						</ol>
 					</section>
+					<section>
+						<h2>Eager vs Lazy</h2>
+						<table>
+							<thead>
+							<tr>
+								<th>Concept</th>
+								<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>Lazy</td>
+								<td>Refers to the delaying of the evaluation of an operation until it is needed.
+								</td>
+							</tr>
+							<tr>
+								<td>Eager</td>
+								<td>An operation is executed as soon as it is encountered.
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
+
+							``` java
+System.out.println("First");
+List<Integer> list = List.of(1,2,3);
+Consumer<Integer> print = System.out::println;
+Integer eager = list.stream()
+	.peek(print)
+	.reduce(0, (i1, i2) -> i1 + i2); // eager
+
+System.out.println("Second");
+Supplier<Integer> lazy = () -> list.stream()
+	.peek(print)
+	.reduce(0, (i1, i2) -> i1 + i2); // lazy
+
+then(eager).isEqualTo(lazy.get());
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
+
+							``` java
+Lazy<Double> lazy = Lazy.of(Math::random);
+then(lazy.isEvaluated()).isFalse();
+
+double val1 = lazy.get();
+then(lazy.isEvaluated()).isTrue();
+
+double val2 = lazy.get();
+then(val1).isEqualTo(val2);
+
+								```
+						</script>
+					</section>
+					<section>
+						<h2>Mutable vs Immutable</h2>
+						<img src="./images/javaCollection.png">
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var list = java.util.List.of(1, 2, 3).stream()
+	.peek(System.out::println)
+	.collect(toUnmodifiableList()); //Java 10
+	//.collect(Collectors.collectingAndThen(
+	//    Collectors.toList(),
+	//    x -> Collections.unmodifiableList(x))); // Java 8
+
+Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+	list.add(1); //Katacroker
+});
+
+							```
+						</script>
+					</section>
+					<!--
+                    https://mincong-h.github.io/2019/02/13/vavr-list-vs-java-list/
+                    -->
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var animals = io.vavr.collection.List.of("🐱", "🐶");
+animals.append("🐕");
+
+then(animals.size()).isEqualTo(2);
+
+animals = animals.append("🐕");
+
+then(animals.size()).isEqualTo(3);
+then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
+
+							```
+						</script>
+					</section>
+
+
+
+					<section>
+						<h2>Pure vs Impure functions</h2>
+						<p>
+							Characteristics of Pure Function:
+						</p>
+						<ul>
+							<li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
+							<li>They do not have any side effects like network or database calls</li>
+							<li>They do not mod­ify the arguments which are passed to them</li>
+						</ul>
+					</section>
+<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Pure vs Impure functions
+
+							Imperative
+
+							``` java
+private Double impureFunc(Integer value) { return Math.random() * value; };
+private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
+
+private void imperativeStyle() {
+var impureOutput = new ArrayList<>();
+for(var i = 0; i < 5; i++){
+	impureOutput.add(impureFunc(5));
+}
+var pureOutput = new ArrayList<>();
+for(var i = 0; i < 5; i++){
+	pureOutput.add(pureFunc(5));
+}
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Pure vs Impure functions
+
+							Functional
+
+							``` java
+Function<Integer, Double> impureFunc = value ->
+Math.random() * value;
+Function<Integer, Double> pureFunc = value ->
+Double.valueOf(value * value);
+
+BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
+IntStream.rangeClosed(0, limit).boxed()
+	.map(fun)
+	.collect(toUnmodifiableList());
+
+var impureOutput = populate.apply(impureFunc, 5);
+var pureOutput = populate.apply(pureFunc, 5);
+
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+
+							```
+						</script>
+					</section>
+-->
+					<section data-markdown>
+						<script type="text/template">
+							## List manipulation
+
+							``` java
+var numbers = List.of(9, 10, 3, 4, 7, 3, 4);
+var distinct = numbers.stream()
+	.map(i -> i * i)
+	.distinct()
+	.peek(System.out::println)//Debug only
+	.filter(i -> i > 50)
+	.collect(toUnmodifiableList());
+
+System.out.println(distinct);
+
+							```
+						</script>
+					</section>
+
 					<section>
 						<h2>Equational reasoning</h2>
 						<p>
@@ -1256,210 +1452,7 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 						</table>
 					</section>
 					-->
-					<section>
-						<h2>Eager vs Lazy</h2>
-						<table>
-							<thead>
-							<tr>
-								<th>Concept</th>
-								<th>Description</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr>
-								<td>Lazy</td>
-								<td>Refers to the delaying of the evaluation of an operation until it is needed.
-								</td>
-							</tr>
-							<tr>
-								<td>Eager</td>
-								<td>An operation is executed as soon as it is encountered.
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Eager vs Lazy
-
-							``` java
-System.out.println("First");
-List<Integer> list = List.of(1,2,3);
-Consumer<Integer> print = System.out::println;
-	Integer eager = list.stream()
-	.peek(print)
-	.reduce(0, (i1, i2) -> i1 + i2); // eager
-
-System.out.println("Second");
-Supplier<Integer> lazy = () -> list.stream()
-	.peek(print)
-	.reduce(0, (i1, i2) -> i1 + i2); // lazy
-
-then(eager).isEqualTo(lazy.get());
-
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Eager vs Lazy
-
-							``` java
-Lazy<Double> lazy = Lazy.of(Math::random);
-then(lazy.isEvaluated()).isFalse();
-
-double val1 = lazy.get();
-then(lazy.isEvaluated()).isTrue();
-
-double val2 = lazy.get();
-then(val1).isEqualTo(val2);
-
-							```
-						</script>
-					</section>
-					<section>
-						<h2>Mutable vs Immutable</h2>
-						<img src="./images/javaCollection.png">
-					</section>
-
-					<section data-markdown>
-						<script type="text/template">
-							## Mutable vs Immutable
-
-							``` java
-var list = java.util.List.of(1, 2, 3).stream()
-	.peek(System.out::println)
-	.collect(toUnmodifiableList()); //Java 10
-	//.collect(Collectors.collectingAndThen(
-	//    Collectors.toList(),
-	//    x -> Collections.unmodifiableList(x))); // Java 8
-
-Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-	list.add(1); //Katacroker
-});
-
-								```
-						</script>
-					</section>
-<!--
-https://mincong-h.github.io/2019/02/13/vavr-list-vs-java-list/
--->
-					<section data-markdown>
-						<script type="text/template">
-							## Mutable vs Immutable
-
-							``` java
-var animals = io.vavr.collection.List.of("🐱", "🐶");
-animals.append("🐕");
-
-then(animals.size()).isEqualTo(2);
-
-animals = animals.append("🐕");
-
-then(animals.size()).isEqualTo(3);
-then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
-
-							```
-						</script>
-					</section>
-
-
-
-					<section>
-						<h2>Pure vs Impure functions</h2>
-                        <p>
-                        Characteristics of Pure Function:
-                        </p>
-                        <ul>
-                            <li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
-                            <li>They do not have any side effects like network or database calls</li>
-                            <li>They do not mod­ify the arguments which are passed to them</li>
-                        </ul>
-					</section>
-                    <section>
-                        <h2>Pure vs Impure functions</h2>
-                        <p>
-                            Characterisitcs of Impure functions
-                        </p>
-                        <ul>
-                            <li>The return value of the impure functions does not solely depend on its arguments Hence, if you call the impure functions with the same set of arguments, you might get the different return values For example, Math.random(), Date.now()
-                            <li>They may have any side effects like network or database calls
-                            <li>They may modify the arguments which are passed to them</li>
-                        </ul>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Pure vs Impure functions
-
-                            Imperative
-
-                            ``` java
-private Double impureFunc(Integer value) { return Math.random() * value; };
-private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
-
-private void imperativeStyle() {
-    var impureOutput = new ArrayList<>();
-    for(var i = 0; i < 5; i++){
-        impureOutput.add(impureFunc(5));
-    }
-    var pureOutput = new ArrayList<>();
-    for(var i = 0; i < 5; i++){
-        pureOutput.add(pureFunc(5));
-    }
-    System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
-    System.out.println("Pure result: " + pureOutput);
-}
-
-                            ```
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Pure vs Impure functions
-
-                            Functional
-
-                            ``` java
-Function<Integer, Double> impureFunc = value ->
-    Math.random() * value;
-Function<Integer, Double> pureFunc = value ->
-    Double.valueOf(value * value);
-
-BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
-    IntStream.rangeClosed(0, limit).boxed()
-    .map(fun)
-    .collect(toUnmodifiableList());
-
-var impureOutput = populate.apply(impureFunc, 5);
-var pureOutput = populate.apply(pureFunc, 5);
-
-System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
-System.out.println("Pure result: " + pureOutput);
-
-                            ```
-                        </script>
-                    </section>
-					<section data-markdown>
-						<script type="text/template">
-							## List manipulation
-
-							``` java
-var numbers = List.of(9, 10, 3, 4, 7, 3, 4);
-var distinct = numbers.stream()
-	.map(i -> i * i)
-	.distinct()
-	.peek(System.out::println)//Debug only
-	.filter(i -> i > 50)
-	.collect(toUnmodifiableList());
-
-System.out.println(distinct);
-
-							```
-						</script>
-					</section>
 				</section>
-
 				<section data-background="#FFFFFF">
 					<section>
 						<h2>Functional patterns</h2>
