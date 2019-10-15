@@ -1639,6 +1639,7 @@ public class UserTransaction {
 //Java Bean Validation (JSR 303 & JSR 380)
 //Money and Currency API (JSR 354)
 //Date and Time API (JSR 310)
+@JsonDeserialize(using = UserTransactionDeserializer.class)
 public class UserTransaction {
     private final MonetaryAmount amount;
     private final IBAN fromAccountId;
