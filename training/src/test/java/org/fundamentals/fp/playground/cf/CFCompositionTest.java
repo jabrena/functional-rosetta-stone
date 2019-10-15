@@ -37,7 +37,7 @@ public class CFCompositionTest {
     private CompletableFuture<Integer> cf(Integer param)  {
 
         return new CompletableFuture<>()
-                .supplyAsync(() -> method1(param))
+                .supplyAsync(() -> 1 + param)
                 .handle((result, ex) -> {
                     if(!Objects.isNull(ex)) {
                         LOGGER.info("{}", 99);
