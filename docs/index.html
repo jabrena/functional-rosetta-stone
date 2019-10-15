@@ -87,6 +87,13 @@
                         <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" target="_blank">Wikipedia</a>
                     </p>
                 </section>
+				<section data-background="#FFFFFF">
+					<h2>Concept</h2>
+					<img src="./images/recap.png">
+					<p>
+						<a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html" target="_blank">Functors, Applicatives, And Monads In Pictures</a>
+					</p>
+				</section>
 <!--
 Initial questions:
 
@@ -104,9 +111,9 @@ Initial questions:
                         <li>Market context</li>
                         <li>Why?</li>
                         -->
+						<li>What are the limits with Java 8+?</li>
 						<li>VAVR Intro</li>
                         <li>Functional programming concepts</li>
-                        <li>What are the limits with Java 8+?</li>
                         <li>Functional patterns</li>
 
                         <!--
@@ -177,6 +184,60 @@ Initial questions:
 							<li>Use functional composition in the daily job</li>
 							<li>Think in Failures, not in Exceptions</li>
 						</ol>
+					</section>
+				</section>
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>What are the limits with Java 8+?</h2>
+						<ul>
+							<li>Functional Interfaces</li>
+							<li>Stream operators</li>
+							<li>Optional</li>
+							<li>CompletableFuture</li>
+						</ul>
+					</section>
+					<section>
+						<h2>What are the limits with Java 8+?</h2>
+						<p>
+							So, we can consider the language
+						</p>
+						<ol>
+							<li>Non-functional</li>
+							<li>Mostly functional</li>
+							<li>Purely functional</li>
+						</ol>
+					</section>
+					<section>
+						<h2>What are the limits with Java 8+?</h2>
+						<ul>
+							<li>What happen if your Functor requires 3 or more parameters?</li>
+							<li>How to memoize a Functor?</li>
+							<li>How to do lifting?</li>
+							<li>How to do currying?</li>
+						</ul>
+					</section>
+					<section>
+						<h2>What are the limits with Java 8+?</h2>
+						<ul>
+							<li>How to map a method/function which throw a checked exception?</li>
+
+							<li>How to reuse a Stream once is consumed?</li>
+
+							<li>How to flow-control with streams?</li>
+							<!--
+							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
+								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
+							-->
+							<li>How control of timing?</li>
+
+							<!--
+                            <p>VAVR support Functors with 1-8 parameters</p>
+                            <p>VAVR add in the Functors, support for
+                                lifting, partial application, currying & memoization by default</p>
+                            -->
+							<li>How compose streams?</li>
+						</ul>
 					</section>
 				</section>
 
@@ -1173,77 +1234,6 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 							<li>Calling any other functions with side-effects</li>
 						</ul>
 					</section>
-				</section>
-
-
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>What are the limits with Java 8+?</h2>
-						<ul>
-							<li>Functional Interfaces</li>
-							<li>Stream operators</li>
-							<li>Optional</li>
-							<li>CompletableFuture</li>
-							<!-- <li>Tuples</li>-->
-						</ul>
-					</section>
-					<section>
-						<h2>What are the limits with Java 8+?</h2>
-						<ul>
-							<li>What happen if your Functor requires 3 or more parameters?</li>
-							<!--
-							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
-								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
-							-->
-							<li>How to memoize?</li>
-
-						<!--
-						<p>VAVR support Functors with 1-8 parameters</p>
-						<p>VAVR add in the Functors, support for
-							lifting, partial application, currying & memoization by default</p>
-						-->
-							<li>How to do Lifting?</li>
-						</ul>
-					</section>
-					<section>
-						<h2>What are the limits with Java 8+?</h2>
-						<ul>
-							<li>How to map a method/function which throw a checked exception?</li>
-
-							<li>How to reuse a Stream once is consumed?</li>
-
-							<li>How to flow-control with streams?</li>
-							<!--
-							<li>Java 8+ only has <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html" target="_blank">Function</a> &
-								<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html" target="_blank">BiFunction</a> support</li>
-							-->
-							<li>How control of timing?</li>
-
-							<!--
-                            <p>VAVR support Functors with 1-8 parameters</p>
-                            <p>VAVR add in the Functors, support for
-                                lifting, partial application, currying & memoization by default</p>
-                            -->
-							<li>How compose streams?</li>
-						</ul>
-					</section>
-					<!--
-					<section>
-						<h2>Optional</h2>
-						<p>What happen with Monad Laws?</p>
-						<p><strong>Monad Laws:</strong></p>
-						<ul>
-							<li>Left identity</li>
-							<li>Right identity</li>
-							<li>Associativity</li>
-						</ul>
-					</section>
-
-					<section>
-						<h2>Tuples</h2>
-						<p>Java doesn´t have any Tuple in the type system</p>
-					</section>
-				-->
 				</section>
 
 				<section data-background="#FFFFFF">
