@@ -115,10 +115,13 @@ Initial questions:
                         <li>Functional testing</li>
                         <li>Live demo</li>
 
-                        <li>Sharpening the axe</li>
+
 
                         <li>Summary</li>
                         -->
+						<li>Sharpening the axe</li>
+						<li>The next level</li>
+						<li>Pending stuff</li>
                         <li>References</li>
                         <!-- <li>Acknowledgements</li> -->
                         <li>Future talks</li>
@@ -782,7 +785,7 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 							<li>Functional composition</li>
 							<li>Referential Transparency</li>
 							<li>Monads</li>
-							<!-- <li>Effects</li> -->
+							<li>Effects</li>
 							<!-- <li>Side effect</li> -->
 
 						</ol>
@@ -1211,7 +1214,17 @@ int result2 = add.apply(2, mult.apply(3, 4));
 							```
 						</script>
 					</section>
+<!--
+https://dev.to/theodesp/explain-monads-like-im-five
 
+The value may or may not exist!
+The value may exists, but there are more than one of them :(
+Getting the value would mean involving some kind of I/O operations...
+The value may exists... eventually in the future.
+The value may produce errors :(
+The value may depend on some kind of a state of the outside world.
+etc.
+-->
 					<section>
 						<h2>Monads</h2>
 						<p>
@@ -1220,10 +1233,11 @@ int result2 = add.apply(2, mult.apply(3, 4));
 						<p>
 							A monad is a design pattern
 						</p>
+						<!--
 						<p>
 							Monads apply a function that returns a wrapped value to a wrapped value
 						</p>
-						<!--
+
 						<ul>
 							<li>a parameterized type M< T ></li>
 							<li>a “unit” function T -> M< T ></li>
@@ -1231,9 +1245,15 @@ int result2 = add.apply(2, mult.apply(3, 4));
 						</ul>
 						-->
 						<p>
+							A monad acts as a container that abstracts away those quirks in the computations,
+							and let us focus more on what we want to do with the contained values.
+						</p>
+						<!--
+						<p>
 							All it takes be a Monad is to provide two functions which conform to three laws.
 							The two functions:
 						</p>
+						-->
 					</section>
 					<section>
 						<h2>Monads</h2>
@@ -1370,18 +1390,20 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 							```
 						</script>
 					</section>
+					-->
 					<section>
 						<h2>Effects</h2>
 						<p>
 							An effect is the thing a monad handles
 						</p>
 						<ul>
-							<li><strong>Option</strong> is a monad that models the effect of optionality (of something being optional)</li>
-							<li><strong>Future</strong> is a monad that models latency as an effect</li>
+							<li><strong>Optional</strong> is a monad that models the effect of optionality (of something being optional)</li>
+							<li><strong>CompletableFuture</strong> is a monad that models latency as an effect</li>
 							<li><strong>Try</strong> is a monad that models the effect of failures (manages exceptions as effects)</li>
+							<li><strong>Either</strong> is a monad that models the effect of failure and success</li>
 						</ul>
 					</section>
-					-->
+
 					<!--
 					<section>
 						<h2>Side Effects</h2>
@@ -1786,6 +1808,50 @@ the language doesn't provide any solution in the line of Optional.
 							<li>VirtualMachineError (i.e. OutOfMemoryError or StackOverflowError)</li>
 						</ul>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+private @Nullable URL getURLImperative(String address) {
+	try {
+		return new URL(address);
+	} catch (MalformedURLException ex) {
+		ex.printStackTrace();
+		return null;
+	}
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+private Optional<URL> getOptionalTryVAVR(String address) {
+	return Try.of(() -> new URL(address))
+	.map(u -> Optional.of(u))
+	.onFailure(Throwable::printStackTrace)
+	.recover(ex -> Optional.empty())
+	.get();
+}
+							```
+						</script>
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+// no need to handle exceptions
+Try.of(() -> bunchOfWork()).getOrElse(other);
+
+							```
+						</script>
+					</section>
+					-->
                     <section data-markdown>
                         <script type="text/template">
                             ## Functional error handling
@@ -1819,7 +1885,8 @@ var result = Try.of(this::bunchOfWork)
                             ``` java
 private boolean isValid(String address) {
 
-    Either<Throwable, URL> result = Try.of(() -> new URL(address)).toEither();
+    Either<Throwable, URL> result = Try.of(() ->
+							new URL(address)).toEither();
     return Match(result).of(
         Case($Right($()), true),
         Case($Left($()), false)
@@ -1917,7 +1984,6 @@ then(validSumCounter).isEqualTo(10);
 						</script>
 					</section>
 				</section>
-				<!--
 				<section data-background="#FFFFFF">
 					<section>
 						<h2>Sharpening the axe</h2>
@@ -1928,12 +1994,131 @@ then(validSumCounter).isEqualTo(10);
 						<ul>
 							<li>Synchronous problems: <a href="https://projecteuler.net/archives" target="_blank">Euler problems</a></li>
 							<li>Asynchronous problems: <a href="https://github.com/jabrena/latency-problems" target="_blank">Latency problems</a></li>
-                            <li><a href="https://www.geeksforgeeks.org/dynamic-programming/" target="_blank">Dynamic programming</a> problems</li>
+                            <!-- <li><a href="https://www.geeksforgeeks.org/dynamic-programming/" target="_blank">Dynamic programming</a> problems</li>-->
 						</ul>
 					</section>
 				</section>
-				-->
+				<section data-background="#FFFFFF">
+					<section data-markdown >
+						<script type="text/template">
+						## The next level
 
+						``` java
+public Mono<BigInteger> reactorSolution() {
+
+	return Flux.range(0, config.getList().size())
+		.publishOn(scheduler)
+		.map(i -> toURL.andThen(fetch).apply(config.getList().get(i)))
+		.timeout(
+			Duration.ofSeconds(config.getTimeout()),
+			Flux.just(""))
+		.flatMap(serializeFlux)
+		.filter(godStartingByn)
+		.log()
+		.map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+		.reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+}
+						```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						## The next level
+
+						``` java
+public Mono<String> reactorSolution() {
+
+	return Flux.empty()
+		.transform(fetchGreekGods)
+		.transform(fetchWikipediaGodInfo)
+		.transform(max)
+		.next();
+}
+						```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+						## The next level
+
+						``` java
+Function<Object, Flux<String>> fetchGreekGods = obj -> {
+
+	return Flux.just(this.config.getApiMap().get(GREEK))
+		.publishOn(Schedulers.immediate())
+		.map(toURL)
+		.map(fetch)
+		.flatMap(serializeFlux)
+		.log();
+};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## The next level
+
+							``` java
+Function<Flux<String>, Flux<Tuple2<String, Integer>>> fetchWikipediaGodInfo = god -> {
+
+	return Flux.from(god)
+		.publishOn(Schedulers.elastic())
+		.map(str -> {
+			return new Tuple2<String, Integer>(str, generateWikiAddress
+				.andThen(toURL)
+				.andThen(fetch)
+				.andThen(String::length)
+				.apply(str));
+		})
+		.log();
+};
+								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## The next level
+
+							``` java
+Function<Object, Flux<String>> fetchGreekGods = obj -> {
+
+	return Flux.just(this.config.getApiMap().get(GREEK))
+		.publishOn(Schedulers.immediate())
+		.map(toURL)
+		.map(fetch)
+		.flatMap(serializeFlux)
+		.log();
+};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## The next level
+
+							``` java
+Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
+
+	return Flux.from(godInfo)
+		.publishOn(Schedulers.immediate())
+		.sort(Comparator.comparing(Tuple2::_2))
+		.takeLast(1)
+		.map(t -> t._1)
+		.log();
+};
+							```
+						</script>
+					</section>
+				</section>
+				<section data-background="#FFFFFF">
+					<h2>Pending stuff</h2>
+					<ul>
+						<li>IO Monad vs CompletableFuture</li>
+						<li>Validation pattern (Bean validaiton vs YAVI)</li>
+						<li>For comprehension</li>
+						<li>Category theory</li>
+					</ul>
+				</section>
 				<!--
 				<section data-background="#FFFFFF">
 					<section>
@@ -1969,6 +2154,7 @@ then(validSumCounter).isEqualTo(10);
 							<li><a href="https://medium.com/@sderosiaux/are-scala-futures-the-past-69bd62b9c001" target="_blank">Are Scala Futures the past?</a></li>
 							<li><a href="http://learnyouahaskell.com/a-fistful-of-monads#monad-laws" target="_blank">Monad laws</a></li>
 							<li><a href="https://gist.github.com/ms-tg/7420496#file-jdk8_optional_monad_laws-java" target="_blank">Does JDK8's Optional class satisfy the Monad laws?</a></li>
+							<li><a href="https://dev.to/theodesp/explain-monads-like-im-five" target="_blank">Explain Monads Like I'm five</a> </li>
 						</ul>
 					</section>
 
@@ -2047,7 +2233,10 @@ then(validSumCounter).isEqualTo(10);
                         <h2>Future talks</h2>
                         <ul>
                             <li>Functional Resilience4J</li>
-							<li>JPMS for Webflux microservices</li>
+							<li>Reactive microservices with Webflux</li>
+							<li>Arrow-kt</li>
+							<li>Cyclops Pure (λ)</li>
+							<!-- <li>JPMS for Webflux microservices</li> -->
 							<li>GraalVM for Webflux microservices</li>
 							<!-- <li>ZIO for Java</li> -->
                         </ul>
