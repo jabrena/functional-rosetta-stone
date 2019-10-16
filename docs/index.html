@@ -1835,10 +1835,10 @@ private @Nullable URL getURLImperative(String address) {
 							``` java
 private Optional<URL> getOptionalTryVAVR(String address) {
 	return Try.of(() -> new URL(address))
-	.map(u -> Optional.of(u))
-	.onFailure(Throwable::printStackTrace)
-	.recover(ex -> Optional.empty())
-	.get();
+		.map(u -> Optional.of(u))
+		.onFailure(Throwable::printStackTrace)
+		.recover(ex -> Optional.empty())
+		.get();
 }
 							```
 						</script>
@@ -1963,6 +1963,7 @@ then(s2).isEqualTo(Option.some(3));
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
@@ -1988,6 +1989,7 @@ then(validSumCounter).isEqualTo(10);
 						</script>
 					</section>
 				</section>
+				-->
 				<section data-background="#FFFFFF">
 					<section>
 						<h2>Sharpening the axe</h2>
