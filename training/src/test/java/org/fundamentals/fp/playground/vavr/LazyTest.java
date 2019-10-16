@@ -33,6 +33,8 @@ public class LazyTest {
                 .reduce(0, (i1, i2) -> i1 + i2); // lazy
 
         then(eager).isEqualTo(lazy.get());
+        System.out.println("Second computation");
+        then(eager).isEqualTo(lazy.get());
     }
 
     @Test

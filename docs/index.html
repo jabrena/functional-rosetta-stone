@@ -207,11 +207,11 @@ Initial questions:
 
 					</section>
 					-->
-					<!--
+
 					<section>
 						<h2>Goals</h2>
 						<p>
-							Java has functional features but it is not a purely functional language.
+							Is Java a functional language?
 						</p>
 						<ol>
 							<li>Non-functional</li>
@@ -219,7 +219,7 @@ Initial questions:
 							<li>Purely functional</li>
 						</ol>
 					</section>
-					-->
+
 					<section data-background="#FFFFFF">
 						<h2>No Goals</h2>
 						<p>Deep dive in Category Theory</p>
@@ -779,6 +779,7 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 							<li>Eager vs Lazy</li>
 							<li>Mutable vs Immutable</li>
 							<li>Pure vs Impure functions</li>
+                            <li>Side effects</li>
 							<li>List manipulation</li>
 
 							<li>Equational reasoning</li>
@@ -786,7 +787,6 @@ https://manishearth.github.io/blog/2017/03/04/what-are-sum-product-and-pi-types/
 							<li>Referential Transparency</li>
 							<li>Monads</li>
 							<li>Effects</li>
-							<!-- <li>Side effect</li> -->
 
 						</ol>
 					</section>
@@ -830,6 +830,8 @@ Supplier<Integer> lazy = () -> list.stream()
 	.peek(print)
 	.reduce(0, (i1, i2) -> i1 + i2); // lazy
 
+then(eager).isEqualTo(lazy.get());
+System.out.println("Second computation");
 then(eager).isEqualTo(lazy.get());
 
 							```
@@ -892,7 +894,8 @@ then(animals.size()).isEqualTo(2);
 animals = animals.append("🐕");
 
 then(animals.size()).isEqualTo(3);
-then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
+then(animals)
+    .isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
 
 							```
 						</script>
@@ -907,10 +910,18 @@ then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
 						</p>
 						<ul>
 							<li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
-							<li>They do not have any side effects like network or database calls</li>
+                            <li>They do not have any <strong>side effects</strong> like network or database calls</li>
 							<li>They do not mod­ify the arguments which are passed to them</li>
 						</ul>
 					</section>
+                    <section>
+                        <h2>Side Effects</h2>
+                        <img src="./images/side-effect.jpg">
+                        <p>
+                            A side effect is any application state change that is observable outside
+                            the called function other than its return value.
+                        </p>
+                    </section>
 <!--
 					<section data-markdown>
 						<script type="text/template">
@@ -1405,14 +1416,7 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 					</section>
 
 					<!--
-					<section>
-						<h2>Side Effects</h2>
-						<img src="./images/side-effect.jpg">
-						<p>
-							A side effect is any application state change that is observable outside
-							the called function other than its return value.
-						</p>
-					</section>
+
 					<section>
 						<h2>Side Effects</h2>
 						<p>
@@ -2116,6 +2120,7 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
 						<li>IO Monad vs CompletableFuture</li>
 						<li>Validation pattern (Bean validation vs YAVI)</li>
 						<li>For comprehension</li>
+                        <li>Immutable data structures</li>
 						<li>Category theory</li>
 					</ul>
 				</section>
