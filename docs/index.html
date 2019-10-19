@@ -122,6 +122,7 @@
 https://www.infoq.com/articles/How-Functional-is-Java-8/
 https://www.beyondjava.net/java-8-functional-programming-language
 https://www.javaworld.com/article/3319078/functional-programming-for-java-developers-part-2.html
+https://ebaytech.berlin/declarative-concurrency-with-reactor-70507e04054a
 -->
 					<section>
 						<h2>Open Question</h2>
@@ -1374,12 +1375,20 @@ public Long javaSolution(Long limit) {
 							## Functional composition
 
 							``` java
-public long javaStreamSolution(long limit) {
-
+public Long javaStreamSolution(Long limit) {
+	//Functor composition
 	return factorialJavaStream
-		.andThen(toDigits)
-		.andThen(sum)
+		.andThen(toDigits).andThen(sum)
 		.apply(limit);
+}
+
+public Long JavaStreamSolution2(Long limit) {
+	//Monad composition
+	return Stream.of(limit)
+		.map(factorialJavaStream)
+		.map(toDigits.andThen(sum))
+		.findFirst() //Optional<Long>
+		.get(); //You need to be confident
 }
 							```
 						</script>
@@ -1410,12 +1419,19 @@ Function<Stream<Integer>, Long> sum = digits -> digits
 							## Functional composition
 
 							``` java
+Function<Long, Mono<BigInteger>> factorialReactor = param -> {
+	return Flux.range(1, param.intValue())
+		.sort((n1, n2) -> n2.compareTo(n1))
+		.map(BigInteger::valueOf)
+		.reduce((n1, n2) -> n1.multiply(n2));
+};
+
+
 public Mono<Long> ReactorSolution(Long limit) {
 
 	return Mono.just(limit)
 		.flatMap(factorialReactor)
-		.map(toDigits)
-		.map(sum);
+		.map(toDigits.andThen(sum));
 }
 							```
 						</script>
