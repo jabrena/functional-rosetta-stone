@@ -1398,7 +1398,8 @@ public Long JavaStreamSolution2(Long limit) {
 							## Functional composition
 
 							``` java
-Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
+Function<Long, BigInteger> factorial = limit ->
+	LongStream.iterate(limit, i -> i - 1)
 	.limit(limit)
 	.mapToObj(BigInteger::valueOf)
 	.reduce((n1, n2) -> n1.multiply(n2))
