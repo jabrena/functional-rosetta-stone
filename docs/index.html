@@ -160,7 +160,7 @@ https://ebaytech.berlin/declarative-concurrency-with-reactor-70507e04054a
                         -->
                         <!-- <li>Acknowledgements</li> -->
                         <li>Future talks</li>
-						<li>Questions & Answers</li>
+						<!-- <li>Questions & Answers</li> -->
                     </ol>
                 </section>
 
@@ -1378,7 +1378,7 @@ public Long javaSolution(Long limit) {
 public Long javaStreamSolution(Long limit) {
 	//Functor composition
 	return factorialJavaStream
-		.andThen(toDigits).andThen(sum)
+		.andThen(sumDigits)
 		.apply(limit);
 }
 
@@ -1386,7 +1386,7 @@ public Long JavaStreamSolution2(Long limit) {
 	//Monad composition
 	return Stream.of(limit)
 		.map(factorialJavaStream)
-		.map(toDigits.andThen(sum))
+		.map(sumDigits)
 		.findFirst() //Optional<Long>
 		.get(); //You need to be confident
 }
@@ -1405,11 +1405,8 @@ Function<Long, BigInteger> factorial = limit ->
 	.reduce((n1, n2) -> n1.multiply(n2))
 	.get();
 
-Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
+Function<BigInteger, Long> sumDigits = value -> value.toString().chars()
 	.mapToObj(c -> String.valueOf((char) c))
-	.map(s -> Integer.valueOf(s));
-
-Function<Stream<Integer>, Long> sum = digits -> digits
 	.mapToLong(Long::valueOf)
 	.reduce(0L, Long::sum);
 							```
@@ -1427,12 +1424,11 @@ Function<Long, Mono<BigInteger>> factorialReactor = param -> {
 		.reduce((n1, n2) -> n1.multiply(n2));
 };
 
-
 public Mono<Long> ReactorSolution(Long limit) {
 
 	return Mono.just(limit)
 		.flatMap(factorialReactor)
-		.map(toDigits.andThen(sum));
+		.map(sumDigits);
 }
 							```
 						</script>
@@ -2161,6 +2157,7 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
 				</section>
 				-->
 
+				<!--
 				<section data-background="#ffffff">
 					<section>
 						<h2>References</h2>
@@ -2245,17 +2242,6 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
 						</table>
 					</section>
 
-				</section>
-				<!--
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Acknowledgements</h2>
-						<ul>
-							<li><a href="https://twitter.com/danieldietrich" target="_blank">Daniel Dietrich</a> (Technical Review & VAVR Author)</li>
-							<li><a href="https://twitter.com/rbrtwnklr" target="_blank">Robert Winkler</a> (Resilience4j)</li>
-							<li><a href="https://twitter.com/pivovarit" target="_blank">Grzegorz Piwowarek</a></li>
-						</ul>
-					</section>
 				</section>
 				-->
 
