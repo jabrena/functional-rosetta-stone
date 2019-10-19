@@ -81,20 +81,21 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return null;
     }
 
-    Function<Long, Mono<BigInteger>> factorialReactor = param -> {
+    Function<Long, Flux<BigInteger>> factorialReactor = param -> {
         return Flux.range(1, param.intValue())
                 .sort((n1, n2) -> n2.compareTo(n1))
                 .map(BigInteger::valueOf)
-                .reduce((n1, n2) -> n1.multiply(n2));
+                .reduce((n1, n2) -> n1.multiply(n2))
+                .flux();
     };
 
     @Override
     public Mono<Long> ReactorSolution(Long limit) {
 
-         return Mono.just(limit)
-                 .flatMap(factorialReactor)
-                 .map(toDigits)
-                 .map(sum);
+         return Flux.just(limit)
+                 .concatMap(factorialReactor)
+                 .map(toDigits.andThen(sum))
+                 .next();
     }
 
     @Override
