@@ -3,10 +3,14 @@ package org.fundamentals.fp.euler;
 import io.reactivex.Single;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Problem 20: Factorial digit sum
@@ -40,26 +44,36 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return sum;
     }
 
-    Function<Long, BigInteger> factorialStream = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
+    Function<Long, BigInteger> factorialJavaStream = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
             .limit(limit)
             .mapToObj(BigInteger::valueOf)
             .reduce((n1, n2) -> n1.multiply(n2)).get();
 
-    Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
+    Function<BigInteger, List<Integer>> toDigits = value -> value.toString().chars()
             .mapToObj(c -> String.valueOf((char) c))
-            .map(s -> Integer.valueOf(s));
+            .map(s -> Integer.valueOf(s))
+            .collect(toList());
 
-    Function<Stream<Integer>, Long> sum = digits -> digits
+    Function<List<Integer>, Long> sum = digits -> digits.stream()
             .mapToLong(Long::valueOf)
             .reduce(0L, Long::sum);
 
     @Override
     public Long JavaStreamSolution(Long limit) {
 
-        return factorialStream
+        return factorialJavaStream
                 .andThen(toDigits)
                 .andThen(sum)
                 .apply(limit);
+    }
+
+    public Long JavaStreamSolution2(Long limit) {
+
+        return Stream.of(limit)
+                .map(factorialJavaStream)
+                .map(toDigits.andThen(sum))
+                .findFirst()
+                .get();
     }
 
     @Override
@@ -67,9 +81,20 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return null;
     }
 
+    Function<Long, Mono<BigInteger>> factorialReactor = param -> {
+        return Flux.range(1, param.intValue())
+                .sort((n1, n2) -> n2.compareTo(n1))
+                .map(BigInteger::valueOf)
+                .reduce((n1, n2) -> n1.multiply(n2));
+    };
+
     @Override
     public Mono<Long> ReactorSolution(Long limit) {
-        return null;
+
+         return Mono.just(limit)
+                 .flatMap(factorialReactor)
+                 .map(toDigits)
+                 .map(sum);
     }
 
     @Override

@@ -2,46 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jab.principles</groupId>
+		<artifactId>functional-rosseta-stone</artifactId>
+		<version>${revision}</version>
+		<relativePath>..</relativePath>
+	</parent>
+
 	<groupId>org.jab.principles</groupId>
 	<artifactId>training</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<name>training</name>
 	<description>Demo project for Spring Boot</description>
-
-	<properties>
-		<java.version>11</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<commons-lang3.version>3.9</commons-lang3.version>
-		<vavr.version>0.10.0</vavr.version>
-		<parallel-collectors.version>1.1.0</parallel-collectors.version>
-		<lombok.version>1.18.8</lombok.version>
-		<slf4j-api.version>1.7.25</slf4j-api.version>
-		<logback-classic.version>1.2.3</logback-classic.version>
-		<jackson.version>2.9.10</jackson.version>
-		<junit.jupiter.version>5.4.2</junit.jupiter.version>
-		<assertj-core.version>3.12.2</assertj-core.version>
-
-		<jmh.version>1.21</jmh.version>
-	</properties>
-
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 
@@ -70,7 +43,6 @@
 			<version>28.0-jre</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -97,12 +69,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.pivovarit</groupId>
-			<artifactId>parallel-collectors</artifactId>
-			<version>${parallel-collectors.version}</version>
 		</dependency>
 
 		<dependency>
@@ -199,15 +165,5 @@
 
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.0.0-M3</version>
-			</plugin>
-		</plugins>
-	</reporting>
 
 </project>

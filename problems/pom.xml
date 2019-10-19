@@ -3,64 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.jab.principles</groupId>
+		<artifactId>functional-rosseta-stone</artifactId>
+		<version>${revision}</version>
+		<relativePath>..</relativePath>
+	</parent>
+
 	<groupId>org.jab.principles</groupId>
 	<artifactId>problems</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>${revision}</version>
 
 	<name>problems</name>
 	<description>Euler and Latency solutions/tests</description>
-
-	<properties>
-		<java.version>11</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<kotlin.version>${hamcrest.version}.31</kotlin.version>
-		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-
-		<lombok.version>1.18.8</lombok.version>
-		<vavr.version>0.10.2</vavr.version>
-
-		<slf4j-api.version>1.7.25</slf4j-api.version>
-		<logback-classic.version>1.2.3</logback-classic.version>
-		<jackson.version>2.9.10</jackson.version>
-
-		<commons-lang3.version>3.9</commons-lang3.version>
-		<guava.version>28.0-jre</guava.version>
-
-		<arrow.version>0.8.2</arrow.version>
-		<reactor.version>3.3.0.M3</reactor.version>
-		<rxjava.version>2.2.10</rxjava.version>
-		<resilience4j.version>0.16.0</resilience4j.version>
-
-		<junit.jupiter.version>5.5.1</junit.jupiter.version>
-		<hamcrest.version>1.3</hamcrest.version>
-		<assertj-core.version>3.13.1</assertj-core.version>
-		<rest-assured.version>4.0.0</rest-assured.version>
-		<wiremock.version>2.24.1</wiremock.version>
-
-		<jmh.version>1.21</jmh.version>
-
-		<checkstyle.skip>true</checkstyle.skip>
-	</properties>
-
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 
@@ -132,7 +87,7 @@
 		<dependency>
 			<groupId>io.projectreactor.addons</groupId>
 			<artifactId>reactor-extra</artifactId>
-			<version>3.3.0.M1</version>
+			<version>${reactor.version}</version>
 		</dependency>
 
 		<dependency>
@@ -140,19 +95,18 @@
 			<artifactId>reactor-tools</artifactId>
 			<version>${reactor.version}</version>
 		</dependency>
-<!--
+
 		<dependency>
 			<groupId>io.projectreactor.tools</groupId>
 			<artifactId>blockhound</artifactId>
-			<version>1.0.0.M5</version>
+			<version>${reactor.blockhound.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.projectreactor.tools</groupId>
 			<artifactId>blockhound-junit-platform</artifactId>
-			<version>1.0.0.M5</version>
+			<version>${reactor.blockhound.version}</version>
 		</dependency>
--->
 
 		<dependency>
 			<groupId>io.reactivex.rxjava2</groupId>
@@ -345,7 +299,7 @@
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>8.23</version>
+						<version>8.25</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -367,15 +321,5 @@
 
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.0.0-M3</version>
-			</plugin>
-		</plugins>
-	</reporting>
 
 </project>

@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.pivovarit.collectors.ParallelCollectors.parallelToList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -148,23 +147,5 @@ public class ParallelStreamProcesingTest {
             return "No title";
         }
     }
-
-    @Test
-    public void fetchAddressAsync5Test() throws Exception {
-
-        Consumer<Tuple2<URL, String>> print = System.out::println;
-
-        int parallelism = 2;
-        List<Tuple2<URL, String>> result = this.getValidAddressList().stream()
-                .collect(parallelToList(x -> curlAsync4(x), executor, parallelism))
-                .join()
-                .stream()
-                .map(CompletableFuture::join)
-                .peek(print)
-                .collect(toList());
-
-        assertThat(result.size()).isGreaterThan(0);
-    }
-
 
 }

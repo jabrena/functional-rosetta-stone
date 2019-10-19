@@ -90,11 +90,20 @@
                 - Do you use Optional in the daily job?
                 -->
                 <section data-background="#FFFFFF">
-                    <h2>Dunning–Kruger effect</h2>
-                    <img src="./images/dunning.jpg" width="60%">
-                    <p>
-                        <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" target="_blank">Wikipedia</a>
-                    </p>
+                    <section>
+                        <h2>Dunning–Kruger effect</h2>
+                        <img src="./images/dunning.jpg" width="60%">
+                        <p>
+                            <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" target="_blank">Wikipedia</a>
+                        </p>
+                    </section>
+                    <section>
+                        <blockquote>
+                            “Production is the best place on the Internet.”
+                            <br />
+                            - Josh Long
+                        </blockquote>
+                    </section>
                 </section>
 
 				<section data-background="#FFFFFF">
@@ -168,12 +177,13 @@ https://www.javaworld.com/article/3319078/functional-programming-for-java-develo
 							<li>Think in Failures, not in Exceptions</li>
 						</ol>
 					</section>
-
+                    <!--
 					<section data-background="#FFFFFF">
 						<h2>No Goals</h2>
 						<p>Deep dive in Category Theory</p>
 						<img src="./images/category.png" />
 					</section>
+					-->
 				</section>
 
 				<section data-background="#FFFFFF">
@@ -200,25 +210,21 @@ https://www.javaworld.com/article/3319078/functional-programming-for-java-develo
 					</section>
 					<section>
 						<h2>Java 8+ & VAVR</h2>
-						<h3>Functional features</h3>
+						<p>
+                            Functional features combined:
+                        </p>
 						<ol>
-							<li>Eager vs Lazy</li>
-							<li>Mutable vs Immutable</li>
-							<!--
-							<li>Pure vs Impure functions</li>
-							<li>Side effects</li>
-							-->
-							<li>List manipulation</li>
-							<li>Equational reasoning</li>
-							<li>Functional composition</li>
-							<!--
-							<li>Referential Transparency</li>
-							-->
-							<li>Monads</li>
-							<li>Effects</li>
-
-						</ol>
+                            <li>Equational reasoning</li>
+                            <li>Functional composition</li>
+                            <li>Functor, Monads & Effects</li>
+                            <li>List manipulation</li>
+                            <li>Lifting, Currying, Memoization</li>
+                            <li>Lazy execution</li>
+                            <li>Tuples</li>
+                            <li>Immutable data structures</li>
+                        </ol>
 					</section>
+                    <!--
 					<section>
 						<h2>Java 8+ & VAVR</h2>
 						<p>Alternatives in Java:</p>
@@ -233,6 +239,7 @@ https://www.javaworld.com/article/3319078/functional-programming-for-java-develo
 							<li>Kotlin: <a href="https://arrow-kt.io/" target="_blank">Arrow Kt</a></li>
 						</ul>
 					</section>
+					-->
 					<!--
 					<section>
 						<h2>What are the limits with Java 8+?</h2>
@@ -1369,7 +1376,7 @@ public Long javaSolution(Long limit) {
 							``` java
 public long javaStreamSolution(long limit) {
 
-	return factorial
+	return factorialJavaStream
 		.andThen(toDigits)
 		.andThen(sum)
 		.apply(limit);
@@ -1398,6 +1405,22 @@ Function<Stream<Integer>, Long> sum = digits -> digits
 							```
 						</script>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+public Mono<Long> ReactorSolution(Long limit) {
+
+	return Mono.just(limit)
+		.flatMap(factorialReactor)
+		.map(toDigits)
+		.map(sum);
+}
+							```
+						</script>
+					</section>
+<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -1440,6 +1463,7 @@ public void thenComposeTest() {
 							```
 						</script>
 					</section>
+-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
