@@ -1578,7 +1578,7 @@ Function<List<String>, Stream<String>> fetchListAsync = s -> {
 
 	return futureRequests.stream()
 		.map(CompletableFuture::join)
-		.flatMap(serialize); //Not safe code
+		.flatMap(serialize);
 };
 							```
 						</script>
@@ -1602,7 +1602,7 @@ Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
 				return DEFAULT_FETCH_ERROR;
 			}
 		})
-		.flatMap(serialize); //Not safe code
+		.flatMap(serialize);
 };
 
 							```
