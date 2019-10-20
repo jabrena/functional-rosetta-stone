@@ -67,7 +67,7 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return Stream.of(limit)
                 .map(factorialJavaStream)
                 .map(sumDigits)
-                .findFirst()
+                .findAny()
                 .get();
     }
 

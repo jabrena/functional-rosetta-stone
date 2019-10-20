@@ -90,19 +90,19 @@
                 - Do you use Optional in the daily job?
                 -->
                 <section data-background="#FFFFFF">
+					<section data-background="images/cicd-pipeline.png">
+						<blockquote style="background-color:#FFF">
+							“Production is the best place on the Internet.”
+							<br />
+							- Josh Long
+						</blockquote>
+					</section>
                     <section>
                         <h2>Dunning–Kruger effect</h2>
                         <img src="./images/dunning.jpg" width="60%">
                         <p>
                             <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" target="_blank">Wikipedia</a>
                         </p>
-                    </section>
-                    <section>
-                        <blockquote>
-                            “Production is the best place on the Internet.”
-                            <br />
-                            - Josh Long
-                        </blockquote>
                     </section>
                 </section>
 
@@ -1330,7 +1330,7 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 						<script type="text/template">
 							## Functional composition
 
-							### Example
+							### Synchronous
 							``` java
 							/**
 							* https://projecteuler.net/problem=20
@@ -1352,6 +1352,7 @@ then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
 						<script type="text/template">
 							## Functional composition
 
+							### Synchronous
 							``` java
 public Long javaSolution(Long limit) {
 
@@ -1375,6 +1376,7 @@ public Long javaSolution(Long limit) {
 						<script type="text/template">
 							## Functional composition
 
+							### Synchronous
 							``` java
 public Long javaStreamSolution(Long limit) {
 	//Functor composition
@@ -1388,7 +1390,7 @@ public Long JavaStreamSolution2(Long limit) {
 	return Stream.of(limit)
 		.map(factorialJavaStream)
 		.map(sumDigits)
-		.findFirst() //Optional<Long>
+		.findAny() //Optional<Long>
 		.get(); //You need to be confident
 }
 							```
@@ -1398,6 +1400,7 @@ public Long JavaStreamSolution2(Long limit) {
 						<script type="text/template">
 							## Functional composition
 
+							### Synchronous
 							``` java
 Function<Long, BigInteger> factorial = limit ->
 	LongStream.iterate(limit, i -> i - 1)
@@ -1417,6 +1420,7 @@ Function<BigInteger, Long> sumDigits = value -> value.toString().chars()
 						<script type="text/template">
 							## Functional composition
 
+							### Synchronous
 							``` java
 Function<Long, Mono<BigInteger>> factorialReactor = param -> {
 	return Flux.range(1, param.intValue())
@@ -1482,27 +1486,133 @@ public void thenComposeTest() {
 						<script type="text/template">
 							## Functional composition
 
-							``` java
-private CompletableFuture<Integer> cf(Integer param)  {
+							### Asynchronous
+							``` gherkin
+							Feature: Consume some REST God Services
 
-	return new CompletableFuture<>()
-		.supplyAsync(() -> 1 + param)
-		.handle((result, ex) -> {
-			if(!Objects.isNull(ex)) {
-				LOGGER.info("{}", 99);
-				return 99;
-			}
-			LOGGER.info("{}", result);
-			return result;
-		});
-}
-								```
+							Background: Decimal representation of `Zeus` is 122101117115
+
+							Scenario: Consume the APIs in a Happy path scenario
+								Given a list of REST API about Greek, Roman & Nordic
+								When  call and retrieve all API info
+								Then  filter by god starting with `n`
+								And   convert the names into a decimal format
+								And   sum
+							```
 						</script>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
 
+							### Asynchronous
+							``` java
+
+public BigInteger JavaStreamSolution() {
+
+	return fetchListAsync
+		.andThen(filterGods)
+		.andThen(sum)
+		.apply(listOfGods);
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<URL, CompletableFuture<String>> fetchAsync = address -> {
+
+	LOGGER.info("Thread: {}", Thread.currentThread().getName());
+	return CompletableFuture
+		.supplyAsync(() ->
+			fetch.andThen(log).apply(address), executor)
+		.exceptionally(ex -> {
+			LOGGER.error(ex.getLocalizedMessage(), ex);
+			return DEFAULT_FETCH_ERROR;
+		})
+		.completeOnTimeout(DEFAULT_FETCH_ERROR, TIMEOUT, TimeUnit.SECONDS);
+};
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<URL, CompletableFuture<String>> fetchAsync2 = address -> {
+
+	LOGGER.info("Thread: {}", Thread.currentThread().getName());
+	return CompletableFuture
+		.supplyAsync(() -> fetch.andThen(log).apply(address), executor)
+		.orTimeout(TIMEOUT, TimeUnit.SECONDS)
+		.handle((response, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.error(ex.getLocalizedMessage(), ex);
+				return DEFAULT_FETCH_ERROR;
+			}
+			return response;
+		});
+};
+
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<List<String>, Stream<String>> fetchListAsync = s -> {
+	List<CompletableFuture<String>> futureRequests = s.stream()
+		.map(toURL.andThen(fetchAsync2))
+		.collect(toList());
+
+	return futureRequests.stream()
+		.map(CompletableFuture::join)
+		.flatMap(serialize);
+};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
+	List<CompletableFuture<String>> futureRequests = s.stream()
+		.map(toURL.andThen(fetchAsyncJ8))
+		.collect(toList());
+
+	return futureRequests.stream()
+		.map(cf -> {
+			try {
+				return cf.get();
+			} catch (InterruptedException | ExecutionException e) {
+				return DEFAULT_FETCH_ERROR;
+			}
+		})
+		.flatMap(serialize); //Not safe code
+};
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
 							``` java
 @Test
 public void composeTest() {
