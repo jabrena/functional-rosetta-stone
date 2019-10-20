@@ -1,5 +1,6 @@
 package org.fundamentals.fp.playground.vavr;
 
+import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import java.net.MalformedURLException;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
@@ -18,6 +20,7 @@ import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+@Slf4j
 @Fork(2)
 @Warmup(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 20, time = 5, timeUnit = TimeUnit.SECONDS)
@@ -33,8 +36,17 @@ public class OptionalBenchmark2 {
         try {
             return new URL(address);
         } catch (MalformedURLException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getLocalizedMessage(), ex);
             return null;
+        }
+    }
+
+    private Optional<URL> getURLImperative2(String address) {
+        try {
+            return Optional.of(new URL(address));
+        } catch (MalformedURLException ex) {
+            LOGGER.error(ex.getLocalizedMessage(), ex);
+            return Optional.empty();
         }
     }
 
@@ -47,7 +59,7 @@ public class OptionalBenchmark2 {
     private Option<URL> getOptionURL(String address) {
         return Try.of(() -> new URL(address))
                 .map(u -> Option.some(u))
-                .onFailure(Throwable::printStackTrace)
+                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
                 .recover(ex -> Option.none())
                 .get();
     }
@@ -58,6 +70,21 @@ public class OptionalBenchmark2 {
                 .onFailure(Throwable::printStackTrace)
                 .recover(ex -> Optional.empty())
                 .get();
+    }
+
+    private Either<Throwable, URL> getEither(String address) {
+        return Try.of(() -> new URL(address))
+                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
+                .toEither();
+    }
+
+    private Either<String, URL> getEither2(String address) {
+        try {
+            return Either.right(new URL(address));
+        } catch (MalformedURLException ex) {
+            LOGGER.error(ex.getLocalizedMessage(), ex);
+            return Either.left(ex.getLocalizedMessage());
+        }
     }
 
     private Optional<URL> getOptionalURL(String address) {

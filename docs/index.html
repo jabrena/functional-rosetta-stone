@@ -40,9 +40,10 @@
 		<div class="reveal">
 			<div class="slides">
 
-				<section data-background="#FFFFFF">
+				<section data-background="images/egypt.png"
+						 data-background-repeat="repeat"
+						 data-background-size="500px">
 					<section>
-
 						<h1 style="color: #336699">Functional programming</h1>
 						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">VAVR</span></h2>
 						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
@@ -95,7 +96,9 @@
 							<p>
 								<strong>“Production is the best place on the Internet.”</strong>
 							</p>
+							<p>
 							- Josh Long
+							</p>
 						</blockquote>
 					</section>
                     <section>
@@ -222,6 +225,7 @@
                             <li>Lazy execution</li>
                             <li>Tuples</li>
                             <li>Immutable data structures</li>
+							<li>For-comprehension</li>
                         </ol>
 					</section>
                     <!--
@@ -1631,6 +1635,7 @@ Function<List<String>, Stream<String>> fetchListAsync = s -> {
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -1672,10 +1677,16 @@ public void composeTest() {
 							```
 						</script>
 					</section>
+					-->
 					<!--
 					<section>
 						<h2>Functional composition</h2>
 						<img src="./images/flatMap.png" width="70%">
+					</section>
+					-->
+					<!--
+					<section>
+						<img src="./images/breath.png">
 					</section>
 					-->
 					<section>
@@ -1745,6 +1756,24 @@ You start thinking about the (data) types that represent the data your code work
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
+						<p><strong>Values:</strong></p>
+						<img src="./images/javaTypes.png" width="70%">
+					</section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Accuracy with Types used for Object design</h4>
+						<p><strong>Effects:</strong></p>
+						<ul>
+							<li><strong>Optional</strong> is a monad that models the effect of optionality (of something being optional)</li>
+							<li><strong>CompletableFuture</strong> is a monad that models latency as an effect</li>
+							<li><strong>Try</strong> is a monad that models the effect of failures (manages exceptions as effects)</li>
+							<li><strong>Either</strong> is a monad that models the effect of failure and success</li>
+						</ul>
+					</section>
+					<!--
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Accuracy with Types used for Object design</h4>
 <pre>
 | Type    | Size in Bytes         | Range                                                                                             |
 |---------|-----------------------|---------------------------------------------------------------------------------------------------|
@@ -1758,6 +1787,7 @@ You start thinking about the (data) types that represent the data your code work
 | boolean | not precisely defined | true or false
 </pre>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
@@ -1771,10 +1801,12 @@ public class UserTransaction {
     private String amount;
     private String fromAccountId;
     private String toAccountId;
+	private String comment;
 }
 							```
 						</script>
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
@@ -1838,6 +1870,7 @@ public class UserTransaction {
                             ```
                         </script>
                     </section>
+                    -->
                     <section data-markdown>
                         <script type="text/template">
                             ## Type driven development
@@ -1853,17 +1886,19 @@ public class UserTransaction {
     private final MonetaryAmount amount;
     private final IBAN fromAccountId;
     private final IBAN toAccountId;
-    private final TransactionDate date
-	...
+    private final TransactionDate date;
+	private final Optional<String> comment
 }
                             ```
                         </script>
                     </section>
+
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
 						<img src="./images/wwii_bunker.jpg" width="50%">
 					</section>
+
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Cardinality</h4>
@@ -1915,11 +1950,6 @@ public class UserTransaction {
 						</table>
 					</section>
 					-->
-					<section>
-						<h2>Type driven development</h2>
-						<h4>Recovered Exceptions or better Types?</h4>
-						<img src="./images/sealed.png">
-					</section>
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
@@ -1956,6 +1986,15 @@ public synchronized Throwable fillInStackTrace() { ... }
 						<p>"The hidden performance costs of instantiating Throwables", Norman Maurer</p>
 						<img src="./images/benchmark_throwable.png" width="50%">
 					</section>
+					<!--
+					<section>
+						<img src="./images/breath.png">
+					</section>
+					-->
+					<section>
+						<h2>Functional error handling</h2>
+						<img src="./images/sealed.png">
+					</section>
 					<section>
 						<h2>Functional error handling</h2>
 						<p>
@@ -1975,15 +2014,15 @@ the language doesn't provide any solution in the line of Optional.
 						<ul>
 							<li>Try</li>
 							<li>Either</li>
-							<li>Lifting</li>
+							<!-- <li>Lifting</li> -->
 						</ul>
 					</section>
                     <section>
                         <h2>Functional error handling</h2>
                         <p>
-                            The Try control gives us the ability write safe code without
-                            focusing on try-catch blocks in the presence of exceptions.
-                        </p>
+							The Try type represents a computation that may either result in an exception,
+							or return a successfully computed value.
+						</p>
                         <img src="./images/try.png" />
                     </section>
 					<section>
@@ -2007,8 +2046,24 @@ private @Nullable URL getURLImperative(String address) {
 	try {
 		return new URL(address);
 	} catch (MalformedURLException ex) {
-		ex.printStackTrace();
+		LOGGER.warn(ex.getLocalizedMessage(), ex);
 		return null;
+	}
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+private Optional<URL> getURLImperative2(String address) {
+	try {
+		return Optional.of(new URL(address));
+	} catch (MalformedURLException ex) {
+		LOGGER.warn(ex.getLocalizedMessage(), ex);
+		return Optional.empty();
 	}
 }
 							```
@@ -2022,7 +2077,7 @@ private @Nullable URL getURLImperative(String address) {
 private Optional<URL> getOptionalTryVAVR(String address) {
 	return Try.of(() -> new URL(address))
 		.map(u -> Optional.of(u))
-		.onFailure(Throwable::printStackTrace)
+		.onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
 		.recover(ex -> Optional.empty())
 		.get();
 }
@@ -2042,6 +2097,7 @@ Try.of(() -> bunchOfWork()).getOrElse(other);
 						</script>
 					</section>
 					-->
+					<!--
                     <section data-markdown>
                         <script type="text/template">
                             ## Functional error handling
@@ -2058,6 +2114,7 @@ var result = Try.of(this::bunchOfWork)
                             ```
                         </script>
                     </section>
+                    -->
                     <section>
                         <h2>Functional error handling</h2>
                         <p>
@@ -2068,30 +2125,43 @@ var result = Try.of(this::bunchOfWork)
                         </p>
                         <img src="./images/either.png" width="50%" />
                     </section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+private Either<Throwable, URL> getEither(String address) {
+	return Try.of(() -> new URL(address))
+		.onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
+		.toEither();
+}
+							```
+						</script>
+					</section>
+					<!--
                     <section data-markdown>
                         <script type="text/template">
                             ## Functional error handling
 
                             ``` java
-private boolean isValid(String address) {
-
-    Either<Throwable, URL> result = Try.of(() ->
-							new URL(address)).toEither();
-    return Match(result).of(
-        Case($Right($()), true),
-        Case($Left($()), false)
-    );
+private Either<String, URL> getEither2(String address) {
+	try {
+		return Either.right(new URL(address));
+	} catch (MalformedURLException ex) {
+		LOGGER.error(ex.getLocalizedMessage(), ex);
+		return Either.left(ex.getLocalizedMessage());
+	}
 }
-
                             ```
                         </script>
                     </section>
+                    -->
                     <section data-markdown>
                         <script type="text/template">
                             ## Functional error handling
 
                             ``` java
-public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
+public Either<String, List<String>> searchGodsWithLargeNames3() {
 
     List<String> list = loadData().stream()
         .filter(god -> god.length() > 10)
@@ -2100,13 +2170,14 @@ public Either<Throwable, List<String>> searchGodsWithLargeNames3() {
     if(list.size() > 0 ) {
         return Either.right(list);
     }else {
-        return Either.left(new RuntimeException("No values"));
+        return Either.left(DEFAULT_LIST);
     }
 }
 
                             ```
                         </script>
                     </section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
@@ -2149,6 +2220,7 @@ then(s2).isEqualTo(Option.some(3));
 							```
 						</script>
 					</section>
+					-->
 					<!--
 					<section data-markdown>
 						<script type="text/template">
@@ -2414,7 +2486,7 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
                         <h2>Future talks</h2>
                         <ul>
                             <li>Functional Resilience4J</li>
-							<li>Micro frameworks: Webflux</li>
+							<li>Microframeworks: Webflux</li>
 							<!-- <li>JPMS for Webflux microservices</li> -->
 							<li>GraalVM for Webflux</li>
 							<!-- <li>ZIO for Java</li> -->
