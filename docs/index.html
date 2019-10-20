@@ -1578,7 +1578,7 @@ Function<List<String>, Stream<String>> fetchListAsync = s -> {
 
 	return futureRequests.stream()
 		.map(CompletableFuture::join)
-		.flatMap(serialize);
+		.flatMap(serialize); //Not safe code
 };
 							```
 						</script>
@@ -1605,6 +1605,28 @@ Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
 		.flatMap(serialize); //Not safe code
 };
 
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+private CompletableFuture<Integer> cf(Integer param)  {
+
+	return new CompletableFuture<>()
+		.supplyAsync(() -> 1 + param)
+		.handle((result, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.info("{}", 99);
+				return 99;
+			}
+			LOGGER.info("{}", result);
+			return result;
+		});
+}
 							```
 						</script>
 					</section>
