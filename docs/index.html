@@ -1518,6 +1518,7 @@ public BigInteger JavaStreamSolution() {
 							```
 						</script>
 					</section>
+                    <!--
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -1540,6 +1541,7 @@ Function<URL, CompletableFuture<String>> fetchAsync = address -> {
 							```
 						</script>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional composition
@@ -1595,13 +1597,13 @@ Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
 		.collect(toList());
 
 	return futureRequests.stream()
-		.map(cf -> {
-			try {
-				return cf.get();
-			} catch (InterruptedException | ExecutionException e) {
-				return DEFAULT_FETCH_ERROR;
-			}
-		})
+        .map(cf -> {
+            try {
+                return cf.get(TIMEOUT, TimeUnit.SECONDS);
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                return DEFAULT_FETCH_ERROR;
+            }
+        })
 		.flatMap(serialize);
 };
 
