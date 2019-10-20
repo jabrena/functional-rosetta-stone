@@ -2012,7 +2012,7 @@ the language doesn't provide any solution in the line of Optional.
 						<ul>
 							<li>Try</li>
 							<li>Either</li>
-							<!-- <li>Lifting</li> -->
+							<li>Lifting</li>
 						</ul>
 					</section>
                     <section>
@@ -2175,22 +2175,18 @@ public Either<String, List<String>> searchGodsWithLargeNames3() {
                             ```
                         </script>
                     </section>
-					<!--
+
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
 
 							``` java
-Function2<Integer, Integer, Integer> divide =
-	(a, b) -> a / b;
-Function2<Integer, Integer, Option<Integer>> safeDivide =
-	Function2.lift(divide);
+Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
+Function2<Integer, Integer, Optional<Integer>> safeDivide = (i1, i2) ->
+	Function2.lift(divide).apply(i1, i2).toJavaOptional();
 
-Option<Integer> d1 = safeDivide.apply(1, 0);
-Option<Integer> d2 = safeDivide.apply(4, 2);
-
-then(d1).isEqualTo(Option.none());
-then(d2).isEqualTo(Option.some(2));
+then(safeDivide.apply(1, 0)).isEqualTo(Optional.empty());
+then(safeDivide.apply(1, 0)).isEqualTo(Optional.of(2));
 
 							```
 						</script>
@@ -2206,19 +2202,32 @@ Function2<Integer, Integer, Integer> sum = (first, second) -> {
 	}
 	return first + second;
 };
-Function2<Integer, Integer, Option<Integer>> sumSafe =
-	Function2.lift(sum);
+Function2<Integer, Integer, Optional<Integer>> sumSafe = (i1, i2) ->
+	Function2.lift(sum).apply(i1, i2).toJavaOptional();
 
-Option<Integer> s1 = sumSafe.apply(-1, 2);
-Option<Integer> s2 = sumSafe.apply(1, 2);
-
-then(s1).isEqualTo(Option.none());
-then(s2).isEqualTo(Option.some(3));
+then(sumSafe.apply(-1, 2)).isEqualTo(Optional.empty());
+then(sumSafe.apply(1, 2)).isEqualTo(Optional.of(3));
 
 							```
 						</script>
 					</section>
-					-->
+					<section data-markdown>
+						<script type="text/template">
+							## Functional error handling
+
+							``` java
+long validSumCounter = IntStream.iterate(-5, i -> i + 1)
+	.takeWhile(i -> i < 5)
+	.mapToObj(i -> sumSafe.apply(i, 1))
+	.filter(Optional::isPresent)
+	.map(Optional::get)
+	.peek(System.out::println)
+	.count();
+
+then(validSumCounter).isEqualTo(5);
+								```
+						</script>
+					</section>
 					<!--
 					<section data-markdown>
 						<script type="text/template">
