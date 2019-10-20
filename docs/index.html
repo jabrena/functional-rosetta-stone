@@ -1548,6 +1548,54 @@ Function<URL, CompletableFuture<String>> fetchAsync = address -> {
 
 							### Asynchronous
 							``` java
+Function<URL, CompletableFuture<String>> fetchAsyncJ8 = address -> {
+
+	LOGGER.info("Thread: {}", Thread.currentThread().getName());
+	return CompletableFuture
+		.supplyAsync(() ->
+			fetch.andThen(log).apply(address), executor)
+		.handle((response, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.error(ex.getLocalizedMessage(), ex);
+				return DEFAULT_FETCH_ERROR;
+			}
+			return response;
+		});
+};
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
+	List<CompletableFuture<String>> futureRequests = s.stream()
+		.map(toURL.andThen(fetchAsyncJ8))
+		.collect(toList());
+
+	return futureRequests.stream()
+		.map(cf -> {
+			try {
+				return cf.get(TIMEOUT, TimeUnit.SECONDS);
+			} catch (InterruptedException | ExecutionException | TimeoutException e) {
+				return DEFAULT_FETCH_ERROR;
+			}
+		})
+		.flatMap(serialize);
+};
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous (Java 9+)
+							``` java
 Function<URL, CompletableFuture<String>> fetchAsync2 = address -> {
 
 	LOGGER.info("Thread: {}", Thread.currentThread().getName());
@@ -1582,31 +1630,6 @@ Function<List<String>, Stream<String>> fetchListAsync = s -> {
 		.map(CompletableFuture::join)
 		.flatMap(serialize);
 };
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							## Functional composition
-
-							### Asynchronous
-							``` java
-Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
-	List<CompletableFuture<String>> futureRequests = s.stream()
-		.map(toURL.andThen(fetchAsyncJ8))
-		.collect(toList());
-
-	return futureRequests.stream()
-        .map(cf -> {
-            try {
-                return cf.get(TIMEOUT, TimeUnit.SECONDS);
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                return DEFAULT_FETCH_ERROR;
-            }
-        })
-		.flatMap(serialize);
-};
-
 							```
 						</script>
 					</section>
