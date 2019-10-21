@@ -1644,7 +1644,6 @@ public Mono<BigInteger> reactorSolution() {
 	return Flux.range(0, config.getList().size())
 		.publishOn(scheduler)
 		.map(i -> toURL.andThen(fetch).apply(config.getList().get(i)))
-		.log()
 		.timeout(Duration.ofSeconds(config.getTimeout()), DEFAULT_FALLBACK)
 		.flatMap(serializeFlux)
 		.onErrorResume(ex -> DEFAULT_FALLBACK)
@@ -1652,7 +1651,8 @@ public Mono<BigInteger> reactorSolution() {
 		.log()
 		.map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
 		.reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2))
-		.onErrorReturn(BigInteger.ZERO);
+        .doOnError(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
+        .onErrorReturn(BigInteger.ZERO);
 }
 							```
 						</script>
