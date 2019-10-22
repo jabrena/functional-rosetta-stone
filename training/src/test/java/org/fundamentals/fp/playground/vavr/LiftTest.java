@@ -19,7 +19,7 @@ public class LiftTest {
                 Function2.lift(divide).apply(i1, i2).toJavaOptional();
 
         then(safeDivide.apply(1, 0)).isEqualTo(Optional.empty());
-        then(safeDivide.apply(1, 0)).isEqualTo(Optional.of(2));
+        then(safeDivide.apply(4, 2)).isEqualTo(Optional.of(2));
     }
 
     @Test
