@@ -91,6 +91,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>${assertj-core.version}</version>
@@ -99,11 +106,20 @@
 
 		<dependency>
 			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
-			<version>3.2.10.RELEASE</version>
+			<version>3.3.0.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>io.reactivex.rxjava2</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>2.2.13</version>
+		</dependency>
 		<dependency>
 			<groupId>com.pholser</groupId>
 			<artifactId>junit-quickcheck-core</artifactId>
