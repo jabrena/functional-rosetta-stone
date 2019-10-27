@@ -1,10 +1,11 @@
 package org.fundamentals.fp.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
+
+@Value
+@AllArgsConstructor
 public class BeachHouse {
 
-    private Insurance insurance;
-
-    public Insurance getInsurance() {
-        return insurance;
-    }
+    private final Insurance insurance;
 }

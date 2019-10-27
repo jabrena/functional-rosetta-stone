@@ -1,11 +1,12 @@
 package org.fundamentals.fp.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
+
+@Value
+@AllArgsConstructor
 public class Person {
 
-    private BeachHouse beachHouse;
-
-    public BeachHouse getBeachhouse() {
-        return beachHouse;
-    }
+    private final BeachHouse beachHouse;
 }
 

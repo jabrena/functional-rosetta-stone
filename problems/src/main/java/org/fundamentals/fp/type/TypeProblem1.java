@@ -8,6 +8,6 @@ public class TypeProblem1 {
     private final Person person;
 
     public String getInsuranceName() {
-        return person.getBeachhouse().getInsurance().getName();
+        return person.getBeachHouse().getInsurance().getName();
     }
 }

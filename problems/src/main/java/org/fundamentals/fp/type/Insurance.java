@@ -1,8 +1,11 @@
 package org.fundamentals.fp.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
+
+@Value
+@AllArgsConstructor
 public class Insurance {
-    private String name;
-    public String getName() {
-        return name;
-    }
+
+    private final String name;
 }

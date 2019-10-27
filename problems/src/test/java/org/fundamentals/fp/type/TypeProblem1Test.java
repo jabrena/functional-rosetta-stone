@@ -10,11 +10,14 @@ public class TypeProblem1Test {
     public void given_javaStreamSolution_when_executeMethod_then_returnExpectedResult() {
 
         //Given
-        Person person = new Person();
+        String DEFAULT_INSURANCE_NAME = "MyInsurance";
+        Insurance insurance = new Insurance(DEFAULT_INSURANCE_NAME);
+        BeachHouse house = new BeachHouse(insurance);
+        Person person = new Person(house);
 
         TypeProblem1 problem = new TypeProblem1(person);
 
-        then(problem.getInsuranceName()).isNotNull();
+        then(problem.getInsuranceName()).isEqualTo(DEFAULT_INSURANCE_NAME);
     }
 
 }
