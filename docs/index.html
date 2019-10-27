@@ -1917,7 +1917,76 @@ public class UserTransaction {
                             ```
                         </script>
                     </section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
 
+							### Accuracy with Types used for Object design
+
+							``` java
+public String getInsuranceName() {
+
+	if(!Objects.isNull(person.getBeachHouse())) {
+
+		BeachHouse beachHouse = person.getBeachHouse();
+		if(!Objects.isNull(beachHouse.getInsurance())) {
+
+			Insurance insurance = beachHouse.getInsurance();
+			if(!Objects.isNull(insurance)) {
+				return insurance.getName();
+			}
+		}
+	}
+	return DEFAULT_FALLBACK;
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+
+							### Accuracy with Types used for Object design
+
+							``` java
+@RequiredArgsConstructor
+public class TypeProblem1 {
+
+	private String DEFAULT_FALLBACK = "Not available";
+
+	@NonNull private final Person person;
+
+	public String getInsuranceName() {
+
+		return person.getBeachHouse()
+			.flatMap(BeachHouse::getInsurance)
+			.map(Insurance::getName)
+			.orElse(DEFAULT_FALLBACK);
+	}
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Type driven development
+
+							### Accuracy with Types used for Object design
+
+							``` java
+@Value
+public class Person {
+
+	private final Optional<BeachHouse> beachHouse;
+
+	public Person(BeachHouse beachHouse) {
+		this.beachHouse = Optional.ofNullable(beachHouse);
+	}
+}
+							```
+						</script>
+					</section>
 					<section>
 						<h2>Type driven development</h2>
 						<h4>Accuracy with Types used for Object design</h4>
