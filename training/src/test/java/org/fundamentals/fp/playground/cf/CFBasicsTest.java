@@ -27,7 +27,7 @@ public class CFBasicsTest {
 
         await()
                 .atMost(Duration.ofSeconds(3))
-                .until(example::myFirstCF, equalTo(2));
+                .until(example::myFirstCF, equalTo(5));
     }
 
     @Test
