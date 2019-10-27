@@ -1955,10 +1955,10 @@ public class TypeProblem1 {
 
 	private String DEFAULT_FALLBACK = "Not available";
 
-	@NonNull private final Person person; //JSR-305
+	@NonNull
+	private final Person person; //JSR-305
 
 	public String getInsuranceName() {
-
 		return person.getBeachHouse() //Optional<T>
 			.flatMap(BeachHouse::getInsurance)
 			.map(Insurance::getName)
