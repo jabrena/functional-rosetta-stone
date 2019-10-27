@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CFBasicsTest {
 
+    @Disabled
     @Test
     public void given_CF_when_Call_then_returnExpectedValue() {
 
