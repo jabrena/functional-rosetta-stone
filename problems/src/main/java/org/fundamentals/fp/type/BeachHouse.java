@@ -1,11 +1,14 @@
 package org.fundamentals.fp.type;
 
-import lombok.AllArgsConstructor;
+import java.util.Optional;
 import lombok.Value;
 
 @Value
-@AllArgsConstructor
 public class BeachHouse {
 
-    private final Insurance insurance;
+    private final Optional<Insurance> insurance;
+
+    public BeachHouse(Insurance insurance) {
+        this.insurance = Optional.ofNullable(insurance);
+    }
 }

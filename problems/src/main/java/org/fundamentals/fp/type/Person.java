@@ -1,12 +1,15 @@
 package org.fundamentals.fp.type;
 
-import lombok.AllArgsConstructor;
+import java.util.Optional;
 import lombok.Value;
 
 @Value
-@AllArgsConstructor
 public class Person {
 
-    private final BeachHouse beachHouse;
+    private final Optional<BeachHouse> beachHouse;
+
+    public Person(BeachHouse beachHouse) {
+        this.beachHouse = Optional.ofNullable(beachHouse);
+    }
 }
 
