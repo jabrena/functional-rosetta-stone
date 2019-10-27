@@ -1,4 +1,4 @@
-package org.fundamentals.fp.types;
+package org.fundamentals.fp.type;
 
 public class Insurance {
     private String name;
