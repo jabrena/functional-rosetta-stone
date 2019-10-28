@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Functional concepts</title>
+
+		<meta name="description" content="A web presentation about Functional programming with Java & VAVR">
+		<meta name="author" content="Juan Antonio Breña Moral">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background="#FFFFFF">
+					<section>
+
+						<h1 style="color: #336699">Annex 1:</h1>
+						<h2 style="color: #336699">Functional programming concepts</h2>
+						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">VAVR</span></h2>
+						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
+						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
+						<p>v0.1.0</p>
+					</section>
+
+				</section>
+
+				<section align="left" data-background="#ffd7b5"><!-- data-background="./images/innovation.jpg" -->
+					<h2 align="center">Who I am</h2>
+					<table>
+						<tr>
+							<td>
+								<img src="./images/jabAvatar.jpg" width="100%"/>
+							</td>
+							<td style="color: #336699; vertical-align: top">
+								Juan Antonio Breña Moral (40)<br />
+								Chapter Lead, <!--Triathlete,--> Deejay & Mindstorms/STEAM teacher.<br />
+								<a target="_blank" href="https://twitter.com/juanantoniobm">Twitter</a> |
+								<a target="_blank" href="https://github.com/jabrena">Github</a></li> |
+								<a target="_blank" href="www.linkedin.com/in/juanantoniobrenamoral">Linkedin</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center" style="color: #336699;">
+								Purpose: <i>"Riding dragons with innovation & fun"</i>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center" style="color: #336699;">
+								Quote: <i>"Pressure makes diamonds."</i><br />
+								<i>- George S. Patton Jr.</i>
+							</td>
+						</tr>
+					</table>
+				</section>
+
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Functional Concepts</h2>
+						<ol>
+							<!-- <li>Programming paradigms</li> -->
+							<li>Eager vs Lazy</li>
+							<li>Mutable vs Immutable</li>
+							<li>Pure vs Impure functions</li>
+                            <li>Side effects</li>
+							<li>List manipulation</li>
+
+							<li>Equational reasoning</li>
+							<li>Functional composition</li>
+							<li>Referential Transparency</li>
+							<li>Monads</li>
+							<li>Effects</li>
+
+						</ol>
+					</section>
+					<section>
+						<h2>Eager vs Lazy</h2>
+						<table>
+							<thead>
+							<tr>
+								<th>Concept</th>
+								<th>Description</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>Lazy</td>
+								<td>Refers to the delaying of the evaluation of an operation until it is needed.
+								</td>
+							</tr>
+							<tr>
+								<td>Eager</td>
+								<td>An operation is executed as soon as it is encountered.
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
+
+							``` java
+System.out.println("First");
+List<Integer> list = List.of(1,2,3);
+Consumer<Integer> print = System.out::println;
+Integer eager = list.stream()
+	.peek(print)
+	.reduce(0, (i1, i2) -> i1 + i2); // eager
+
+System.out.println("Second");
+Supplier<Integer> lazy = () -> list.stream()
+	.peek(print)
+	.reduce(0, (i1, i2) -> i1 + i2); // lazy
+
+then(eager).isEqualTo(lazy.get());
+System.out.println("Second computation");
+then(eager).isEqualTo(lazy.get());
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Eager vs Lazy
+
+							``` java
+Lazy<Double> lazy = Lazy.of(Math::random);
+then(lazy.isEvaluated()).isFalse();
+
+double val1 = lazy.get();
+then(lazy.isEvaluated()).isTrue();
+
+double val2 = lazy.get();
+then(val1).isEqualTo(val2);
+
+								```
+						</script>
+					</section>
+					<section>
+						<h2>Mutable vs Immutable</h2>
+						<img src="./images/javaCollection.png">
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var list = java.util.List.of(1, 2, 3).stream()
+	.peek(System.out::println)
+	.collect(toUnmodifiableList()); //Java 10
+	//.collect(Collectors.collectingAndThen(
+	//    Collectors.toList(),
+	//    x -> Collections.unmodifiableList(x))); // Java 8
+
+Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+	list.add(1); //Katacroker
+});
+
+							```
+						</script>
+					</section>
+					<!--
+                    https://mincong-h.github.io/2019/02/13/vavr-list-vs-java-list/
+                    -->
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var animals = io.vavr.collection.List.of("🐱", "🐶");
+animals.append("🐕");
+
+then(animals.size()).isEqualTo(2);
+
+animals = animals.append("🐕");
+
+then(animals.size()).isEqualTo(3);
+then(animals)
+    .isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
+
+							```
+						</script>
+					</section>
+
+
+
+					<section>
+						<h2>Pure vs Impure functions</h2>
+						<p>
+							Characteristics of Pure Function:
+						</p>
+						<ul>
+							<li>The return value of the pure functions solely depends on its arguments Hence, if you call the pure functions with the same set of arguments, you will always get the same return values.</li>
+                            <li>They do not have any <strong>side effects</strong> like network or database calls</li>
+							<li>They do not mod­ify the arguments which are passed to them</li>
+						</ul>
+					</section>
+                    <section>
+                        <h2>Side Effects</h2>
+                        <img src="./images/side-effect.jpg">
+                        <p>
+                            A side effect is any application state change that is observable outside
+                            the called function other than its return value.
+                        </p>
+                    </section>
+<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Pure vs Impure functions
+
+							Imperative
+
+							``` java
+private Double impureFunc(Integer value) { return Math.random() * value; };
+private Double pureFunc(Integer value) { return Double.valueOf(value * value); };
+
+private void imperativeStyle() {
+var impureOutput = new ArrayList<>();
+for(var i = 0; i < 5; i++){
+	impureOutput.add(impureFunc(5));
+}
+var pureOutput = new ArrayList<>();
+for(var i = 0; i < 5; i++){
+	pureOutput.add(pureFunc(5));
+}
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Pure vs Impure functions
+
+							Functional
+
+							``` java
+Function<Integer, Double> impureFunc = value ->
+Math.random() * value;
+Function<Integer, Double> pureFunc = value ->
+Double.valueOf(value * value);
+
+BiFunction<Function<Integer, Double>, Integer, List<Double>> populate = (fun, limit) ->
+IntStream.rangeClosed(0, limit).boxed()
+	.map(fun)
+	.collect(toUnmodifiableList());
+
+var impureOutput = populate.apply(impureFunc, 5);
+var pureOutput = populate.apply(pureFunc, 5);
+
+System.out.println("Impure result: " + impureOutput); // result is inconsistent however input is same.
+System.out.println("Pure result: " + pureOutput);
+
+							```
+						</script>
+					</section>
+-->
+					<section data-markdown>
+						<script type="text/template">
+							## List manipulation
+
+							``` java
+var numbers = List.of(9, 10, 3, 4, 7, 3, 4);
+var distinct = numbers.stream()
+	.map(i -> i * i)
+	.distinct()
+	.peek(System.out::println)//Debug only
+	.filter(i -> i > 50)
+	.collect(toUnmodifiableList());
+
+System.out.println(distinct);
+
+							```
+						</script>
+					</section>
+
+					<section>
+						<h2>Equational reasoning</h2>
+						<p>
+						Equational reasoning lets you transform consistently
+						(based on mathematical functional equations)
+						some functions into another ones
+						</p>
+						<img src="./images/equationalReasoning.jpg" width="40%">
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Equational reasoning
+
+							``` java
+
+Function<List<Integer>, Integer> sum = list -> list.stream()
+	.reduce(0, (i1, i2) -> i1 + i2);
+Function<List<Integer>, Integer> divide = list ->
+	sum.apply(list) / list.size();
+
+System.out.println(divide.apply(list));
+
+
+							```
+						</script>
+					</section>
+					-->
+					<section>
+						<h2>Functional composition</h2>
+						<img src="./images/waterTap.jpg">
+					</section>
+					<section>
+						<h2>Functional composition</h2>
+						<p>
+							Function composition is a mechanism to combine simple functions to build more complicated ones.
+						</p>
+						<p>
+							The ability to easily compose functions encourages factoring (breaking apart) functions for maintainability and code reuse.
+						</p>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Example
+							``` java
+							/**
+							* https://projecteuler.net/problem=20
+							* Problem 20: Factorial digit sum
+							* n! means n (n 1) ... 3 2 1
+							*
+							* For example, 10! = 10   9   ...   3   2   1 = 3628800,
+							*
+							* and the sum of the digits in the number 10! is
+							* 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+							*
+							* Find the sum of the digits in the number 100!
+							*
+							*/
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+public Long javaSolution(Long limit) {
+
+	BigDecimal factorial = BigDecimal.valueOf(limit);
+	for(long x = limit -1; x > 0; x--) {
+		factorial = factorial.multiply(BigDecimal.valueOf(x));
+	}
+
+	String strFactorial = factorial.toString();
+	long sum = 0L;
+	for(int x = 0; x < strFactorial.length(); x++) {
+		String digit = String.valueOf((char) strFactorial.charAt(x));
+		sum += Long.valueOf(digit);
+	}
+	return sum;
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+public long javaStreamSolution(long limit) {
+
+	return factorial
+		.andThen(toDigits)
+		.andThen(sum)
+		.apply(limit);
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+Function<Long, BigInteger> factorial = limit -> LongStream.iterate(limit, i -> i - 1)
+	.limit(limit)
+	.mapToObj(BigInteger::valueOf)
+	.reduce((n1, n2) -> n1.multiply(n2))
+	.get();
+
+Function<BigInteger, Stream<Integer>> toDigits = value -> value.toString().chars()
+	.mapToObj(c -> String.valueOf((char) c))
+	.map(s -> Integer.valueOf(s));
+
+Function<Stream<Integer>, Long> sum = digits -> digits
+	.mapToLong(Long::valueOf)
+	.reduce(0L, Long::sum);
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+@Test
+public void andThenTest() {
+
+	Function<Integer, Integer> multiply = (value) -> value * 2;
+	Function<Integer, Integer> add      = (value) -> value + 3;
+	Function<Integer, Integer> multiplyThenAdd =
+	multiply.andThen(add);
+
+	Integer result2 = multiplyThenAdd.apply(3);
+
+	then(result2).isEqualTo(9);
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+@Test
+public void thenComposeTest() {
+
+	Function<Integer, Integer> multiply = (value) -> value * 2;
+	Function<Integer, Integer> add      = (value) -> value + 3;
+	Function<Integer, Integer> addThenMultiply =
+	multiply.compose(add);
+
+	Integer result1 = addThenMultiply.apply(3);
+
+	then(result1).isEqualTo(12);
+}
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+private CompletableFuture<Integer> cf(Integer param)  {
+
+	return new CompletableFuture<>()
+		.supplyAsync(() -> 1 + param)
+		.handle((result, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.info("{}", 99);
+				return 99;
+			}
+			LOGGER.info("{}", result);
+			return result;
+		});
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							``` java
+@Test
+public void composeTest() {
+
+	then(this.cf(1)
+		.thenCompose(cfResult -> cf(cfResult))
+		.thenCompose(cfResult2 -> cf(cfResult2))
+		.join())
+		.isEqualTo(4);
+}
+
+							```
+						</script>
+					</section>
+					<section>
+						<h2>Referential Transparency</h2>
+						<p>
+							Referential transparency is generally defined as the fact that an expression,
+							in a program, may be replaced by its value (or anything having the same value)
+							without changing the result of the program.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Referential Transparency
+
+							``` java
+//x = 2 + (3 * 4)
+//x = 2 + 12
+//x = 14
+
+BiFunction<Integer, Integer, Integer> add =
+(i1, i2) -> i1 + i2;
+BiFunction<Integer, Integer, Integer> mult =
+(i1, i2) -> i1 * i2;
+
+int result2 = add.apply(2, mult.apply(3, 4));
+int result3 = add.apply(2, 12);
+							```
+						</script>
+					</section>
+<!--
+https://dev.to/theodesp/explain-monads-like-im-five
+
+The value may or may not exist!
+The value may exists, but there are more than one of them :(
+Getting the value would mean involving some kind of I/O operations...
+The value may exists... eventually in the future.
+The value may produce errors :(
+The value may depend on some kind of a state of the outside world.
+etc.
+-->
+					<section>
+						<h2>Monads</h2>
+						<p>
+							A monad is just a monoid in the category of endofunctors.
+						</p>
+						<p>
+							A monad is a design pattern
+						</p>
+						<!--
+						<p>
+							Monads apply a function that returns a wrapped value to a wrapped value
+						</p>
+
+						<ul>
+							<li>a parameterized type M< T ></li>
+							<li>a “unit” function T -> M< T ></li>
+							<li>a “bind” operation: M< T > bind T -> M< U > = M < U > </li>
+						</ul>
+						-->
+						<p>
+							A monad acts as a container that abstracts away those quirks in the computations,
+							and let us focus more on what we want to do with the contained values.
+						</p>
+						<!--
+						<p>
+							All it takes be a Monad is to provide two functions which conform to three laws.
+							The two functions:
+						</p>
+						-->
+					</section>
+					<section>
+						<h2>Monads</h2>
+						<p>
+						Place a value into monadic context
+						</p>
+						<ul>
+							<li>Haskell's Maybe: return / Just</li>
+							<li>Scala's Option: Some</li>
+							<li>Functional Java's Option: Option.some</li>
+							<li>JDK8's Optional: Optional.of</li>
+						</ul>
+						<p>
+						Apply a function in monadic context
+						</p>
+						<ul>
+							<li>Haskell's Maybe: >>= (aka bind)</li>
+							<li>Scala's Option: flatMap</li>
+							<li>Functional Java's Option: flatMap</li>
+							<li>JDK8's Optional: flatMap</li>
+						</ul>
+					</section>
+					<!--
+					<section>
+						<h2>Monads</h2>
+						<img src="./images/half.png">
+					</section>
+					-->
+					<!--
+					<section>
+						<h2>Monads</h2>
+						<p>Every monad need to pass the 3 Monad laws:</p>
+						<ul>
+							<li><strong>Left Identity:</strong> If we put a value in the monadic context and bind
+								a Java Function to it, its the same as just applying the Function to a value</li>
+							<li><strong>Right Identity:</strong> If we have a monad and bind that monad’s return method — it is the same
+								as the original wrapped value</li>
+							<li><strong>Associativity:</strong> If we have a sequence of functions applied to
+								a monad and it doesn’t matter how they’re nested</li>
+						</ul>
+					</section>
+					-->
+					<!--
+                    https://viniciusluisr.wordpress.com/2016/11/06/monads-in-java/
+                    https://blog.developer.atlassian.com/optional-broken/
+                    https://medium.com/97-things/optional-is-a-law-breaking-monad-but-a-good-type-7667eb821081
+                    https://gist.github.com/lestard/e28fb8a340737ffd9623
+                    https://dzone.com/users/38615/ps24890.html
+                    -->
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Monads
+
+							``` java
+//Left Identity:
+Function<Integer, Optional> addOne = x -> Optional.of(x + 1);
+Optional.of(5).flatMap(x -> addOne.apply(x))
+.equals(addOne.apply(5));
+
+//Right Identity:
+Optional.of(5).flatMap(Optional::of).equals(Optional.of(5));
+
+//Associativity:
+Function<Integer, Optional> addTwo = i -> Optional.of(i + 2);
+Function<Integer, Optional> addThree = i -> addOne.apply(i)
+.flatMap(addTwo);
+Optional.of(5).flatMap(x -> addOne.apply(x)).flatMap(addTwo)
+.equals(Optional.of(5).flatMap(x -> addThree.apply(x)));
+
+							```
+						</script>
+					</section>
+					-->
+<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Monads
+
+							``` java
+
+//Left Identity:
+Function<Integer, Option> addOne = x -> Option.of(x + 1);
+Option.of(5).flatMap(x -> addOne.apply(x))
+.equals(addOne.apply(5));
+
+//Right Identity:
+Option.of(5).flatMap(Option::of).equals(Option.of(5));
+
+//Associativity:
+Function<Integer, Option> addTwo = i -> Option.of(i + 2);
+Function<Integer, Option> addThree = i -> addOne.apply(i)
+.flatMap(addTwo);
+Option.of(5).flatMap(x -> addOne.apply(x)).flatMap(addTwo)
+.equals(Option.of(5).flatMap(x -> addThree.apply(x)));
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Monads
+
+							``` java
+//Problems with Optional
+Function f = new Function<String, Optional<String>>() {
+	@Override public Optional<String> apply(String str) {
+		return str == null ? Optional.of("X") : Optional.of(str + str);
+}};
+then(f.apply(null)).isEqualTo(Optional.of("X"));
+Assertions.assertThrows(NullPointerException.class, () -> {
+	Optional.of(null).flatMap(f);
+});
+then(Optional.ofNullable(null).flatMap(f))
+	.isEqualTo(Optional.empty());
+then(Optional.of(1).map(a -> null)).isEqualTo(Optional.empty());
+Assertions.assertThrows(NullPointerException.class, () -> {
+	Optional.of(1).flatMap(a -> null);
+});
+									```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Monads
+
+							``` java
+Function f2 = new Function<String, Option<String>>() {
+	@Override public Option<String> apply(String str) {
+		return str == null ? Option.of("X") : Option.of(str + str);
+}};
+
+then(f2.apply(null)).isEqualTo(Option.of("X"));
+then(Option.of(null).flatMap(f2)).isEqualTo(Option.none());
+then(Option.of(1).map(a -> null)).isEqualTo(Option.some(null));
+then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
+
+							```
+						</script>
+					</section>
+					-->
+					<section>
+						<h2>Effects</h2>
+						<p>
+							An effect is the thing a monad handles
+						</p>
+						<ul>
+							<li><strong>Optional</strong> is a monad that models the effect of optionality (of something being optional)</li>
+							<li><strong>CompletableFuture</strong> is a monad that models latency as an effect</li>
+							<li><strong>Try</strong> is a monad that models the effect of failures (manages exceptions as effects)</li>
+							<li><strong>Either</strong> is a monad that models the effect of failure and success</li>
+						</ul>
+					</section>
+
+					<!--
+
+					<section>
+						<h2>Side Effects</h2>
+						<p>
+							Side effects include:
+						</p>
+						<ul>
+							<li>Modifying any external variable or object property</li>
+							<li>Logging to the console</li>
+							<li>Writing to the screen</li>
+							<li>Writing to a file</li>
+							<li>Writing to the network</li>
+							<li>Triggering any external process</li>
+							<li>Calling any other functions with side-effects</li>
+						</ul>
+					</section>
+					-->
+					<!--
+					<section>
+						<h2>Programming paradigms</h2>
+						<img src="./images/paradigms.png">
+					</section>
+					<section>
+						<h2>Programming paradigms</h2>
+						<table>
+							<tbody>
+							<tr>
+								<td>Imperative</td>
+								<td>Control flow is explicit.
+									Commands show how the computation takes place, step by step.
+								</td>
+							</tr>
+							<tr>
+								<td>Declarative</td>
+								<td>Control flow is implicit.
+									the developer states only what the results should look like,
+									not how to obtain it.
+								</td>
+							</tr>
+							<tr>
+								<td>Functional</td>
+								<td>Control flow is expressed by combining function calls
+									rather than by assigning values to variables.
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<h2>Programming paradigms</h2>
+						<table>
+							<tbody>
+							<tr>
+								<td>Object-oriented</td>
+								<td>Computation is affected by sending messages to objects.
+									Objects has state and behaviour.
+								</td>
+							</tr>
+							<tr>
+								<td>Event-driven</td>
+								<td>Control flow is determined by asynchronous actions.</td>
+							</tr>
+							</tbody>
+						</table>
+					</section>
+					-->
+				</section>
+
+				<section data-background="#FFFFFF">
+					<section data-background="images/vavr_logo.png"
+							 data-background-repeat="repeat"
+							 data-background-size="100px">
+						<img src="images/vavr_logo.png" />
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+            Reveal.configure({ slideNumber: true });
+            Reveal.configure({ slideNumber: 'c/t' });
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
