@@ -1425,7 +1425,8 @@ Function<BigInteger, Long> sumDigits = value -> value.toString().chars()
 							### Synchronous
 							``` java
 Function<Long, Mono<BigInteger>> factorialReactor = param -> {
-	return Flux.range(1, param.intValue())
+
+    return Flux.range(1, param.intValue())
 		.sort((n1, n2) -> n2.compareTo(n1))
 		.map(BigInteger::valueOf)
 		.reduce((n1, n2) -> n1.multiply(n2));
@@ -1509,7 +1510,6 @@ public void thenComposeTest() {
 
 							### Asynchronous
 							``` java
-
 public BigInteger JavaStreamSolution() {
 
 	return fetchListAsync
@@ -2119,6 +2119,7 @@ the language doesn't provide any solution in the line of Optional.
 						</p>
                         <img src="./images/try.png" />
                     </section>
+                    <!--
 					<section>
 						<h2>Functional error handling</h2>
 						<p>
@@ -2131,6 +2132,7 @@ the language doesn't provide any solution in the line of Optional.
 							<li>VirtualMachineError (i.e. OutOfMemoryError or StackOverflowError)</li>
 						</ul>
 					</section>
+					-->
 					<section data-markdown>
 						<script type="text/template">
 							## Functional error handling
@@ -2153,6 +2155,7 @@ private @Nullable URL getURLImperative(String address) {
 
 							``` java
 private Optional<URL> getURLImperative2(String address) {
+
 	try {
 		return Optional.of(new URL(address));
 	} catch (MalformedURLException ex) {
@@ -2169,6 +2172,7 @@ private Optional<URL> getURLImperative2(String address) {
 
 							``` java
 private Optional<URL> getOptionalTryVAVR(String address) {
+
 	return Try.of(() -> new URL(address))
 		.map(u -> Optional.of(u))
 		.onFailure(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
@@ -2225,6 +2229,7 @@ var result = Try.of(this::bunchOfWork)
 
 							``` java
 private Either<Throwable, URL> getEither(String address) {
+
 	return Try.of(() -> new URL(address))
 		.onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
 		.toEither();
