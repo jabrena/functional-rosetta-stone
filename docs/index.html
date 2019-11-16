@@ -48,6 +48,11 @@
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 						<p>v0.3.0-SNAPSHOT</p>
 					</section>
+					<section>
+						<p>
+							<img src="./images/qrcode.png" width=40%"/>
+						</p>
+					</section>
 				</section>
 
 				<section align="left" data-background="#ffd7b5"><!-- data-background="./images/innovation.jpg" -->
@@ -124,6 +129,7 @@
                         -->
 						<li>Functional patterns</li>
 
+						<li>A roadmap</li>
 						<li>Sharpening the axe</li>
 						<!--
 						<li>The next level</li>
@@ -186,7 +192,7 @@
 						<p>
 							In computer science, functional programming is a programming paradigm—a style
 							of building the structure and elements of computer programs—that treats computation as
-							the evaluation of mathematical functions and avoids changing-state and mutable data.
+							<strong>the evaluation of mathematical functions and avoids changing-state and mutable data.</strong>
 						</p>
 						<p>
 							<a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank">Wikipedia</a>
@@ -226,24 +232,6 @@
 						</ol>
 					</section>
 					-->
-					<section>
-						<h2>Java 8+ & VAVR</h2>
-						<h3>Benefits</h3>
-						<ol>
-							<li>Use second-order functions (map, filter, fold, etc...)<!-- on immutable data structures --></li>
-							<!-- <li>Destructure values to access their components</li> -->
-							<li>Use data types to represent optionality</li>
-							<!-- <li>Read basic type signatures</li> -->
-							<!-- <li>Pass lambdas to second-order functions</li> -->
-                            <li>Solve problems without nulls, exceptions, or type casts</li>
-                            <li>Able to use functional programming “in the small”</li>
-                            <!-- <li>Write basic monadic code for a concrete monad</li> -->
-                            <!-- <li>Model a business domain with ADTs</li> -->
-							<li>Write imperative code in a purely functional way through monads</li>
-							<!--<li>Separate decision from effects</li>-->
-
-                        </ol>
-					</section>
                     <!--
 					<section>
 						<h2>Java 8+ & VAVR</h2>
@@ -271,11 +259,10 @@
 						</ol>
 					</section>
 -->
-					<!--
+
 					<section>
 						<h2>Java 8+ & VAVR</h2>
 						<ol>
-                            <li>Equational reasoning</li>
                             <li>Functional composition</li>
                             <li>Functor, Monads & Effects</li>
                             <li>List manipulation</li>
@@ -288,7 +275,7 @@
 							<a href="./annex/" target="_blank">Further information</a>
 						</p>
 					</section>
-					-->
+
 					<!--
 					<section>
 						<h2>Java 8+ & VAVR</h2>
@@ -2063,6 +2050,7 @@ public class UserTransaction {
     private String fromAccountId;
     private String toAccountId;
 	private String comment;
+	...
 }
 							```
 						</script>
@@ -2144,15 +2132,22 @@ public class UserTransaction {
 //Date and Time API (JSR 310)
 @JsonDeserialize(using = UserTransactionDeserializer.class)
 public class UserTransaction {
+
     private final MonetaryAmount amount;
     private final IBAN fromAccountId;
     private final IBAN toAccountId;
     private final TransactionDate date;
 	private final Optional<String> comment
+	...
 }
                             ```
                         </script>
                     </section>
+					<section>
+						<h2>Type driven development</h2>
+						<h4>Accuracy with Types used for Object design</h4>
+						<img src="./images/typeProblem1.png" width="50%">
+					</section>
 					<section data-markdown>
 						<script type="text/template">
 							## Type driven development
@@ -2189,7 +2184,7 @@ public String getInsuranceName() {
 @RequiredArgsConstructor
 public class TypeProblem1 {
 
-	private String DEFAULT_FALLBACK = "Not available";
+	private final String DEFAULT_FALLBACK = "Not available";
 
 	@NonNull
 	private final Person person; //JSR-305
@@ -2323,7 +2318,10 @@ public synchronized Throwable fillInStackTrace() { ... }
 					-->
 					<section>
 						<h2>Functional error handling</h2>
-						<img src="./images/sealed.png">
+						<img src="./images/sealed.png" width="50%">
+						<p>
+							We need to minimize the usage of <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html" target="_blank">@ControllerAdvice</a> to avoid a GOTO pattern
+						</p>
 					</section>
 					<section>
 						<h2>Functional error handling</h2>
@@ -2374,7 +2372,8 @@ the language doesn't provide any solution in the line of Optional.
 							## Functional error handling
 
 							``` java
-private @Nullable URL getURLImperative(String address) {
+@Nullable
+private URL getURLImperative(String address) {
 	try {
 		return new URL(address);
 	} catch (MalformedURLException ex) {
@@ -2594,6 +2593,79 @@ then(validSumCounter).isEqualTo(10);
 				</section>
 
 				<section data-background="#FFFFFF">
+
+					<section>
+						<h2>A roadmap</h2>
+						<h3>Standardized open ladder of functional programming</h3>
+						<p>
+							<img src="./images/lambda.png" width="20%" />
+						</p>
+					</section>
+					<section>
+						<h3>Level 1</h3>
+						<ol>
+							<li>Immutable Data</li>
+							<li>Second-Order Functions</li>
+							<li>Constructoring & Destructuring</li>
+							<li>Function Composition</li>
+							<li>Lambdas</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Level 1</h3>
+						<p>
+							<strong>Skills:</strong>
+						</p>
+						<ol>
+							<li>Use second-order functions (map, filter, fold) on immutable data structures</li>
+							<li>Destructure values to access their components</li>
+							<li>Use data types to represent optionality</li>
+							<li>Read basic type signatures</li>
+							<li>Pass lambdas to second-order functions</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Level 2</h3>
+						<ol>
+							<li>Algebraic Data Types</li>
+							<li>Pattern Matching</li>
+							<li><strike>General Recursion</strike></li>
+							<li><strike>Type Classes, instances, & Laws</strike></li>
+							<li><strike>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</strike></li>
+							<li>Referential Transparency & Totality</li>
+							<li>Higher-Order Functions</li>
+							<li>Partial-Application, Currying</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Level 2</h3>
+						<p>
+							<strong>Skills:</strong>
+						</p>
+						<ol>
+							<li>Solve problems without nulls, exceptions, or type casts</li>
+							<li>Able to use functional programming “in the small”</li>
+							<li>Write basic monadic code for a concrete monad</li>
+							<li>Model a business domain with ADTs</li>
+							<li>Reliably identify & isolate pure code from impure code</li>
+							<li>Avoid introducing unnecessary lambdas & named parameters</li>
+						</ol>
+					</section>
+					<section>
+						<h2>A roadmap</h2>
+						<p>
+							Do you want to reach level 3?
+						</p>
+						<p>
+							<img src="./images/category.png" width=100%"/>
+						</p>
+						<p>
+							<a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
+						</p>
+					</section>
+				</section>
+
+				<section data-background="#FFFFFF">
 					<section>
 						<h2>Sharpening the axe</h2>
 
@@ -2608,7 +2680,7 @@ then(validSumCounter).isEqualTo(10);
 						<ul>
 							<li><a href="https://projecteuler.net/archives" target="_blank">Euler</a>: Synchronous problems</li>
 							<li><a href="https://github.com/jabrena/latency-problems" target="_blank">Latency</a>: Asynchronous problems</li>
-							<li><a href="https://github.com/jabrena/type-problems" target="_blank">Type</a>: Type Driven Development <problems></problems></li>
+							<!-- <li><a href="https://github.com/jabrena/type-problems" target="_blank">Type</a>: Type Driven Development <problems></problems></li> -->
 						</ul>
 					</section>
 				</section>
@@ -2829,10 +2901,10 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
                     <section>
                         <h2>Future talks</h2>
                         <ul>
-							<li>Microframeworks: Webflux</li>
-                            <li>Reactive programming patterns: Resilience4J</li>
+							<li>Microframeworks: <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html" target="_blank">Webflux</a> & <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/" target="_blank">Spring Security</a></li>
+                            <li>Reactive programming patterns: <a href="https://resilience4j.readme.io/docs" target="_blank">Resilience4J</a></li>
 							<!-- <li>JPMS for Webflux microservices</li> -->
-							<li>Kotlin, Reactor & Arrow</li>
+							<li><a href="https://kotlinlang.org/docs/reference/" target="_blank">Kotlin</a>, <a href="https://projectreactor.io/docs/core/release/reference/" target="_blank">Reactor</a> & <a href="https://arrow-kt.io/docs/" target="_blank">Arrow</a></li>
 							<!-- <li>GraalVM for Webflux</li> -->
 							<!-- <li>ZIO for Java</li> -->
 
@@ -2849,7 +2921,7 @@ Function<Flux<Tuple2<String, Integer>>, Flux<String>> max = godInfo -> {
                     -->
 					<section>
 						<p>
-                        	<img src="./images/qrcode.png" width=40%"/>
+                        	<img src="./images/categoryTheory.png" width=30%"/>
 						</p>
 						<p>Thanks</p>
 					</section>
