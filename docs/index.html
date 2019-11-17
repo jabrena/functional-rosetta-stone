@@ -1887,10 +1887,6 @@ public Mono<BigInteger> reactorSolution() {
 
 							### Asynchronous
 							``` java
-Function<Flux<String>, Mono<BigInteger>> sumFlux = ls -> ls
-	.map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
-	.reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
-
 Function<String, Flux<String>> asyncFetchFlux = list -> {
 
     return Flux.just(list)
@@ -1901,6 +1897,11 @@ Function<String, Flux<String>> asyncFetchFlux = list -> {
         .flatMap(serializeFlux)
         .onErrorResume(ex -> DEFAULT_FALLBACK);
 };
+
+Function<Flux<String>, Mono<BigInteger>> sumFlux = ls -> ls
+    .map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+    .reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+
 							```
 						</script>
 					</section>
