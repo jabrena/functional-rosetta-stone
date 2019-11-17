@@ -1,10 +1,9 @@
 package org.fundamentals.fp.playground.vavr;
 
 import io.vavr.control.Option;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.Assert.assertEquals;
 
 /*
     The main goal of Option is to eliminate null checks in our code by leveraging the Java type system

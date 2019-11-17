@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import static io.vavr.API.*;
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.some;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.AssertionsForClassTypes.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OptionHighOrderApiTest {
 

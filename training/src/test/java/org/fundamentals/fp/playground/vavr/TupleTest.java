@@ -3,10 +3,10 @@ package org.fundamentals.fp.playground.vavr;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple3;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static java.lang.Integer.valueOf;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
     Tuples are immutable and can hold multiple objects of different types in a type-safe manner.

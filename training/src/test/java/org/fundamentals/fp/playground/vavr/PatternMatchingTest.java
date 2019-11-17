@@ -1,10 +1,11 @@
 package org.fundamentals.fp.playground.vavr;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import static io.vavr.API.*;
 import static io.vavr.Predicates.isIn;
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PatternMatchingTest {
 

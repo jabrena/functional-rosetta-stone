@@ -1,7 +1,7 @@
 package org.fundamentals.fp.playground.java8;
 
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
 

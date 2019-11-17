@@ -5,9 +5,9 @@ import io.vavr.concurrent.Future;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
-import org.junit.Test;
 
 import java.util.Random;
+import org.junit.jupiter.api.Test;
 
 import static io.vavr.API.*;
 import static io.vavr.Patterns.*;

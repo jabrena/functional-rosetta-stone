@@ -4,7 +4,7 @@ import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function4;
 import java.math.BigInteger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
 

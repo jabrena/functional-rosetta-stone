@@ -12,8 +12,8 @@ import java.util.function.Predicate;
 import static io.vavr.API.*;
 import static io.vavr.control.Try.failure;
 import static io.vavr.control.Try.success;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.AssertionsForClassTypes.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TryHighOrderApiTest {
 

@@ -3,12 +3,13 @@ package org.fundamentals.fp.playground.vavr;
 import io.vavr.Function0;
 import io.vavr.Function1;
 import io.vavr.Function2;
-import org.junit.Test;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  *     Java 8 provides only two basic functional interfaces: Function, BiFunction

@@ -2,7 +2,7 @@ package org.fundamentals.fp.playground.vavr;
 
 import io.vavr.control.Either;
 import java.util.Random;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
