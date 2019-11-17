@@ -44,7 +44,7 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return sum;
     }
 
-    Function<Long, BigInteger> factorialJavaStream = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
+    Function<Long, BigInteger> factorial = limit -> IntStream.iterate(limit.intValue(), i -> i - 1)
             .limit(limit)
             .mapToObj(BigInteger::valueOf)
             .reduce((n1, n2) -> n1.multiply(n2)).get();
@@ -57,7 +57,7 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
     @Override
     public Long JavaStreamSolution(Long limit) {
 
-        return factorialJavaStream
+        return factorial
                 .andThen(sumDigits)
                 .apply(limit);
     }
@@ -65,7 +65,7 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
     public Long JavaStreamSolution2(Long limit) {
 
         return Stream.of(limit)
-                .map(factorialJavaStream)
+                .map(factorial)
                 .map(sumDigits)
                 .findAny()
                 .get();
@@ -76,18 +76,11 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
         return null;
     }
 
-    Function<Long, Mono<BigInteger>> factorialReactor = param -> {
-        return Flux.range(1, param.intValue())
-                .sort((n1, n2) -> n2.compareTo(n1))
-                .map(BigInteger::valueOf)
-                .reduce((n1, n2) -> n1.multiply(n2));
-    };
-
     @Override
     public Mono<Long> ReactorSolution(Long limit) {
 
          return Mono.just(limit)
-                 .flatMap(factorialReactor)
+                 .map(factorial)
                  .map(sumDigits);
     }
 
