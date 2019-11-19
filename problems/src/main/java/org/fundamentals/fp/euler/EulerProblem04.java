@@ -14,9 +14,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
+ * Problem 4: Largest palindrome product
  * https://projecteuler.net/problem=4
- * Largest palindrome product
- * Problem 4
  *
  * A palindromic number reads the same both ways.
  *

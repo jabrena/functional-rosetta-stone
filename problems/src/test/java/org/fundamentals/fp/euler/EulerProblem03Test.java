@@ -80,7 +80,6 @@ public class EulerProblem03Test extends BaseEulerProblemTest implements IEulerTe
                 .values().get(0)).isEqualTo(euler.getAnswerToLong(3));
     }
 
-    @Disabled
     @Test
     @Override
     public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {

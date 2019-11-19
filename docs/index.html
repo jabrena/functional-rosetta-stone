@@ -221,7 +221,7 @@
 							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html" target="_blank">java.util.stream.*</li>
 							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" target="_blank">Optional< T ></a></li>
 							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html" target="_blank">CompletableFuture< T ></a></li>
-							<li><a href="https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html" target="_blank">Pattern Matching</a> (Java 13)</li>
+							<li><a href="https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html" target="_blank">Pattern Matching</a> (Java 14*)</li>
                             <li><a href="https://openjdk.java.net/jeps/360" target="_blank">Sealed types</a> & <a href="https://openjdk.java.net/jeps/359" target="_blank">Java records</a> (Java 14*)</li>
 						</ul>
 					</section>
@@ -287,9 +287,11 @@
                             <li>Tuples</li>
                             <li>Immutable data structures</li>
                         </ol>
+						<!--
 						<p>
 							<a href="./annex/" target="_blank">Further information</a>
 						</p>
+						-->
 					</section>
 
 					<!--
@@ -1656,18 +1658,6 @@ public Mono<Long> ReactorSolution(Long limit) {
 							```
 						</script>
 					</section>
-					<section>
-						<h2>Functional composition</h2>
-						<h3>Synchronous</h3>
-						<p>
-							Cardinality:
-						</p>
-						<ul>
-							<li>Step 1: Init -> 1</li>
-							<li>Step 2: Factorial -> 1</li>
-							<li>Step 3: Sum -> 1</li>
-						</ul>
-					</section>
 <!--
 					<section data-markdown>
 						<script type="text/template">
@@ -1904,19 +1894,6 @@ Function<Flux<String>, Mono<BigInteger>> sumFlux = ls -> ls
 
 							```
 						</script>
-					</section>
-					<section>
-						<h2>Functional composition</h2>
-						<h3>Asynchronous</h3>
-						<p>
-							Cardinality:
-						</p>
-						<ul>
-							<li>Step 1: Init -> 3</li>
-							<li>Step 2: AsyncFetch -> n (Expand)</li>
-							<li>Step 3: Filter -> n - x</li>
-							<li>Step 4: Sum -> 1</li>
-						</ul>
 					</section>
 					<!--
 					<section data-markdown>
@@ -2625,11 +2602,12 @@ then(validSumCounter).isEqualTo(10);
 						<ol>
 							<li>Immutable Data</li>
 							<li>Second-Order Functions</li>
-							<li>Constructoring & Destructuring</li>
+							<!-- <li>Constructoring & Destructuring</li> -->
 							<li>Function Composition</li>
 							<li>Lambdas</li>
 						</ol>
 					</section>
+					<!--
 					<section>
 						<h3>Level 1</h3>
 						<p>
@@ -2640,9 +2618,10 @@ then(validSumCounter).isEqualTo(10);
 							<li>Destructure values to access their components</li>
 							<li><strong>Use data types to represent optionality</strong></li>
 							<li>Read basic type signatures</li>
-							<li><strong>Pass lambdas to second-order functions</strong></li>
+							<li>Pass lambdas to second-order functions</li>
 						</ol>
 					</section>
+					-->
 					<section>
 						<h3>Level 2</h3>
 						<ol>
@@ -2653,31 +2632,41 @@ then(validSumCounter).isEqualTo(10);
 							<li><strike>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</strike></li>
 							<li>Referential Transparency & Totality</li>
 							<li>Higher-Order Functions</li>
-							<li>Partial-Application, Currying & Point-Free Style</li>
+							<li>Partial-Application, Currying <!-- & Point-Free Style --></li>
 						</ol>
 					</section>
 					<section>
-						<h3>Level 2</h3>
 						<p>
 							<strong>Skills:</strong>
 						</p>
 						<ol>
+							<li><strong>Use second-order functions (map, filter, fold)</strong> on immutable data structures</li>
+							<!-- <li>Destructure values to access their components</li> -->
+							<li><strong>Use data types to represent optionality</strong></li>
+							<!-- <li>Read basic type signatures</li> -->
+							<!-- <li>Pass lambdas to second-order functions</li> -->
+
 							<li><strong>Solve problems without nulls, exceptions, or type casts</strong></li>
 							<li><strong>Able to use functional programming “in the small”</strong></li>
-							<li>Write basic monadic code for a concrete monad</li>
+							<!-- <li>Write basic monadic code for a concrete monad</li> -->
 							<li>Model a business domain with ADTs</li>
 							<li>Reliably identify & isolate pure code from impure code</li>
-							<li>Avoid introducing unnecessary lambdas & named parameters</li>
+							<!-- <li>Avoid introducing unnecessary lambdas & named parameters</li> -->
 						</ol>
 					</section>
 					<section>
 						<h2>A roadmap</h2>
 						<p>
-							Do you want to reach level 3?
+							Do you want to reach <strong>Level 3</strong>?
 						</p>
+						<p>
+							<img src="images/typelevel.jpg" width="50%"/>
+						</p>
+						<!--
 						<p>
 							<a href="https://github.com/hmemcpy/milewski-ctfp-pdf" target="_blank"><img src="./images/category.png" width=100%"/></a>
 						</p>
+						-->
 						<p>
 							<a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
 						</p>

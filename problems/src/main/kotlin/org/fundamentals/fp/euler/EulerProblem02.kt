@@ -27,38 +27,13 @@ package org.fundamentals.fp.euler;
  */
 fun KotlinSolution02(limit : Long) : Long {
 
-    return getFibonnacciSerieWithLimit(limit)
+    val TWO = 2
+    val isMultiple = { l: Int, i: Int -> l % i == 0 }
+    val isMultiple2 = { number: Int -> isMultiple(number, TWO) }
+
+    return UtilsKotlin.fibonnacci(limit)
             .filter { isMultiple2(it) }
             //.onEach { println("$it") }
-            .sum()
-            .toLong()
-}
-
-val TWO = 2
-val isMultiple = { l: Int, i: Int -> l % i == 0 }
-val isMultiple2 = { number: Int -> isMultiple(number, TWO) }
-
-fun getFibonacciSerie(): Sequence<Int> {
-
-    return generateSequence(0 to 1) { Pair(it.second, it.first + it.second) }
-            .map { it.first }
-}
-
-fun getFibonnacciSerieWithLimit(limit: Long): Sequence<Int> {
-
-    return getFibonacciSerie()
-            .takeWhile { x -> x <= limit.toInt() }
-}
-
-fun fibonnaciMultiple2(limit: Long): Sequence<Int> {
-
-    return getFibonnacciSerieWithLimit(limit)
-            .filter { isMultiple2(it) }
-}
-
-fun sum(sequence: Sequence<Int>): Long {
-
-    return sequence
             .sum()
             .toLong()
 }
