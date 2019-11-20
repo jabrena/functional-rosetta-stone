@@ -8,7 +8,7 @@ import java.util.Random
 fun main(args : Array<String>) {
     println("Hello World")
     //forwardComposeExample1()
-    forwardComposeExample2()
+    andThenExample1()
 }
 
 fun forwardComposeExample1() {
@@ -19,7 +19,7 @@ fun forwardComposeExample1() {
     println(composition())
 }
 
-fun forwardComposeExample2() {
+fun andThenExample1() {
     val getOne = { d: Double -> d + 1.0 }
     val pow = { d: Double -> Math.pow(d, 2.0) }
     var round = { d: Double -> Math.round(d) }
