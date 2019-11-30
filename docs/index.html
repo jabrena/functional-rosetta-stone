@@ -56,10 +56,10 @@
 				<section data-background="#FFFFFF">
 					<section>
 						<h1 style="color: #336699">Functional programming</h1>
-						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">VAVR</span></h2>
+						<h2 style="color: #336699">Ladder with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">Kotlin</span></h2>
 						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
-						<p>v0.3.0-SNAPSHOT</p>
+						<p>v0.4.0-SNAPSHOT</p>
 						<p></p>
 					</section>
 					<section>
@@ -135,15 +135,19 @@
                     <h2 style="color: black">Agenda</h2>
                     <ol>
                         <li>Goals</li>
-						<li>Java & VAVR</li>
+						<li>Functional programming in the JVM</li>
+						<li>A roadmap</li>
+						<li>Level 1</li>
+						<li>Level 2</li>
                         <!--
 						<li>What are the limits with Java 8+?</li>
 						<li>VAVR Intro</li>
                         <li>Functional programming concepts</li>
-                        -->
+
 						<li>Functional patterns</li>
 
-						<li>A roadmap</li>
+						-->
+
 						<li>Sharpening the axe</li>
 						<!--
 						<li>The next level</li>
@@ -152,13 +156,13 @@
 						<!--
                         <li>References</li>
                         -->
-                        <!-- <li>Acknowledgements</li> -->
+                        <li>Acknowledgements</li>
                         <li>Future talks</li>
 						<!-- <li>Questions & Answers</li> -->
                     </ol>
                 </section>
 
-
+				<!--
 				<section data-background="#FFFFFF">
 
 					<section>
@@ -183,15 +187,91 @@
 							<li>Purely functional</li>
 						</ol>
 					</section>
-                    <!--
-					<section data-background="#FFFFFF">
-						<h2>No Goals</h2>
-						<p>Deep dive in Category Theory</p>
-						<img src="./images/category.png" />
-					</section>
-					-->
 				</section>
+				-->
+				<section data-background="#FFFFFF">
 
+					<section>
+						<h2>A roadmap</h2>
+						<h3>Standardized open ladder of functional programming</h3>
+						<p>
+							<img src="./images/lambda.png" width="20%" />
+						</p>
+					</section>
+					<section>
+						<h2>A roadmap</h2>
+						<p>
+							<img src="images/typelevel.jpg" width="50%"/>
+						</p>
+						<!--
+						<p>
+							<a href="https://github.com/hmemcpy/milewski-ctfp-pdf" target="_blank"><img src="./images/category.png" width=100%"/></a>
+						</p>
+						-->
+						<p>
+							<a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
+						</p>
+					</section>
+				</section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h2>Level 1</h2>
+						<ol>
+							<li>Immutable Data</li>
+							<li>Second-Order Functions</li>
+							<li>Constructoring & Destructuring</li>
+							<li>Function Composition</li>
+							<li>Lambdas</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Level 1</h3>
+						<p>
+							<strong>Skills:</strong>
+						</p>
+						<ol>
+							<li>Use second-order functions (map, filter, fold) on immutable data structures</li>
+							<li>Destructure values to access their components</li>
+							<li>Use data types to represent optionality</li>
+							<li>Read basic type signatures</li>
+							<li>Pass lambdas to second-order functions</li>
+						</ol>
+					</section>
+				</section>
+				<section data-background="#FFFFFF">
+					<section>
+						<h3>Level 2</h3>
+						<ol>
+							<li>Algebraic Data Types</li>
+							<li>Pattern Matching</li>
+							<li>General Recursion</li>
+							<li>Type Classes, instances, & Laws</li>
+							<li>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</li>
+							<li>Referential Transparency & Totality</li>
+							<li>Higher-Order Functions</li>
+							<li>Partial-Application, Currying, & Point-Free Style</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Level 2</h3>
+						<!--
+						<p>
+							<strong>Skills:</strong>
+						</p>
+						-->
+						<ol>
+							<li>Solve problems without nulls, exceptions, or type casts</li>
+							<li>Process & transform recursive data structures using recursion</li>
+							<li>Able to use functional programming “in the small”</li>
+							<li>Write basic monadic code for a concrete monad</li>
+							<li>Create type class instances for custom data types</li>
+							<li>Model a business domain with ADTs</li>
+							<li>Write functions that take and return functions</li>
+							<!-- <li>Reliably identify & isolate pure code from impure code</li>-->
+							<!-- <li>Avoid introducing unnecessary lambdas & named parameters</li> -->
+						</ol>
+					</section>
+				</section>
 				<section data-background="#FFFFFF">
 					<!--
                     https://www.infoq.com/articles/How-Functional-is-Java-8/
@@ -2585,91 +2665,6 @@ then(validSumCounter).isEqualTo(10);
 						</script>
 					</section>
 				-->
-				</section>
-
-				<section data-background="#FFFFFF">
-
-					<section>
-						<h2>A roadmap</h2>
-						<h3>Standardized open ladder of functional programming</h3>
-						<p>
-							<img src="./images/lambda.png" width="20%" />
-						</p>
-					</section>
-					<section>
-						<h3>Level 1</h3>
-						<ol>
-							<li>Immutable Data</li>
-							<li>Second-Order Functions</li>
-							<!-- <li>Constructoring & Destructuring</li> -->
-							<li>Function Composition</li>
-							<li>Lambdas</li>
-						</ol>
-					</section>
-					<!--
-					<section>
-						<h3>Level 1</h3>
-						<p>
-							<strong>Skills:</strong>
-						</p>
-						<ol>
-							<li><strong>Use second-order functions (map, filter, fold)</strong> on immutable data structures</li>
-							<li>Destructure values to access their components</li>
-							<li><strong>Use data types to represent optionality</strong></li>
-							<li>Read basic type signatures</li>
-							<li>Pass lambdas to second-order functions</li>
-						</ol>
-					</section>
-					-->
-					<section>
-						<h3>Level 2</h3>
-						<ol>
-							<li>Algebraic Data Types</li>
-							<li>Pattern Matching</li>
-							<li><strike>General Recursion</strike></li>
-							<li><strike>Type Classes, instances, & Laws</strike></li>
-							<li><strike>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</strike></li>
-							<li>Referential Transparency & Totality</li>
-							<li>Higher-Order Functions</li>
-							<li>Partial-Application, Currying <!-- & Point-Free Style --></li>
-						</ol>
-					</section>
-					<section>
-						<p>
-							<strong>Skills:</strong>
-						</p>
-						<ol>
-							<li><strong>Use second-order functions (map, filter, fold)</strong> on immutable data structures</li>
-							<!-- <li>Destructure values to access their components</li> -->
-							<li><strong>Use data types to represent optionality</strong></li>
-							<!-- <li>Read basic type signatures</li> -->
-							<!-- <li>Pass lambdas to second-order functions</li> -->
-
-							<li><strong>Solve problems without nulls, exceptions, or type casts</strong></li>
-							<li><strong>Able to use functional programming “in the small”</strong></li>
-							<!-- <li>Write basic monadic code for a concrete monad</li> -->
-							<li><strong>Model a business domain with ADTs</strong></li>
-							<li>Reliably identify & isolate pure code from impure code</li>
-							<!-- <li>Avoid introducing unnecessary lambdas & named parameters</li> -->
-						</ol>
-					</section>
-					<section>
-						<h2>A roadmap</h2>
-						<p>
-							Do you want to reach the <strong>Level 3</strong>?
-						</p>
-						<p>
-							<img src="images/typelevel.jpg" width="50%"/>
-						</p>
-						<!--
-						<p>
-							<a href="https://github.com/hmemcpy/milewski-ctfp-pdf" target="_blank"><img src="./images/category.png" width=100%"/></a>
-						</p>
-						-->
-						<p>
-							<a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
-						</p>
-					</section>
 				</section>
 
 				<section data-background="#FFFFFF">
