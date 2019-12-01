@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Functional programming with Java & VAVR</title>
+		<title>Functional programming with Java & Kotlin</title>
 
 		<meta name="description" content="A web presentation about Functional programming with Java & VAVR">
 		<meta name="author" content="Juan Antonio Breña Moral">
@@ -55,12 +55,20 @@
 
 				<section data-background="#FFFFFF">
 					<section>
-						<h1 style="color: #336699">Functional programming</h1>
-						<h2 style="color: #336699">Ladder with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">Kotlin</span></h2>
+						<h2 style="color: #336699">The standarized open ladder of <span style="color: #CC9900">Functional programming</span></h2>
+						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">Kotlin</span></h2>
 						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 						<p>v0.4.0-SNAPSHOT</p>
 						<p></p>
+					</section>
+					<section>
+						<h2>Control version</h2>
+						<ol>
+							<li><a href="./annex/" target="_blank">Functional concepts (Pune - October 2019)</a></li>
+							<li><a href="./v030/" target="_blank">Functional patterns (Brussels & Madrid - November 2019)</a></li>
+							<li><a href="#">Open Ladder of functional programming, Level 1 (December 2019)</a></li>
+						</ol>
 					</section>
 					<section>
 						<p>
@@ -135,10 +143,8 @@
                     <h2 style="color: black">Agenda</h2>
                     <ol>
                         <li>Goals</li>
-						<li>Functional programming in the JVM</li>
+						<li>Functional programming</li>
 						<li>A roadmap</li>
-						<li>Level 1</li>
-						<li>Level 2</li>
                         <!--
 						<li>What are the limits with Java 8+?</li>
 						<li>VAVR Intro</li>
@@ -190,6 +196,75 @@
 				</section>
 				-->
 				<section data-background="#FFFFFF">
+					<!--
+                    https://www.infoq.com/articles/How-Functional-is-Java-8/
+                    https://www.beyondjava.net/java-8-functional-programming-language
+                    https://www.javaworld.com/article/3319078/functional-programming-for-java-developers-part-2.html
+                    https://ebaytech.berlin/declarative-concurrency-with-reactor-70507e04054a
+                    https://stackoverflow.com/questions/50431709/what-is-value-in-pure-functional-programming
+                    -->
+					<section>
+						<h2>Functional programming</h2>
+						<p>
+							<strong>functional programming is a programming paradigm</strong> style
+							of building the structure and elements of computer programs—that treats computation as
+							<strong>the evaluation of mathematical functions and avoids changing-state and mutable data.</strong>
+						</p>
+						<p>
+							You can model solutions using this paradigm with Scala, Clojure, Kotlin & Java in the JVM.
+						</p>
+						<p>
+							<a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank">Wikipedia</a>
+						</p>
+					</section>
+					<section>
+						<h2>Functional programming</h2>
+						<p>
+							<img src="./images/characteristics.png" width="50%" />
+						</p>
+					</section>
+					<section>
+						<h2>Functional programming</h2>
+						<h3>Java 8+</h3>
+						<ul>
+							<li>λ</li>
+							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html" target="_">java.util.function.*</li>
+							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html" target="_blank">java.util.stream.*</li>
+							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" target="_blank">Optional< T ></a></li>
+							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html" target="_blank">CompletableFuture< T ></a></li>
+							<li><a href="https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html" target="_blank">Pattern Matching</a> (Java 14*)</li>
+							<li><a href="https://openjdk.java.net/jeps/360" target="_blank">Sealed types</a> & <a href="https://openjdk.java.net/jeps/359" target="_blank">Java records</a> (Java 14*)</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional programming
+
+							### Maven dependency
+
+							https://mvnrepository.com/artifact/io.vavr/vavr/0.10.2
+							``` xml
+							<dependency>
+								<groupId>io.vavr</groupId>
+								<artifactId>vavr</artifactId>
+								<version>0.10.2</version>
+							</dependency>
+							```
+							(876 KB)
+						</script>
+					</section>
+					<section>
+						<h2>Functional programming</h2>
+						<h3>VAVR</h3>
+						<ul>
+							<li><strong>vavr.core: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src-gen/main/java/io/vavr" target="_blank"> Tuple0-8, Function0-8, CheckedFunction0-8</a>, <a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr" target="_blank">Lazy</a></li>
+							<li><strong>vavr.control: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr/control" target="_blank"> Option, Try, Either, Validation</a></li>
+							<li>vavr.collection: Seq, Map, Set</li>
+							<li><strike>vavr.concurrency: Future</strike></li>
+						</ul>
+					</section>
+				</section>
+				<section data-background="#FFFFFF">
 
 					<section>
 						<h2>A roadmap</h2>
@@ -199,23 +274,10 @@
 						</p>
 					</section>
 					<section>
-						<h2>A roadmap</h2>
+						<h3>Level 1</h3>
 						<p>
-							<img src="images/typelevel.jpg" width="50%"/>
+							<strong>Agenda:</strong>
 						</p>
-						<!--
-						<p>
-							<a href="https://github.com/hmemcpy/milewski-ctfp-pdf" target="_blank"><img src="./images/category.png" width=100%"/></a>
-						</p>
-						-->
-						<p>
-							<a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
-						</p>
-					</section>
-				</section>
-				<section data-background="#FFFFFF">
-					<section>
-						<h2>Level 1</h2>
 						<ol>
 							<li>Immutable Data</li>
 							<li>Second-Order Functions</li>
@@ -237,10 +299,486 @@
 							<li>Pass lambdas to second-order functions</li>
 						</ol>
 					</section>
-				</section>
-				<section data-background="#FFFFFF">
+					<section>
+						<h2>Mutable vs Immutable</h2>
+						<h3>Java Collections</h3>
+						<img src="./images/javaCollection.png" width="50%">
+					</section>
+                    <section>
+                        <h2>Mutable vs Immutable</h2>
+                        <h3>VAVR Collections</h3>
+						<img src="images/vavr_architecture.jpg" width="80%" />
+                    </section>
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var list = java.util.List.of(1, 2, 3).stream()
+.peek(System.out::println)
+.collect(toUnmodifiableList()); //Java 10
+//.collect(Collectors.collectingAndThen(
+//    Collectors.toList(),
+//    x -> Collections.unmodifiableList(x))); // Java 8
+
+Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+	list.add(1); //Katacroker
+});
+
+							```
+						</script>
+					</section>
+					<!--
+                    https://mincong-h.github.io/2019/02/13/vavr-list-vs-java-list/
+                    -->
+					<section data-markdown>
+						<script type="text/template">
+							## Mutable vs Immutable
+
+							``` java
+var animals = io.vavr.collection.List.of("🐱", "🐶");
+animals.append("🐕");
+
+then(animals.size()).isEqualTo(2);
+
+animals = animals.append("🐕");
+
+then(animals.size()).isEqualTo(3);
+then(animals)
+	.isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
+
+							```
+						</script>
+					</section>
+					<section>
+
+						<ol>
+							<li><a href="https://static.javadoc.io/io.vavr/vavr/0.10.2/io/vavr/collection/List.html" target="_blank">List</a></li>
+							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a></li>
+
+						</ol>
+					</section>
+					<section>
+						<h2>Constructoring & Destructuring</h2>
+						<!--
+	https://www.javacodegeeks.com/2014/12/tuple-and-entry-destructuring.html
+	https://stackoverflow.com/questions/56586093/java-object-destructuring
+	https://kotlinlang.org/docs/reference/multi-declarations.html
+	https://opencredo.com/blogs/the-destructor-pattern/
+						-->
+					</section>
+					<!--
+					<section>
+						<h2>Functional composition</h2>
+						<img src="./images/waterTap.jpg">
+					</section>
+					-->
+					<section>
+						<h2>Functional composition</h2>
+						<p>
+							Function composition is a mechanism to combine simple functions to build more complicated ones.
+						</p>
+						<p>
+							The ability to easily compose functions encourages factoring (breaking apart) functions for maintainability and code reuse.
+						</p>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Synchronous
+							``` java
+/**
+* https://projecteuler.net/problem=20
+* Problem 20: Factorial digit sum
+* n! means n (n 1) ... 3 2 1
+*
+* For example, 10! = 10   9   ...   3   2   1 = 3628800,
+*
+* and the sum of the digits in the number 10! is
+* 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+*
+* Find the sum of the digits in the number 100!
+*
+*/
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Synchronous
+							``` java
+public Long javaSolution(Long limit) {
+
+	BigDecimal factorial = BigDecimal.valueOf(limit);
+	for(long x = limit -1; x > 0; x--) {
+		factorial = factorial.multiply(BigDecimal.valueOf(x));
+	}
+
+	String strFactorial = factorial.toString();
+	long sum = 0L;
+	for(int x = 0; x < strFactorial.length(); x++) {
+		String digit = String.valueOf((char) strFactorial.charAt(x));
+		sum += Long.valueOf(digit);
+	}
+	return sum;
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Synchronous
+							``` java
+public Long javaStreamSolution(Long limit) {
+	//Functor composition
+	return factorial
+		.andThen(sumDigits)
+		.apply(limit);
+}
+
+public Long JavaStreamSolution2(Long limit) {
+	//Monad composition
+	return Stream.of(limit)
+		.map(factorial)
+		.map(sumDigits)
+		.findAny() //Optional<Long>
+		.get(); //You need to be confident
+}
+								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Synchronous
+							``` java
+Function<Long, BigInteger> factorial = limit ->
+	LongStream.iterate(limit, i -> i - 1)
+	.limit(limit)
+	.mapToObj(BigInteger::valueOf)
+	.reduce((n1, n2) -> n1.multiply(n2))
+	.get();
+
+Function<BigInteger, Long> sumDigits = value -> value.toString().chars()
+	.mapToObj(c -> String.valueOf((char) c))
+	.mapToLong(Long::valueOf)
+	.reduce(0L, Long::sum);
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Synchronous
+							``` java
+public Mono<Long> ReactorSolution(Long limit) {
+
+	return Mono.just(limit)
+		.map(factorial)
+		.map(sumDigits);
+}
+								```
+						</script>
+					</section>
+					<!--
+                                        <section data-markdown>
+                                            <script type="text/template">
+                                                ## Functional composition
+
+                                                ``` java
+                    @Test
+                    public void andThenTest() {
+
+                        Function<Integer, Integer> multiply = (value) -> value * 2;
+                        Function<Integer, Integer> add      = (value) -> value + 3;
+                        Function<Integer, Integer> multiplyThenAdd =
+                            multiply.andThen(add);
+
+                        Integer result2 = multiplyThenAdd.apply(3);
+
+                        then(result2).isEqualTo(9);
+                    }
+
+                                                ```
+                                            </script>
+                                        </section>
+                                        <section data-markdown>
+                                            <script type="text/template">
+                                                ## Functional composition
+
+                                                ``` java
+                    @Test
+                    public void thenComposeTest() {
+
+                        Function<Integer, Integer> multiply = (value) -> value * 2;
+                        Function<Integer, Integer> add      = (value) -> value + 3;
+                        Function<Integer, Integer> addThenMultiply =
+                            multiply.compose(add);
+
+                        Integer result1 = addThenMultiply.apply(3);
+
+                        then(result1).isEqualTo(12);
+                    }
+
+                                                ```
+                                            </script>
+                                        </section>
+                    -->
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` gherkin
+Feature: Consume some REST God Services
+
+Background: Decimal representation of `Zeus` is 122101117115
+
+Scenario: Consume the APIs in a Happy path scenario
+	Given a list of REST API about Greek, Roman & Nordic
+	When  call and retrieve all API info
+	Then  filter by god starting with `n`
+	And   convert the names into a decimal format
+	And   sum
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+public BigInteger JavaStreamSolution() {
+
+	return fetchListAsync
+		.andThen(filterGods)
+		.andThen(sum)
+		.apply(listOfGods);
+}
+							```
+						</script>
+					</section>
+					<!--
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Functional composition
+
+                            ### Asynchronous
+                            ``` java
+Function<URL, CompletableFuture<String>> fetchAsync = address -> {
+
+    LOGGER.info("Thread: {}", Thread.currentThread().getName());
+    return CompletableFuture
+        .supplyAsync(() ->
+            fetch.andThen(log).apply(address), executor)
+        .exceptionally(ex -> {
+            LOGGER.error(ex.getLocalizedMessage(), ex);
+            return DEFAULT_FETCH_ERROR;
+        })
+        .completeOnTimeout(DEFAULT_FETCH_ERROR, TIMEOUT, TimeUnit.SECONDS);
+};
+
+                            ```
+                        </script>
+                    </section>
+                    -->
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<URL, CompletableFuture<String>> fetchAsyncJ8 = address -> {
+
+	LOGGER.info("Thread: {}", Thread.currentThread().getName());
+	return CompletableFuture
+		.supplyAsync(() ->
+			fetch.andThen(log).apply(address), executor)
+		.handle((response, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.error(ex.getLocalizedMessage(), ex);
+				return DEFAULT_FETCH_ERROR;
+			}
+			return response;
+		});
+};
+								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<List<String>, Stream<String>> fetchListAsyncJ8 = s -> {
+	List<CompletableFuture<String>> futureRequests = s.stream()
+		.map(toURL.andThen(fetchAsyncJ8))
+		.collect(toList());
+
+	return futureRequests.stream()
+		.map(cf -> {
+			try {
+				return cf.get(TIMEOUT, TimeUnit.SECONDS);
+			} catch (InterruptedException | ExecutionException | TimeoutException e) {
+				return DEFAULT_FETCH_ERROR;
+			}
+		})
+		.flatMap(serialize);
+	};
+
+									```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous (Java 9+)
+							``` java
+Function<URL, CompletableFuture<String>> fetchAsync2 = address -> {
+
+	LOGGER.info("Thread: {}", Thread.currentThread().getName());
+	return CompletableFuture
+		.supplyAsync(() -> fetch.andThen(log).apply(address), executor)
+		.orTimeout(TIMEOUT, TimeUnit.SECONDS)
+		.handle((response, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.error(ex.getLocalizedMessage(), ex);
+				return DEFAULT_FETCH_ERROR;
+			}
+			return response;
+		});
+	};
+
+								```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<List<String>, Stream<String>> fetchListAsync = s -> {
+	List<CompletableFuture<String>> futureRequests = s.stream()
+		.map(toURL.andThen(fetchAsync2))
+		.collect(toList());
+
+	return futureRequests.stream()
+		.map(CompletableFuture::join)
+		.flatMap(serialize);
+};
+									```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+public Mono<BigInteger> reactorSolution() {
+
+	return Flux.fromIterable(config.getList())
+		.flatMap(asyncFetchFlux)
+		.filter(godStartingByn)
+		.transform(sumFlux)
+		.doOnError(ex -> LOGGER.warn(ex.getLocalizedMessage(), ex))
+		.onErrorReturn(BigInteger.ZERO)
+		.next();
+}
+								```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+Function<String, Flux<String>> asyncFetchFlux = list -> {
+
+	return Flux.just(list)
+		.publishOn(scheduler)
+		.map(i -> toURL.andThen(fetch).apply(i))
+		.timeout(Duration.ofSeconds(config.getTimeout()), DEFAULT_FALLBACK)
+		.log()
+		.flatMap(serializeFlux)
+		.onErrorResume(ex -> DEFAULT_FALLBACK);
+	};
+
+	Function<Flux<String>, Mono<BigInteger>> sumFlux = ls -> ls
+		.map(toDigits.andThen(concatDigits).andThen(BigInteger::new))
+		.reduce(BigInteger.ZERO, (l1, l2) -> l1.add(l2));
+
+									```
+						</script>
+					</section>
+					<!--
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+private CompletableFuture<Integer> cf(Integer param)  {
+
+	return new CompletableFuture<>()
+		.supplyAsync(() -> 1 + param)
+		.handle((result, ex) -> {
+			if(!Objects.isNull(ex)) {
+				LOGGER.info("{}", 99);
+				return 99;
+			}
+			LOGGER.info("{}", result);
+			return result;
+		});
+}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Functional composition
+
+							### Asynchronous
+							``` java
+@Test
+public void composeTest() {
+
+	then(this.cf(1)
+		.thenCompose(cfResult -> cf(cfResult))
+		.thenCompose(cfResult2 -> cf(cfResult2))
+		.join())
+		.isEqualTo(4);
+}
+
+							```
+						</script>
+					</section>
+-->
+					<section>
+						<h2>Lambdas</h2>
+						<!--
+
+						-->
+					</section>
 					<section>
 						<h3>Level 2</h3>
+						<p>
+							<strong>Agenda:</strong>
+						</p>
 						<ol>
 							<li>Algebraic Data Types</li>
 							<li>Pattern Matching</li>
@@ -271,137 +809,16 @@
 							<!-- <li>Avoid introducing unnecessary lambdas & named parameters</li> -->
 						</ol>
 					</section>
+					<section>
+						<h2>A roadmap</h2>
+						<p>
+							<img src="images/typelevel.jpg" width="50%"/>
+						</p>
+						<p>
+							<a href="./roadmap.pdf" target="_blank">Further information</a>
+						</p>
+					</section>
 				</section>
-				<section data-background="#FFFFFF">
-					<!--
-                    https://www.infoq.com/articles/How-Functional-is-Java-8/
-                    https://www.beyondjava.net/java-8-functional-programming-language
-                    https://www.javaworld.com/article/3319078/functional-programming-for-java-developers-part-2.html
-                    https://ebaytech.berlin/declarative-concurrency-with-reactor-70507e04054a
-                    https://stackoverflow.com/questions/50431709/what-is-value-in-pure-functional-programming
-                    -->
-					<section>
-						<h2>Java & VAVR</h2>
-						<!-- <h3>Functional programming</h3> -->
-						<p>
-                            In computer science, <strong>functional programming is a programming paradigm</strong> style
-							of building the structure and elements of computer programs—that treats computation as
-							<strong>the evaluation of mathematical functions and avoids changing-state and mutable data.</strong>
-						</p>
-						<p>
-							<a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank">Wikipedia</a>
-						</p>
-					</section>
-                    <section>
-                        <h2>Java & VAVR</h2>
-                        <p>
-                            <img src="./images/characteristics.png" width="60%" />
-                        </p>
-                    </section>
-					<section>
-						<h2>Java & VAVR</h2>
-						<h3>Java 8+</h3>
-						<ul>
-							<li>λ</li>
-							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html" target="_">java.util.function.*</li>
-							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html" target="_blank">java.util.stream.*</li>
-							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html" target="_blank">Optional< T ></a></li>
-							<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html" target="_blank">CompletableFuture< T ></a></li>
-							<li><a href="https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html" target="_blank">Pattern Matching</a> (Java 14*)</li>
-                            <li><a href="https://openjdk.java.net/jeps/360" target="_blank">Sealed types</a> & <a href="https://openjdk.java.net/jeps/359" target="_blank">Java records</a> (Java 14*)</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Java & VAVR</h2>
-						<h3>VAVR</h3>
-						<ul>
-							<li><strong>vavr.core: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src-gen/main/java/io/vavr" target="_blank"> Tuple0-8, Function0-8, CheckedFunction0-8</a>, <a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr" target="_blank">Lazy</a></li>
-							<li><strong>vavr.control: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr/control" target="_blank"> Option, Try, Either, Validation</a></li>
-							<li>vavr.collection: Seq, Map, Set</li>
-							<li><strike>vavr.concurrency: Future</strike></li>
-						</ul>
-					</section>
-                    <!--
-					<section>
-						<h2>Java 8+ & VAVR</h2>
-						<h3>Benefits</h3>
-						<ol>
-							<li>Immutable Data</li>
-							<li>Second-Order Functions</li>
-							<li>Constructoring & Destructuring</li>
-							<li>Function Composition</li>
-							<li>Lambdas</li>
-						</ol>
-					</section>
-					-->
-                    <!--
-					<section>
-						<h2>Java 8+ & VAVR</h2>
-						<h3>Benefits</h3>
-						<ol>
-							<li>Algebraic Data Types</li>
-							<li>Pattern Matching</li>
-							<li>Referential Transparency & Totality</li>
-							<li>Higher-Order Functions</li>
-							<li>Partial-Application, Currying</li>
-						</ol>
-					</section>
-					-->
-<!--
-					<section>
-						<h2>Java 8+ & VAVR</h2>
-						<h3>Benefits</h3>
-						<ol>
-							<li>Solve problems without nulls, exceptions, or type casts</li>
-							<li>Able to use functional programming “in the small”</li>
-							<li>Write basic monadic code for a concrete monad</li>
-							<li>Model a business domain with ADTs</li>
-							<!- - <li>Reliably identify & isolate pure code from impure code</li> - ->
-							<!- - <li>Avoid introducing unnecessary lambdas & named parameters</li> - ->
-						</ol>
-					</section>
--->
-<!--
-					<section>
-						<h2>Java & VAVR</h2>
-						<ol>
-                            <li>Functional composition</li>
-                            <li>Functor, Monads & Effects</li>
-                            <li>List manipulation</li>
-                            <li>Lifting, Currying, Memoization</li>
-                            <li>Lazy execution</li>
-                            <li>Tuples</li>
-                            <li>Immutable data structures</li>
-                        </ol>
--->
-						<!--
-						<p>
-							<a href="./annex/" target="_blank">Further information</a>
-						</p>
-						-->
-					</section>
-
-					<!--
-					<section>
-						<h2>Java 8+ & VAVR</h2>
-						<p>
-							Stacks in Java:
-						</p>
-						<ul>
-							<li>Java 8+ + VAVR + Spring Boot 2.x</li>
-							<li>Java 8+ + VAVR + Reactor + Spring Webflux</li>
-							<li>Java 8+ + VAVR + RxJava2 + VertX</li>
-						</ul>
-						<p>Other stacks in the JVM:</p>
-						<ul>
-							<li>Kotlin + <a href="https://arrow-kt.io/" target="_blank">Arrow Kt</a> + Reactor + Spring Webflux + Kofu</li>
-							<li>Scala + <a href="https://akka.io/" target="_blank">Akka</a> (Actor model)</li>
-							<li>Scala + <a href="https://zio.dev/" target="_blank">ZIO</a> + fs2 + Http4s (Pure FP)</li>
-						</ul>
-					</section>
-					-->
-				<!--</section>-->
-
                 <!--
                 https://ericdouglas.github.io/2016/12/04/functional-programming-study-plan/
                 http://fantasyland.institute/labs/
@@ -411,68 +828,7 @@
                 -->
                 <!-- <section data-background="#FFFFFF"> -->
 					<!--
-                    <section>
-						<h2>Java 8+ & VAVR</h2>
-                        <h3>Standardized open ladder of functional programming</h3>
-                        <p>
-                            <img src="./images/lambda.png" width="20%" />
-                        </p>
-                        <p>
-                            <a href="http://lambdaconf.us/downloads/documents/lambdaconf_slfp.pdf" target="_blank">Further information</a>
-                        </p>
-                    </section>
-                    <section>
-                        <h3>Beginner</h3>
-                        <ol>
-                            <li>Immutable Data</li>
-                            <li>Second-Order Functions</li>
-                            <li>Constructoring & Destructuring</li>
-                            <li>Function Composition</li>
-                            <li>Lambdas</li>
-                        </ol>
-                    </section>
-                    <section>
-                        <h3>Beginner</h3>
-                        <p>
-                            <strong>Skills:</strong>
-                        </p>
-                        <ol>
-                            <li>Use second-order functions (map, filter, fold) on immutable data structures</li>
-                            <li>Destructure values to access their components</li>
-                            <li>Use data types to represent optionality</li>
-                            <li>Read basic type signatures</li>
-                            <li>Pass lambdas to second-order functions</li>
-                        </ol>
-                    </section>
-                    <section>
-                        <h3>Advanced Beginner</h3>
-                        <ol>
-                            <li>Algebraic Data Types</li>
-                            <li>Pattern Matching</li>
-                            <li><strike>General Recursion</strike></li>
-                            <li><strike>Type Classes, instances, & Laws</strike></li>
-                            <li><strike>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</strike></li>
-                            <li>Referential Transparency & Totality</li>
-                            <li>Higher-Order Functions</li>
-                            <li>Partial-Application, Currying></li>
-                        </ol>
-                    </section>
-					<section>
-						<h3>Advanced Beginner</h3>
-						<p>
-							<strong>Skills:</strong>
-						</p>
-						<ol>
-							<li>Solve problems without nulls, exceptions, or type casts</li>
-							<li>Able to use functional programming “in the small”</li>
-							<li>Write basic monadic code for a concrete monad</li>
-							<li>Model a business domain with ADTs</li>
-							<li>Reliably identify & isolate pure code from impure code</li>
-							<li>Avoid introducing unnecessary lambdas & named parameters</li>
-						</ol>
-					</section>
-					-->
-					<!--
+
 					<section>
 						<h3>Intermediate</h3>
 						<ol>
@@ -558,21 +914,7 @@ Use dependent-typing to prove more properties at compile-time
 Understand deep relationships between different concepts
 Profile, debug, & optimize purely functional code with minimal sacrifices
 -->
-                <!--
-					<section>
-						<h2>Java & VAVR</h2>
-						<p>
-                            Complementary libraries:
-                        </p>
-						<ol>
-							<li><a href="https://github.com/aol/cyclops" target="_blank">Cyclops</a></li>
-							<li><a href="https://github.com/functionaljava/functionaljava" target="_blank">Functional Java</a></li>
-							<li><a href="https://github.com/derive4j/derive4j" target="_blank">Derive4J</a> </li>
-							<li><a href="https://github.com/palatable/lambda" target="_blank">λ</a></li>
-						</ol>
-					</section>
-                </section>
-                -->
+
 
                 <!--
                 <section data-background="#FFFFFF">
@@ -613,22 +955,8 @@ Profile, debug, & optimize purely functional code with minimal sacrifices
                         <h3>VAVR 1.0.0</h3>
                         <img src="images/vavr_architecture.jpg" width="80%" />
                     </section>
-                    <section>
-                        <h2>Packages</h2>
-                        <ul>
-                            <li><strong>vavr.core: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src-gen/main/java/io/vavr" target="_blank"> Tuple0-8, Function0-8, CheckedFunction0-8</a>, <a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr" target="_blank">Lazy</a></li>
-                            <li><strong>vavr.control: </strong><a href="https://github.com/vavr-io/vavr/tree/master/src/main/java/io/vavr/control" target="_blank"> Option, Try, Either, Validation</a></li>
-                            <li>vavr.collection: Seq, Map, Set</li>
-                            <li>vavr.concurrency: Future</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Alternatives</h2>
-                        <ul>
-                            <li><a href="https://github.com/aol/cyclops" target="_blank">Cyclops</a></li>
-                            <li><a href="https://arrow-kt.io/" target="_blank">Arrow Kt</a></li>
-                        </ul>
-                    </section>
+
+
                     -->
 <!--
 To understand the concept
