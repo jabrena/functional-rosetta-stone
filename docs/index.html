@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Functional programming with Java & Kotlin</title>
+		<title>Functional programming with Java & VAVR</title>
 
 		<meta name="description" content="A web presentation about Functional programming with Java & VAVR">
 		<meta name="author" content="Juan Antonio Breña Moral">
@@ -56,7 +56,7 @@
 				<section data-background="#FFFFFF">
 					<section>
 						<h2 style="color: #336699">The standarized open ladder of <span style="color: #CC9900">Functional programming</span></h2>
-						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">Kotlin</span></h2>
+						<h2 style="color: #336699">with <span style="color: #CC9900">Java</span> & <span style="color: #CC9900">VAVR</span> (Level 1 & 2)</h2>
 						<h3><span style="display: inline-block; color: black;  background: #DFFF6D; width:100px; width:170px;">#EYD</span></h3>
 						<i style="color: #CC9900">Juan Antonio Breña Moral</i>
 						<p>v0.4.0-SNAPSHOT</p>
@@ -144,7 +144,9 @@
                     <ol>
                         <li>Goals</li>
 						<li>Functional programming</li>
-						<li>A roadmap</li>
+						<li>A Roadmap</li>
+						<li>SOLFP Level1</li>
+						<li>SOLFP Level2</li>
                         <!--
 						<li>What are the limits with Java 8+?</li>
 						<li>VAVR Intro</li>
@@ -168,7 +170,6 @@
                     </ol>
                 </section>
 
-				<!--
 				<section data-background="#FFFFFF">
 
 					<section>
@@ -177,11 +178,12 @@
                         I wish the audience could:
 						</p>
 						<ol>
+							<li>Explain the Standardized open ladder of functional programming</li>
 							<li>Use functional composition in the daily job</li>
 							<li>Design with better Types</li>
-							<li>Think in Failures, not in Exceptions</li>
 						</ol>
 					</section>
+					<!--
 					<section>
 						<h2>Goals</h2>
 						<p>
@@ -193,8 +195,9 @@
 							<li>Purely functional</li>
 						</ol>
 					</section>
+					-->
 				</section>
-				-->
+
 				<section data-background="#FFFFFF">
 					<!--
                     https://www.infoq.com/articles/How-Functional-is-Java-8/
@@ -276,21 +279,23 @@
 							<a href="./roadmap.pdf" target="_blank">Further information</a>
 						</p>
 					</section>
+				</section>
+				<section data-background="#FFFFFF">
 					<section>
-						<h3>Level 1</h3>
+						<h3>SOLFP Level 1</h3>
 						<p>
 							<strong>Agenda:</strong>
 						</p>
 						<ol>
 							<li>Immutable Data</li>
 							<li>Second-Order Functions</li>
-							<li>Constructoring & Destructuring</li>
+							<li><strike>Constructoring & Destructuring</strike></li>
 							<li>Function Composition</li>
 							<li>Lambdas</li>
 						</ol>
 					</section>
 					<section>
-						<h3>Level 1</h3>
+						<h3>SOLFP Level 1</h3>
 						<p>
 							<strong>Skills:</strong>
 						</p>
@@ -388,6 +393,7 @@ then(animals)
 	https://opencredo.com/blogs/the-destructor-pattern/
 						-->
 					</section>
+					<!--
 					<section data-markdown>
 						<script type="text/template">
 							## Constructoring & Destructuring
@@ -404,6 +410,7 @@ alert(age);  // 40
 							```
 						</script>
 					</section>
+					-->
 					<!--
 					https://kotlinlang.org/docs/reference/multi-declarations.html
 					https://www.baeldung.com/kotlin-destructuring-declarations
@@ -857,15 +864,16 @@ one method interface using an expression.
 							<li>BinaryOperator: A binary operator from (T, T) -> T</li>
 						</ul>
 					</section>
-
+				</section>
+				<section data-background="#FFFFFF">
 					<section>
-						<h3>Level 2</h3>
+						<h3>SOLFP Level 2</h3>
 						<p>
 							<strong>Agenda:</strong>
 						</p>
 						<ol>
-							<li>Algebraic Data Types</li>
-							<li>Pattern Matching</li>
+							<li>Algebraic Data Types (Java 14)</li>
+							<li>Pattern Matching (Java 14)</li>
 							<li><strike>General Recursion</strike></li>
 							<li><strike>Type Classes, instances, & Laws</strike></li>
 							<li><strike>Lower-Order Abstractions (Equal, Semigroup, Monoid, etc)</strike></li>
@@ -875,7 +883,7 @@ one method interface using an expression.
 						</ol>
 					</section>
 					<section>
-						<h3>Level 2</h3>
+						<h3>SOLFP Level 2</h3>
 						<p>
 							<strong>Skills:</strong>
 						</p>
