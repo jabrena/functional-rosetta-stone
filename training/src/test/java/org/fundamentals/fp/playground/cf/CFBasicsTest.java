@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static java.util.function.Predicate.not;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -31,6 +32,7 @@ public class CFBasicsTest {
                 .until(example::myFirstCF, equalTo(5));
     }
 
+    @Disabled
     @Test
     public void given_CF_when_Call_then_timeout() {
 
@@ -95,19 +97,12 @@ public class CFBasicsTest {
                 .until(demo, equalTo(4));
     }
 
-    @Disabled
     @Test
-    public void given_CF5_when_Call_then_returnExpectedValue() {
+    public void given_CF5_when_Call_then_returnExpectedValue() throws Exception {
 
         CFBasics example = new CFBasics();
 
-        Callable demo = () -> example.myFifthCF();
-
-        await()
-                .atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(0));
-
-        //then(example.myFifthCF()).isEqualTo(0);
+        then(example.myFifthCF()).isEqualTo(2);
     }
 
     @Test
@@ -136,7 +131,6 @@ public class CFBasicsTest {
         //then(example.mySeventhCF()).isEqualTo(0);
     }
 
-    @Disabled
     @Test
     public void testWithErrorHandledInStream() {
 
@@ -145,11 +139,12 @@ public class CFBasicsTest {
         CompletableFuture<Optional<String>> future2 = CompletableFuture.supplyAsync(() -> Optional.of("2"));
         CompletableFuture<Optional<String>> future3 = CompletableFuture.supplyAsync(() -> Optional.of("3"));
         String output = Stream.of(future1, futureEx, future2, future3)
-                .filter(x -> !x.isCompletedExceptionally())
+                //.filter(x -> !x.isCompletedExceptionally())
+                .filter(not(CompletableFuture::isCompletedExceptionally))
                 .map(CompletableFuture::join)
                 .map(x -> x.get())
                 .collect(Collectors.joining(" "));
 
-        assertEquals("1 2 3", output);
+        then(output).isEqualTo("1 2 3");
     }
 }

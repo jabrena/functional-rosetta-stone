@@ -3,11 +3,12 @@ package org.fundamentals.fp.playground.cf;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
+
+import static java.util.function.Predicate.not;
 
 /**
  * References
@@ -153,7 +154,7 @@ public class CFBasics {
 
 
         return futuresList2
-                .filter(CompletableFuture::isCompletedExceptionally)
+                .filter(not(CompletableFuture::isCompletedExceptionally))
                 .map(CompletableFuture::join)
                 .reduce(0 , (i1, i2) -> i1 + i2);
     }
@@ -171,7 +172,7 @@ public class CFBasics {
         System.out.println("Running");
 
         return futuresList.stream()
-                .filter(cf -> !cf.isCompletedExceptionally())
+                .filter(not(CompletableFuture::isCompletedExceptionally))
                 .map(CompletableFuture::join)
                 .reduce(0 , (i1, i2) -> i1 + i2);
     }
