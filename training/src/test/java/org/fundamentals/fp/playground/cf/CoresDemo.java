@@ -34,8 +34,9 @@ public class CoresDemo {
 
         Supplier<Integer> process = () -> {
 
+            var number = 1;
             var cores = Runtime.getRuntime().availableProcessors();
-            var clients = IntStream.rangeClosed(1, (cores - 1) * 2).boxed()
+            var clients = IntStream.rangeClosed(1, (cores - 1) * number).boxed()
                 .map(Client::new)
                 .collect(toList());
 
