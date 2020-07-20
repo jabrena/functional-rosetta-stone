@@ -33,9 +33,9 @@ public class LotharCollatzConjectureTests {
     }
 
     @Test
-    public void given_implementation_when_verify_first_1000_numbers_then_Ok() {
+    public void given_implementation_when_verify_first_100_numbers_then_Ok() {
 
-        IntStream.rangeClosed(1, 1000).boxed()
+        IntStream.rangeClosed(1, 100).boxed()
                 .skip(1)
                 .forEach(i -> {
                     LOGGER.info("{}\n", i);
