@@ -1,15 +1,16 @@
 package org.fundamentals.fp.latency;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+
 import static io.restassured.RestAssured.given;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WiremockTest {
