@@ -10,6 +10,5 @@ public interface IEulerType1<T, U> {
     U VAVRSolution(T limit);
     Mono<U> ReactorSolution(T limit);
     Single<U> RxJavaSolution(T limit);
-    U KotlinSolution(T limit);
 
 }

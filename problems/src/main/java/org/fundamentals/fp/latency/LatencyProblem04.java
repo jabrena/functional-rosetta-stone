@@ -152,11 +152,6 @@ public class LatencyProblem04 implements IEulerType3<BigDecimal> {
         return null;
     }
 
-    @Override
-    public BigDecimal KotlinSolution() {
-        return null;
-    }
-
 }
 
 

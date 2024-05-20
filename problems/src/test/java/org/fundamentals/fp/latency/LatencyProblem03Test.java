@@ -164,9 +164,4 @@ public class LatencyProblem03Test implements IEulerTestable {
 
     }
 
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
 }

@@ -1,8 +1,9 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Single;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import io.reactivex.Single;
 import reactor.core.publisher.Mono;
 
 /**
@@ -79,12 +80,6 @@ public class EulerProblem02 implements IEulerType1<Long, Long> {
         return Utils.RxJava.fibonacci(limit)
                 .filter(l -> isEven.test(l))
                 .reduce(0L, (a, b) -> a + b);
-    }
-
-    @Override
-    public Long KotlinSolution(Long limit) {
-
-        return EulerProblem02Kt.KotlinSolution02(limit);
     }
     
 }

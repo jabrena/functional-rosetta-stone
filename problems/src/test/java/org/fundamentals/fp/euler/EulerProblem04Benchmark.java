@@ -38,9 +38,4 @@ public class EulerProblem04Benchmark {
         st.problem.RxJavaSolution(st.min, st.max);
     }
 
-    @Benchmark
-    public void KotlinSolution(St st) {
-        st.problem.KotlinSolution(st.min, st.max);
-    }
-
 }

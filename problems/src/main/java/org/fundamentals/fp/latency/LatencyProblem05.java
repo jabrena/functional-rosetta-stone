@@ -133,11 +133,6 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
         return null;
     }
 
-    @Override
-    public List<String> KotlinSolution() {
-        return null;
-    }
-
 }
 
 

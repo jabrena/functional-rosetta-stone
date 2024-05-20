@@ -80,14 +80,4 @@ public class EulerProblem03Test extends BaseEulerProblemTest implements IEulerTe
                 .values().get(0)).isEqualTo(euler.getAnswerToLong(3));
     }
 
-    @Test
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
-
-        EulerProblem03 problem = new EulerProblem03();
-
-        assertThat(problem.KotlinSolution(13195L)).isEqualTo(29);
-        assertThat(problem.KotlinSolution(600851475143L)).isEqualTo(euler.getAnswerToLong(3));
-    }
-
 }

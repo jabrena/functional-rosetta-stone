@@ -1,14 +1,13 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Single;
-
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import java.util.stream.Stream;
+
+import io.reactivex.Single;
 import reactor.core.publisher.Mono;
 
 /**
@@ -71,11 +70,6 @@ public class EulerProblem35 implements IEulerType1<Integer, Integer>  {
 
     @Override
     public Single<Integer> RxJavaSolution(Integer limit) {
-        return null;
-    }
-
-    @Override
-    public Integer KotlinSolution(Integer limit) {
         return null;
     }
 }

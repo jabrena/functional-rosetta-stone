@@ -81,14 +81,4 @@ public class EulerProblem01Test extends BaseEulerProblemTest implements IEulerTe
                 .values().get(0)).isEqualTo(euler.getAnswerToInt(1));
     }
 
-    @Test
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
-
-        EulerProblem01 problem = new EulerProblem01();
-
-        assertThat(problem.KotlinSolution(10)).isEqualTo(3 + 5 + 6 + 9);
-        assertThat(problem.KotlinSolution(1000)).isEqualTo(euler.getAnswerToInt(1));
-    }
-
 }

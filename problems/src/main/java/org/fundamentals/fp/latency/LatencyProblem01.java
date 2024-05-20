@@ -244,9 +244,4 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
     public Single<BigInteger> RxJavaSolution() {
         return null;
     }
-
-    @Override
-    public BigInteger KotlinSolution() {
-        return null;
-    }
 }

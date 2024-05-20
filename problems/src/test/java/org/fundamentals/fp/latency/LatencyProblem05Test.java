@@ -1,20 +1,22 @@
 package org.fundamentals.fp.latency;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import lombok.extern.slf4j.Slf4j;
+
+import static org.assertj.core.api.BDDAssertions.then;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static org.assertj.core.api.BDDAssertions.then;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class LatencyProblem05Test implements IEulerTestable {
@@ -106,11 +108,6 @@ public class LatencyProblem05Test implements IEulerTestable {
 
     @Override
     public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
     }
 
