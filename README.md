@@ -1,4 +1,6 @@
-# functional-rosetta-stone
+# Functional Rosetta Stone
+
+[![Java CI](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml/badge.svg)](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml)
 
 ## Goal
 
