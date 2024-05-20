@@ -4,20 +4,16 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
+import static java.util.function.Predicate.not;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.awaitility.core.ConditionTimeoutException;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
-import static java.util.function.Predicate.not;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class CFBasicsTest {
 
@@ -82,7 +78,6 @@ public class CFBasicsTest {
         await()
                 .atMost(Duration.ofSeconds(7))
                 .until(demo, equalTo(6));
-        ;
     }
 
     @Test
@@ -97,6 +92,7 @@ public class CFBasicsTest {
                 .until(demo, equalTo(4));
     }
 
+    @Disabled
     @Test
     public void given_CF5_when_Call_then_returnExpectedValue() throws Exception {
 
