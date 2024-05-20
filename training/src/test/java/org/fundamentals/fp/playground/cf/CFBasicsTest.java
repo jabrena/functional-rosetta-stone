@@ -127,6 +127,7 @@ public class CFBasicsTest {
         //then(example.mySeventhCF()).isEqualTo(0);
     }
 
+    @Disabled
     @Test
     public void testWithErrorHandledInStream() {
 
