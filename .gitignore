@@ -2,5 +2,5 @@
 target
 *.iml
 *.log
-
-
+gc.log
+gc.log.*

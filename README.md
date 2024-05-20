@@ -1,6 +1,6 @@
-# functional-rosetta-stone
+# Functional Rosetta Stone
 
-[![Build Status](https://travis-ci.org/jabrena/functional-rosetta-stone.svg?branch=master)](https://travis-ci.org/jabrena/functional-rosetta-stone)
+[![Java CI](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml/badge.svg)](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml)
 
 ## Goal
 
@@ -13,13 +13,15 @@ How to test the project?
 ```
 git clone https://github.com/jabrena/functional-rosetta-stone.git
 cd functional-rosetta-stone
+
+sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
 
 ./mvnw dependency-check:check
-./mwnw versions:display-dependency-updates
+./mvnw versions:display-dependency-updates
 ./mvnw versions:display-plugin-updates
 ./mvnw dependency:tree -pl problems 
 ```
