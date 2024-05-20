@@ -10,6 +10,5 @@ public interface IEulerType2<T, U, Z> {
     Z VAVRSolution(T min, U max);
     Mono<Z> ReactorSolution(T min, U max);
     Single<Z> RxJavaSolution(T min, U max);
-    Z KotlinSolution(T min, U max);
 
 }

@@ -1,11 +1,11 @@
 package org.fundamentals.fp.latency;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import lombok.extern.slf4j.Slf4j;
 
 @Disabled
 @Slf4j
@@ -53,11 +53,6 @@ public class LatencyProblem02Test implements IEulerTestable {
 
     @Override
     public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
     }
 

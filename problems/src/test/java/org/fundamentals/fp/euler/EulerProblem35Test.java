@@ -2,10 +2,10 @@ package org.fundamentals.fp.euler;
 
 import java.util.List;
 import java.util.stream.Stream;
-import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
+import org.junit.jupiter.api.Test;
 
 public class EulerProblem35Test extends BaseEulerProblemTest implements IEulerTestable {
 
@@ -46,8 +46,4 @@ public class EulerProblem35Test extends BaseEulerProblemTest implements IEulerTe
 
     }
 
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
 }

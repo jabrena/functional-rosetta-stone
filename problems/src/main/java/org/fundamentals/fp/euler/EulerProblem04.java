@@ -1,15 +1,17 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.vavr.Function3;
-import io.vavr.collection.List;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
 import org.apache.commons.lang3.NotImplementedException;
+
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.vavr.Function3;
+import io.vavr.collection.List;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -91,12 +93,6 @@ public class EulerProblem04 implements IEulerType2<Integer, Integer, Integer> {
                 .filter(i -> isPalindrome.test(i))
                 .sorted()
                 .last(1);
-    }
-
-    @Override
-    public Integer KotlinSolution(Integer min, Integer max) {
-
-        return EulerProblem04Kt.KotlinSolution04(min, max);
     }
 
 }

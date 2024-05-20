@@ -4,10 +4,6 @@ import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.jupiter.api.Assertions.*;
-
 public class EulerProblem67Test extends BaseEulerProblemTest implements IEulerTestable   {
 
     @Override
@@ -36,11 +32,6 @@ public class EulerProblem67Test extends BaseEulerProblemTest implements IEulerTe
 
     @Override
     public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
     }
 }

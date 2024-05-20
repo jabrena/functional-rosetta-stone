@@ -3,7 +3,9 @@ package org.fundamentals.fp.euler;
 import java.util.function.Function;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.apache.commons.lang3.NotImplementedException;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.math.MathFlux;
@@ -78,11 +80,6 @@ public class EulerProblem06 {
                 reactorSumSquare((int) limit),
                 reactorSquareSum((int) limit),
                 (f1, f2) -> f2 - f1);
-    }
-
-    public Long KotlinSolution(long limit) {
-
-        throw new NotImplementedException("Coming soon");
     }
 
 }

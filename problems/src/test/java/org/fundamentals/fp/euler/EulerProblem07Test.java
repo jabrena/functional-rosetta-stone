@@ -1,9 +1,8 @@
 package org.fundamentals.fp.euler;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.fundamentals.fp.euler.utils.BaseEulerProblemTest;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class EulerProblem07Test extends BaseEulerProblemTest implements IEulerTestable {
 
@@ -37,11 +36,6 @@ public class EulerProblem07Test extends BaseEulerProblemTest implements IEulerTe
 
     @Override
     public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_KotlinSolution_when_executeMethod_then_expectedResultsTest() {
 
     }
 }

@@ -10,6 +10,5 @@ public interface IEulerType3<T> {
     T VAVRSolution();
     Mono<T> ReactorSolution();
     Single<T> RxJavaSolution();
-    T KotlinSolution();
 
 }

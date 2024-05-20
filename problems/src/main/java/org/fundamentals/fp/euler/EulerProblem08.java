@@ -1,12 +1,13 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Single;
-import io.vavr.Function3;
-import io.vavr.collection.Seq;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import io.reactivex.Single;
+import io.vavr.Function3;
+import io.vavr.collection.Seq;
 import reactor.core.publisher.Mono;
 
 /**
@@ -95,11 +96,6 @@ public class EulerProblem08 implements IEulerType1<Integer, Long> {
 
     @Override
     public Single<Long> RxJavaSolution(Integer limit) {
-        return null;
-    }
-
-    @Override
-    public Long KotlinSolution(Integer limit) {
         return null;
     }
 }

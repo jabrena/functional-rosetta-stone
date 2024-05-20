@@ -1,11 +1,13 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Single;
-import io.vavr.collection.Stream;
 import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+
 import org.apache.commons.lang3.NotImplementedException;
+
+import io.reactivex.Single;
+import io.vavr.collection.Stream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -65,11 +67,6 @@ public class EulerProblem05 implements IEulerType1<Long, Long>{
 
     @Override
     public Single<Long> RxJavaSolution(Long limit) {
-        return null;
-    }
-
-    @Override
-    public Long KotlinSolution(Long limit) {
         return null;
     }
 

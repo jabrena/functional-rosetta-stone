@@ -6,12 +6,13 @@
  */
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.vavr.collection.Stream;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
+
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.vavr.collection.Stream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -81,12 +82,6 @@ public class EulerProblem01 implements IEulerType1<Integer, Integer> {
         return Observable.range(1, limit - 1)
                 .filter(l -> isMultiple3.test(l) || isMultiple5.test(l))
                 .reduce(0, (a, b) -> a + b);
-    }
-
-    @Override
-    public Integer KotlinSolution(Integer limit) {
-
-        return EulerProblem01Kt.KotlinSolution01(limit);
     }
 
 }

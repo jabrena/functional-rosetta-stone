@@ -1,16 +1,13 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Single;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import static java.util.stream.Collectors.toList;
+import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 /**
  * Problem 20: Factorial digit sum
@@ -86,11 +83,6 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
 
     @Override
     public Single<Long> RxJavaSolution(Long limit) {
-        return null;
-    }
-
-    @Override
-    public Long KotlinSolution(Long limit) {
         return null;
     }
 }
