@@ -22,19 +22,20 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
-@Slf4j
-@RequiredArgsConstructor
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 public class LatencyProblem09 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem08.class);
+
+    public static record Config(String address,Executor executor, int timeout) {};
+
+    /*
     @Data
     @AllArgsConstructor
     public static class Config {
@@ -43,9 +44,13 @@ public class LatencyProblem09 {
         private ExecutorService executor;
         private int timeout;
     }
+     */
 
-    @NonNull
     private final LatencyProblem09.Config config;
+
+    public LatencyProblem09(org.fundamentals.fp.latency.LatencyProblem09.Config config) {
+        this.config = config;
+    }
 
     Function1<String, URL> toURL = address -> Try
             .of(() -> new URL(address))
@@ -64,8 +69,8 @@ public class LatencyProblem09 {
     Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = config ->
 
             CompletableFuture
-                    .supplyAsync(() -> toURL.andThen(fetch).apply(config.getAddress()), config.getExecutor())
-                    .orTimeout(config.getTimeout(), TimeUnit.SECONDS)
+                    .supplyAsync(() -> toURL.andThen(fetch).apply(config.address()), config.executor())
+                    .orTimeout(config.timeout(), TimeUnit.SECONDS)
                     .thenApply(serialize)
                     .handle((response, ex) -> {
                         if(Objects.isNull(ex)) {

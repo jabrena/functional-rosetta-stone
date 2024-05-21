@@ -19,14 +19,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Feature: Consume a REST Indian God Service
@@ -43,10 +41,13 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
  *     And   execute a Rate limiter Policy
  *     Then  return all gods who contains in the name `a` & `i`
  */
-@Slf4j
-@RequiredArgsConstructor
+//@Slf4j
+//@RequiredArgsConstructor
 public class LatencyProblem08 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem08.class);
+
+    /*
     @Data
     @AllArgsConstructor
     public static class Config {
@@ -55,9 +56,17 @@ public class LatencyProblem08 {
         private Executor executor;
         private int timeout;
     }
+     */
 
-    @NonNull
+    public static record Config(String address,Executor executor, int timeout) {};
+
+
+    //@NonNull
     private final LatencyProblem08.Config config;
+
+    public LatencyProblem08(org.fundamentals.fp.latency.LatencyProblem08.Config config) {
+        this.config = config;
+    }
 
     //It is necessary to maintain in memory the RateLimiter
     private static class RL {
@@ -112,8 +121,8 @@ public class LatencyProblem08 {
     Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = config ->
 
             CompletableFuture
-                    .supplyAsync(() -> toURL.andThen(fetch).apply(config.getAddress()), config.getExecutor())
-                    .orTimeout(config.getTimeout(), TimeUnit.SECONDS)
+                    .supplyAsync(() -> toURL.andThen(fetch).apply(config.address()), config.executor())
+                    .orTimeout(config.timeout(), TimeUnit.SECONDS)
                     .thenApply(serialize)
                     .handle((response, ex) -> {
                         if(Objects.isNull(ex)) {

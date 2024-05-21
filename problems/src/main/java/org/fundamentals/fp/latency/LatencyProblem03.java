@@ -11,17 +11,20 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
 //import net.jcip.annotations.Immutable;
 //import net.jcip.annotations.ThreadSafe;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 //@ThreadSafe
 //@Immutable
-@Slf4j
 public class LatencyProblem03 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem03.class);
 
     public enum GODS {
         GREEK,

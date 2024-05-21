@@ -16,16 +16,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerType3;
 import reactor.core.publisher.Mono;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 import static org.fundamentals.fp.latency.SimpleCurl.log;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Feature: Load Balancing
@@ -42,20 +41,17 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * - REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/greek
  *
  */
-@Slf4j
-@RequiredArgsConstructor
 public class LatencyProblem05 implements IEulerType3<List<String>> {
 
-    @Data
-    @AllArgsConstructor
-    public static class Config {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem04.class);
 
-        private List<String> list;
-        private Executor executor;
-        private int timeout;
-    }
+    public static record Config(List<String> list,Executor executor, int timeout) {};
 
     private final Config config;
+
+    public LatencyProblem05(org.fundamentals.fp.latency.LatencyProblem05.Config config) {
+        this.config = config;
+    }
 
     @Override
     public List<String> JavaSolution() {
@@ -73,12 +69,12 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
-                .supplyAsync(() -> fetch.andThen(log).apply(tuple._1), tuple._2().getExecutor())
+                .supplyAsync(() -> fetch.andThen(log).apply(tuple._1), tuple._2().executor())
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", tuple._2.getTimeout(), TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", tuple._2.timeout(), TimeUnit.SECONDS);
     };
 
     Function<String, List<String>> serialize = param -> Try.of(() -> {
@@ -99,7 +95,7 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
             .collect(toList());
 
     Function1<Config, Tuple2<URL, Config>> loadBalance = config -> {
-        List<URL> validAddressList = validAddress.apply(config.getList());
+        List<URL> validAddressList = validAddress.apply(config.list());
         Integer index = new Random().nextInt(validAddressList.size());
         return Tuple.of(validAddressList.get(index), config);
     };

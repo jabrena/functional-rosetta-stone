@@ -24,12 +24,14 @@
 			<version>${vavr.version}</version>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -81,18 +83,6 @@
 			<groupId>io.reactivex.rxjava2</groupId>
 			<artifactId>rxjava</artifactId>
 			<version>${rxjava.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.arrow-kt</groupId>
-			<artifactId>arrow-core</artifactId>
-			<version>${arrow.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.arrow-kt</groupId>
-			<artifactId>arrow-syntax</artifactId>
-			<version>${arrow.version}</version>
 		</dependency>
 
 		<dependency>
