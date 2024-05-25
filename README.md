@@ -2,20 +2,19 @@
 
 [![Java CI](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml/badge.svg)](https://github.com/jabrena/functional-rosetta-stone/actions/workflows/maven.yml)
 
+![](./docs/rosetta_stone.png)
+
 ## Goal
 
-Improve the functional programming skills for Java Developers
+A repository to review the main concepts about Functional Programming with Java.
 
-## Test project
+## How to build the project in local?
 
-How to test the project?
-
-```
+```bash
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
-
 
 ./mvnw dependency-check:check
 ./mvnw versions:display-dependency-updates
@@ -23,11 +22,10 @@ sdk env install
 ./mvnw dependency:tree -pl problems 
 ```
 
-How to run the presentation in local?
+## How to run the presentation in local?
 
-```
-cd docs
-python -m SimpleHTTPServer
+```bash
+jwebserver -p 9000 -d "$(pwd)/docs/"
 ```
 
 ## Performance
