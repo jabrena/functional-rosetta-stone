@@ -2,10 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jab.principles</groupId>
+	<groupId>info.jab.fp</groupId>
 	<artifactId>functional-rosseta-stone</artifactId>
 	<version>${revision}</version>
-	<name>functional-rosseta-stone</name>
 	<description>A repository to review the main concepts about Functional Programming with Java</description>
 	<packaging>pom</packaging>
 
@@ -20,6 +19,7 @@
 	<modules>
 		<module>problems</module>
 		<module>training</module>
+		<module>libraries</module>
 	</modules>
 
 	<properties>
