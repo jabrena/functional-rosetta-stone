@@ -5,10 +5,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SimpleCurl {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleCurl.class);
 
     public static String fetch(URL myURL) {
 

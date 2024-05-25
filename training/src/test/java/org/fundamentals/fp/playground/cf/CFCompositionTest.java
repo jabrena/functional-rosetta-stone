@@ -1,16 +1,19 @@
 package org.fundamentals.fp.playground.cf;
 
-import io.vavr.control.Try;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+import io.vavr.control.Try;
+
 public class CFCompositionTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFCompositionTest.class);
 
     private Integer method1(Integer param) {
 

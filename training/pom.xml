@@ -24,15 +24,6 @@
 			<version>${vavr.version}</version>
 		</dependency>
 
-		<!--
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -132,13 +123,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.kotlintest</groupId>
-			<artifactId>kotlintest-runner-junit5</artifactId>
-			<version>3.1.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<version>3.3.0.RELEASE</version>
@@ -178,28 +162,6 @@
 				<configuration>
 					<release>${java.version}</release>
 				</configuration>
-				<executions>
-					<!-- Replacing default-compile as it is treated specially by maven -->
-					<execution>
-						<id>default-compile</id>
-						<phase>none</phase>
-					</execution>
-					<!-- Replacing default-testCompile as it is treated specially by maven -->
-					<execution>
-						<id>default-testCompile</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>java-compile</id>
-						<phase>compile</phase>
-						<goals> <goal>compile</goal> </goals>
-					</execution>
-					<execution>
-						<id>java-test-compile</id>
-						<phase>test-compile</phase>
-						<goals> <goal>testCompile</goal> </goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>

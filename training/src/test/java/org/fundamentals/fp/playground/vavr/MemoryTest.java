@@ -1,15 +1,19 @@
 package org.fundamentals.fp.playground.vavr;
 
+import java.net.URL;
+
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.vavr.Function1;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
-import java.net.URL;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 
 //Idea from: https://github.com/cruftex/java-memory-benchmark/blob/master/src/test/java/MemoryBenchmarkTest.java
-@Slf4j
 public class MemoryTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryTest.class);
 
     Function1<String, Option<URL>> toURL3 = address ->
             Try.of(() -> new URL(address))

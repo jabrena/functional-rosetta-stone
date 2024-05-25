@@ -1,15 +1,13 @@
 package org.fundamentals.fp.playground.vavr;
 
-import io.vavr.control.Either;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
@@ -19,12 +17,19 @@ import org.openjdk.jmh.profile.GCProfiler;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+import io.vavr.control.Either;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
+
 @Fork(2)
 @Warmup(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 20, time = 5, timeUnit = TimeUnit.SECONDS)
 public class OptionalBenchmark2 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OptionalBenchmark2.class);
 
     private String getAddressForBenchmark() {
         return (new Random().nextInt(10) % 2 == 0)
@@ -91,7 +96,6 @@ public class OptionalBenchmark2 {
         try {
             return Optional.of(new URL(address));
         } catch (MalformedURLException ex) {
-            ex.printStackTrace();
             return Optional.empty();
         }
     }
