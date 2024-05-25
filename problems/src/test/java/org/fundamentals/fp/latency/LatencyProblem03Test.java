@@ -7,7 +7,6 @@ import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import lombok.extern.slf4j.Slf4j;
 import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +31,6 @@ import static org.fundamentals.fp.latency.LatencyProblem03.GODS.GREEK;
 import static org.fundamentals.fp.latency.LatencyProblem03.GODS.NORDIC;
 import static org.fundamentals.fp.latency.LatencyProblem03.GODS.ROMAN;
 
-@Slf4j
 public class LatencyProblem03Test implements IEulerTestable {
 
     WireMockServer wireMockServer;
@@ -67,7 +64,7 @@ public class LatencyProblem03Test implements IEulerTestable {
             return deserializedData;
         })
         .getOrElseThrow(ex -> {
-            LOGGER.error("Problem loading JSON file", ex);
+            //LOGGER.error("Problem loading JSON file", ex);
             throw new RuntimeException(ex);
         });
     }
@@ -116,13 +113,13 @@ public class LatencyProblem03Test implements IEulerTestable {
 
         Function<GODS, CompletableFuture<Tuple2<GODS, List<String>>>> callAsync = god -> {
 
-            LOGGER.info("Thread: {}", Thread.currentThread().getName());
+            //LOGGER.info("Thread: {}", Thread.currentThread().getName());
             return CompletableFuture
                     .supplyAsync(() -> {
                         return new Tuple2<>(god, problem.JavaStreamSolutionAsync(god));
                     }, executor)
                     .exceptionally(ex -> {
-                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                        //LOGGER.error(ex.getLocalizedMessage(), ex);
                         return new Tuple2<>(god, List.of("FETCH_BAD_RESULT"));
                     })
                     .completeOnTimeout(
@@ -135,7 +132,7 @@ public class LatencyProblem03Test implements IEulerTestable {
         //Then
         IntStream.rangeClosed(1, 256).boxed()
                 .forEach(i -> {
-                    LOGGER.info("Test iteration: {}", i);
+                    //LOGGER.info("Test iteration: {}", i);
                     List<CompletableFuture<Tuple2<GODS, List<String>>>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
                             .map(callAsync)
                             .collect(toList());

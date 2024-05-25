@@ -1,21 +1,19 @@
 package org.fundamentals.fp.playground.cf;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class CoresDemo {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CoresDemo.class);
 
     public static void main(String... args) {
 
@@ -84,9 +82,12 @@ public class CoresDemo {
             return 0;
         }
 
-        @SneakyThrows
         private void sleep(int seconds) {
-            Thread.sleep(seconds * 1000);
+            try {
+                Thread.sleep(seconds * 1000);
+            } catch (InterruptedException ex) {
+                //Empty
+            }
         }
     }
 }

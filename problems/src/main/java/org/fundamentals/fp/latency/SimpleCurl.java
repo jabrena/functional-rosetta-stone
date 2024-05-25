@@ -1,16 +1,20 @@
 package org.fundamentals.fp.latency;
 
-import io.vavr.control.Option;
-import io.vavr.control.Try;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.function.Function;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vavr.control.Option;
+import io.vavr.control.Try;
+
 public class SimpleCurl {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleCurl.class);
 
     static Function<URL, String> fetch = url -> Try.of(() -> {
 

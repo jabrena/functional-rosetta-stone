@@ -1,8 +1,5 @@
 package org.fundamentals.fp.latency;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -12,17 +9,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import lombok.extern.slf4j.Slf4j;
+
+import static org.assertj.core.api.BDDAssertions.then;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static org.assertj.core.api.BDDAssertions.then;
 
-@Slf4j
+import io.vavr.control.Option;
+import io.vavr.control.Try;
+
 public class LatencyProblem08Test {
 
     WireMockServer wireMockServer;
@@ -92,14 +92,14 @@ public class LatencyProblem08Test {
                         .withLogNormalRandomDelay(900, 0.25)));
 
         LatencyProblem08.Config config = getDefaultConfig();
-        config.setTimeout(2);
+        //config.setTimeout(2);
         LatencyProblem08 problem = new LatencyProblem08(config);
 
         //When
 
         Function<Integer, CompletableFuture<Option<List<String>>>> callAsync = (iteration) -> {
 
-            LOGGER.info("Thread: {} {}", Thread.currentThread().getName(), iteration);
+            //LOGGER.info("Thread: {} {}", Thread.currentThread().getName(), iteration);
             return CompletableFuture
                     .supplyAsync(() -> problem.JavaStreamSolution(), testExecutor)
                     .orTimeout(5, TimeUnit.SECONDS)
@@ -107,7 +107,7 @@ public class LatencyProblem08Test {
                         if(response.isDefined()) {
                             return response;
                         }
-                        LOGGER.warn("kata {}", ex.getLocalizedMessage());
+                        //LOGGER.warn("kata {}", ex.getLocalizedMessage());
                         return Option.some(new ArrayList<>());
                     });
         };
@@ -127,7 +127,7 @@ public class LatencyProblem08Test {
 
         list.stream()
                 .forEach(o -> {
-                    LOGGER.info(o.toString());
+                    //LOGGER.info(o.toString());
                 });
 
         //Then

@@ -1,23 +1,22 @@
 package org.fundamentals.fp.playground.cf;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.control.Either;
-import io.vavr.control.Try;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Patterns.$Left;
 import static io.vavr.Patterns.$Right;
+import io.vavr.control.Either;
+import io.vavr.control.Try;
 
-@Slf4j
 public class WebAddressService {
 
     private List<String> loadData() {
@@ -31,7 +30,7 @@ public class WebAddressService {
             List<String> deserializedData = objectMapper.readValue(readContent, new TypeReference<List<String>>() {});
             return deserializedData;
         }).getOrElseThrow(ex -> {
-            LOGGER.error(ex.getLocalizedMessage(), ex);
+            //LOGGER.error(ex.getLocalizedMessage(), ex);
             throw new IllegalArgumentException("It was impossible to load the data");
         });
 

@@ -20,14 +20,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Feature: Consume a REST Roman God Service
@@ -50,21 +48,17 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
  * - REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/roman
  *
  */
-@Slf4j
-@RequiredArgsConstructor
 public class LatencyProblem07 {
 
-    @Data
-    @AllArgsConstructor
-    public static class Config {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem07.class);
 
-        private String address;
-        private Executor executor;
-        private int timeout;
-    }
+    public static record Config(String address,Executor executor, int timeout) {};
 
-    @NonNull
     private final Config config;
+
+    public LatencyProblem07(org.fundamentals.fp.latency.LatencyProblem07.Config config) {
+        this.config = config;
+    }
 
     //It is necessary to maintain in memory the Circuit Breaker
     private static class CB {
@@ -107,8 +101,8 @@ public class LatencyProblem07 {
     Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = config ->
 
         CompletableFuture
-            .supplyAsync(() -> toURL.andThen(fetch).apply(config.getAddress()), config.getExecutor())
-            .orTimeout(config.getTimeout(), TimeUnit.SECONDS)
+            .supplyAsync(() -> toURL.andThen(fetch).apply(config.address()), config.executor())
+            .orTimeout(config.timeout(), TimeUnit.SECONDS)
             .thenApply(serialize)
             .handle((response, ex) -> {
                 if(Objects.isNull(ex)) {

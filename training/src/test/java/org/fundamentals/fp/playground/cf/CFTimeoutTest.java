@@ -1,24 +1,26 @@
 package org.fundamentals.fp.playground.cf;
 
-import io.vavr.control.Try;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toUnmodifiableList;
-import static org.assertj.core.api.BDDAssertions.then;
 
-@Slf4j
+import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vavr.control.Try;
+
 public class CFTimeoutTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFTimeoutTest.class);
 
     private Integer method1() {
 

@@ -1,14 +1,10 @@
 package org.fundamentals.fp.playground.streams;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.Test;
 
-@Slf4j
 public class LotharCollatzConjectureTests {
 
     @Test
@@ -38,7 +34,7 @@ public class LotharCollatzConjectureTests {
         IntStream.rangeClosed(1, 100).boxed()
                 .skip(1)
                 .forEach(i -> {
-                    LOGGER.info("{}\n", i);
+                    //LOGGER.info("{}\n", i);
                     LotharCollatzConjecture implementation = new LotharCollatzConjecture(i);
                     then(implementation.verify()).isTrue();
                 });

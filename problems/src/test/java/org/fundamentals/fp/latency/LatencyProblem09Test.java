@@ -1,30 +1,23 @@
 package org.fundamentals.fp.latency;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import lombok.extern.slf4j.Slf4j;
+
+import static org.assertj.core.api.BDDAssertions.then;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static org.assertj.core.api.BDDAssertions.then;
+
+import io.vavr.control.Option;
 
 @Disabled
-@Slf4j
 public class LatencyProblem09Test {
 
     WireMockServer wireMockServer;

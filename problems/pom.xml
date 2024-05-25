@@ -18,14 +18,6 @@
     <description>Euler and Latency solutions/tests</description>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
@@ -106,18 +98,6 @@
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
             <version>${rxjava.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.arrow-kt</groupId>
-            <artifactId>arrow-core</artifactId>
-            <version>${arrow.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.arrow-kt</groupId>
-            <artifactId>arrow-syntax</artifactId>
-            <version>${arrow.version}</version>
         </dependency>
 
         <dependency>
@@ -229,32 +209,6 @@
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
-                <executions>
-                    <!-- Replacing default-compile as it is treated specially by maven -->
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <!-- Replacing default-testCompile as it is treated specially by maven -->
-                    <execution>
-                        <id>default-testCompile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>java-compile</id>
-                        <phase>compile</phase>
-                        <goals> 
-                            <goal>compile</goal> 
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>java-test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals> 
-                            <goal>testCompile</goal> 
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
 

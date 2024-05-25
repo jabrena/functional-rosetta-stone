@@ -1,12 +1,15 @@
 package org.fundamentals.fp.playground.streams;
 
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LotharCollatzConjecture {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LotharCollatzConjecture.class);
 
     final private int initialNumber;
     private AtomicInteger currentNumber = new AtomicInteger();

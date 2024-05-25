@@ -3,65 +3,36 @@ package org.fundamentals.fp.playground.java8;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.junit.jupiter.api.Test;
-
 import static java.util.stream.Collectors.toSet;
+
 import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.Test;
 
 /**
  * https://github.com/java8/Java8InAction/tree/master/src/main/java/lambdasinaction/chap10
  */
 public class Java8InActionOptionalTest {
 
-    @Data
-    @AllArgsConstructor
-    public class Insurance {
+    public record Insurance (String name) {}
 
-        private String name;
+    public record Car (Optional<Insurance> insurance){}
 
-        public String getName() {
-            return name;
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public class Car {
-
-        private Optional<Insurance> insurance;
-
-        public Optional<Insurance> getInsurance() {
-            return insurance;
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public class Person {
-
-        private Optional<Car> car;
-
-        public Optional<Car> getCar() {
-            return car;
-        }
-    }
+    public record Person (Optional<Car> car){}
 
     public class OptionalMain {
 
         public String getCarInsuranceName(Optional<Person> person) {
-            return person.flatMap(Person::getCar)
-                    .flatMap(Car::getInsurance)
-                    .map(Insurance::getName)
+            return person.flatMap(Person::car)
+                    .flatMap(Car::insurance)
+                    .map(Insurance::name)
                     .orElse("Unknown");
         }
 
         public Set<String> getCarInsuranceNames(List<Person> persons) {
             return persons.stream()
-                    .map(Person::getCar)
-                    .map(optCar -> optCar.flatMap(Car::getInsurance))
-                    .map(optInsurance -> optInsurance.map(Insurance::getName))
+                    .map(Person::car)
+                    .map(optCar -> optCar.flatMap(Car::insurance))
+                    .map(optInsurance -> optInsurance.map(Insurance::name))
                     .flatMap(Optional::stream)
                     .collect(toSet());
         }

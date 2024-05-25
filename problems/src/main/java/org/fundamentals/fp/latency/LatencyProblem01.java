@@ -2,8 +2,10 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.reactivex.Single;
 import io.vavr.control.Try;
+
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.List;
@@ -16,16 +18,20 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
+
 import org.fundamentals.fp.euler.IEulerType3;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import static java.util.stream.Collectors.toList;
+
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 import static org.fundamentals.fp.latency.SimpleCurl.log;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Problem 1
@@ -40,8 +46,9 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * If in the process to load the list, the timeout is reached, the process will calculate with the rest of the lists.
  * REST API: https://my-json-server.typicode.com/jabrena/latency-problems
  */
-@Slf4j
 public class LatencyProblem01 implements IEulerType3<BigInteger> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem01.class);
 
     private List<String> listOfGods;
     private ExecutorService executor;

@@ -10,9 +10,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 import static io.restassured.RestAssured.given;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class WiremockTest {
 
     WireMockServer wireMockServer;

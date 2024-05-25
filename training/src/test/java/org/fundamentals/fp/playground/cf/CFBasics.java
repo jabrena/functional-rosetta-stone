@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+import static java.util.function.Predicate.not;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
-
-import static java.util.function.Predicate.not;
 
 /**
  * References
@@ -16,12 +14,11 @@ import static java.util.function.Predicate.not;
  * http://millross-consultants.com/completable-future-error-propagation.html
  *
  */
-@Slf4j
 public class CFBasics {
 
     Function<Integer, Integer> compute = param -> {
 
-        LOGGER.info("Compute {}", param);
+        //LOGGER.info("Compute {}", param);
 
         Delay(2);
 

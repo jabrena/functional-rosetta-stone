@@ -12,11 +12,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 import static org.fundamentals.fp.latency.SimpleCurl.log;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Problem 2
@@ -30,8 +32,9 @@ import static org.fundamentals.fp.latency.SimpleCurl.log;
  * REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/greek
  * REST API 2: https://en.wikipedia.org/wiki/{greekGod}
  */
-@Slf4j
 public class LatencyProblem02 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem02.class);
 
     final int TIMEOUT = 15;
 

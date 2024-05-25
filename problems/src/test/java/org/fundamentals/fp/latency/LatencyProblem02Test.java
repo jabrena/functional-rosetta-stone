@@ -5,10 +5,7 @@ import org.fundamentals.fp.euler.IEulerTestable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Disabled
-@Slf4j
 public class LatencyProblem02Test implements IEulerTestable {
 
     @Override

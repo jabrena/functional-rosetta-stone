@@ -1,10 +1,5 @@
 package org.fundamentals.fp.playground.cf;
 
-import io.vavr.Function1;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
-import io.vavr.control.Either;
-import io.vavr.control.Try;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -14,15 +9,23 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.extern.slf4j.Slf4j;
+import static java.util.stream.Collectors.toList;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import io.vavr.Function1;
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
+import io.vavr.control.Either;
+import io.vavr.control.Try;
 
-@Slf4j
 public class ParallelStreamProcesingTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParallelStreamProcesingTest.class);
 
     private List<URL> getValidAddressList() {
 

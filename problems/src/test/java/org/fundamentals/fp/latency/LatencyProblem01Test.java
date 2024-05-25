@@ -18,10 +18,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.test.StepVerifier;
 
-@Slf4j
 public class LatencyProblem01Test implements IEulerTestable {
 
     WireMockServer wireMockServer;

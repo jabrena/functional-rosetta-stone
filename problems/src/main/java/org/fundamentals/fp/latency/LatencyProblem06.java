@@ -17,13 +17,18 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+/*
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+ */
 
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Feature: Consume a REST Greek God Service
@@ -63,10 +68,12 @@ import static org.fundamentals.fp.latency.SimpleCurl.fetch;
  * - Review the retry options
  * - REST API 1: https://my-json-server.typicode.com/jabrena/latency-problems/greek
  */
-@Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class LatencyProblem06 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LatencyProblem06.class);
+
+    /*
     @Data
     @AllArgsConstructor
     public static class Config {
@@ -76,8 +83,15 @@ public class LatencyProblem06 {
         private int timeout;
         private int maxRetryAttempts;
     }
+     */
+
+    public static record Config(String address,Executor executor, int timeout, int maxRetryAttempts) {};
 
     private final Config config;
+
+    public LatencyProblem06(Config config) {
+        this.config = config;
+    }
 
     Function1<String, URL> toURL = address -> Try
         .of(() -> new URL(address))
@@ -96,8 +110,8 @@ public class LatencyProblem06 {
     Function1<Config, CompletableFuture<Option<List<String>>>> fetchAsync = config ->
 
         CompletableFuture
-            .supplyAsync(() -> toURL.andThen(fetch).apply(config.getAddress()), config.getExecutor())
-            .orTimeout(config.getTimeout(), TimeUnit.SECONDS)
+            .supplyAsync(() -> toURL.andThen(fetch).apply(config.address()), config.executor())
+            .orTimeout(config.timeout(), TimeUnit.SECONDS)
             .thenApply(serialize)
             .handle((response, ex) -> {
                 if(Objects.isNull(ex)) {
@@ -134,7 +148,7 @@ public class LatencyProblem06 {
     Function2<Supplier<Option<List<String>>>, Config, Supplier<Option<List<String>>>> retryBehaviour = (supplier, config) -> {
 
         RetryConfig customConfig = RetryConfig.custom()
-                .maxAttempts(config.getMaxRetryAttempts())
+                .maxAttempts(config.maxRetryAttempts())
                 .retryOnResult(r -> r.equals(Option.none()))
                 .build();
 

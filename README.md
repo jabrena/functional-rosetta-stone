@@ -11,9 +11,6 @@ Improve the functional programming skills for Java Developers
 How to test the project?
 
 ```
-git clone https://github.com/jabrena/functional-rosetta-stone.git
-cd functional-rosetta-stone
-
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -Dgroups=performance
