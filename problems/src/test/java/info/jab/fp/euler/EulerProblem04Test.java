@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import info.jab.fp.euler.EulerProblem04;
 import info.jab.fp.euler.utils.BaseEulerProblemTest;
-import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

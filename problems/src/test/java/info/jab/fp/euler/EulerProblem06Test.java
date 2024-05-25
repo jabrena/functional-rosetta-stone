@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import info.jab.fp.euler.EulerProblem06;
 import info.jab.fp.euler.utils.BaseEulerProblemTest;
-import reactor.test.StepVerifier;
 
 public class EulerProblem06Test extends BaseEulerProblemTest implements IEulerTestable {
 

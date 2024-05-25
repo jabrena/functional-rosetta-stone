@@ -4,8 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
-import info.jab.fp.euler.EulerProblem04;
-
 public class EulerProblem04Benchmark {
 
     @State(Scope.Thread)

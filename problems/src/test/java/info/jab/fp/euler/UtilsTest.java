@@ -4,10 +4,6 @@ import java.math.BigInteger;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-import info.jab.fp.euler.Utils;
-import reactor.test.StepVerifier;
-
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UtilsTest {

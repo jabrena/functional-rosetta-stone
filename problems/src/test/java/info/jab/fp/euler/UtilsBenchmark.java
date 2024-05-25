@@ -4,8 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
-import info.jab.fp.euler.Utils;
-
 public class UtilsBenchmark {
 
     @State(Scope.Thread)

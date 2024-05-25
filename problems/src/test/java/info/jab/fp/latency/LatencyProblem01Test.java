@@ -16,13 +16,10 @@ import org.junit.jupiter.api.Test;
 import com.github.tomakehurst.wiremock.WireMockServer;
 
 import info.jab.fp.euler.IEulerTestable;
-import info.jab.fp.latency.LatencyProblem01;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-
-import reactor.test.StepVerifier;
 
 public class LatencyProblem01Test implements IEulerTestable {
 

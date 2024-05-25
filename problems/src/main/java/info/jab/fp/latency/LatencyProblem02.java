@@ -20,6 +20,8 @@ import static java.util.stream.Collectors.toList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.io.IOException;
+
 /**
  * Problem 2
  * Greek gods are quite popular and they have presence in Wikipedia, the multilingual online encyclopedia.
@@ -41,20 +43,42 @@ public class LatencyProblem02 {
     final String greekGods = "http://my-json-server.typicode.com/jabrena/latency-problems/greek";
     final String wikipediaPath = "https://en.wikipedia.org/wiki/";
 
-    Function<String, URL> toURL = address -> Try.of(() ->
-            new URL(address)).getOrElseThrow(ex -> {
+    Function<String, URL> toURL = (address) -> {
+        try {
+                return new URL(address);
+        } catch(IOException ex) {
                 LOGGER.error(ex.getLocalizedMessage(), ex);
                 throw new RuntimeException("Bad address", ex);
+        }
+        /* 
+        Try.of(() ->
+            new URL(address)).getOrElseThrow(ex -> {
+                
             });
+            */
 
-    Function<String, Stream<String>> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-        return deserializedData.stream();
+    };
+
+
+    Function<String, Stream<String>> serialize = (param) -> {
+        try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+                return deserializedData.stream();
+        } catch(IOException ex) {
+                LOGGER.error("Bad Serialization process", ex);
+                throw new RuntimeException("Bad Serialization process", ex);
+        }
+    };
+    
+    /*
+    Try.of(() -> {
+       
     }).getOrElseThrow(ex -> {
         LOGGER.error("Bad Serialization process", ex);
         throw new RuntimeException("Bad Serialization process", ex);
     });
+     */
 
     Function<String, URL> buildWikipediaAddress = god -> Try.of(() ->
             new URL(wikipediaPath + god)).get();

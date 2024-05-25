@@ -16,7 +16,6 @@ sdk env install
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
-./mvnw dependency-check:check
 ./mvnw versions:display-dependency-updates
 ./mvnw versions:display-plugin-updates
 ./mvnw dependency:tree -pl problems 

@@ -4,9 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import info.jab.fp.euler.EulerProblem20;
 import info.jab.fp.euler.utils.BaseEulerProblemTest;
-import reactor.test.StepVerifier;
 
 public class EulerProblem20Test extends BaseEulerProblemTest implements IEulerTestable {
 
