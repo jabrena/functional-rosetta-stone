@@ -43,11 +43,4 @@ public class EulerProblem25 {
                 .get()
                 .getRight();
     }
-
-    public long VAVRSolution(long limit) {
-        return Utils.VAVR.fibonacci()
-                .zipWithIndex()
-                .find(t -> t._1.toString().length() == limit)
-                .get()._2;
-    }
 }

@@ -26,23 +26,4 @@ public class EulerProblem08Test extends BaseEulerProblemTest implements IEulerTe
         assertThat(problem.JavaStreamSolution(13)).isEqualTo(euler.getAnswerToLong(8));
     }
 
-    @Test
-    @Override
-    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
-
-        EulerProblem08 problem = new EulerProblem08();
-
-        assertThat(problem.VAVRSolution(4)).isEqualTo(5_832);
-        assertThat(problem.VAVRSolution(13)).isEqualTo(euler.getAnswerToLong(8));
-    }
-
-    @Override
-    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
 }

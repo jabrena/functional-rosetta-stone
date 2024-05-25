@@ -37,20 +37,4 @@ public class LatencyProblem02Test implements IEulerTestable {
 
         assertThat(problem.JavaStreamSolutionAsync2()).isEqualTo("Apollo");
     }
-
-    @Override
-    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
 }

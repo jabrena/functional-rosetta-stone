@@ -26,16 +26,4 @@ public class EulerProblem21Test extends BaseEulerProblemTest {
         assertThat(problem.javaStreamSolution(10000L)).isEqualTo(euler.getAnswerToLong(21));
     }
 
-    @Test
-    public void given_problem_when_VAVRSolution_then_expectedResultsTest() {
-
-        EulerProblem21 problem = new EulerProblem21();
-
-        assertThat(problem.sumOfDivisors(220)).isEqualTo(1 + 2 + 4 + 5 + 10 + 11 + 20 + 22 + 44 + 55 + 110);
-        assertThat(problem.sumOfDivisors(284)).isEqualTo(1 + 2 + 4 + 71 + 142);
-        assertThat(problem.VAVRSolution(10000)).isEqualTo(31626);
-    }
-
-
-
 }

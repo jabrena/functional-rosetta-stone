@@ -3,9 +3,6 @@ package org.fundamentals.fp.euler;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import io.reactivex.Single;
-import reactor.core.publisher.Mono;
-
 /**
  * https://projecteuler.net/problem=2
  *
@@ -58,28 +55,4 @@ public class EulerProblem02 implements IEulerType1<Long, Long> {
                 .collect(Collectors.summingLong(Long::longValue));
     }
 
-    @Override
-    public Long VAVRSolution(Long limit) {
-
-        return Utils.VAVR.fibonacci(limit)
-                .filter(isEven)
-                .reduce(Long::sum);
-    }
-
-    @Override
-    public Mono<Long> ReactorSolution(Long limit) {
-
-        return Utils.Reactor.fibonacci(limit)
-                .filter(isEven)
-                .reduce(Long::sum);
-    }
-
-    @Override
-    public Single<Long> RxJavaSolution(Long limit) {
-
-        return Utils.RxJava.fibonacci(limit)
-                .filter(l -> isEven.test(l))
-                .reduce(0L, (a, b) -> a + b);
-    }
-    
 }

@@ -20,13 +20,4 @@ public class EulerProblem22Test extends BaseEulerProblemTest {
         assertThat(problem.javaStreamSolution()).isEqualTo(euler.getAnswerToLong(22));
     }
 
-    @Test
-    public void given_problem_when_VAVRSolution_then_expectedResultsTest() {
-
-        EulerProblem22 problem = new EulerProblem22();
-
-        assertThat(problem.nameScore("COLIN", 938)).isEqualTo(49714);
-        assertThat(problem.VAVRSolution()).isEqualTo(euler.getAnswerToLong(22));
-    }
-
 }

@@ -2,7 +2,6 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.Single;
 import io.vavr.Function1;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.fundamentals.fp.euler.IEulerType3;
-import reactor.core.publisher.Mono;
 
 import static java.util.stream.Collectors.toList;
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
@@ -112,21 +110,6 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
                         .peek(System.out::println)
                         .collect(toList()))
                 .apply(config);
-    }
-
-    @Override
-    public List<String> VAVRSolution() {
-        return null;
-    }
-
-    @Override
-    public Mono<List<String>> ReactorSolution() {
-        return null;
-    }
-
-    @Override
-    public Single<List<String>> RxJavaSolution() {
-        return null;
     }
 
 }

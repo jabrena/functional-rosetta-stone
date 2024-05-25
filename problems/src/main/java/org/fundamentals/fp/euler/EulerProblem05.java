@@ -6,11 +6,6 @@ import java.util.stream.LongStream;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import io.reactivex.Single;
-import io.vavr.collection.Stream;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 /**
  * Problem 5: Smallest multiple
  * 2520 is the smallest number that can be divided by each of the numbers
@@ -39,35 +34,6 @@ public class EulerProblem05 implements IEulerType1<Long, Long>{
         return LongStream.rangeClosed(1, Long.MAX_VALUE).boxed()
                 .filter(i -> checkDivisible.test(i, limit))
                 .findFirst().get();
-    }
-
-    long pow(long a, long p) {
-        return Stream.rangeClosed(1, p).fold(1L, (xs, x) -> xs * a);
-    }
-
-    @Override
-    public Long VAVRSolution(Long limit) {
-
-        return Stream.rangeClosed(2, limit)
-                .map(PrimeNumbers::factorization)
-                .reduce((m1, m2) -> m1.merge(m2, Math::max))
-                .foldLeft(1L, (xs, x) -> xs * pow(x._1, x._2));
-    }
-
-    @Override
-    public Mono<Long> ReactorSolution(Long limit) {
-
-         Flux.range(2, limit.intValue())
-                .filter(i -> checkDivisible.test(Long.valueOf(i), limit))
-                .map(i -> Long.valueOf(i))
-                .doOnSubscribe(System.out::println);
-
-        return Mono.just(0L);
-    }
-
-    @Override
-    public Single<Long> RxJavaSolution(Long limit) {
-        return null;
     }
 
 }

@@ -31,19 +31,4 @@ public class EulerProblem35Test extends BaseEulerProblemTest implements IEulerTe
         //assertThat(problem.JavaStreamSolution(1000)).isEqualTo(euler.getAnswerToInt(35));
     }
 
-    @Override
-    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Override
-    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
 }

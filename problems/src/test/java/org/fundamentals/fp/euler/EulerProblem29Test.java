@@ -24,13 +24,4 @@ public class EulerProblem29Test extends BaseEulerProblemTest {
         then(problem.javaStreamSolution(100L)).isEqualTo(euler.getAnswerToLong(29));
     }
 
-    @Test
-    public void given_problem_when_VAVRSolution_then_expectedResultsTest(){
-
-        EulerProblem29 problem = new EulerProblem29();
-
-        then(problem.VAVRSolution(5L)).isEqualTo(15L);
-        then(problem.VAVRSolution(100L)).isEqualTo(euler.getAnswerToLong(29));
-    }
-
 }

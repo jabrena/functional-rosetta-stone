@@ -22,19 +22,4 @@ public class EulerProblem01Benchmark {
         st.problem.JavaStreamSolution(st.limit);
     }
 
-    @Benchmark
-    public void VAVRSolution(St st) {
-        st.problem.VAVRSolution(st.limit);
-    }
-
-    @Benchmark
-    public void ReactorSolution(St st) {
-        st.problem.ReactorSolution(st.limit);
-    }
-
-    @Benchmark
-    public void RXJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.limit);
-    }
-
 }

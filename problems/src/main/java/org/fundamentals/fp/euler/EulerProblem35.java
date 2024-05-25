@@ -7,9 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import io.reactivex.Single;
-import reactor.core.publisher.Mono;
-
 /**
  * Problem 35: Circular primes
  * The number, 197, is called a circular prime because all rotations of the digits:
@@ -58,18 +55,4 @@ public class EulerProblem35 implements IEulerType1<Integer, Integer>  {
                 .count();
     }
 
-    @Override
-    public Integer VAVRSolution(Integer limit) {
-        return null;
-    }
-
-    @Override
-    public Mono<Integer> ReactorSolution(Integer limit) {
-        return null;
-    }
-
-    @Override
-    public Single<Integer> RxJavaSolution(Integer limit) {
-        return null;
-    }
 }

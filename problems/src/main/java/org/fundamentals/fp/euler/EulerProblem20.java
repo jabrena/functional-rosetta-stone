@@ -6,9 +6,6 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import io.reactivex.Single;
-import reactor.core.publisher.Mono;
-
 /**
  * Problem 20: Factorial digit sum
  * n! means n (n 1) ... 3 2 1
@@ -68,21 +65,4 @@ public class EulerProblem20 implements IEulerType1<Long, Long> {
                 .get();
     }
 
-    @Override
-    public Long VAVRSolution(Long limit) {
-        return null;
-    }
-
-    @Override
-    public Mono<Long> ReactorSolution(Long limit) {
-
-         return Mono.just(limit)
-                 .map(factorial)
-                 .map(sumDigits);
-    }
-
-    @Override
-    public Single<Long> RxJavaSolution(Long limit) {
-        return null;
-    }
 }

@@ -6,10 +6,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.LongStream;
 
-import io.reactivex.Single;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 /**
  * https://projecteuler.net/problem=3
  *
@@ -71,34 +67,4 @@ public class EulerProblem03 implements IEulerType1<Long, Long> {
                 .orElseThrow(() -> new RuntimeException("¯\\_(ツ)_/¯"));
     }
 
-    @Override
-    public Long VAVRSolution(Long limit) {
-
-        return PrimeNumbers.primeFactors(limit).max().get();
-    }
-
-    Flux<Long> reactorFactors(int lastFactor, long limit) {
-
-        return Flux.range(lastFactor, (int) Math.round(Math.sqrt(limit)))
-                .filter(x -> limit % x == 0)
-                .map(x -> Flux.concat(Flux.just(x), reactorFactors(x, limit / x)))
-                .map(x -> Long.valueOf(x.toString()))
-                .sort()
-                .take(1);
-
-    }
-
-    @Override
-    public Mono<Long> ReactorSolution(Long limit) {
-
-        //reactorFactors(2, limit).subscribe(System.out::println);
-
-        return Mono.just(0L);
-    }
-
-    @Override
-    public Single<Long> RxJavaSolution(Long l) {
-
-        return Single.just(0l);
-    }
 }

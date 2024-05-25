@@ -16,13 +16,4 @@ public class EulerProblem25Test extends BaseEulerProblemTest {
         assertThat(problem.javaStreamSolution(1000L)).isEqualTo(euler.getAnswerToLong(25));
     }
 
-    @Test
-    public void given_problem_when_VAVRSolution_then_expectedResultsTest(){
-
-        EulerProblem25 problem = new EulerProblem25();
-
-        assertThat(problem.VAVRSolution(3L)).isEqualTo(12);
-        assertThat(problem.VAVRSolution(1000L)).isEqualTo(euler.getAnswerToLong(25));
-    }
-
 }

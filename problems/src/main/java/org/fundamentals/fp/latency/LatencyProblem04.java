@@ -2,7 +2,6 @@ package org.fundamentals.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.Single;
 import io.vavr.CheckedFunction1;
 import io.vavr.Function1;
 import io.vavr.Function2;
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.fundamentals.fp.euler.IEulerType3;
-import reactor.core.publisher.Mono;
 
 import static org.fundamentals.fp.latency.SimpleCurl.fetch;
 import static org.fundamentals.fp.latency.SimpleCurl.log;
@@ -138,21 +136,6 @@ public class LatencyProblem04 implements IEulerType3<BigDecimal> {
                 .mapToDouble(BigDecimal::doubleValue)
                 .average()
                 .getAsDouble());
-    }
-
-    @Override
-    public BigDecimal VAVRSolution() {
-        return null;
-    }
-
-    @Override
-    public Mono<BigDecimal> ReactorSolution() {
-        return null;
-    }
-
-    @Override
-    public Single<BigDecimal> RxJavaSolution() {
-        return null;
     }
 
 }

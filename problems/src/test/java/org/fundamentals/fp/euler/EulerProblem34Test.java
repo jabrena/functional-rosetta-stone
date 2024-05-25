@@ -18,13 +18,4 @@ public class EulerProblem34Test extends BaseEulerProblemTest {
         //assertThat(problem.javaStreamSolution()).isEqualTo(euler.getAnswerToLong(34));
     }
 
-    @Test
-    public void given_problem_when_VAVRSolution_then_expectedResultsTest() {
-
-        EulerProblem34 problem = new EulerProblem34();
-
-        //Assertions.assertThat(sumOfDigitFactorial(145)).isEqualTo(145);
-        Assertions.assertThat(problem.VAVRSolution()).isEqualTo(40730);
-    }
-
 }

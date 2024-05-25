@@ -1,6 +1,5 @@
 package org.fundamentals.fp.euler;
 
-import io.reactivex.Observable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
-import reactor.core.publisher.Flux;
-import reactor.util.function.Tuples;
 
 public class Utils {
 
@@ -75,59 +72,4 @@ public class Utils {
                 .collect(Collectors.toList());
 
     }
-
-    public static class VAVR {
-
-        public static io.vavr.collection.Stream<BigInteger> fibonacci() {
-            return io.vavr.collection.Stream.of(BigInteger.ZERO, BigInteger.ONE)
-                    .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
-        }
-
-        public static io.vavr.collection.Stream<Long> fibonacci(long limit) {
-
-            return fibonacci()
-                    .map(BigInteger::longValue)
-                    .drop(2)
-                    .takeWhile(f -> f <= limit);
-        }
-
-    }
-
-    public static class Reactor {
-
-        public static Flux<Long> fibonacci() {
-
-            return Flux.generate(
-                    () -> Tuples.of(1L, 2L),
-                    (state, sink) -> {
-                        sink.next(state.getT1());
-                        return Tuples.of(state.getT2(), state.getT1() + state.getT2());
-                    }
-            );
-        }
-
-        public static Flux<Long> fibonacci(long limit) {
-
-            return fibonacci().takeWhile(x-> x <= limit);
-        }
-
-    }
-
-    public static class RxJava {
-
-        public static Observable<Long> fibonacci() {
-
-            return Observable.fromArray(0L)
-                    .repeat()
-                    .scan(new long[]{0, 1}, (a, b) -> new long[]{a[1], a[0] + a[1]})
-                    .map(a -> a[1]);
-        }
-
-        public static Observable<Long> fibonacci(long limit) {
-
-            return fibonacci().takeWhile(x-> x <= limit);
-        }
-
-    }
-
 }

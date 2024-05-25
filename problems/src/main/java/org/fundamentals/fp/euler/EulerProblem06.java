@@ -6,10 +6,6 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.math.MathFlux;
-
 /**
  * The sum of the squares of the first ten natural numbers is,
  *
@@ -52,34 +48,6 @@ public class EulerProblem06 {
                     .get();
 
         //return javaStreamsSquareSum.apply(limit) - javaStreamsSumSquare.apply(limit);
-    }
-
-    public Long VAVRSolution(long limit) {
-
-        throw new NotImplementedException("VAVR in this problem doesn´t offer a significant advantage in relation to Java");
-    }
-
-    private Flux<Long> getSequence(int limit) {
-        return Flux.range(1, limit)
-                .map(number -> Long.valueOf(number));
-    }
-
-    Mono<Long> reactorSumSquare(int limit) {
-        return MathFlux.sumLong(getSequence(limit)
-                .map(number -> number * number));
-    }
-
-    Function<Long, Long> square = number -> Double.valueOf(Math.pow(number, 2)).longValue();
-
-    Mono<Long> reactorSquareSum(int limit) {
-        return MathFlux.sumLong(getSequence(limit)).map(square);
-    }
-
-    public Mono<Long> ReactorSolution(long limit) {
-        return Mono.zip(
-                reactorSumSquare((int) limit),
-                reactorSquareSum((int) limit),
-                (f1, f2) -> f2 - f1);
     }
 
 }

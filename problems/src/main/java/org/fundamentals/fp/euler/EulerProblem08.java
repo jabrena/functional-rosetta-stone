@@ -5,11 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import io.reactivex.Single;
-import io.vavr.Function3;
-import io.vavr.collection.Seq;
-import reactor.core.publisher.Mono;
-
 /**
  * Problem 8: Largest product in a series
  * https://projecteuler.net/problem=8
@@ -74,28 +69,4 @@ public class EulerProblem08 implements IEulerType1<Integer, Long> {
                 .max().getAsLong();
     }
 
-    private static io.vavr.collection.List<Integer> digits(String num) {
-
-        return io.vavr.collection.List.of(num.split(""))
-                .map(s -> Character.digit(s.charAt(0), 10));
-    }
-
-    @Override
-    public Long VAVRSolution(Integer limit) {
-
-        return digits(DATASOURCE)
-                .sliding(limit)
-                .map(Seq::product)
-                .max().get().longValue();
-    }
-
-    @Override
-    public Mono<Long> ReactorSolution(Integer limit) {
-        return null;
-    }
-
-    @Override
-    public Single<Long> RxJavaSolution(Integer limit) {
-        return null;
-    }
 }

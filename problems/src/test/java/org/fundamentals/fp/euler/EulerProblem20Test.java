@@ -37,33 +37,5 @@ public class EulerProblem20Test extends BaseEulerProblemTest implements IEulerTe
         assertThat(problem.JavaStreamSolution2(100L)).isEqualTo(euler.getAnswerToLong(20));
     }
 
-    @Override
-    public void given_VAVRSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
-
-    @Test
-    @Override
-    public void given_ReactorSolution_when_executeMethod_then_expectedResultsTest() {
-
-        EulerProblem20 problem = new EulerProblem20();
-
-        StepVerifier
-                .create(problem.ReactorSolution(10L))
-                .expectNext(27L)
-                .expectComplete()
-                .verify();
-
-        StepVerifier
-                .create(problem.ReactorSolution(100L))
-                .expectNext(euler.getAnswerToLong(20))
-                .expectComplete()
-                .verify();
-    }
-
-    @Override
-    public void given_RxJavaSolution_when_executeMethod_then_expectedResultsTest() {
-
-    }
 
 }

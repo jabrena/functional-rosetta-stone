@@ -23,19 +23,4 @@ public class EulerProblem04Benchmark {
         st.problem.JavaStreamSolution(st.min, st.max);
     }
 
-    @Benchmark
-    public void VAVRSolution(St st) {
-        st.problem.VAVRSolution(st.min, st.max);
-    }
-
-    @Benchmark
-    public void ReactorSolution(St st) {
-        st.problem.ReactorSolution(st.min, st.max);
-    }
-
-    @Benchmark
-    public void RxJavaSolution(St st) {
-        st.problem.RxJavaSolution(st.min, st.max);
-    }
-
 }

@@ -10,12 +10,6 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.vavr.collection.Stream;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 /**
  * Problem 1: Multiples of 3 and 5
  * https://projecteuler.net/problem=1
@@ -58,30 +52,4 @@ public class EulerProblem01 implements IEulerType1<Integer, Integer> {
                 .filter(isMultiple3.or(isMultiple5))
                 .reduce(0, Integer::sum);
     }
-
-    @Override
-    public Integer VAVRSolution(Integer limit) {
-
-        return Stream.range(1, limit)
-            .filter(isMultiple3.or(isMultiple5))
-            .sum()
-            .intValue();
-    }
-
-    @Override
-    public Mono<Integer> ReactorSolution(Integer limit) {
-
-        return Flux.range(0, limit)
-                    .filter(isMultiple3.or(isMultiple5))
-                    .reduce(0, Integer::sum);
-    }
-
-    @Override
-    public Single<Integer> RxJavaSolution(Integer limit) {
-
-        return Observable.range(1, limit - 1)
-                .filter(l -> isMultiple3.test(l) || isMultiple5.test(l))
-                .reduce(0, (a, b) -> a + b);
-    }
-
 }
