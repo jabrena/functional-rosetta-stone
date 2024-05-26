@@ -1,5 +1,6 @@
 package info.jab.fp.cf;
 
+/*
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -152,3 +153,4 @@ public class ParallelStreamProcesingTest {
     }
 
 }
+ */

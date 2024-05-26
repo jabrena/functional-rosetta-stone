@@ -1,6 +1,6 @@
 package info.jab.fp.java8;
 
-import io.vavr.control.Option;
+//import io.vavr.control.Option;
 import java.util.Optional;
 import java.util.function.Function;
 import org.junit.jupiter.api.Assertions;
@@ -45,6 +45,7 @@ public class OptionalMonadLawsTest {
         });
     }
 
+    /*
     @Test
     public void given_vavrOptionMonad_when_use_then_passAllMonadLawTests() {
 
@@ -73,5 +74,6 @@ public class OptionalMonadLawsTest {
         then(Option.of(1).map(a -> null)).isEqualTo(Option.some(null));
         then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
     }
+     */
 
 }

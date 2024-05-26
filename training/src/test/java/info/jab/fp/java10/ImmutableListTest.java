@@ -23,6 +23,7 @@ public class ImmutableListTest {
         });
     }
 
+    /*
     @Test
     void given_vavrList_when_addNewElement_then_katakrokerTest() {
 
@@ -36,4 +37,5 @@ public class ImmutableListTest {
         then(animals.size()).isEqualTo(3);
         then(animals).isEqualTo(io.vavr.collection.List.of("🐱", "🐶", "🐕"));
     }
+     */
 }

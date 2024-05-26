@@ -1,8 +1,8 @@
 package info.jab.fp.java8;
 
-import io.vavr.Function1;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -22,7 +22,7 @@ public class FizzBuzz {
     Predicate<Integer> isMultiple3 = number -> isMultiple.test(number, THREE);
     Predicate<Integer> isMultiple5 = number -> isMultiple.test(number, FIVE);
 
-    Function1<Integer, String> fizzBuzzMapper = i -> {
+    Function<Integer, String> fizzBuzzMapper = i -> {
 
         if(isMultiple3.test(i) && isMultiple5.test(i)) {
             return "FizzBuzz";

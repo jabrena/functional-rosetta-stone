@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.vavr.control.Try;
-
 public class CFCompositionTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CFCompositionTest.class);
@@ -34,7 +32,10 @@ public class CFCompositionTest {
     }
 
     private void delay(int seconds) {
-         Try.run(() -> Thread.sleep(seconds * 1000));
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException ex) {
+        }
     }
 
     private CompletableFuture<Integer> cf(Integer param)  {
