@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 public class Java8InActionOptionalTest {
 
     public record Insurance (String name) {}
-
     public record Car (Optional<Insurance> insurance){}
-
     public record Person (Optional<Car> car){}
 
     public class OptionalMain {

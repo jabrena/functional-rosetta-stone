@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.Test;
 
-public class FunctionalJava8FeaturesTest {
+public class FunctionalInterfacesTest {
 
     @FunctionalInterface
     interface Square {
@@ -25,8 +25,10 @@ public class FunctionalJava8FeaturesTest {
 
         Square power = x -> x * x;
         Consumer<Integer> print = System.out::println;
-        IntStream.rangeClosed(1, 10).boxed().map(power::calculate).forEach(print::accept);
-
+        
+        IntStream.rangeClosed(1, 10).boxed()
+            .map(power::calculate)
+            .forEach(print::accept);
     }
 
     @Test
@@ -34,7 +36,9 @@ public class FunctionalJava8FeaturesTest {
 
         Consumer<Integer> print = System.out::println;
         Consumer<Integer> multiplicationTable = x -> IntStream.rangeClosed(1, 10).boxed().skip(1).forEach(y -> System.out.println(y * x));
-        IntStream.rangeClosed(1, 10).boxed().forEach(print.andThen(multiplicationTable)::accept);
+        
+        IntStream.rangeClosed(1, 10).boxed()
+            .forEach(print.andThen(multiplicationTable)::accept);
     }
 
     @Test
@@ -53,7 +57,6 @@ public class FunctionalJava8FeaturesTest {
     public void predicateInterfaceTest() {
 
         List<Integer> expectedList = Arrays.asList(2,4,6,8,10);
-
         Predicate<Integer> isPair = x -> x % 2 == 0;
 
         assertThat(IntStream.rangeClosed(1, 10).boxed()

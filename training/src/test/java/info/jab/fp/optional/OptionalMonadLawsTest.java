@@ -74,6 +74,6 @@ public class OptionalMonadLawsTest {
         then(Option.of(1).map(a -> null)).isEqualTo(Option.some(null));
         then(Option.of(1).flatMap(a -> null)).isEqualTo(null);
     }
-     */
+    */
 
 }

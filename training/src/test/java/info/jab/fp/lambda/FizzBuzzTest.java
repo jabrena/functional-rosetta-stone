@@ -3,8 +3,6 @@ package info.jab.fp.lambda;
 import static org.assertj.core.api.BDDAssertions.then;
 import org.junit.jupiter.api.Test;
 
-import info.jab.fp.lambda.FizzBuzz;
-
 public class FizzBuzzTest {
 
     @Test
