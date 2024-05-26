@@ -43,13 +43,4 @@ public class EulerProblem29 {
          return generateSerie.apply(limit).count();
     }
 
-    public long VAVRSolution(long limit) {
-
-        return io.vavr.collection.Stream.rangeClosed(2, limit)
-                .map(BigInteger::valueOf)
-                .flatMap(a -> io.vavr.collection.Stream.rangeClosed(2, (int) limit).map(a::pow))
-                .distinct()
-                .length();
-    }
-
 }

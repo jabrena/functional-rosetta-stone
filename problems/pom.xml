@@ -16,14 +16,7 @@
     <description>Euler and Latency solutions/tests</description>
 
     <dependencies>
-
-        <!-- TODO: To be removed -->
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>${vavr.version}</version>
-        </dependency>
-
+        
         <!-- JMH -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>

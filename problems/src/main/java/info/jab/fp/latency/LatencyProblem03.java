@@ -2,7 +2,6 @@ package info.jab.fp.latency;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.control.Try;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.List;
@@ -16,6 +15,8 @@ import java.util.stream.Stream;
 
 import static info.jab.fp.latency.SimpleCurl.fetch;
 import static java.util.stream.Collectors.toUnmodifiableList;
+
+import java.io.IOException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -42,11 +43,14 @@ public class LatencyProblem03 {
         this.TIMEOUT = TIMEOUT;
     }
 
-    Function<String, URL> toURL = address -> Try.of(() ->
-            new URL(address)).getOrElseThrow(ex -> {
-        LOGGER.error(ex.getLocalizedMessage(), ex);
-        throw new RuntimeException("Bad address", ex);
-    });
+    Function<String, URL> toURL = (address) -> {
+        try {
+                return new URL(address);
+        } catch(IOException ex) {
+                LOGGER.error(ex.getLocalizedMessage(), ex);
+                throw new RuntimeException("Bad address", ex);
+        }
+    };
 
     Function<URL, String> callAsync = url -> {
 
@@ -62,14 +66,16 @@ public class LatencyProblem03 {
                         ,TIMEOUT, TimeUnit.SECONDS).join();
     };
 
-    Function<String, Stream<String>> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-        return deserializedData.stream();
-    }).getOrElseThrow(ex -> {
-        LOGGER.error("Bad Serialization process", ex);
-        throw new RuntimeException(ex);
-    });
+    Function<String, Stream<String>> serialize = (param) -> {
+        try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+                return deserializedData.stream();
+        } catch(IOException ex) {
+                LOGGER.error("Bad Serialization process", ex);
+                throw new RuntimeException("Bad Serialization process", ex);
+        }
+    };
 
     public List<String> JavaStreamSolutionAsync(GODS god) {
 

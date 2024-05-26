@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.jab.fp.euler.IEulerType3;
-import io.vavr.control.Try;
 
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -57,20 +57,32 @@ public class LatencyProblem01 implements IEulerType3<BigInteger> {
         return null;
     }
 
+    /*
     Function<String, URL> toURL = address -> Try.of(() ->
             new URL(address)).getOrElseThrow(ex -> {
         LOGGER.error(ex.getLocalizedMessage(), ex);
         throw new RuntimeException("Bad address", ex);
-    });
+    }); */
 
-    Function<String, Stream<String>> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-        return deserializedData.stream();
-    }).getOrElseThrow(ex -> {
-        LOGGER.error("Bad Serialization process", ex);
-        throw new RuntimeException(ex);
-    });
+    Function<String, URL> toURL = address -> {
+        try {
+            return new URL(address);
+        } catch (MalformedURLException ex) {
+            LOGGER.error(ex.getLocalizedMessage(), ex);
+            throw new RuntimeException("Bad address", ex);
+        }
+    };
+
+    Function<String, Stream<String>> serialize = param -> {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+            return deserializedData.stream();
+        } catch (Exception ex) {
+            LOGGER.error("Bad Serialization process", ex);
+            throw new RuntimeException("Bad Serialization process", ex);
+        }
+    };
 
     Predicate<String> godStartingByn = s -> s.toLowerCase().charAt(0) == 'n';
 

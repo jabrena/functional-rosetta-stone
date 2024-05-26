@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 
 import info.jab.fp.euler.IEulerTestable;
-import info.jab.fp.latency.LatencyProblem03;
-import io.vavr.Tuple2;
-import io.vavr.control.Try;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.EnumMap;
@@ -56,20 +56,18 @@ public class LatencyProblem03Test implements IEulerTestable {
     }
 
     private List<String> loadJsonFile(String file) {
-
-        return Try.of(() -> {
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
             String readContent = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader()
                     .getResource("__files/" + file)
                     .toURI())));
 
-            List<String> deserializedData = objectMapper.readValue(readContent, new TypeReference<List<String>>() {});
-            return deserializedData;
-        })
-        .getOrElseThrow(ex -> {
-            //LOGGER.error("Problem loading JSON file", ex);
+            return objectMapper.readValue(readContent, new TypeReference<List<String>>() {});
+        } catch (IOException | URISyntaxException | NullPointerException ex) {
+            // You can log the exception if needed
+            // LOGGER.error("Problem loading JSON file", ex);
             throw new RuntimeException(ex);
-        });
+        }
     }
 
     @Test
@@ -114,29 +112,32 @@ public class LatencyProblem03Test implements IEulerTestable {
 
         LatencyProblem03 problem = new LatencyProblem03(godMap, executor, TIMEOUT);
 
-        Function<GODS, CompletableFuture<Tuple2<GODS, List<String>>>> callAsync = god -> {
+        record Tuple2(Enum param1, List<String> param2) {}
+
+        Function<GODS, CompletableFuture<Tuple2>> callAsync = god -> {
 
             //LOGGER.info("Thread: {}", Thread.currentThread().getName());
             return CompletableFuture
                     .supplyAsync(() -> {
-                        return new Tuple2<>(god, problem.JavaStreamSolutionAsync(god));
+                        return new Tuple2(god, problem.JavaStreamSolutionAsync(god));
                     }, executor)
                     .exceptionally(ex -> {
                         //LOGGER.error(ex.getLocalizedMessage(), ex);
-                        return new Tuple2<>(god, List.of("FETCH_BAD_RESULT"));
+                        return new Tuple2(god, List.of("FETCH_BAD_RESULT"));
                     })
                     .completeOnTimeout(
-                            new Tuple2<>(god, List.of("FETCH_BAD_RESULT_TIMEOUT"))
+                            new Tuple2(god, List.of("FETCH_BAD_RESULT_TIMEOUT"))
                             ,TIMEOUT, TimeUnit.SECONDS);
         };
 
-        Predicate<Tuple2<GODS, List<String>>> assertResult = t -> extectedGodListMap.get(t._1).equals(t._2);
+
+        Predicate<Tuple2> assertResult = t -> extectedGodListMap.get(t.param1()).equals(t.param2());
 
         //Then
         IntStream.rangeClosed(1, 256).boxed()
                 .forEach(i -> {
                     //LOGGER.info("Test iteration: {}", i);
-                    List<CompletableFuture<Tuple2<GODS, List<String>>>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
+                    List<CompletableFuture<Tuple2>> futureCallList = List.of(GREEK, ROMAN, NORDIC).stream()
                             .map(callAsync)
                             .collect(toList());
 

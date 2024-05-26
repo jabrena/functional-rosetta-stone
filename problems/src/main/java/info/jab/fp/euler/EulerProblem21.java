@@ -1,10 +1,7 @@
 package info.jab.fp.euler;
 
-import io.vavr.Function1;
-import io.vavr.Tuple;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -63,21 +60,5 @@ public class EulerProblem21 {
                 .sorted()
                 .peek(System.out::println)
                 .sum();
-    }
-
-    int sumOfDivisors(int n) {
-        return 1 + io.vavr.collection.Stream.rangeClosed(2, (int) Math.sqrt(n))
-                .map(d -> Tuple.of(d, n / d))
-                .filter(t -> t._1 * t._2 == n && !Objects.equals(t._1, t._2))
-                .map(t -> t._1 + t._2)
-                .foldLeft(0, (sum, x) -> sum + x);
-    }
-
-    public int VAVRSolution(int n) {
-        final Function1<Integer, Integer> mSumOfDivisors = Function1.of(this::sumOfDivisors).memoized();
-        return io.vavr.collection.Stream.range(1, n)
-                .filter(x -> mSumOfDivisors.apply(mSumOfDivisors.apply(x)).intValue() == x && mSumOfDivisors.apply(x) > x)
-                //.peek(System.out::println)
-                .foldLeft(0, (sum, x) -> sum + x + mSumOfDivisors.apply(x));
     }
 }
