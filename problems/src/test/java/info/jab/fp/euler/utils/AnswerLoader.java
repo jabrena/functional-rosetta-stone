@@ -1,6 +1,5 @@
 package info.jab.fp.euler.utils;
 
-import io.vavr.Function1;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 public class AnswerLoader {
 
@@ -32,7 +32,7 @@ public class AnswerLoader {
         return arr;
     }
 
-    Function1<String, String > getAnswer = row -> Arrays.stream(row.split(":"))
+    Function<String, String > getAnswer = row -> Arrays.stream(row.split(":"))
             .skip(1)
             .map(part -> part.trim())
             .findFirst()

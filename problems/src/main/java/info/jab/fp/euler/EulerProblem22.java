@@ -1,22 +1,15 @@
 package info.jab.fp.euler;
 
-
-import io.vavr.Tuple2;
-import io.vavr.collection.CharSeq;
-import io.vavr.collection.Iterator;
-import io.vavr.collection.Stream;
-import io.vavr.control.Try;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URL;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -43,19 +36,34 @@ public class EulerProblem22 {
             .map(l -> l.replaceAll("\"", ""))
             .collect(toList());
 
+    Function<String, List<String>> load = fileName -> {
+        try {
+            return Files.lines(Paths.get(
+                    getClass().getClassLoader().getResource(fileName).toURI()))
+                    .collect(Collectors.toList());
+        } catch (IOException | URISyntaxException | NullPointerException ex) {
+            System.out.println(ex.getLocalizedMessage());
+            return Collections.emptyList();
+        }
+    };
+
+    /*
     Function<String, List<String>> load = fileName -> Try.of(() -> Files.lines(Paths.get(
             getClass().getClassLoader().getResource(fileName).toURI()))
             .collect(toList()))
             .onFailure(System.out::println)
             .getOrElse(Collections.emptyList());
+             */
+
+    record Tuple2(Integer param1, String param2) {}
 
     Function<List<String>, List<Tuple2>> addIndex = list -> {
 
         AtomicInteger index = new AtomicInteger(0);
 
-        return Stream.of(list)
+        return list.stream()
                 .map(s -> new Tuple2(index.incrementAndGet(), String.valueOf(s)))
-                .toJavaList();
+                .toList();
     };
 
     Function<String, List<String>> loadFile = fileName -> this.load.andThen(this.split).apply(fileName);
@@ -71,7 +79,9 @@ public class EulerProblem22 {
 
     Function<List<Tuple2>, Long> sum = list -> list.stream()
             .map(item -> {
-                return toDigits.andThen(sumDigits).apply(String.valueOf(item._2)) * Long.valueOf(String.valueOf(item._1));
+                return toDigits
+                .andThen(sumDigits)
+                .apply(String.valueOf(item.param2())) * Long.valueOf(String.valueOf(item.param1()));
             })
             .reduce(0L, Long::sum);
 
@@ -83,52 +93,4 @@ public class EulerProblem22 {
                 .apply("euler/p022_names.txt");
     }
 
-    public long VAVRSolution() {
-        return readLines(file("euler/p022_names.txt"))
-                .map(l -> l.replaceAll("\"", ""))
-                .flatMap(l -> Stream.of(l.split(",")))
-                .sorted()
-                .zipWithIndex()
-                .map(t -> nameScore(t._1, t._2 + 1))
-                .sum().longValue();
-    }
-
-    long nameScore(String name, long position) {
-        return CharSeq.of(name)
-                .map(c -> c - 'A' + 1)
-                .sum().longValue() * position;
-    }
-
-    private Stream<String> readLines(File file) {
-        try {
-            return Stream.ofAll(new Iterator<String>() {
-
-                final Scanner scanner = new Scanner(file);
-
-                @Override
-                public boolean hasNext() {
-                    final boolean hasNext = scanner.hasNextLine();
-                    if (!hasNext) {
-                        scanner.close();
-                    }
-                    return hasNext;
-                }
-
-                @Override
-                public String next() {
-                    return scanner.nextLine();
-                }
-            });
-        } catch (FileNotFoundException e) {
-            return Stream.empty();
-        }
-    }
-
-    private File file(String fileName) {
-        final URL resource = getClass().getClassLoader().getResource(fileName);
-        if (resource == null) {
-            throw new RuntimeException("resource not found");
-        }
-        return new File(resource.getFile());
-    }
 }

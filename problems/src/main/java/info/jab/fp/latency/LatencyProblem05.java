@@ -4,13 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.jab.fp.euler.IEulerType3;
-import io.vavr.Function1;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -21,6 +19,8 @@ import java.util.function.Predicate;
 import static info.jab.fp.latency.SimpleCurl.fetch;
 import static info.jab.fp.latency.SimpleCurl.log;
 import static java.util.stream.Collectors.toList;
+
+import java.io.IOException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -57,46 +57,53 @@ public class LatencyProblem05 implements IEulerType3<List<String>> {
         return null;
     }
 
-    Function1<String, Option<URL>> toURL = address ->
-            Try.of(() -> new URL(address))
-                .map(u -> Option.some(u))
-                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
-                .recover(ex -> Option.none())
-                .get();
+    Function<String, Optional<URL>> toURL = address -> {
+        try {
+            URL url = new URL(address);
+            return Optional.of(url);
+        } catch (MalformedURLException ex) {
+            LOGGER.error(ex.getLocalizedMessage(), ex);
+            return Optional.empty();
+        }
+    };
 
-    Function<Tuple2<URL, Config>, CompletableFuture<String>> fetchAsync = (tuple) -> {
+    record Tuple2(URL param1, Config param2) {}
+
+    Function<Tuple2, CompletableFuture<String>> fetchAsync = (tuple) -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
-                .supplyAsync(() -> fetch.andThen(log).apply(tuple._1), tuple._2().executor())
+                .supplyAsync(() -> fetch.andThen(log).apply(tuple.param1()), tuple.param2().executor())
                 .exceptionally(ex -> {
                     LOGGER.error(ex.getLocalizedMessage(), ex);
                     return "FETCH_BAD_RESULT";
                 })
-                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", tuple._2.timeout(), TimeUnit.SECONDS);
+                .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", tuple.param2().timeout(), TimeUnit.SECONDS);
     };
 
-    Function<String, List<String>> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
-        return deserializedData;
-    }).getOrElseThrow(ex -> {
-        LOGGER.error("Bad Serialization process", ex);
-        throw new RuntimeException(ex);
-    });
+    Function<String, List<String>> serialize = (param) -> {
+        try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<String> deserializedData = objectMapper.readValue(param, new TypeReference<List<String>>() {});
+                return deserializedData;
+        } catch(IOException ex) {
+                LOGGER.error("Bad Serialization process", ex);
+                throw new RuntimeException("Bad Serialization process", ex);
+        }
+    };
 
     Predicate<String> godStartingByA = s -> s.toLowerCase().charAt(0) == 'a';
 
-    Function1<List<String>, List<URL>> validAddress = list -> list.stream()
+    Function<List<String>, List<URL>> validAddress = list -> list.stream()
             .map(toURL)
-            .filter(Option::isDefined)
-            .map(Option::get)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .collect(toList());
 
-    Function1<Config, Tuple2<URL, Config>> loadBalance = config -> {
+    Function<Config, Tuple2> loadBalance = config -> {
         List<URL> validAddressList = validAddress.apply(config.list());
         Integer index = new Random().nextInt(validAddressList.size());
-        return Tuple.of(validAddressList.get(index), config);
+        return new Tuple2(validAddressList.get(index), config);
     };
 
     @Override

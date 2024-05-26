@@ -1,6 +1,5 @@
 package info.jab.fp.euler;
 
-import io.vavr.collection.CharSeq;
 import java.math.BigInteger;
 
 /**
@@ -18,13 +17,5 @@ public class EulerProblem16 {
                 .mapToObj(c -> String.valueOf((char) c))
                 .mapToLong(s -> Long.valueOf(s))
                 .sum();
-    }
-
-    public long VAVRSolution(long power) {
-
-        return CharSeq.of(BigInteger.valueOf(2).pow((int) power).toString())
-                .map(c -> String.valueOf((char) c))
-                .map(s -> Long.valueOf(s))
-                .fold(0L, (a, b) -> a + b);
     }
 }

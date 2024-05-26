@@ -4,11 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.jab.fp.euler.IEulerType3;
-import io.vavr.CheckedFunction1;
-import io.vavr.Function1;
-import io.vavr.Function2;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
 
 import static info.jab.fp.latency.SimpleCurl.fetch;
 import static info.jab.fp.latency.SimpleCurl.log;
@@ -21,6 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -45,18 +41,6 @@ public class LatencyProblem04 implements IEulerType3<BigDecimal> {
 
     public static record Config(List<String> list,Executor executor, int timeout) {};
 
-    /* 
-    @Data
-    @AllArgsConstructor
-    public static class Config {
-
-
-        private List<String> list;
-        private Executor executor;
-        private int timeout;
-    }
-    */
-
     public static record ExchangeRate(
         long epoc,
         String from,
@@ -76,33 +60,17 @@ public class LatencyProblem04 implements IEulerType3<BigDecimal> {
         return null;
     }
 
-    Function<String, URL> toURLOld = address -> {
+    Function<String, Optional<URL>> toURL3 = address -> {
         try {
-            return new URL(address);
+            URL url = new URL(address);
+            return Optional.of(url);
         } catch (MalformedURLException ex) {
             LOGGER.error(ex.getLocalizedMessage(), ex);
-            throw new RuntimeException("Bad address", ex);
+            return Optional.empty();
         }
     };
 
-    Function1<String, URL> toURL = address -> Try.of(() -> new URL(address))
-        .getOrElseThrow(ex -> {
-            LOGGER.error(ex.getLocalizedMessage(), ex);
-            throw new RuntimeException("Bad address", ex);
-    });
-
-    CheckedFunction1<String, URL> toURL2 = address -> new URL(address);
-
-    Function1<String, Option<URL>> toURL3 = address ->
-            Try.of(() -> new URL(address))
-                .map(u -> Option.some(u))
-                .onFailure(ex -> LOGGER.error(ex.getLocalizedMessage(), ex))
-                .recover(ex -> Option.none())
-                .get();
-
-    Function1<Option<URL>, Optional<URL>> toOptional = option -> option.toJavaOptional();
-
-    Function2<URL, Config, CompletableFuture<String>> fetchAsync = (address, config) -> {
+    BiFunction<URL, Config, CompletableFuture<String>> fetchAsync = (address, config) -> {
 
         LOGGER.info("Thread: {}", Thread.currentThread().getName());
         return CompletableFuture
@@ -114,21 +82,22 @@ public class LatencyProblem04 implements IEulerType3<BigDecimal> {
                 .completeOnTimeout("[\"FETCH_BAD_RESULT_TIMEOUT\"]", config.timeout(), TimeUnit.SECONDS);
     };
 
-    Function<String, ExchangeRate> serialize = param -> Try.of(() -> {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ExchangeRate deserializedData = objectMapper.readValue(param, new TypeReference<ExchangeRate>() {});
-        return deserializedData;
-    }).getOrElseThrow(ex -> {
-        LOGGER.error("Bad Serialization process", ex);
-        throw new RuntimeException(ex);
-    });
+    Function<String, ExchangeRate> serialize = param -> {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(param, new TypeReference<ExchangeRate>() {});
+        } catch (Exception ex) {
+            LOGGER.error("Bad Serialization process", ex);
+            throw new RuntimeException("Bad Serialization process", ex);
+        }
+    };
 
     @Override
     public BigDecimal JavaStreamSolution() {
 
         Stream<CompletableFuture<String>> requests = config.list().stream()
                 .map(toURL3)
-                .filter(Option::isDefined)
+                .filter(Optional::isPresent)
                 .map(o -> fetchAsync.apply(o.get(), config));
 
         return BigDecimal.valueOf(requests

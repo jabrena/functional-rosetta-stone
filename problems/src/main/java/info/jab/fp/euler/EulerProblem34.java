@@ -1,8 +1,5 @@
 package info.jab.fp.euler;
 
-import io.vavr.Function1;
-import io.vavr.collection.CharSeq;
-import io.vavr.collection.Stream;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.function.Function;
@@ -40,23 +37,4 @@ public class EulerProblem34 {
                 .reduce(0L, (l1, l2) -> l1 + l2);
     }
 
-    public int VAVRSolution() {
-        return Stream.rangeClosed(3, 2_540_160) // 9! * 7 = 2 540 160 is a seven digit number, as is 9! * 8, therefor 9! * 7 is the definitive upper limit we have to investigate.
-                .filter(i -> i == sumOfDigitFactorial(i))
-                .peek(System.out::println)
-                .sum().intValue();
-    }
-
-    private int sumOfDigitFactorial(int num) {
-        return CharSeq.of(Integer.toString(num))
-                .map(c -> Character.digit(c, 10))
-                .map(MEMOIZED_FACTORIAL)
-                .sum().intValue();
-    }
-
-    final Function1<Integer, BigInteger> MEMOIZED_FACTORIAL = Function1.of(this::factorial).memoized();
-
-    BigInteger factorial(int n) {
-        return Stream.rangeClosed(1, n).map(BigInteger::valueOf).fold(BigInteger.ONE, BigInteger::multiply);
-    }
 }
