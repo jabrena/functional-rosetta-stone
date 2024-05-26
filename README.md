@@ -8,7 +8,18 @@
 
 A repository to review the main concepts about Functional Programming with Java.
 
-## Functional programming timeline in Java (WIP)
+## Functional programming features in Java
+
+- Lambda Expressions 
+- Optionals 
+- Stream API 
+- CompletableFuture
+- Immutable Lists
+- Sealed Classes
+- Pattern Matching for Switch
+- Records & Record Patterns
+
+## Functional programming timeline in Java
 
 | Java Version | Feature                                                                             | Date      | Release notes                                                          |
 |--------------|-------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------------|
@@ -23,7 +34,7 @@ A repository to review the main concepts about Functional Programming with Java.
 | Java 16      | - Sealed Classes (Preview) - Stream.toList                                          | 16/3/2021 | https://www.oracle.com/java/technologies/javase/16-relnote-issues.html |
 | Java 17      | - Sealed Classes (JEP 409) - Pattern Matching for Switch (JEP 406) (Preview)        | 14/9/2021 | https://www.oracle.com/java/technologies/javase/17-relnote-issues.html |
 | Java 18      | - Pattern Matching for switch (JEP 420) (Preview)                                   | 22/3/2022 | https://www.oracle.com/java/technologies/javase/18all-relnotes.html    |
-| Java 19      | - Record Patterns (Deconstructor) - Pattern Matching for switch (JEP 427) (Preview) | 20/9/2022 | https://www.oracle.com/java/technologies/javase/19-relnote-issues.html |
+| Java 19      | - Record Patterns - Pattern Matching for switch (JEP 427) (Preview) | 20/9/2022 | https://www.oracle.com/java/technologies/javase/19-relnote-issues.html |
 | Java 20      | - Record Patterns (JEP 432) - Pattern Matching for Switch (JEP 433) (Preview)       | 21/3/2023 | https://www.oracle.com/java/technologies/javase/20-relnote-issues.html |
 | Java 21      | - Record Patterns (JEP 440) - Pattern Matching for switch (JEP 441)                 | 19/9/2023 | https://www.oracle.com/java/technologies/javase/21-relnote-issues.html |
 | Java 22      | - Stream Gatherers (JEP 461) (Preview)                                              | 19/3/2024 | https://www.oracle.com/java/technologies/javase/22-relnote-issues.html |
