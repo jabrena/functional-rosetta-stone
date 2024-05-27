@@ -1,4 +1,4 @@
-package info.jab.fp.async;
+package info.jab.utils;
 
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;

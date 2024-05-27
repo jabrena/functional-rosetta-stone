@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class CoresDemo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CoresDemo.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoresDemo.class);
 
     public static void main(String... args) {
 
@@ -27,7 +27,7 @@ public class CoresDemo {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
 
-            LOGGER.info("{}", elapsedTime);
+            logger.info("{}", elapsedTime);
         };
 
         Supplier<Integer> process = () -> {
@@ -56,10 +56,8 @@ public class CoresDemo {
 
         private int x;
 
-        Logger LOGGER = LoggerFactory.getLogger(Client.class);
-
         public Client(int x) {
-            LOGGER.info("new Instance: {}", x);
+            logger.info("new Instance: {}", x);
             this.x = x;
         }
 
@@ -70,14 +68,14 @@ public class CoresDemo {
                 .orTimeout(60, TimeUnit.SECONDS)
                 .handle((response, ex) -> {
                     if (!Objects.isNull(ex)) {
-                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                        logger.error(ex.getLocalizedMessage(), ex);
                     }
                     return response;
                 });
         }
 
         private Integer longProcess() {
-            LOGGER.info("Running: {}", this.x);
+            logger.info("Running: {}", this.x);
             sleep(2);
             return 0;
         }

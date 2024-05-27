@@ -13,7 +13,7 @@ A repository to review the main concepts about Functional Programming with Java.
 ```bash
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
-./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=CFBasicsTest -pl training
+./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=CFExamplesTest -pl training
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
@@ -24,14 +24,14 @@ sdk env install
 
 ## Functional programming features in Java
 
-- Lambda Expressions 
-- Optionals 
-- Stream API 
-- CompletableFuture & Structural Concurrency
-- Immutable Lists
-- Sealed Classes
-- Pattern Matching for Switch
-- Records & Record Patterns
+- [ ] Lambda Expressions 
+- [ ] Optionals 
+- [ ] Stream API 
+- [x] CompletableFuture & [ ] Structural Concurrency
+- [ ] Immutable Lists
+- [ ] Sealed Classes
+- [ ] Pattern Matching for Switch
+- [ ] Records & Record Patterns
 
 ## Functional programming timeline in Java
 

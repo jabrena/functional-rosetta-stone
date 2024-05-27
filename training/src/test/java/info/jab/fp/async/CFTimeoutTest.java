@@ -13,9 +13,13 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import info.jab.utils.TestLoggerExtension;
+
+@ExtendWith(TestLoggerExtension.class)
 public class CFTimeoutTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CFTimeoutTest.class);

@@ -90,12 +90,6 @@ public class CFExamples {
                 .reduce(0 , (i1, i2) -> i1 + i2);
     }
 
-    CompletableFuture<Optional<Integer>> asyncCallOptional(Integer param) {
-        CompletableFuture<Optional<Integer>> cf1 = CompletableFuture
-                .supplyAsync(() -> Optional.of(this.compute.apply(param)));
-        return cf1;
-    }
-
     CompletableFuture<Integer> asyncCallFailed() {
         CompletableFuture<Integer> cf1 = CompletableFuture
                 .supplyAsync(() -> {
@@ -104,7 +98,37 @@ public class CFExamples {
         return cf1;
     }
 
-    CompletableFuture<Integer> asyncCallFailedProtected() {
+    public Integer callingFourAsyncTasksAndOneFails() {
+
+        CompletableFuture<Integer> request1 = asyncCall(1);
+        CompletableFuture<Integer> request2 = asyncCallFailed();
+        CompletableFuture<Integer> request3 = asyncCall(1);
+        CompletableFuture<Integer> request4 = asyncCall(1);
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
+
+        return futuresList.stream()
+                .filter(cf -> !cf.isCompletedExceptionally())
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    public Integer callingFourAsyncTasksAndThreeFails() {
+
+        CompletableFuture<Integer> request1 = asyncCallFailed();
+        CompletableFuture<Integer> request2 = asyncCallFailed();
+        CompletableFuture<Integer> request3 = asyncCallFailed();
+        CompletableFuture<Integer> request4 = asyncCall(1);
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
+
+        return futuresList.stream()
+                .filter(not(CompletableFuture::isCompletedExceptionally))
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    CompletableFuture<Integer> asyncCallFailedWithDefaultResult() {
         CompletableFuture<Integer> cf1 = CompletableFuture
                 .supplyAsync(() -> {
                     throw new RuntimeException("Katakroker");
@@ -112,6 +136,27 @@ public class CFExamples {
                 .handle((result, ex) -> {
                     return 100;
                 });
+        return cf1;
+    }
+
+    public Integer callingFourAsyncTasksWithDefaultValues() {
+
+        CompletableFuture<Integer> request1 = asyncCall(1);
+        CompletableFuture<Integer> request2 = asyncCall(1);
+        CompletableFuture<Integer> request3 = asyncCallFailed();
+        CompletableFuture<Integer> request4 = asyncCallFailedWithDefaultResult();
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
+
+        return futuresList.stream()
+                .filter(not(CompletableFuture::isCompletedExceptionally))
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
+    }
+
+    CompletableFuture<Optional<Integer>> asyncCallOptional(Integer param) {
+        CompletableFuture<Optional<Integer>> cf1 = CompletableFuture
+                .supplyAsync(() -> Optional.of(this.compute.apply(param)));
         return cf1;
     }
 
@@ -126,69 +171,7 @@ public class CFExamples {
         return cf1;
     }
 
-    public Integer myForthCF() {
-
-        CompletableFuture<Integer> request1 = asyncCall(1);
-        CompletableFuture<Integer> request2 = asyncCallFailed();
-        CompletableFuture<Integer> request3 = asyncCall(1);
-
-        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
-
-        return futuresList.stream()
-                .filter(cf -> !cf.isCompletedExceptionally())
-                .map(CompletableFuture::join)
-                .reduce(0 , (i1, i2) -> i1 + i2);
-    }
-
-    /**
-     * If an exception occurs in a stage and we do not do anything
-     * to handle that exception then execution to the further stages is abandon.
-     *
-     * @return
-     */
-    public Integer myFifthCF() {
-
-        logger.info("Defining");
-
-        CompletableFuture<Integer> request1 = asyncCallFailed();
-        CompletableFuture<Integer> request2 = asyncCallFailed();
-        CompletableFuture<Integer> request3 = asyncCallFailed();
-        CompletableFuture<Integer> request4 = asyncCall(1);
-
-        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
-
-        logger.info("Running");
-
-        var futuresList2 = Stream.of(request1, request2, request3, request4);
-
-
-        return futuresList2
-                .filter(not(CompletableFuture::isCompletedExceptionally))
-                .map(CompletableFuture::join)
-                .reduce(0 , (i1, i2) -> i1 + i2);
-    }
-
-    public Integer mySixthCF() {
-
-        logger.info("Defining");
-
-        CompletableFuture<Integer> request1 = asyncCall(1);
-        CompletableFuture<Integer> request2 = asyncCallFailed();
-        CompletableFuture<Integer> request3 = asyncCallFailedProtected();
-
-        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
-
-        logger.info("Running");
-
-        return futuresList.stream()
-                .filter(not(CompletableFuture::isCompletedExceptionally))
-                .map(CompletableFuture::join)
-                .reduce(0 , (i1, i2) -> i1 + i2);
-    }
-
-    public Integer mySeventhCF() {
-
-        logger.info("Defining");
+    public Integer callingFourAsyncTasksWithOptionals() {
 
         CompletableFuture<Optional<Integer>> request1 = asyncCallOptional(1);
         CompletableFuture<Optional<Integer>> request2 = asyncCallFailedOptional();
@@ -197,12 +180,19 @@ public class CFExamples {
 
         List<CompletableFuture<Optional<Integer>>> futuresList = List.of(request1, request2, request3, request4);
 
-        logger.info("Running");
-
         return futuresList.stream()
-                .filter(CompletableFuture::isCompletedExceptionally)
+                .map(cf -> cf.handle((result, ex) -> {
+                    if (ex != null) {
+                        // Log the exception if needed
+                        System.out.println("Exception: " + ex.getMessage());
+                        return Optional.<Integer>empty();
+                    } else {
+                        return result;
+                    }
+                }))
                 .map(CompletableFuture::join)
-                .map(o -> o.get())
-                .reduce(0 , (i1, i2) -> i1 + i2);
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .reduce(0, Integer::sum);
     }
 }

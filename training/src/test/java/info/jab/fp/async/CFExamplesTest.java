@@ -1,20 +1,16 @@
 package info.jab.fp.async;
 
 import java.time.Duration;
-import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-import static java.util.function.Predicate.not;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import info.jab.utils.TestLoggerExtension;
 
 @ExtendWith(TestLoggerExtension.class)
 public class CFExamplesTest {
@@ -104,60 +100,67 @@ public class CFExamplesTest {
     }
 
     @Test
-    public void given_CF4_when_Call_then_returnExpectedValue() {
+    public void should_call_fourAsyncTasksAndOneFails() {
 
-        Callable demo = () -> cfExamples.myForthCF();
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 4) + 1;
+        var expectedResult = 2 + 2 + 2;
 
+        //When
+        Callable demo = () -> cfExamples.callingFourAsyncTasksAndOneFails();
+
+        //Then
         await()
-                .atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(4));
-    }
-
-    @Disabled
-    @Test
-    public void given_CF5_when_Call_then_returnExpectedValue() throws Exception {
-
-        then(cfExamples.myFifthCF()).isEqualTo(2);
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
 
     @Test
-    public void given_CF6_when_Call_then_returnExpectedValue() {
+    public void should_call_fourAsyncTasksAndThreeFails() {
 
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 4) + 1;
+        var expectedResult = 2;
 
-        Callable demo = () -> cfExamples.mySixthCF();
+        //When
+        Callable demo = () -> cfExamples.callingFourAsyncTasksAndThreeFails();
 
+        //Then
         await()
-                .atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(102));
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
 
     @Test
-    public void given_CF7_when_Call_then_returnExpectedValue() {
+    public void should_call_fourAsyncTasksWithDefaultValues() {
 
-        Callable demo = () -> cfExamples.mySeventhCF();
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 4) + 1;
+        var expectedResult = 104;
 
+        //When
+        Callable demo = () -> cfExamples.callingFourAsyncTasksWithDefaultValues();
+
+        //Then
         await()
-            .atMost(Duration.ofSeconds(7))
-            .until(demo, equalTo(0));
-
-        //then(example.mySeventhCF()).isEqualTo(0);
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
 
-    @Disabled
     @Test
-    public void testWithErrorHandledInStream() {
+    public void should_call_fourAsyncTasksWithOptionals() {
 
-        CompletableFuture<Optional<String>> future1 = CompletableFuture.supplyAsync(() -> Optional.of("1"));
-        CompletableFuture<Optional<String>> futureEx = CompletableFuture.supplyAsync(() -> Optional.of((2/0)+""));
-        CompletableFuture<Optional<String>> future2 = CompletableFuture.supplyAsync(() -> Optional.of("2"));
-        CompletableFuture<Optional<String>> future3 = CompletableFuture.supplyAsync(() -> Optional.of("3"));
-        String output = Stream.of(future1, futureEx, future2, future3)
-                //.filter(x -> !x.isCompletedExceptionally())
-                .filter(not(CompletableFuture::isCompletedExceptionally))
-                .map(CompletableFuture::join)
-                .map(x -> x.get())
-                .collect(Collectors.joining(" "));
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 4) + 1;
+        var expectedResult = 2;
 
-        then(output).isEqualTo("1 2 3");
+        //When
+        Callable demo = () -> cfExamples.callingFourAsyncTasksWithOptionals();
+
+        //Then
+        await()
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
+
 }
