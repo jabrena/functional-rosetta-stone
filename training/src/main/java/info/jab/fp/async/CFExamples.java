@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
  * http://millross-consultants.com/completable-future-error-propagation.html
  *
  */
-public class CFBasics {
+public class CFExamples {
 
-    private static final Logger logger = LoggerFactory.getLogger(CFBasics.class);
+    private static final Logger logger = LoggerFactory.getLogger(CFExamples.class);
 
     private final int DELAY_TIME = 2;
 
@@ -46,16 +46,28 @@ public class CFBasics {
      * Provide a way to execute compute in an async way. 
      */
     CompletableFuture<Integer> asyncCall(Integer param) {
+        logger.info("Receiving {}", param);
         CompletableFuture<Integer> cf1 = CompletableFuture
                 .supplyAsync(() -> this.compute.apply(param));
         return cf1;
     }
 
-    public Integer myFirstCF() {
+    public CompletableFuture<Integer> callingSingleAsyncTask() {
+        return asyncCall(1);
+    }
+
+    public Integer callingSingleTask() {
         return asyncCall(1).join();
     }
 
-    public CompletableFuture<Integer> mySecondCF() {
+    public CompletableFuture<Integer> callingTwoAsyncTasks() {
+        int initialValue = 1;
+        CompletableFuture<Integer> result = asyncCall(initialValue)
+                .thenCompose(i -> asyncCall(i));
+        return result;
+    }
+
+    public CompletableFuture<Integer> callingThreeAsyncTasks() {
         int initialValue = 1;
         CompletableFuture<Integer> result = asyncCall(initialValue)
                 .thenCompose(i -> asyncCall(i))
@@ -64,13 +76,14 @@ public class CFBasics {
         return result;
     }
 
-    public Integer myThirdCF() {
+    public Integer callingFourAsyncTasks() {
 
         CompletableFuture<Integer> request1 = asyncCall(1);
         CompletableFuture<Integer> request2 = asyncCall(1);
         CompletableFuture<Integer> request3 = asyncCall(1);
+        CompletableFuture<Integer> request4 = asyncCall(1);
 
-        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
 
         return futuresList.stream()
                 .map(CompletableFuture::join)

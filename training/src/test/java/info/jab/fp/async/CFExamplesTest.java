@@ -14,38 +14,27 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class CFBasicsTest {
+@ExtendWith(TestLoggerExtension.class)
+public class CFExamplesTest {
 
-    private static CFBasics example;
+    private static CFExamples cfExamples;
 
     @BeforeAll
     public static void setUp() {
-        example = new CFBasics();
+        cfExamples = new CFExamples();
     }
 
     @Test
-    public void should_myFirstCF_example() {
+    public void should_call_singleAsyncTask() {
 
         //Given
-        var expectedResult = 2;
+        var expectedComputationTime = (cfExamples.getDelay() * 1) + 1;
+        var expectedResult = 1+1;
 
         //When
-        var result = example.myFirstCF();
-
-        //Then
-        then(result).isEqualTo(expectedResult);
-    }
-
-    @Test
-    public void given_CF2_when_Call_then_returnExpectedValue() {
-
-        //Given
-        var expectedComputationTime = (example.getDelay() * 3) + 1;
-        var expectedResult = 4;
-
-        //When
-        Callable demo = () -> example.mySecondCF().join();
+        Callable demo = () -> cfExamples.callingSingleAsyncTask().join();
 
         //Then
         await()
@@ -54,23 +43,70 @@ public class CFBasicsTest {
     }
 
     @Test
-    public void given_CF3_when_Call_then_returnExpectedValue() {
+    public void should_return_value() {
 
-        CFBasics example = new CFBasics();
+        //Given
+        var expectedResult = 2;
 
-        Callable demo = () -> example.myThirdCF();
+        //When
+        var result = cfExamples.callingSingleTask();
 
+        //Then
+        then(result).isEqualTo(expectedResult);
+    }
+
+    @Test
+    public void should_call_twoAsyncTasks() {
+
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 2) + 1;
+        var expectedResult = 2 + 1;
+
+        //When
+        Callable demo = () -> cfExamples.callingTwoAsyncTasks().join();
+
+        //Then
         await()
-                .atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(6));
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
+    }
+
+    @Test
+    public void should_call_threeAsyncTasks() {
+
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 3) + 1;
+        var expectedResult = 2 + 1 + 1;
+
+        //When
+        Callable demo = () -> cfExamples.callingThreeAsyncTasks().join();
+
+        //Then
+        await()
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
+    }
+
+    @Test
+    public void should_call_fourAsyncTasks() {
+
+        //Given
+        var expectedComputationTime = (cfExamples.getDelay() * 4) + 1;
+        var expectedResult = 2 + 2 + 2 + 2;
+
+        //When
+        Callable demo = () -> cfExamples.callingFourAsyncTasks();
+
+        //Then
+        await()
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
 
     @Test
     public void given_CF4_when_Call_then_returnExpectedValue() {
 
-        CFBasics example = new CFBasics();
-
-        Callable demo = () -> example.myForthCF();
+        Callable demo = () -> cfExamples.myForthCF();
 
         await()
                 .atMost(Duration.ofSeconds(7))
@@ -81,17 +117,14 @@ public class CFBasicsTest {
     @Test
     public void given_CF5_when_Call_then_returnExpectedValue() throws Exception {
 
-        CFBasics example = new CFBasics();
-
-        then(example.myFifthCF()).isEqualTo(2);
+        then(cfExamples.myFifthCF()).isEqualTo(2);
     }
 
     @Test
     public void given_CF6_when_Call_then_returnExpectedValue() {
 
-        CFBasics example = new CFBasics();
 
-        Callable demo = () -> example.mySixthCF();
+        Callable demo = () -> cfExamples.mySixthCF();
 
         await()
                 .atMost(Duration.ofSeconds(7))
@@ -101,9 +134,7 @@ public class CFBasicsTest {
     @Test
     public void given_CF7_when_Call_then_returnExpectedValue() {
 
-        CFBasics example = new CFBasics();
-
-        Callable demo = () -> example.mySeventhCF();
+        Callable demo = () -> cfExamples.mySeventhCF();
 
         await()
             .atMost(Duration.ofSeconds(7))
