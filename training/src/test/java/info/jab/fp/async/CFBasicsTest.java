@@ -11,61 +11,47 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class CFBasicsTest {
 
-    @Disabled
-    @Test
-    public void given_CF_when_Call_then_returnExpectedValue() {
+    private static CFBasics example;
 
-        CFBasics example = new CFBasics();
-
-        await()
-                .atMost(Duration.ofSeconds(3))
-                .until(example::myFirstCF, equalTo(5));
+    @BeforeAll
+    public static void setUp() {
+        example = new CFBasics();
     }
 
-    @Disabled
     @Test
-    public void given_CF_when_Call_then_timeout() {
+    public void should_myFirstCF_example() {
 
-        CFBasics example = new CFBasics();
+        //Given
+        var expectedComputationTime = example.getDelay() + 1;
+        var expectedResult = 2;
 
-        //TODO Review
-        Assertions.assertThrows(NoSuchMethodError.class, () -> {
-
-            //False positive
-            await()
-                    .atLeast(Duration.ofSeconds(2))
-                    .atMost(Duration.ofSeconds(2))
-                    .until(example::myFirstCF, equalTo(2));
-        });
-    }
-
-    @Disabled
-    @Test
-    public void given_CF_when_Call2_then_returnExpectedValue() {
-
-        CFBasics example = new CFBasics();
-
+        //When
+        //Then
         await()
-                .atMost(Duration.ofSeconds(3))
-                .until(example::myFirstCF, equalTo(3));
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(example::myFirstCF, equalTo(expectedResult));
     }
 
     @Test
     public void given_CF2_when_Call_then_returnExpectedValue() {
 
-        CFBasics example = new CFBasics();
+        //Given
+        var expectedComputationTime = (example.getDelay() * 3) + 1;
+        var expectedResult = 4;
 
+        //When
         Callable demo = () -> example.mySecondCF().join();
 
+        //Then
         await()
-                .atMost(Duration.ofSeconds(7))
-                .until(demo, equalTo(4));
+                .atMost(Duration.ofSeconds(expectedComputationTime))
+                .until(demo, equalTo(expectedResult));
     }
 
     @Test

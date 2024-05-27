@@ -8,6 +8,9 @@ import static java.util.function.Predicate.not;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * References
  * https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
@@ -16,23 +19,62 @@ import java.util.stream.Stream;
  */
 public class CFBasics {
 
+    private static final Logger logger = LoggerFactory.getLogger(CFBasics.class);
+
+    private final int DELAY_TIME = 2;
+
+    public int getDelay() {
+        return DELAY_TIME;
+    }
+
+    private void delay(Integer seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) { }
+    }
+
+    /** 
+     * Simulates a computation with a delay.
+     */
     Function<Integer, Integer> compute = param -> {
-
-        //LOGGER.info("Compute {}", param);
-
-        Delay(2);
-
+        logger.info("Compute {}", param);
+        delay(DELAY_TIME);
         return param + 1;
     };
+
+    /** 
+     * Provide a way to execute compute in an async way. 
+     */
+    CompletableFuture<Integer> asyncCall(Integer param) {
+        CompletableFuture<Integer> cf1 = CompletableFuture
+                .supplyAsync(() -> this.compute.apply(param));
+        return cf1;
+    }
 
     public Integer myFirstCF() {
         return asyncCall(1).join();
     }
 
-    CompletableFuture<Integer> asyncCall(Integer param) {
-        CompletableFuture<Integer> cf1 = CompletableFuture
-                .supplyAsync(() -> this.compute.apply(param));
-        return cf1;
+    public CompletableFuture<Integer> mySecondCF() {
+        int initialValue = 1;
+        CompletableFuture<Integer> result = asyncCall(initialValue)
+                .thenCompose(i -> asyncCall(i))
+                .thenCompose(i -> asyncCall(i));
+
+        return result;
+    }
+
+    public Integer myThirdCF() {
+
+        CompletableFuture<Integer> request1 = asyncCall(1);
+        CompletableFuture<Integer> request2 = asyncCall(1);
+        CompletableFuture<Integer> request3 = asyncCall(1);
+
+        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
+
+        return futuresList.stream()
+                .map(CompletableFuture::join)
+                .reduce(0 , (i1, i2) -> i1 + i2);
     }
 
     CompletableFuture<Optional<Integer>> asyncCallOptional(Integer param) {
@@ -61,7 +103,7 @@ public class CFBasics {
     }
 
     Supplier<Integer> katakroker = () -> {
-        Delay(1);
+        delay(1);
         throw new RuntimeException("Katakroker");
     };
 
@@ -69,49 +111,6 @@ public class CFBasics {
         CompletableFuture<Optional<Integer>> cf1 = CompletableFuture
                 .supplyAsync(() -> Optional.of(katakroker.get()));
         return cf1;
-    }
-
-    private static void Delay(Integer seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public CompletableFuture<Integer> mySecondCF() {
-        int initialValue = 1;
-        CompletableFuture<Integer> completableFuture = asyncCall(initialValue)
-                .thenCompose(i -> asyncCall(i))
-                .thenCompose(i -> asyncCall(i));
-
-        return completableFuture;
-    }
-
-    public Integer myThirdCF() {
-
-        CompletableFuture<Integer> request1 = asyncCall(1);
-        CompletableFuture<Integer> request2 = asyncCall(1);
-        CompletableFuture<Integer> request3 = asyncCall(1);
-
-        List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
-
-        /*
-        CompletableFuture<Void> allFutures = CompletableFuture.allOf(
-                futuresList.toArray(new CompletableFuture[futuresList.size()]));
-
-        CompletableFuture<List<Integer>> allFuture = CompletableFuture.allOf(request1, request2)
-                //Callback
-                .thenApply(_void ->
-                        Stream.of(request1, request2)
-                                .map(CompletableFuture::join)
-                                .collect(toList()));
-
-         */
-
-        return futuresList.stream()
-                .map(CompletableFuture::join)
-                .reduce(0 , (i1, i2) -> i1 + i2);
     }
 
     public Integer myForthCF() {
@@ -136,7 +135,7 @@ public class CFBasics {
      */
     public Integer myFifthCF() {
 
-        System.out.println("Defining");
+        logger.info("Defining");
 
         CompletableFuture<Integer> request1 = asyncCallFailed();
         CompletableFuture<Integer> request2 = asyncCallFailed();
@@ -145,7 +144,7 @@ public class CFBasics {
 
         List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3, request4);
 
-        System.out.println("Running");
+        logger.info("Running");
 
         var futuresList2 = Stream.of(request1, request2, request3, request4);
 
@@ -158,7 +157,7 @@ public class CFBasics {
 
     public Integer mySixthCF() {
 
-        System.out.println("Defining");
+        logger.info("Defining");
 
         CompletableFuture<Integer> request1 = asyncCall(1);
         CompletableFuture<Integer> request2 = asyncCallFailed();
@@ -166,7 +165,7 @@ public class CFBasics {
 
         List<CompletableFuture<Integer>> futuresList = List.of(request1, request2, request3);
 
-        System.out.println("Running");
+        logger.info("Running");
 
         return futuresList.stream()
                 .filter(not(CompletableFuture::isCompletedExceptionally))
@@ -176,7 +175,7 @@ public class CFBasics {
 
     public Integer mySeventhCF() {
 
-        System.out.println("Defining");
+        logger.info("Defining");
 
         CompletableFuture<Optional<Integer>> request1 = asyncCallOptional(1);
         CompletableFuture<Optional<Integer>> request2 = asyncCallFailedOptional();
@@ -185,7 +184,7 @@ public class CFBasics {
 
         List<CompletableFuture<Optional<Integer>>> futuresList = List.of(request1, request2, request3, request4);
 
-        System.out.println("Running");
+        logger.info("Running");
 
         return futuresList.stream()
                 .filter(CompletableFuture::isCompletedExceptionally)
