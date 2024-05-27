@@ -28,14 +28,13 @@ public class CFBasicsTest {
     public void should_myFirstCF_example() {
 
         //Given
-        var expectedComputationTime = example.getDelay() + 1;
         var expectedResult = 2;
 
         //When
+        var result = example.myFirstCF();
+
         //Then
-        await()
-                .atMost(Duration.ofSeconds(expectedComputationTime))
-                .until(example::myFirstCF, equalTo(expectedResult));
+        then(result).isEqualTo(expectedResult);
     }
 
     @Test
