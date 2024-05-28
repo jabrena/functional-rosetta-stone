@@ -29,7 +29,7 @@ sdk env install
 - [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
 - [x] Optionals 
 - [x] Stream API 
-- [x] CompletableFuture & [ ] Structural Concurrency
+- [x] CompletableFuture & Structural Concurrency
 - [ ] Immutable Lists
 - [ ] Sealed Classes
 - [ ] Pattern Matching for Switch
@@ -71,3 +71,8 @@ you can review the performance results:
 - https://nilskp.github.io/jmh-charts/
 - https://github.com/akarnokd/jmh-compare-gui
 
+## References
+
+- https://github.com/jabrena/latency-problems
+- https://github.com/forax/loom-fiber
+- https://github.com/forax/we_are_all_to_gather

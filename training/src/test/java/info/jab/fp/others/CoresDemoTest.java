@@ -1,4 +1,4 @@
-package info.jab.fp.async;
+package info.jab.fp.others;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
