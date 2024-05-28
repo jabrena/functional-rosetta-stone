@@ -29,7 +29,7 @@ sdk env install
 - [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
 - [x] Optionals 
 - [x] Stream API 
-- [-] CompletableFuture & Structural Concurrency
+- [x] CompletableFuture & [ ] Structural Concurrency
 - [ ] Immutable Lists
 - [ ] Sealed Classes
 - [ ] Pattern Matching for Switch
