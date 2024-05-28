@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
@@ -13,13 +12,15 @@ import org.slf4j.LoggerFactory;
 
 public class CoresDemo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CoresDemo.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoresDemo.class);
 
-    public static void main(String... args) {
+    public void cores() {
 
         //Decorator Pattern
         Consumer<Supplier> stopWatch = process -> {
 
+            logger.info("Starting the process");
+            
             long startTime = System.currentTimeMillis();
 
             process.get();
@@ -27,24 +28,27 @@ public class CoresDemo {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
 
-            LOGGER.info("{}", elapsedTime);
+            logger.info("Computation time: {}", elapsedTime);
         };
 
         Supplier<Integer> process = () -> {
 
             var number = 1;
             var cores = Runtime.getRuntime().availableProcessors();
+
+            logger.info("Number of cores: {}", cores);
+
             var clients = IntStream.rangeClosed(1, (cores - 1) * number).boxed()
                 .map(Client::new)
-                .collect(toList());
+                .toList();
 
             var futureRequests = clients.stream()
                 .map(Client::runAsync)
-                .collect(toList());
+                .toList();
 
             futureRequests.stream()
                 .map(CompletableFuture::join)
-                .collect(toList());
+                .toList();
 
             return 0;
         };
@@ -56,10 +60,8 @@ public class CoresDemo {
 
         private int x;
 
-        Logger LOGGER = LoggerFactory.getLogger(Client.class);
-
         public Client(int x) {
-            LOGGER.info("new Instance: {}", x);
+            logger.info("new Instance: {}", x);
             this.x = x;
         }
 
@@ -70,14 +72,14 @@ public class CoresDemo {
                 .orTimeout(60, TimeUnit.SECONDS)
                 .handle((response, ex) -> {
                     if (!Objects.isNull(ex)) {
-                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                        logger.error(ex.getLocalizedMessage(), ex);
                     }
                     return response;
                 });
         }
 
         private Integer longProcess() {
-            LOGGER.info("Running: {}", this.x);
+            logger.info("Running: {}", this.x);
             sleep(2);
             return 0;
         }

@@ -8,16 +8,32 @@
 
 A repository to review the main concepts about Functional Programming with Java.
 
+## How to build the project in local?
+
+```bash
+sdk env install
+./mvnw clean test -DexcludedGroups=performance,endtoend
+./mvnw clean test -DexcludedGroups=performance,endtoend -pl training
+./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=FunctionalInterfacesExamplesTest -pl training
+./mvnw clean test -Dgroups=performance
+./mvnw clean test -Dgroups=endtoend
+
+./mvnw versions:display-property-updates
+./mvnw versions:display-dependency-updates
+./mvnw versions:display-plugin-updates
+./mvnw dependency:tree -pl problems 
+```
+
 ## Functional programming features in Java
 
-- Lambda Expressions 
-- Optionals 
-- Stream API 
-- CompletableFuture
-- Immutable Lists
-- Sealed Classes
-- Pattern Matching for Switch
-- Records & Record Patterns
+- [x] Lambda Expressions 
+- [ ] Optionals 
+- [ ] Stream API 
+- [x] CompletableFuture & [ ] Structural Concurrency
+- [ ] Immutable Lists
+- [ ] Sealed Classes
+- [ ] Pattern Matching for Switch
+- [ ] Records & Record Patterns
 
 ## Functional programming timeline in Java
 
@@ -39,18 +55,6 @@ A repository to review the main concepts about Functional Programming with Java.
 | Java 21      | - Record Patterns (JEP 440) - Pattern Matching for switch (JEP 441)                 | 19/9/2023 | https://www.oracle.com/java/technologies/javase/21-relnote-issues.html |
 | Java 22      | - Stream Gatherers (JEP 461) (Preview)                                              | 19/3/2024 | https://www.oracle.com/java/technologies/javase/22-relnote-issues.html |
 
-## How to build the project in local?
-
-```bash
-sdk env install
-./mvnw clean test -DexcludedGroups=performance,endtoend
-./mvnw clean test -Dgroups=performance
-./mvnw clean test -Dgroups=endtoend
-
-./mvnw versions:display-dependency-updates
-./mvnw versions:display-plugin-updates
-./mvnw dependency:tree -pl problems 
-```
 
 ## How to run the presentation in local?
 

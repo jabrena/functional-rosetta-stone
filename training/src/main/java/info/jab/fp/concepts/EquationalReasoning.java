@@ -1,9 +1,9 @@
-package info.jab.fp.lambda;
+package info.jab.fp.concepts;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class EquationalReasoning2 {
+public class EquationalReasoning {
 
     public static void main(String[] args) {
 

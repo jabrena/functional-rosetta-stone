@@ -2,13 +2,18 @@ package info.jab.fp.async;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import info.jab.utils.TestLoggerExtension;
 
 /**
  * Original code from: https://gist.github.com/lestard/e28fb8a340737ffd9623
  */
+@ExtendWith(TestLoggerExtension.class)
 public class CFMonadLawsTest {
 
     /**

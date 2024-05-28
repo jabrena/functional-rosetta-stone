@@ -8,21 +8,10 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>tests.log</file>
-        <append>true</append>
-        <encoder>
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </encoder>
-    </appender>
-
     <logger name="ch.qos.logback.core" level="OFF" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
