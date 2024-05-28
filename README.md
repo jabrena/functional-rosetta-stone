@@ -26,14 +26,14 @@ sdk env install
 
 ## Functional programming features in Java
 
-- [x] Lambda Expressions 
-- [ ] Optionals 
-- [ ] Stream API 
-- [x] CompletableFuture & [ ] Structural Concurrency
+- [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
+- [x] Optionals 
+- [x] Stream API 
+- [-] CompletableFuture & Structural Concurrency
 - [ ] Immutable Lists
 - [ ] Sealed Classes
 - [ ] Pattern Matching for Switch
-- [ ] Records & Record Patterns
+- [x] Records & Record Patterns
 
 ## Functional programming timeline in Java
 

@@ -1,4 +1,4 @@
-package info.jab.fp.lambda;
+package info.jab.fp.others;
 
 import java.util.List;
 import java.util.function.BiPredicate;
