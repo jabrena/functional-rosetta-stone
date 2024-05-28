@@ -1,4 +1,4 @@
-package info.jab.fp.lambda;
+package info.jab.fp.stream;
 
 import java.util.stream.LongStream;
 

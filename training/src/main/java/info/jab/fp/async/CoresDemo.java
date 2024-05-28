@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
@@ -15,11 +14,13 @@ public class CoresDemo {
 
     private static final Logger logger = LoggerFactory.getLogger(CoresDemo.class);
 
-    public static void main(String... args) {
+    public void cores() {
 
         //Decorator Pattern
         Consumer<Supplier> stopWatch = process -> {
 
+            logger.info("Starting the process");
+            
             long startTime = System.currentTimeMillis();
 
             process.get();
@@ -27,24 +28,27 @@ public class CoresDemo {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
 
-            logger.info("{}", elapsedTime);
+            logger.info("Computation time: {}", elapsedTime);
         };
 
         Supplier<Integer> process = () -> {
 
             var number = 1;
             var cores = Runtime.getRuntime().availableProcessors();
+
+            logger.info("Number of cores: {}", cores);
+
             var clients = IntStream.rangeClosed(1, (cores - 1) * number).boxed()
                 .map(Client::new)
-                .collect(toList());
+                .toList();
 
             var futureRequests = clients.stream()
                 .map(Client::runAsync)
-                .collect(toList());
+                .toList();
 
             futureRequests.stream()
                 .map(CompletableFuture::join)
-                .collect(toList());
+                .toList();
 
             return 0;
         };

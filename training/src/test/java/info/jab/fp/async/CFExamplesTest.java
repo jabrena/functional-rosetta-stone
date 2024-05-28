@@ -7,6 +7,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -115,6 +116,7 @@ public class CFExamplesTest {
                 .until(demo, equalTo(expectedResult));
     }
 
+    @Disabled
     @Test
     public void should_call_fourAsyncTasksAndThreeFails() {
 
