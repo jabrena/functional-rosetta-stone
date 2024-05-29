@@ -1,9 +1,15 @@
 package info.jab.fp.async;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.StructuredTaskScope;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.StructuredTaskScope.Subtask.State;
+import java.util.concurrent.TimeoutException;
 
 public class LoomExamples {
     
@@ -76,5 +82,80 @@ public class LoomExamples {
             var result = task1.get() + task2.get();
             return result;
         }
+    }
+
+    public State usingVThread5() {
+        try (var scope = new StructuredTaskScope<Integer>()) {
+            var task = scope.fork(() -> {
+              Thread.sleep(1_000);
+              return 42;
+            });
+            logger.info("{}",task.state());  // UNAVAILABLE
+            try {
+                scope.join();
+            } catch (InterruptedException e) { }
+            logger.info("{}",task.state());  // SUCCESS
+            return task.state();
+          }
+    }
+
+    public Integer usingVThread6() {
+        var result = 0;
+        try (var scope = new StructuredTaskScope.ShutdownOnSuccess<Integer>()) {
+            scope.fork(() -> {
+              Thread.sleep(1_000);
+              return 1;
+            });
+            scope.fork(() -> {
+              Thread.sleep(42);
+              return 2;
+            });
+            try {
+                result = scope.join().result();
+            } catch (InterruptedException | ExecutionException e) { }
+        }
+        return result;
+    }
+
+    public Integer usingVThread7() {
+        var result = 0;
+        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+            var task1 = scope.fork(() -> {
+              Thread.sleep(1_000);
+              return 1;
+            });
+            var task2 = scope.<String>fork(() -> {
+              Thread.sleep(42);
+              return "2";
+            });
+            try {
+                scope.join().throwIfFailed();
+            } catch (InterruptedException | ExecutionException ex) {}
+            System.out.println(task1.get() + task2.get());
+          }
+        return result;
+    }
+
+    public Integer usingVThread8() {
+        var result = 0;
+
+        try (var scope = new StructuredTaskScope<>()) {
+            var task1 = scope.fork(() -> {
+                Thread.sleep(1_000); // throws InterruptedException
+                return 1;
+            });
+            var task2 = scope.fork(() -> {
+                Thread.sleep(5_000);  // throws InterruptedException
+                return 2;
+            });
+            try {
+                scope.joinUntil(Instant.now().plus(Duration.ofMillis(100)));
+            } catch (TimeoutException | InterruptedException e) {
+                //scope.shutdown();
+            }
+            System.out.println(task1.state());  // UNAVAILABLE
+            System.out.println(task2.state());  // UNAVAILABLE
+        }
+        return result;
     }
 }
