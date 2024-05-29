@@ -1,4 +1,4 @@
-package info.jab.fp.async;
+package info.jab.fp.others;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;

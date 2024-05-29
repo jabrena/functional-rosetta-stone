@@ -1,4 +1,4 @@
-package info.jab.fp.lambda;
+package info.jab.fp.others;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import org.junit.jupiter.api.Test;
