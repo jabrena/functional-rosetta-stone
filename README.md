@@ -14,7 +14,7 @@ A repository to review the main concepts about Functional Programming with Java.
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -DexcludedGroups=performance,endtoend -pl training
-./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=FunctionalInterfacesExamplesTest -pl training
+./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=LoomExamplesTest -pl training
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
@@ -27,7 +27,7 @@ sdk env install
 ## Functional programming features in Java
 
 - [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
-- [x] Optionals 
+- [x] Optional 
 - [x] Stream API 
 - [x] CompletableFuture & Structural Concurrency
 - [ ] Immutable Lists
@@ -39,9 +39,9 @@ sdk env install
 
 | Java Version | Feature                                                                             | Date      | Release notes                                                          |
 |--------------|-------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------------|
-| Java 8       | - Lambda Expressions - Optionals - Stream API - CompletableFuture                   | 18/3/2014 | https://www.oracle.com/java/technologies/javase/8-whats-new.html       |
+| Java 8       | - Lambda Expressions - Optional - Stream API - CompletableFuture                   | 18/3/2014 | https://www.oracle.com/java/technologies/javase/8-whats-new.html       |
 | Java 9       | - CompletableFuture updates                                                         | 21/9/2017 | https://www.oracle.com/java/technologies/javase/9-all-relnotes.html    |
-| Java 10      | - Optionals updates - Immutable Lists                                               | 20/3/2018 | https://www.oracle.com/java/technologies/javase/10-relnote-issues.html |
+| Java 10      | - Optional updates - Immutable Lists                                               | 20/3/2018 | https://www.oracle.com/java/technologies/javase/10-relnote-issues.html |
 | Java 11      | - Not Predicate operator - Local-Variable Syntax for Lambda                         | 25/9/2018 | https://www.oracle.com/java/technologies/javase/11all-relnotes.html    |
 | Java 12      | - Teeing Collector - Pattern Matching                                               | 19/3/2019 | https://www.oracle.com/java/technologies/javase/12-relnote-issues.html |
 | Java 13      | - Switch Expressions enhancements                                                   | 17/9/2019 | https://www.oracle.com/java/technologies/javase/13-relnote-issues.html |
