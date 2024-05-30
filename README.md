@@ -26,7 +26,7 @@ sdk env install
 
 ## Functional programming features in Java
 
-- [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
+- [x] [Lambda Expressions](https://openjdk.org/jeps/126) (Functional interfaces, Functions, Supplier, Consumer & Predicates)
 - [x] [Optional](https://openjdk.org/jeps/401)
 - [x] Stream API 
 - [x] CompletableFuture & Structural Concurrency
