@@ -27,11 +27,11 @@ sdk env install
 ## Functional programming features in Java
 
 - [x] Lambda Expressions (Functional interfaces, Functions, Supplier, Consumer & Predicates)
-- [x] Optional 
+- [x] [Optional](https://openjdk.org/jeps/401)
 - [x] Stream API 
 - [x] CompletableFuture & Structural Concurrency
-- [ ] Immutable Lists
-- [ ] Sealed Classes
+- [x] Immutable Lists
+- [x] Sealed Classes
 - [ ] Pattern Matching for Switch
 - [x] Records & Record Patterns
 
@@ -75,4 +75,9 @@ you can review the performance results:
 
 - https://github.com/jabrena/latency-problems
 - https://github.com/forax/loom-fiber
+- https://cr.openjdk.org/~vklang/Gatherers.html
 - https://github.com/forax/we_are_all_to_gather
+- https://www.infoq.com/articles/data-oriented-programming-java/
+- https://inside.java/2024/05/23/dop-v1-1-introduction/
+- https://inside.java/2024/05/27/dop-v1-1-immutable-transparent-data/
+- https://inside.java/2024/05/29/dop-v1-1-model-data/
