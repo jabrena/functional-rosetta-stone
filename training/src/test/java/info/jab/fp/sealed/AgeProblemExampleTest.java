@@ -18,12 +18,13 @@ public class AgeProblemExampleTest {
 
         AgeProblemExample example = new AgeProblemExample();
 
-        var result = example.validatAge(-1);
+        var result = example.validAdult(-1);
 
         assertThat(result).isInstanceOf(Either.class);
         assertThat(result.isLeft()).isTrue();
 
-        var result2 = example.validatAge(17);
+        var result2 = example.validAdult(17);
+      
         assertThat(result2).isInstanceOf(Either.class);
         assertThat(result2.isLeft()).isTrue();
 
@@ -45,7 +46,7 @@ public class AgeProblemExampleTest {
 
         AgeProblemExample example = new AgeProblemExample();
 
-        var result = example.validatAge(18);
+        var result = example.validAdult(18);
 
         assertThat(result).isInstanceOf(Either.class);
         assertThat(result.isRight()).isTrue();
