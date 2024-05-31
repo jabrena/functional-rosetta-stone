@@ -29,7 +29,7 @@ public class AgeProblemExample {
     //Either<AgeProblem, Age> problem2 = Either.left(new NotLegalAdult());
     //Either<AgeProblem, Age> success = Either.right(new Age(20));
 
-    public Either<AgeProblem, Age> validAdultAge(Integer age) {
+    public Either<AgeProblem, Age> validateAge(Integer age) {
         return switch (age) {
             case Integer a when a < 0 -> Either.left(new InvalidAge());
             case Integer a when a < 18 -> Either.left(new NotLegalAdult());
