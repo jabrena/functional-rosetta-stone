@@ -24,6 +24,7 @@ public class AgeProblemExampleTest {
         assertThat(result.isLeft()).isTrue();
 
         var result2 = example.validAdult(17);
+      
         assertThat(result2).isInstanceOf(Either.class);
         assertThat(result2.isLeft()).isTrue();
 
