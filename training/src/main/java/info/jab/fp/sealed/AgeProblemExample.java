@@ -26,7 +26,7 @@ public class AgeProblemExample {
     }
 
     // validation returns either problems or the constructed value
-    public Either<AgeProblem, Age> validatAge(Integer age) {
+    public Either<AgeProblem, Age> validAdult(Integer age) {
         return switch (age) {
             case Integer a when a < 0 -> Either.left(new InvalidAge());
             case Integer a when a < 18 -> Either.left(new NotLegalAdult());
