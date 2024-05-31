@@ -14,7 +14,7 @@ A repository to review the main concepts about Functional Programming with Java.
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -DexcludedGroups=performance,endtoend -pl training
-./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=LoomExamplesTest -pl training
+./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=AgeProblemExampleTest -pl training
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
@@ -31,8 +31,8 @@ sdk env install
 - [x] Stream API 
 - [x] CompletableFuture & Structural Concurrency
 - [x] Immutable Lists
-- [x] Sealed Classes
-- [ ] Pattern Matching for Switch
+- [x] [Sealed Classes](https://openjdk.org/jeps/409)
+- [x] Pattern Matching for Switch
 - [x] Records & Record Patterns
 
 ## Functional programming timeline in Java
