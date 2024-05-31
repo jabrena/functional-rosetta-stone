@@ -3,11 +3,6 @@ package info.jab.fp.sealed;
 public class AgeProblemExample {
 
     record Age(Integer age) {}
-    
-    // these are the potential problems
-    sealed interface AgeProblem permits InvalidAge, NotLegalAdult {
-        String getMessage();
-    }
 
     record InvalidAge() implements AgeProblem {
     
@@ -25,11 +20,13 @@ public class AgeProblemExample {
         }
     }
 
-    //Either<AgeProblem, Age> problem1 = Either.left(new InvalidAge());
-    //Either<AgeProblem, Age> problem2 = Either.left(new NotLegalAdult());
-    //Either<AgeProblem, Age> success = Either.right(new Age(20));
+    // these are the potential problems
+    sealed interface AgeProblem permits InvalidAge, NotLegalAdult {
+        String getMessage();
+    }
 
-    public Either<AgeProblem, Age> validateAge(Integer age) {
+    // validation returns either problems or the constructed value
+    public Either<AgeProblem, Age> validatAge(Integer age) {
         return switch (age) {
             case Integer a when a < 0 -> Either.left(new InvalidAge());
             case Integer a when a < 18 -> Either.left(new NotLegalAdult());
