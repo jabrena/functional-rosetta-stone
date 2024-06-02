@@ -8,6 +8,7 @@ import info.jab.fp.sealed.AgeProblemExample.Age;
 import info.jab.fp.sealed.AgeProblemExample.AgeProblem;
 import info.jab.fp.sealed.AgeProblemExample.InvalidAge;
 import info.jab.fp.sealed.AgeProblemExample.NotLegalAdult;
+import info.jab.fp.util.Either;
 import info.jab.utils.TestLoggerExtension;
 
 @ExtendWith(TestLoggerExtension.class)
