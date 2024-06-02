@@ -10,12 +10,6 @@ import org.junit.jupiter.api.Test;
 public class EitherTest {
 
     @Test
-    public void testFold() {
-        Either<String, Integer> success = Either.right(42);
-        Either<String, Integer> failure = Either.left("Error occurred");
-    }
-
-    @Test
     void testLeft() {
         Either<String, Integer> left = Either.left("Error");
         assertTrue(left.isLeft());
