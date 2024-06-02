@@ -91,7 +91,7 @@ public sealed interface Either<L, R> permits Either.Left, Either.Right {
      * @param <U> the type of the new Right value
      * @return a new Either instance
      */
-    default <U> Either<L, U> flatMap(Function<? super R, Either<L, U>> mapper) {
+    default <U> Either<L, U> flatMap(Function<? super R, ? extends Either<L, U>> mapper) {
         if (isRight()) {
             return mapper.apply(((Right<L, R>) this).value());
         } else {
