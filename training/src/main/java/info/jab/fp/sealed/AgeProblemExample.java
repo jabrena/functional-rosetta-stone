@@ -1,5 +1,7 @@
 package info.jab.fp.sealed;
 
+import info.jab.fp.util.Either;
+
 public class AgeProblemExample {
 
     record Age(Integer age) {}

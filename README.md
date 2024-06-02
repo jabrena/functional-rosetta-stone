@@ -14,7 +14,7 @@ A repository to review the main concepts about Functional Programming with Java.
 sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -DexcludedGroups=performance,endtoend -pl training
-./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=AgeProblemExampleTest -pl training
+./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=EitherTest -pl training
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
