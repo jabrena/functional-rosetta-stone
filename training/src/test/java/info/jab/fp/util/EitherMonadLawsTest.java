@@ -24,7 +24,7 @@ class EitherMonadLawsTest {
     void testRightIdentity() {
         Either<String, Integer> m = Either.right(42);
 
-        Either<String, Integer> rightIdentity = m.flatMap(Either::right);
+        Either<String, Integer> rightIdentity = m.flatMap(Either::<String, Integer>right);
 
         assertEquals(m, rightIdentity);
     }
