@@ -15,6 +15,7 @@ sdk env install
 ./mvnw clean test -DexcludedGroups=performance,endtoend
 ./mvnw clean test -DexcludedGroups=performance,endtoend -pl training
 ./mvnw clean test -DexcludedGroups=performance,endtoend -Dtest=EitherTest -pl training
+./mvnw clean compile exec:java -Dexec.mainClass="info.jab.fp.concepts.FunctionalCompositionExamples" -Dexec.args="--enable-preview" -pl training
 ./mvnw clean test -Dgroups=performance
 ./mvnw clean test -Dgroups=endtoend
 
@@ -34,6 +35,15 @@ sdk env install
 - [x] [Sealed Classes](https://openjdk.org/jeps/409)
 - [x] [Pattern Matching for Switch](https://openjdk.org/jeps/441)
 - [x] [Records](https://openjdk.org/jeps/395) & [Record Patterns](https://openjdk.org/jeps/440)
+
+## Functional programming features
+
+- [x] Equational Reasoning
+- [ ] Pure/Impure functions
+- [ ] Referential Transparency
+- [ ] Immutability
+- [x] Functional composition
+- [x] Eager vs Lazy
 
 ## How to run the presentation in local?
 
